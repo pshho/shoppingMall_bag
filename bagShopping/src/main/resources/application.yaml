@@ -11,6 +11,6 @@ spring :
     username : greenUsr322
     password : pseongho235@
 mybatis :
-  type-aliases-package : bag.model
+  type-aliases-package: bag.model
   configuration :
     map-underscore-to-camel-case : true
