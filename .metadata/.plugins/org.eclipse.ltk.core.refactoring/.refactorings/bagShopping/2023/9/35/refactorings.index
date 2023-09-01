@@ -23,3 +23,27 @@
 1693538592001	Rename resource 'bagMain'
 1693538815378	Delete element
 1693539414212	Move file
+1693547157161	Delete element
+1693547172427	Delete element
+1693547175195	Copy file
+1693547213858	Copy folder
+1693548149408	Rename resource 'SignUpMapper.xml'
+1693549329576	Move compilation unit
+1693549332083	Copy compilation unit
+1693549341259	Move compilation unit
+1693549347693	Delete element
+1693549349519	Delete element
+1693549350769	Delete element
+1693549554802	Copy package
+1693549558931	Delete element
+1693549583100	Move compilation unit
+1693549585956	Delete element
+1693549604076	Delete element
+1693549646739	Delete element
+1693549649017	Move compilation unit
+1693550569642	Move file
+1693551081801	Copy compilation unit
+1693551092819	Rename type 'addressDTO'
+1693551159513	Copy file
+1693552116378	Rename type 'SignUpController'
+1693552130415	Rename resource 'signUp'
