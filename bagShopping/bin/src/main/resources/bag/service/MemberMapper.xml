@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org/DTD Mapper3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="bag.service.MemberMapper">
+
+	<insert id="insertMember" parameterType="mDTO">
+		insert into member (member_id, member_pw, member_name, member_email, member_phone, member_reg_date)
+		values
+		(#{id}, #{pw}, #{name}, #{email}, #{phone}, sysdate())
+	</insert>
+	
+	<select id="idCheck" parameterType="String" resultType="Integer">
+		select count(member_id) from member where member_id = #{id}
+	</select>
+
+</mapper>

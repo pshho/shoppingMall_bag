@@ -1,0 +1,32 @@
+<html xmlns="http://www.thymeleaf.org">
+<form th:action="|/notice/noticeModify/${noticeDetail.noticeId}|" method="post" id="notWri" th:object="${noticeDTO}">
+	<table border="">
+		<tr>
+			<td width="150px">제목</td>
+			<td>
+				<input type="text" name="nTitle" th:value="${noticeDetail.nTitle}" />
+			</td>
+		</tr>
+		<tr>
+			<td>작성자</td>
+			<td>
+				<input type="text" th:value="${noticeDetail.nWriter}" readonly />
+			</td>
+		</tr>
+		<tr>
+			<td>내용</td>
+			<td colspan="3">
+				<div contenteditable="true" id="notWriCon"
+				style="width: 500px; height: 600px;"
+				th:utext="${noticeDetail.nContent}"></div>
+				<textarea th:field="*{nContent}" id="noticeCon"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4">
+				<input type="submit" value="수정" />
+				<input type="button" value="취소" onclick="confirmCancel()" />
+			</td>
+		</tr>
+	</table>
+</form>
