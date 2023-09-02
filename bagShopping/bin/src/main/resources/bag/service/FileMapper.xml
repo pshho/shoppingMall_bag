@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bag.service.FileMapper">
+	<insert id="insertFile" parameterType="fDTO">
+		insert into files(files, products_board_id, notice_id, inquiry_id, complete)
+		values
+		(#{files}, #{productsBoardId}, #{noticeId}, #{inquiryId}, #{complete})
+	</insert>
+	<update id="updateFile">
+		update files set products_board_id = #{productsBoardId},
+		notice_id = #{noticeId}, inquiry_id = #{inquiryId}, complete = #{complete}
+		<where>
+			<if test="complete!=false">
+				complete = false
+			</if>
+			<if test="productsBoardId!=null">
+				and products_board_id = 0
+			</if>
+			<if test="noticeId!=null">
+				and notice_id = 0
+			</if>
+			<if test="inquiryId!=null">
+				and inquiry_id = 0
+			</if>
+		</where>
+	</update>
+	<select id="searchfiles" resultType="fDTO">
+		select * from files
+		<where>
+			<if test="complete!=false">
+				complete = false
+			</if>
+		</where>
+	</select>
+	<delete id="filesDelete" parameterType="fDTO">
+		delete from files
+		<where>
+			<if test="fileId!=0">
+				file_id = #{fileId}
+			</if>
+		</where>
+	</delete>
+	<delete id="writingFileDelete" parameterType="fDTO">
+		delete from files
+		<where>
+			<if test="files!=null">
+				files = #{files}
+			</if>
+		</where>
+	</delete>
+	<sql id="wh_fileDelete">
+		<where>
+			<if test="productsBoardId!=null">
+				products_board_id = #{productsBoardId}
+			</if>
+			<if test="noticeId!=null">
+				and notice_id = #{noticeId}
+			</if>
+			<if test="inquiryId!=null">
+				and inquiry_id = #{inquiryId}
+			</if>
+		</where>
+	</sql>
+	<select id="boardDelete" resultType="fDTO" parameterType="fDTO">
+		select * from files <include refid="wh_fileDelete" />
+	</select>
+	<delete id="boardFileDelete" parameterType="fDTO">
+		delete from files <include refid="wh_fileDelete" />
+	</delete>
+</mapper>

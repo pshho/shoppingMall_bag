@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title></title>
+</head>
+<body>
+	<th:block th:replace="header/header" />
+	<h1>notice/view</h1>
+	<table>
+		<tr>
+			<td>
+				<th:block th:replace="|notice/inc/${noticeSer}|" />
+			</td>
+		</tr>
+	</table>
+	<th:block th:replace="footer/footer" />
+</body>
+</html>
