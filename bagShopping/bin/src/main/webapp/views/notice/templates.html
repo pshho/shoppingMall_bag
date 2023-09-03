@@ -84,6 +84,7 @@ crossorigin="anonymous"></script>
 				
 				let form = new FormData(); // 파일을 보낼 새로운 form
 				form.append('file', file);
+				form.append('distinct', 1);
 				
 				fetch('/fileUpload/files', {
 					method : 'post',
