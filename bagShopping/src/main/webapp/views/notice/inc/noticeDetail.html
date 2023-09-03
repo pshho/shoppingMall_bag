@@ -1,0 +1,35 @@
+<html xmlns="http://www.thymeleaf.org">
+<table border="">
+	<tbody>
+		<tr>
+			<td colspan="5">
+				<h1>공지사항</h1>
+			</td>
+		</tr>
+		<tr>
+			<td>제목</td>
+			<td th:text="${noticeDetail.nTitle}"></td>
+			<td>조회수</td>
+			<td th:text="${noticeDetail.cnt}"></td>
+		</tr>
+		<tr>
+			<td>작성자</td>
+			<td th:text="${noticeDetail.nWriter}"></td>
+			<td>작성일</td>
+			<td th:text="${noticeDetail.noticeRegDate2}"></td>
+		</tr>
+		<tr>
+			<td>내용</td>
+			<td colspan="3">
+				<div class="notDet" th:utext="${noticeDetail.nContent}"></div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4">
+				<a th:href="|/notice/noticeModify/${noticeDetail.noticeId}|">수정</a>
+				<a href="#" th:onclick="|confirmDelete(${noticeDetail.noticeId})|">삭제</a>
+				<a href="/notice/noticeList/1">뒤로</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

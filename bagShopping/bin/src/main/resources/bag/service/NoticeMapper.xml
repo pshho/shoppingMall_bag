@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bag.service.NoticeMapper">
+	<sql id="wh_noticeId">
+		<where>
+			<if test="id!=0">
+				notice_id = #{id}
+			</if>
+		</where>
+	</sql>
+
+	<select id="notList" resultType="nDTO">
+		select * from notice order by notice_id desc
+	</select>
+	<select id="totalNotice" resultType="Integer">
+		select count(*) from notice
+	</select>
+	<select id="notDetail" parameterType="Integer" resultType="nDTO">
+		select * from notice <include refid="wh_noticeId" />
+	</select>
+	<insert id="notWrite" parameterType="nDTO">
+		insert into notice(n_title, n_writer, n_content, cnt)
+		values
+		(#{nTitle}, #{nWriter}, #{nContent}, 0)
+	</insert>
+	<select id="maxNoticeId" resultType="Integer">
+		select max(notice_id) from notice
+	</select>
+	<delete id="deleteNotice" parameterType="Integer">
+		delete from notice <include refid="wh_noticeId" />
+	</delete>
+	<update id="updateNotice" parameterType="nDTO">
+		update notice set n_title = #{nTitle}, n_content = #{nContent}
+		<where>
+			<if test="noticeId!=0">
+				notice_id = #{noticeId}
+			</if>
+		</where>
+	</update>
+</mapper>

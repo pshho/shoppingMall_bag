@@ -1,0 +1,11 @@
+@charset "UTF-8";
+#notWriCon {
+	border: 0;
+}
+#notWriCon > img {
+	width: 200px;
+	height: 150px;
+}
+#noticeCon {
+	display: none;
+}

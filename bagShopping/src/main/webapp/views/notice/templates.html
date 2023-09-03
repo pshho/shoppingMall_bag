@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+layout:decorate="notice/inc/view">
+<head>
+<meta charset="UTF-8">
+<title></title>
+<link rel="stylesheet" href="/css/noticeCss/noticeCss.css" />
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+crossorigin="anonymous"></script>
+<script>
+	function noticeWriteCancel(){
+		$.ajax({
+			url : '/fileUpload/fileDelete',
+			type : 'post',
+			dataType : 'json',
+			async : false,
+			success : function(res) {
+				// console.log(response);
+				alert(res.msg);
+				location.href='/notice/noticeList/1';
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	}
+	
+	function noticeDelete(noticeId){
+		$.ajax({
+			url : '/notice/noticeDelete/'+noticeId,
+			type : 'post',
+			dataType : 'json',
+			async : false,
+			success : function(res) {
+				// console.log(response);
+				alert(res.msg);
+				location.href=res.url;
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	}
+	
+	function confirmDelete(noticeId){
+		if(confirm('정말 삭제하시겠습니까?')){
+			noticeDelete(noticeId);
+		}
+	}
+	
+	function confirmCancel(){
+		if(confirm('정말 취소하시겠습니까?')){
+			noticeWriteCancel();
+		}
+	}
+	
+	$(document).ready(function(){
+		let dropDiv = document.getElementById('notWriCon');
+		
+		dropDiv.addEventListener('drop', function(event){
+			event.preventDefault();
+			
+			let files = event.dataTransfer.files;
+		
+			const selection = window.getSelection();
+			const range = selection.getRangeAt(0);
+			const span = document.createElement('span');
+			range.insertNode(span);
+			
+			let regPtn = /\.(jpg|png|jpeg|svg|bmf|gif)$/i;
+			
+			// div - id: notWriCon으로 drop된 이미지 파일들
+			Array.from(files).forEach(file => {
+				if(!regPtn.test(file.name)){
+					alert('이미지 파일이 아닙니다');
+					return;
+				}
+				
+				let form = new FormData(); // 파일을 보낼 새로운 form
+				form.append('file', file);
+				form.append('distinct', 1);
+				
+				fetch('/fileUpload/files', {
+					method : 'post',
+					body : form
+				})
+				.then(response => response.json())
+				.then(data => {
+					let addVal = '<img src="/upFile/'+data.file+'" alt="등록된 이미지"/>';
+					span.innerHTML += addVal;
+				})
+				.catch(error => {
+		            console.error('파일 전송 실패:', error);
+		        });
+			});
+		});
+		
+		const config = {childList: true, subtree: true};
+		const mutationCallback = (mutationList, observer) => {
+			for(const mutation of mutationList){
+				for(const removedNode of mutation.removedNodes){
+					let src = removedNode.querySelector('img').src;
+					let fileName = src.substring(src.lastIndexOf("/")+1);
+					$.ajax({
+						url : '/fileUpload/writingFileDelete/'+fileName,
+						type : 'post',
+						dataType : 'json',
+						async : false,
+						success : function(res) {
+							console.log(res.msg);
+						},
+						error : function (req, status, error) {
+							console.log(req);
+							console.log(status);
+							console.log(error);
+						}
+					})
+				}
+			}
+		}
+		const observer = new MutationObserver(mutationCallback);
+		observer.observe(dropDiv, config);
+		
+		$('#notWri').submit(function(event){
+			event.preventDefault();
+			$('#noticeCon').val(dropDiv.innerHTML);
+		    $('#notWri').get(0).submit();
+		})
+	})
+</script>
+</head>
+<body>
+</body>
+</html>

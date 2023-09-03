@@ -5,8 +5,8 @@ import java.util.Random;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -16,10 +16,10 @@ import bag.service.AddressMapper;
 import bag.service.MemberMapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import net.nurigo.sdk.NurigoApp;
 import net.nurigo.sdk.message.model.Message;
 import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
-import net.nurigo.sdk.message.response.SingleMessageSentResponse;
 import net.nurigo.sdk.message.service.DefaultMessageService;
 
 @Controller
@@ -30,13 +30,13 @@ public class MemberController {
 	MemberMapper memMapper;
 	@Resource
 	AddressMapper addrMapper;
-	
+
 	final DefaultMessageService messageService;
 
-	@GetMapping("/signUp")
-	String signUp() {
-
-		return "member/templates";
+	@GetMapping("{memberService}")
+	String signUp(@PathVariable String memberService) {
+		//System.out.println(memberService);
+		return "member/template";
 	}
 
 	@PostMapping("/signUp")
@@ -63,7 +63,7 @@ public class MemberController {
 
 		mm.addAttribute("msg", msg);
 		mm.addAttribute("goUrl", goUrl);
-		return "member/alert";
+		return "member/inc/alert";
 	}
 
 	@ResponseBody
@@ -77,32 +77,71 @@ public class MemberController {
 		return idCheck;
 	}
 
-	 public MemberController() {
-	        // 반드시 계정 내 등록된 유효한 API 키, API Secret Key를 입력해주셔야 합니다!
-	        this.messageService = NurigoApp.INSTANCE.initialize("key", "secret", "https://api.coolsms.co.kr");
-	    }
-	 
-	 @ResponseBody
-	 @PostMapping("/sendSMS")
-	    public String sendOne(HttpServletRequest request) {
-	        Message message = new Message();
-	        
-	        Random rand  = new Random(); 
-	        String numStr = "";
-	        for(int i=0; i<4; i++) {
-	            String ran = Integer.toString(rand.nextInt(10));
-	            numStr+=ran;
-	        }
-	        
-	        // 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
-	        message.setFrom("01052173168");
-	        message.setTo(request.getParameter("phone"));
-	        message.setText("아윌비백 인증번호 ["+numStr+"] 를 입력해주세요.");
+	
+	// 휴대폰 인증
+	public MemberController() {
+		// 반드시 계정 내 등록된 유효한 API 키, API Secret Key를 입력해주셔야 합니다!
+		this.messageService = NurigoApp.INSTANCE.initialize("key", "secret", "https://api.coolsms.co.kr");
+	}
 
-	        this.messageService.sendOne(new SingleMessageSendingRequest(message));
-	        
-	        System.out.println(numStr);
-	        return numStr;
-	    }
+	@ResponseBody
+	@PostMapping("/sendSMS")
+	public String sendOne(HttpServletRequest request) {
+		
+		//휴대폰번호 중복체크
+		int phoneCheck = memMapper.phoneCheck(request.getParameter("phone"));
+		
+		if(phoneCheck > 0) {
+			return "exist";
+		}
 
+		Message message = new Message();
+
+		Random rand = new Random();
+		String numStr = "";
+		for (int i = 0; i < 4; i++) {
+			String ran = Integer.toString(rand.nextInt(10));
+			numStr += ran;
+		}
+
+		// 발신번호 및 수신번호는 반드시 01012345678 형태로 입력되어야 합니다.
+		message.setFrom("01052173168");
+		message.setTo(request.getParameter("phone"));
+		message.setText("아윌비백 인증번호 [" + numStr + "] 를 입력해주세요.");
+
+		this.messageService.sendOne(new SingleMessageSendingRequest(message));
+
+		System.out.println(numStr);
+		return numStr;
+	}
+
+	@PostMapping("/signIn")
+	String signInReg(MemberDTO mdto, Model mm, HttpSession session) {
+		String msg = "아이디와 비밀번호를 확인해주세요.";
+		String goUrl = "signIn";
+		
+		int idPwCheck = memMapper.idPwCheck(mdto);
+		
+		if(idPwCheck > 0) {
+			msg = "로그인 되었습니다.";
+			goUrl = "/";
+			session.setAttribute("userId", mdto.getId());
+		}
+		
+		mm.addAttribute("msg", msg);
+		mm.addAttribute("goUrl", goUrl);
+		return "member/inc/alert";
+	}
+	
+	@GetMapping("/logOut")
+	String logOut(Model mm, HttpSession session) {
+		String msg = session.getAttribute("userId")+"님 로그아웃 되었습니다.";
+		String goUrl = "/";
+		
+		session.invalidate();
+		
+		mm.addAttribute("msg", msg);
+		mm.addAttribute("goUrl", goUrl);
+		return "member/inc/alert";
+	}
 }
