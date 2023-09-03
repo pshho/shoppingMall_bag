@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
 xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-layout:decorate="notice/inc/view">
+layout:decorate="inquiry/inc/view">
 <head>
 <meta charset="UTF-8">
 <title></title>
@@ -10,7 +10,7 @@ layout:decorate="notice/inc/view">
 integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 crossorigin="anonymous"></script>
 <script>
-	function noticeWriteCancel(){
+	function inquiryWriteCancel(){
 		$.ajax({
 			url : '/fileUpload/fileDelete',
 			type : 'post',
@@ -19,7 +19,7 @@ crossorigin="anonymous"></script>
 			success : function(res) {
 				// console.log(response);
 				alert(res.msg);
-				location.href='/notice/noticeList/1';
+				location.href='/inquiry/inquiryList/1';
 			},
 			error : function (req, status, error) {
 				console.log(req);
@@ -29,9 +29,9 @@ crossorigin="anonymous"></script>
 		})
 	}
 	
-	function noticeDelete(noticeId){
+	function inquiryDelete(inquiryId){
 		$.ajax({
-			url : '/notice/noticeDelete/'+noticeId,
+			url : '/inquiry/inquiryDelete/'+inquiryId,
 			type : 'post',
 			dataType : 'json',
 			async : false,
@@ -48,15 +48,15 @@ crossorigin="anonymous"></script>
 		})
 	}
 	
-	function confirmDelete(noticeId){
+	function confirmDelete(inquiryId){
 		if(confirm('정말 삭제하시겠습니까?')){
-			noticeDelete(noticeId);
+			inquiryDelete(inquiryId);
 		}
 	}
 	
 	function confirmCancel(){
 		if(confirm('정말 취소하시겠습니까?')){
-			noticeWriteCancel();
+			inquiryWriteCancel();
 		}
 	}
 	
@@ -84,7 +84,7 @@ crossorigin="anonymous"></script>
 				
 				let form = new FormData(); // 파일을 보낼 새로운 form
 				form.append('file', file);
-				form.append('distinct', 1);
+				form.append('distinct', 2);
 				
 				fetch('/fileUpload/files', {
 					method : 'post',
@@ -130,13 +130,21 @@ crossorigin="anonymous"></script>
 		$('#wri').submit(function(event){
 			event.preventDefault();
 			
+			let regPtn = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*_-])(?!.*\s)(?!.*[가-힣ㄱ-ㅎ])/;
 			let title = $('#title').val().trim();
 			let content = $('#wriCon').text().trim();
+			let pw = $('#pw').val().trim();
 			if(title.length === 0 || title.length > 50){
 				alert('제목은 1~50글자까지 가능합니다');
 				return false;
 			}else if(content.length === 0 || content.length > 5000){
 				alert('내용은 1~5000글자까지 가능합니다');
+				return false;
+			}else if(pw.length === 0 || pw.length > 15){
+				alert('비밀번호는 1~15자로 가능합니다');
+				return false;
+			}else if(!regPtn.test(pw)){
+				alert('비밀번호는 영문+숫자+특수문자로 가능합니다');
 				return false;
 			}else {
 				$('#cont').val(dropDiv.innerHTML);

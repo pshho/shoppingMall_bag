@@ -96,12 +96,12 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("{noticeSer}")
-	String goServ(@PathVariable String noticeSer, NoticeDTO nDTO) {
+	String goNotice(@PathVariable String noticeSer, NoticeDTO nDTO) {
 		return "notice/templates";
 	}
 	
 	@RequestMapping("{noticeSer}/{id}")
-	String goServ(@PathVariable String noticeSer, 
+	String goNotice(@PathVariable String noticeSer, 
 			@PathVariable int id, NoticeDTO nDTO) {
 		pd.setPageStart(id);
 		return "notice/templates";

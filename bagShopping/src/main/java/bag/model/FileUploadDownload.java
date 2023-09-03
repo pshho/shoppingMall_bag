@@ -18,7 +18,7 @@ import lombok.Data;
 @Component
 @Data
 public class FileUploadDownload {
-	String path = "D:\\spring_bagProject\\shoppingMall_bag\\bagShopping\\src\\main\\webapp\\upFile";
+	String path = "D:\\shoppingMall_bag\\bagShopping\\src\\main\\webapp\\upFile";
 	
 	@Autowired
 	FileMapper fMapper;

@@ -1,0 +1,35 @@
+<html xmlns="http://www.thymeleaf.org">
+<form th:action="|/inquiry/inquiryModify/${inquiryDetail.inquiryId}|" method="post" id="wri" th:object="${inquiryDTO}">
+	<table border="">
+		<tr>
+			<td width="150px">제목</td>
+			<td>
+				<input type="text" name="inTitle" th:value="${inquiryDetail.inTitle}" id="title" />
+			</td>
+		</tr>
+		<tr>
+			<td>작성자</td>
+			<td>
+				<input type="text" th:value="${inquiryDetail.inWriter}" readonly />
+			</td>
+		</tr>
+		<tr>
+			<td>내용</td>
+			<td colspan="3">
+				<div contenteditable="true" id="wriCon"
+				style="width: 500px; height: 600px;" th:utext="${inquiryDetail.inContent}"></div>
+				<textarea th:field="*{inContent}" id="cont"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>비밀번호</td>
+			<td><input type="password" name="inquiryPw" id="pw" th:value="${inquiryDetail.inquiryPw}" readonly /></td>
+		</tr>
+		<tr>
+			<td colspan="4">
+				<input type="submit" value="등록" />
+				<input type="button" value="취소" onclick="confirmCancel()" />
+			</td>
+		</tr>
+	</table>
+</form>

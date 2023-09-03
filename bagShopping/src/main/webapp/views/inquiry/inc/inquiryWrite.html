@@ -1,16 +1,16 @@
 <html xmlns="http://www.thymeleaf.org">
-<form action="/notice/noticeWrite/1" method="post" id="wri" th:object="${noticeDTO}">
+<form action="/inquiry/inquiryWrite/1" method="post" id="wri" th:object="${inquiryDTO}">
 	<table border="">
 		<tr>
 			<td width="150px">제목</td>
 			<td>
-				<input type="text" th:field="*{nTitle}" id="title" />
+				<input type="text" th:field="*{inTitle}" id="title" />
 			</td>
 		</tr>
 		<tr>
 			<td>작성자</td>
 			<td>
-				<input type="text" th:field="*{nWriter}" />
+				<input type="text" th:field="*{inWriter}" />
 			</td>
 		</tr>
 		<tr>
@@ -18,8 +18,12 @@
 			<td colspan="3">
 				<div contenteditable="true" id="wriCon"
 				style="width: 500px; height: 600px;"></div>
-				<textarea th:field="*{nContent}" id="cont"></textarea>
+				<textarea th:field="*{inContent}" id="cont"></textarea>
 			</td>
+		</tr>
+		<tr>
+			<td>비밀번호</td>
+			<td><input type="password" th:field="*{inquiryPw}" id="pw" /></td>
 		</tr>
 		<tr>
 			<td colspan="4">
