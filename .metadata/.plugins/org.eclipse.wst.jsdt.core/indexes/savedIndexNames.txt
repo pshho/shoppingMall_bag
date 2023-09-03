@@ -1,8 +1,0 @@
-INDEX VERSION 1.4+C:\jh\shoppingMall_bag\.metadata\.plugins\org.eclipse.wst.jsdt.core\indexes
-724186174.index
-1122585487.index
-3995775227.index
-500312685.index
-0.index
-2063246357.index
-3130422555.index

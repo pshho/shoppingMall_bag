@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bag.service.InquiryMapper">
+	<sql id="wh_inquiryId">
+		<where>
+			<if test="id!=0">
+				inquiry_id = #{id}
+			</if>
+		</where>
+	</sql>
+
+	<select id="inqList" resultType="inDTO">
+		select * from inquiry order by gid desc, seq
+	</select>
+	<select id="totalInquiry" resultType="Integer">
+		select count(*) from inquiry
+	</select>
+	<select id="checkPw" resultType="Integer">
+		select count(*) from inquiry
+		<where>
+			<if test="inquiryId!=0">
+				inquiry_id = #{inquiryId}
+			</if>
+			<if test="inquiryPw!=null">
+				and inquiry_pw = #{inquiryPw}
+			</if>
+		</where>
+	</select>
+	<select id="inqDetail" parameterType="Integer" resultType="inDTO">
+		select * from inquiry <include refid="wh_inquiryId" />
+	</select>
+	<insert id="inqWrite" parameterType="inDTO">
+		<selectKey keyProperty="inquiryId" resultType="Integer" order="BEFORE">
+			select max(inquiry_id)+1 from inquiry
+		</selectKey>
+		insert into inquiry(in_title, in_writer, in_content, inquiry_pw, seq, lev, gid)
+		values
+		(#{inTitle}, #{inWriter}, #{inContent}, #{inquiryPw}, 0, 0, #{inquiryId})
+	</insert>
+	<insert id="inqReply" parameterType="inDTO">
+		insert into inquiry(in_title, in_writer, in_content, inquiry_pw, seq, lev, gid)
+		values
+		(#{inTitle}, #{inWriter}, #{inContent}, #{inquiryPw}, #{seq}, #{lev}, #{gid})
+	</insert>
+	<select id="maxInquiryId" resultType="Integer">
+		select max(inquiry_id) from inquiry
+	</select>
+	<delete id="deleteInquiry" parameterType="Integer">
+		delete from inquiry <include refid="wh_inquiryId" />
+	</delete>
+	<update id="updateInquiry" parameterType="inDTO">
+		update inquiry set in_title = #{inTitle}, in_content = #{inContent}
+		<where>
+			<if test="inquiryId!=0">
+				inquiry_id = #{inquiryId}
+			</if>
+		</where>
+	</update>
+	<update id="updateSeq" parameterType="inDTO">
+		update inquiry set seq = seq + 1
+		<where>
+			<if test="gid!=0">
+				gid = #{gid}
+			</if>
+			<if test="seq>-1">
+				and seq &gt; #{seq}
+			</if>
+		</where>
+	</update>
+</mapper>
