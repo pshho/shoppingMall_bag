@@ -1,85 +1,13 @@
 <!DOCTYPE html>
 <html xmlns="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>회원 가입</title>
+	<meta charset="UTF-8">
+	<title>member</title>
 </head>
 <body>
 	<th:block th:replace="header/header" />
-	
-	<!--회원 가입 메인-->
-	<h2>회원 가입</h2>
-	<form action="" method="post">
-		<table>
-			<tr>
-				<td>
-				아이디 : <input type="text" id="id" name="id" placeholder="아이디"/>&nbsp;
-				<input type="button" value="중복확인" id="idCheck"/>
-				<font id="idCheckBox"/>
-				</td>
-			</tr>
-			<tr>
-				<td>비밀번호 : <input type="text" name="pw" placeholder="패스워드"/></td>
-			</tr>
-			<tr>
-				<td>이름 : <input type="text" name="name" placeholder="이름"/></td>
-			</tr>
-			<tr>
-				<td>
-					이메일 : 
-					<input type="text" name="emailId"/>
-					@
-					<input type="hidden" id="emailDomainInput">
-					<select id="emailDomain" name="emailDomain" onchange="changeDomain()">
-						<option>naver.com</option>
-						<option>daum.net</option>
-						<option>google.com</option>
-						<option>nate.com</option>
-						<option>직접입력</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td>
-				핸드폰 : 
-				<select id="phone1" name="phone1">
-					<option>010</option>
-					<option>011</option>
-					<option>016</option>
-					<option>017</option>
-					<option>019</option>
-				</select>
-				- <input type="text" id="phone2" name="phone2"/>
-				- <input type="text" id="phone3" name="phone3"/>
-				<input type="button" value="인증" id="phoneChk">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					인증번호 확인 :
-					<input id="phoneChkInput" type="text" placeholder="인증번호를 입력해주세요">
-            		<input id="phoneChk2" type="button" value="인증확인">
-				</td>
-			</tr>
-			<tr>
-				<td>
-					주소<br>
-					<input type="text" id="zipCode" name="zipCode" placeholder="우편번호"/>
-					<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기"/><br>
-					<input type="text" id="address" name="address" placeholder="도로명주소"/><br>
-					<input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소"/>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<input type="submit" value="가입" />
-					<a href="/">취소</a>
-				</td>
-			</tr>
-		</table>
-	</form>
-	<!--회원 가입 끝-->
-	
+	<th:block th:replace="|member/inc/${memberService}|"/>
 	<th:block th:replace="footer/footer" />
 </body>
+
 </html>

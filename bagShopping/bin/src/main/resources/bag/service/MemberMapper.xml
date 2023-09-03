@@ -14,5 +14,13 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 	<select id="idCheck" parameterType="String" resultType="Integer">
 		select count(member_id) from member where member_id = #{id}
 	</select>
+	
+	<select id="phoneCheck" parameterType="String" resultType="Integer">
+		select count(member_phone) from member where member_phone = #{phone}
+	</select>
+	
+	<select id="idPwCheck" parameterType="mDTO" resultType="Integer">
+		select count(*) from member where member_id = #{id} and member_pw = #{pw}
+	</select>
 
 </mapper>

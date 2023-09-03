@@ -11,4 +11,8 @@ public interface MemberMapper {
 	
 	int idCheck(String id);
 	
+	int phoneCheck(String phone);
+	
+	int idPwCheck(MemberDTO mdto);
+	
 }
