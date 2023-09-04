@@ -12,11 +12,15 @@
 	<a href="notice/introduce">introduce</a>
 	
 	<!--member-->
+	<th:block th:if="${session.userId == null}">
+	<a href="member/signUp">회원가입</a>
+	<a  href="member/signIn">로그인</a>
+	</th:block>
 	
-	<a th:if="${session.userId == null}" href="member/signUp">회원가입</a>
-	<a th:if="${session.userId == null}" href="member/signIn">로그인</a>
-	<a th:if="${session.userId != null}" href="member/logOut">[[${session.userId}]]님 로그아웃</a>
-	
+	<th:block th:if="${session.userId != null}">
+	<a href="member/logOut">[[${session.userId}]]님 로그아웃</a>
+	<a href="member/myPage">마이페이지</a>
+	</th:block>
 	<!--member-->
 	
 	

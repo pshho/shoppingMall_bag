@@ -11,10 +11,6 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		</where>
 	</sql>
 
-	<select id="myInqList" parameterType="String" resultType="inDTO">
-		select * from inquiry where in_writer = #{id}
-	</select>
-
 	<select id="inqList" resultType="inDTO">
 		select * from inquiry order by gid desc, seq
 	</select>

@@ -1,0 +1,34 @@
+<html xmlns="http://www.thymeleaf.org">
+<table border="">
+	<tbody>
+		<tr>
+			<td colspan="5">
+				<h1>문의게시판</h1>
+			</td>
+		</tr>
+		<tr>
+			<td>제목</td>
+			<td colspan="3" th:text="${inquiryDetail.inTitle}"></td>
+		</tr>
+		<tr>
+			<td>작성자</td>
+			<td th:text="${inquiryDetail.inWriter}"></td>
+			<td>작성일</td>
+			<td th:text="${inquiryDetail.inquiryRegDate2}"></td>
+		</tr>
+		<tr>
+			<td>내용</td>
+			<td colspan="3">
+				<div class="inqDet" th:utext="${inquiryDetail.inContent}"></div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4">
+				<a th:href="|/inquiry/inquiryReply/${inquiryDetail.inquiryId}|">답글</a>
+				<a th:href="|/inquiry/inquiryModify/${inquiryDetail.inquiryId}|">수정</a>
+				<a href="#" th:onclick="|confirmDelete(${inquiryDetail.inquiryId})|">삭제</a>
+				<a href="/inquiry/inquiryList/1">뒤로</a>
+			</td>
+		</tr>
+	</tbody>
+</table>

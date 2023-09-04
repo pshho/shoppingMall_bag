@@ -9,10 +9,11 @@ public interface MemberMapper {
 	
 	int insertMember(MemberDTO mdto);
 	
-	int idCheck(String id);
+	int idCheck(String memberId);
 	
-	int phoneCheck(String phone);
+	int phoneCheck(String memberPhone);
 	
 	int idPwCheck(MemberDTO mdto);
 	
+	MemberDTO getUser(String id);
 }
