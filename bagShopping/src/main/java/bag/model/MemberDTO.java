@@ -10,9 +10,9 @@ import lombok.Data;
 @Data
 public class MemberDTO {
 
-	String id, pw, name;
-	String email, emailId, emailDomain;
-	String phone, phone1, phone2, phone3;
-	Date reg_date;
+	String memberId, memberPw, memberName;
+	String memberEmail, emailId, emailDomain;
+	String memberPhone, phone1, phone2, phone3;
+	Date memberRegDate;
 	
 }

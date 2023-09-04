@@ -1,11 +1,11 @@
 @charset "UTF-8";
-#notWriCon {
+#wriCon {
 	border: 0;
 }
-#notWriCon > img {
+#wriCon > img {
 	width: 200px;
 	height: 150px;
 }
-#noticeCon {
+#cont {
 	display: none;
 }

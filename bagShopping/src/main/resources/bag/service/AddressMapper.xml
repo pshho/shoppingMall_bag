@@ -6,9 +6,12 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 <mapper namespace="bag.service.AddressMapper">
 
 	<insert id="insertAddress" parameterType="aDTO">
-		insert into address (address, zipCode, detailAddress, memberId)
+		insert into address (address, zip_code, detail_address, member_id)
 		values
 		(#{address}, #{zipCode}, #{detailAddress}, #{memberId})
 	</insert>
 
+	<select id="getUserAddress" parameterType="String" resultType="aDTO">
+		select * from address where member_id = #{memberId}
+	</select>
 </mapper>
