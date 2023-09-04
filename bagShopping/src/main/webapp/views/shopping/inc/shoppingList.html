@@ -1,0 +1,45 @@
+<html xmlns="http://www.thymeleaf.org">
+[[${brandList}]]
+<br />
+<hr />
+[[${categoriesList}]]
+<br />
+<hr />
+[[${bagsList}]]
+<br />
+<hr />
+[[${productsBoardList}]]
+<br />
+<hr />
+<table border="">
+	<tr th:each="no:${#numbers.sequence(0, 3)}">
+		<td th:each="num:${#numbers.sequence(pd.listStart, pd.listEnd)}"
+		th:if="${num &lt; (1+no)*4 and num &gt;= no*4}">
+			<ul>
+				<a href="">
+					<li>사진들어갈자리</li>
+					<li th:each="brand:${brandList}"
+					th:if="${brand.brandId eq productsBoardList[num].brandId}"
+					th:text="${brand.brandName}"></li>
+					<li th:text="${bagsList[num].bagName}"></li>
+					<li th:text="${bagsList[num].bagPrice}"></li>
+					<li th:text="${productsBoardList[num].intro}"></li>
+				</a>
+			</ul>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="4">
+			<a th:href="|/shopping/shoppingList/${brand}/${category}/${categoriesCode}/1|"><<</a>
+			<a th:href="|/shopping/shoppingList/${brand}/${category}/${categoriesCode}/${pd.pageLJump}|"><</a>
+			<a th:each="pageNum:${#numbers.sequence(
+			(pd.pageEnd eq pd.endPage)?(pd.pageEnd-4 le 0)?1:pd.pageEnd-4:pd.pageStart
+			, pd.pageEnd)}"
+			th:href="|/shopping/shoppingList/${brand}/${category}/${categoriesCode}/${pageNum}|"
+			th:text="|${(pd.pageStart eq pageNum) ? '[' + pageNum + ']' : pageNum}|">
+			</a>
+			<a th:href="|/shopping/shoppingList/${brand}/${category}/${categoriesCode}/${pd.pageRJump}|">></a>
+			<a th:href="|/shopping/shoppingList/${brand}/${category}/${categoriesCode}/${pd.endPage}|">>></a>
+		</td>
+	</tr>
+</table>

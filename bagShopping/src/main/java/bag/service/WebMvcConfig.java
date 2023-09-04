@@ -6,16 +6,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import jakarta.annotation.Resource;
 
 @Configuration
-public class LoginConfig implements WebMvcConfigurer {
+public class WebMvcConfig implements WebMvcConfigurer {
 
 	@Resource
-	LoginInterceptor interceptor;
+	CommonInterceptor commonInterceptor;
+	
+	@Resource
+	LoginInterceptor loginInterceptor;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		
-		registry.addInterceptor(interceptor)
+		registry.addInterceptor(loginInterceptor)
 		.addPathPatterns("/member/my**");
 		
+		registry.addInterceptor(commonInterceptor);
 	}
 }

@@ -1,12 +1,24 @@
-<!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title></title>
-</head>
-<body>
-	<h1>header</h1>
-	<a href="/">홈으로</a>
-	<hr/>
-</body>
-</html>
+<html xmlns="http://www.thymeleaf.org">
+<h1>header</h1>
+<a href="/">홈으로</a>
+<ul>
+	<li>
+		<a href="/shopping/shoppingList/0/0/0/1">전체보기</a>
+	</li>
+</ul>
+<ul>
+	<li th:each="brand:${brandList}">
+		<a th:href="|/shopping/shoppingList/${brand.brandId}/0/0/1|" th:text="${brand.brandName}"></a>
+	</li>
+</ul>
+<div th:each="num:${#numbers.sequence(1, maxCatCode)}">
+	<h3 th:text="${categoryName[num-1].categoryName}"></h3>
+	<ul>
+		<li th:each="cate:${categoriesList}"
+		th:if="${cate.categoriesCode eq num}">
+			<a th:href="|/shopping/shoppingList/0/${cate.categoriesId}/${cate.categoriesCode}/1|"
+			th:text="${cate.category}"></a>
+		</li>
+	</ul>
+</div>
+<hr/>
