@@ -14,4 +14,20 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
+	<select id="bags" resultType="bagDTO">
+		select bags.* from bags inner join products_board on products_board.product_code = bags.product_code
+		<where>
+			<if test="productsBoardId!=0">
+				products_board.products_board_id = #{productsBoardId}
+			</if>
+		</where>
+	</select>
+	<select id="cartBags" resultType="bagDTO">
+		select bags.* from bags inner join cart on cart.product_code = bags.product_code
+		<where>
+			<if test="memberId!=null">
+				member_id = #{memberId}
+			</if>
+		</where>
+	</select>
 </mapper>

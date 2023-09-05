@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bag.service.BagsMapper">
+	<select id="bagsList" resultType="bagDTO">
+		select bags.* from bags inner join products_board on products_board.product_code = bags.product_code
+		<where>
+			<if test="brandId!=0">
+				products_board.brand_id = #{brandId}
+			</if>
+			<if test="categoriesId!=0">
+				products_board.categories_id = #{categoriesId}
+			</if>
+		</where>
+	</select>
+</mapper>
