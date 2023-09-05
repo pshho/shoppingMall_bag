@@ -11,6 +11,10 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 		(#{memberId}, #{memberPw}, #{memberName}, #{memberEmail}, #{memberPhone}, sysdate())
 	</insert>
 	
+	<select id="memberList">
+		select * from member
+	</select>
+	
 	<select id="idCheck" parameterType="String" resultType="Integer">
 		select count(member_id) from member where member_id = #{memberId}
 	</select>
@@ -26,6 +30,10 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 	<select id="getUser" parameterType="String" resultType="mDTO">
 		select * from member where member_id = #{memberId}
 	</select>
+	
+	<delete id="deleteMember" parameterType="String">
+		delete from member where member_id = #{memberId}
+	</delete>
 
 
 </mapper>

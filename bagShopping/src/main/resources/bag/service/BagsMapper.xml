@@ -14,4 +14,8 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
+	
+	<select id="allBagsList">
+		select * from bags
+	</select>
 </mapper>

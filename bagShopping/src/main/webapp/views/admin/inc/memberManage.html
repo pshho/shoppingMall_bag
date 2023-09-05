@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>회원 관리</title>
+</head>
+<body>
+<h2>회원 관리</h2>
+<a href="adminMain">뒤로</a>
+<table border="">
+	<tr>
+		<td>ID</td>
+		<td>이름</td>
+		<td>email</td>
+		<td>전화번호</td>
+		<td>가입일</td>
+		<td>관리</td>
+	</tr>
+	<tr th:each="member : ${memberList}">
+		<td th:text="${member.memberId}"></td>
+		<td th:text="${member.memberName}"></td>
+		<td th:text="${member.memberEmail}"></td>
+		<td th:text="${member.memberPhone}"></td>
+		<td th:text="${member.memberRegDateStr}"></td>
+		<td>
+			<th:block th:if="${member.memberId} != admin">
+			<button id="deleteMember" 
+					th:memberParam="${member.memberId}"
+                    th:onclick="memberList(this.getAttribute('memberParam'))"  
+                    th:text="|삭제|" />
+            </th:block>
+        </td>
+	</tr>
+</table>
+</body>
+</html>

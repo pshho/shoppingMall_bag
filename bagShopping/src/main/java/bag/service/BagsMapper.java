@@ -8,5 +8,8 @@ import bag.model.BagsDTO;
 
 @Mapper
 public interface BagsMapper {
+	
 	List<BagsDTO> bagsList(BagsDTO bagDTO);
+	
+	List<BagsDTO> allBagsList();
 }

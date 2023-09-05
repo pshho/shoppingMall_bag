@@ -135,9 +135,15 @@ public class MemberController {
 		System.out.println(mdto.getMemberId());
 		System.out.println(idPwCheck);
 		if(idPwCheck > 0) {
-			msg = "로그인 되었습니다.";
-			goUrl = "/";
-			session.setAttribute("userId", mdto.getMemberId());
+			if(mdto.getMemberId().equals("admin")) {
+				msg = "관리자 로그인 되었습니다.";
+				goUrl = "/admin/adminMain";
+				session.setAttribute("admin", mdto.getMemberId());
+			}else {
+				msg = "로그인 되었습니다.";
+				goUrl = "/";
+				session.setAttribute("userId", mdto.getMemberId());
+			}
 		}
 		
 		mm.addAttribute("msg", msg);
@@ -187,14 +193,14 @@ public class MemberController {
 	String myProfile(HttpSession session, Model mm) {	
 		
 		String userId = (String)session.getAttribute("userId");
-		String memberService = "myProfile";
+		String templateUrl = "myProfile";
 		
 		MemberDTO getUserProfile = memMapper.getUser(userId);
 		AddressDTO getUserAddr = addrMapper.getUserAddress(userId);
 		
 		mm.addAttribute("profile", getUserProfile);
 		mm.addAttribute("address", getUserAddr);
-		mm.addAttribute("memberService",memberService);
+		mm.addAttribute("memberService",templateUrl);
 		
 		return "member/template";
 	}
@@ -204,12 +210,12 @@ public class MemberController {
 	String myInquiry(HttpSession session, Model mm) {	
 		
 		String userId = (String)session.getAttribute("userId");
-		String memberService = "myInquiry";
+		String templateUrl = "myInquiry";
 		
 		List<InquiryDTO> getUserInq = inqMapper.myInqList(userId);
 		
 		mm.addAttribute("myInq", getUserInq);
-		mm.addAttribute("memberService",memberService);
+		mm.addAttribute("memberService", templateUrl);
 		
 		return "member/template";
 	}

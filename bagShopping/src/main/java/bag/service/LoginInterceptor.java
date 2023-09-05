@@ -16,7 +16,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		System.out.println("inter진입");
+		System.out.println("login-inter진입");
 		HttpSession session = request.getSession(false);
 		
 		if(session == null || session.getAttribute("userId") == null) {

@@ -1,5 +1,6 @@
 package bag.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import org.apache.ibatis.type.Alias;
@@ -15,4 +16,9 @@ public class MemberDTO {
 	String memberPhone, phone1, phone2, phone3;
 	Date memberRegDate;
 	
+	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd (E) HH:mm");
+	
+	public String getMemberRegDateStr() {
+		return sdf.format(memberRegDate);
+	}
 }
