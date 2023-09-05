@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bag.service.ProductsBoardMapper">
+	<select id="productsBoardList" resultType="prbDTO">
+		select * from products_board
+		<where>
+			<if test="brandId!=0">
+				brand_id = #{brandId}
+			</if>
+			<if test="categoriesId!=0">
+				categories_id = #{categoriesId}
+			</if>
+			<if test="categoriesCode!=0">
+				and categories_code = #{categoriesCode}
+			</if>
+		</where>
+	</select>
+</mapper>

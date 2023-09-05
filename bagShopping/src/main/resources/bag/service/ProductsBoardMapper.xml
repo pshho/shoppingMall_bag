@@ -17,4 +17,12 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
+	<select id="productsBoard" resultType="prbDTO">
+		select * from products_board
+		<where>
+			<if test="productsBoardId!=0">
+				products_board_id = #{productsBoardId}
+			</if>
+		</where>
+	</select>
 </mapper>

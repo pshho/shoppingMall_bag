@@ -9,4 +9,5 @@ import bag.model.ProductsBoardDTO;
 @Mapper
 public interface ProductsBoardMapper {
 	List<ProductsBoardDTO> productsBoardList(ProductsBoardDTO prbDTO);
+	ProductsBoardDTO productsBoard(ProductsBoardDTO prbDTO);
 }

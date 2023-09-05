@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bag.service.CartMapper">
+	<select id="cartList" resultType="cartDTO">
+		select * from cart
+		<where>
+			<if test="memberId!=null">
+				member_id = #{memberId}
+			</if>
+		</where>
+	</select>
+	<insert id="addCart" parameterType="cartDTO">
+		insert into cart(member_id, product_code, products_count, sum_price)
+		values
+		(#{memberId}, #{productCode}, #{productsCount}, #{sumPrice})
+	</insert>
+	<update id="updCart" parameterType="cartDTO">
+		update cart set products_count = products_count + #{productsCount}, sum_price = sum_price + #{sumPrice}
+		<where>
+			<if test="productCode!=0">
+				product_code = #{productCode}
+			</if>
+			<if test="memberId!=null">
+				and member_id = #{memberId}
+			</if>
+		</where>
+	</update>
+</mapper>
