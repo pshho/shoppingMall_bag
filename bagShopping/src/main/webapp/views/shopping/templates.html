@@ -5,6 +5,121 @@ layout:decorate="shopping/inc/view">
 <head>
 <meta charset="UTF-8">
 <title></title>
+<link rel="stylesheet" href="/css/shoppingCss/shopping.css" />
+<script src="https://code.jquery.com/jquery-3.7.1.js" 
+integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" 
+crossorigin="anonymous"></script>
+<script>
+	function addAmount(){
+		let bagsAmount = parseInt($('#bagsAmount').val()) + 1;
+		$('#bagsAmount').val(bagsAmount);
+		const params = {
+			bagsAmount : bagsAmount
+		}
+		const bagsTotal = document.querySelectorAll('#bagsTotal');
+		
+		$.ajax({
+			url : '/shopping/shoppingDetail',
+			type : 'post',
+			contentType : 'application/json; charset=utf-8',
+			dataType : 'json',
+			data : JSON.stringify(params),
+			success : function(res){
+				bagsTotal.forEach(function(item){
+					item.value = res.totalPrice;
+				})
+			},
+			error : function(error){
+				console.log(error);
+			}
+		})
+	}
+	
+	function subAmount(){
+		let bagsAmount = parseInt($('#bagsAmount').val()) - 1;
+		if(bagsAmount < 1){
+			alert('상품은 1개 이상 선택해야 합니다');
+			return false;
+		}
+		$('#bagsAmount').val(bagsAmount);
+		const params = {
+			bagsAmount : bagsAmount
+		}
+		const bagsTotal = document.querySelectorAll('#bagsTotal');
+		
+		$.ajax({
+			url : '/shopping/shoppingDetail',
+			type : 'post',
+			contentType : 'application/json; charset=utf-8',
+			dataType : 'json',
+			data : JSON.stringify(params),
+			success : function(res){
+				bagsTotal.forEach(function(item){
+					item.value = res.totalPrice;
+				})
+			},
+			error : function(error){
+				console.log(error);
+			}
+		})
+	}
+	
+	$(document).ready(function(){
+		$('#bagsAmount').keydown(function(event){
+			if(event.keyCode === 13){
+				let bagsAmount = parseInt($('#bagsAmount').val());
+				
+				if(bagsAmount < 1){
+					alert('상품은 1개 이상 선택해야 합니다');
+					return false;
+				}
+				
+				const params = {
+					bagsAmount : bagsAmount
+				}
+				const bagsTotal = document.querySelectorAll('#bagsTotal');
+				
+				$.ajax({
+					url : '/shopping/shoppingDetail',
+					type : 'post',
+					contentType : 'application/json; charset=utf-8',
+					dataType : 'json',
+					data : JSON.stringify(params),
+					success : function(res){
+						bagsTotal.forEach(function(item){
+							item.value = res.totalPrice;
+						})
+					},
+					error : function(error){
+						console.log(error);
+					}
+				})
+			}
+		})
+	})
+	
+	function cartAdd(){
+		let bagsAmount = parseInt($('#bagsAmount').val());
+		
+		const params = {
+			bagsAmount : bagsAmount
+		}
+		
+		$.ajax({
+			url : '/shopping/shoppingCart',
+			type : 'post',
+			contentType : 'application/json; charset=utf-8',
+			dataType : 'json',
+			data : JSON.stringify(params),
+			success : function(res){
+				console.log(res);
+			},
+			error : function(error){
+				console.log(error);
+			}
+		})
+	}
+</script>
 </head>
 <body>
 </body>

@@ -9,4 +9,6 @@ import bag.model.BagsDTO;
 @Mapper
 public interface BagsMapper {
 	List<BagsDTO> bagsList(BagsDTO bagDTO);
+	BagsDTO bags(BagsDTO bagDTO);
+	List<BagsDTO> cartBags(String memberId);
 }

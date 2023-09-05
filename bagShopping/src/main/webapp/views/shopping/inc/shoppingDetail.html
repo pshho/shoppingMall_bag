@@ -1,2 +1,130 @@
 <html xmlns="http://www.thymeleaf.org">
-<h1>shoppingList</h1>
+<h1 th:each="cate:${categoriesList}"
+th:if="${productsBoard.categoriesId eq cate.categoriesId}"
+th:text="${cate.category}"></h1>
+<hr />
+<section class="shopDetail">
+	<!-- 상품 관련 정보 -->
+	<div>
+		<table border="">
+			<tr>
+				<td colspan="2">사진 들어갈 곳</td>
+			</tr>
+			<tr>
+				<td colspan="2" th:text="${productsBoard.contents}"></td>
+			</tr>
+			<tr>
+				<td>사이즈</td>
+				<td th:text="|${bags.bagSizeW}/${bags.bagSizeH}/${bags.bagSizeD}|"></td>
+			</tr>
+			<tr>
+				<td>용량</td>
+				<td th:text="${bags.bagCapacity}"></td>
+			</tr>
+			<tr>
+				<td>무게</td>
+				<td th:text="${bags.bagWeight}"></td>
+			</tr>
+			<tr>
+				<td>겉감</td>
+				<td th:text="${bags.bagOuterFabric}"></td>
+			</tr>
+			<tr>
+				<td>안감</td>
+				<td th:text="${bags.bagInnerFabric}"></td>
+			</tr>
+			<tr>
+				<td>지퍼</td>
+				<td th:text="${bags.bagZipper}"></td>
+			</tr>
+			<tr>
+				<td>버클</td>
+				<td th:text="${bags.bagBuckle}"></td>
+			</tr>
+			<tr>
+				<td colspan="2" th:text="${productsBoard.guide}"></td>
+			</tr>
+		</table>
+	</div>
+	<!-- 배송, 결제 관련 정보 -->
+	<div>
+		<table border="">
+			<tr>
+				<td colspan="3" th:each="brand:${brandList}"
+					th:if="${brand.brandId eq productsBoard.brandId}"
+					th:text="${brand.brandName}"></td>
+			</tr>
+			<tr>
+				<td colspan="3" th:text="${bags.bagName}"></td>
+			</tr>
+			<tr>
+				<td colspan="3" th:text="${bags.bagPrice}"></td>
+			</tr>
+			<tr>
+				<td>상품코드</td>
+				<td colspan="2" th:text="${bags.productCode}"></td>
+			</tr>
+			<tr>
+				<td>배송정보</td>
+				<td colspan="2" th:text="${productsBoard.addressInfo}"></td>
+			</tr>
+			<tr>
+				<td>결제관련정보</td>
+				<td colspan="2">결제관련정보</td>
+			</tr>
+			<tr>
+				<td rowspan="5">사이즈 가이드</td>
+				<tr>
+					<td colspan="2" th:text="|사이즈가이드이미지${bags.sizeGuide}|"></td>
+				</tr>
+				<tr>
+					<td>정면길이</td>
+					<td th:text="${bags.bagSizeW}"></td>
+				</tr>
+				<tr>
+					<td>높이</td>
+					<td th:text="${bags.bagSizeH}"></td>
+				</tr>
+				<tr>
+					<td>측면길이</td>
+					<td th:text="${bags.bagSizeD}"></td>
+				</tr>
+			</tr>
+			<th:block th:if="${bags.bagStock != 0}">
+				<tr>
+					<td th:text="${bags.bagName}"></td>
+					<td>
+						<button type="button" onclick="subAmount()">-</button>
+						<input type="text" th:value="${bags.amount}" id="bagsAmount" />
+						<button type="button" onclick="addAmount()">+</button>
+					</td>
+					<td>
+						<input type="text" th:value="${bags.totalPrice}" id="bagsTotal" readonly />
+					</td>
+				</tr>
+				<tr>
+					<td>총 상품금액</td>
+					<td colspan="2">
+						<input type="text" th:value="${bags.totalPrice}" id="bagsTotal" readonly />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<button type="button" onclick="cartAdd()">장바구니</button>
+						<button type="button">바로구매</button>
+					</td>
+				</tr>
+			</th:block>
+			<th:block th:unless="${bags.bagStock != 0}">
+				<tr>
+					<td colspan="3">품절</td>
+				</tr>
+			</th:block>
+			<tr>
+				<td colspan="3">
+					<a th:href="|/shopping/shoppingList/${brand}/${category}/${categoriesCode}/1|">뒤로</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</section>
