@@ -57,7 +57,7 @@ public class NoticeController {
 		notMapper.notWrite(nDTO);
 		fDTO.setNoticeId(notMapper.maxNoticeId());
 		fDTO.setComplete(true);
-		fDTO.setBoardDistinct(1);
+		fDTO.setMemberId(nDTO.getNWriter());
 		fMapper.updateFile(fDTO);
 		pd.setMsg("공지사항 작성");
 		pd.setUrl("/notice/noticeDetail/"+fDTO.getNoticeId());
@@ -71,7 +71,7 @@ public class NoticeController {
 		FileDTO fDTO = new FileDTO();
 		fDTO.setNoticeId(id);
 		fDTO.setComplete(true);
-		fDTO.setBoardDistinct(1);
+		fDTO.setMemberId(nDTO.getNWriter());
 		fMapper.updateFile(fDTO);
 		pd.setMsg("공지사항 수정");
 		pd.setUrl("/notice/noticeDetail/"+id);

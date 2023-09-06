@@ -1,9 +1,13 @@
 package bag.controller;
 
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -13,10 +17,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import bag.model.BagsDTO;
 import bag.model.CartDTO;
+import bag.model.FileDTO;
+import bag.model.FileUploadDownload;
 import bag.model.PageData;
 import bag.model.ProductsBoardDTO;
 import bag.service.BagsMapper;
 import bag.service.CartMapper;
+import bag.service.FileMapper;
 import bag.service.ProductsBoardMapper;
 import jakarta.servlet.http.HttpSession;
 
@@ -33,36 +40,59 @@ public class ShoppingController {
 	CartMapper cartMapper;
 	
 	@Autowired
+	FileMapper fMapper;
+	
+	@Autowired
 	PageData pd;
+	
+	@Autowired
+	FileUploadDownload fud;
 	
 	BagsDTO bags = null;
 	
+	List<CartDTO> cartList = null;
+	
+	int total = 0;
+	
+	@ModelAttribute("pd")
+	Object pd() {
+		pd.setPageLimit(16);
+		return pd;
+	}
+	
 	@RequestMapping("{shoppingSer}")
 	ModelAndView goShopping(HttpSession session,
-			@PathVariable String shoppingSer) {
+			@PathVariable String shoppingSer,
+			ProductsBoardDTO prbDTO) {
 		ModelAndView mav = new ModelAndView("shopping/templates");
 		String memberId = (String)session.getAttribute("userId");
+		CartDTO cart = new CartDTO();
+		cartList = cartMapper.cartList(memberId);
+		total = cart.sumTotal(cartList);
 		mav.addObject("cartBags", bagMapper.cartBags(memberId));
+		mav.addObject("cartList", cartList);
+		mav.addObject("total", total);
+		mav.addObject("bagsList", bagMapper.allBagsList());
 		return mav;
 	}
 	
-	@RequestMapping("{shoppingSer}/{brand}/{category}/{categoriesCode}/{page}")
+	@RequestMapping("{shoppingSer}/{brand}/{category}/{type}/{page}")
 	ModelAndView goShopping(@PathVariable String shoppingSer,
 			@PathVariable int brand,
 			@PathVariable int category,
-			@PathVariable int categoriesCode,
+			@PathVariable int type,
 			@PathVariable int page) {
 		ModelAndView mav = new ModelAndView("shopping/templates");
 		ProductsBoardDTO prbDTO = new ProductsBoardDTO();
 		BagsDTO bagDTO = new BagsDTO();
-		pd.setPageLimit(12);
 		if(shoppingSer.equals("shoppingList")) {
 			pd.setPageStart(page);
 			prbDTO.setBrandId(brand);
 			prbDTO.setCategoriesId(category);
-			prbDTO.setCategoriesCode(categoriesCode);
+			prbDTO.setTypeId(type);
 			bagDTO.setBrandId(brand);
 			bagDTO.setCategoriesId(category);
+			bagDTO.setTypeId(type);
 			mav.addObject("bagsList", bagMapper.bagsList(bagDTO));
 			mav.addObject("productsBoardList", prbMapper.productsBoardList(prbDTO));
 		}else if(shoppingSer.equals("shoppingDetail")) {
@@ -104,7 +134,101 @@ public class ShoppingController {
 		}else {
 			cartMapper.addCart(cart);
 		}
-		
 		return cart;
+	}
+	
+	@PostMapping("shoppingCartChange")
+	@ResponseBody
+	Object shoppingCartUpd(HttpSession session, @RequestBody Map<String, Integer> cartAmount) {
+		String memberId = (String)session.getAttribute("userId");
+		CartDTO cart = new CartDTO();
+		cart.setProductsCount(cartAmount.get("cartAmount"));
+		cart.setCartId(cartAmount.get("cartId"));
+		cart.setSumPrice(cartAmount.get("price")*cartAmount.get("cartAmount"));
+		cartMapper.changeCart(cart);
+		cartList = cartMapper.cartList(memberId);
+		total = cart.sumTotal(cartList);
+		LinkedHashMap<String, Integer> calc = new LinkedHashMap<>(); 
+		calc.put("sumPrice", cart.getSumPrice());
+		calc.put("total", total);
+		return calc;
+	}
+	
+	@PostMapping("cartDelete")
+	@ResponseBody
+	Object cartDelete(@RequestBody Map<String, Integer> cart) {
+		Map<String, String> msg = new HashMap<>();
+		int cartId = cart.get("cartId");
+		cartMapper.deleteCart(cartId);
+		msg.put("msg", "물건 삭제 성공");
+		msg.put("url", "/shopping/shoppingCart");
+		return msg;
+	}
+	
+	@PostMapping("shoppingWrite")
+	String shoppingWrite(
+			ProductsBoardDTO prbDTO) {
+		BagsDTO bag = bagMapper.productsBoardBag(prbDTO.getProductCode());
+		prbDTO.setBrandId(bag.getBrandId());
+		prbDTO.setCategoriesId(bag.getCategoriesId());
+		prbDTO.setTypeId(bag.getTypeId());
+		prbMapper.writeProduct(prbDTO);
+		FileDTO fDTO = new FileDTO();
+		fDTO.setProductsBoardId(prbMapper.maxPrbId());
+		fDTO.setComplete(true);
+		fDTO.setMemberId(prbDTO.getMemberId());
+		fMapper.updateFile(fDTO);
+		pd.setMsg("상품소개글 작성");
+		pd.setUrl("/shopping/shoppingDetail/0/0/0/"+fDTO.getProductsBoardId());
+		return "shopping/inc/alert";
+	}
+	
+	@PostMapping("shoppingDelete/{id}")
+	@ResponseBody
+	Map<String, String> shoppingDelete(
+			@PathVariable int id){
+		FileDTO fDTO = new FileDTO();
+		fDTO.setProductsBoardId(id);
+		prbMapper.deleteProduct(id);
+		for(FileDTO dto : fMapper.boardDelete(fDTO)) {
+			fud.fileDelete(dto.getFiles());
+		}
+		fMapper.boardFileDelete(fDTO);
+		Map<String, String> msg = new HashMap<>();
+		msg.put("msg", "상품소개글 삭제");
+		msg.put("url", "/shopping/shoppingList/0/0/0/1");
+		return msg;
+	}
+	
+	@RequestMapping("{shoppingSer}/{id}")
+	ModelAndView shoppingModify(
+			@PathVariable String shoppingSer,
+			@PathVariable int id,
+			ProductsBoardDTO prbDTO) {
+		ModelAndView mav = new ModelAndView("shopping/templates");
+		prbDTO.setProductsBoardId(id);
+		mav.addObject("productsBoard", prbMapper.productsBoard(prbDTO));
+		mav.addObject("bagsList", bagMapper.allBagsList());
+		return mav;
+	}
+	
+	@PostMapping("shoppingModify/{id}")
+	String shoppingModify(
+			@PathVariable int id,
+			ProductsBoardDTO prbDTO){
+		BagsDTO bag = bagMapper.productsBoardBag(prbDTO.getProductCode());
+		prbDTO.setProductsBoardId(id);
+		prbDTO.setBrandId(bag.getBrandId());
+		prbDTO.setCategoriesId(bag.getCategoriesId());
+		prbDTO.setTypeId(bag.getTypeId());
+		prbMapper.updateProduct(prbDTO);
+		FileDTO fDTO = new FileDTO();
+		fDTO.setProductsBoardId(id);
+		fDTO.setComplete(true);
+		fDTO.setMemberId(prbDTO.getMemberId());
+		fMapper.updateFile(fDTO);
+		pd.setMsg("상품소개글 수정");
+		pd.setUrl("/shopping/shoppingDetail/0/0/0/"+id);
+		return "shopping/inc/alert";
 	}
 }

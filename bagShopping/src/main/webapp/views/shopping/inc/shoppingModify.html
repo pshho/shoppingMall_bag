@@ -1,0 +1,85 @@
+<html xmlns="http://www.thymeleaf.org">
+<form th:action="|/shopping/shoppingModify/${productsBoard.productsBoardId}|" 
+method="post" id="wri" th:object="${productsBoardDTO}">
+	<input type="hidden" name="memberId" th:value="${session.admin}" />
+	<table border="">
+		<tr>
+			<td width="150px">카테고리</td>
+			<td>
+				<select id="category">
+					<option th:each="cate:${categoriesList}" 
+					th:value="${cate.categoriesId}" th:text="${cate.categoriesName}"></option>
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>상품</td>
+			<td>
+				<select th:field="*{productCode}" id="product">
+				</select>
+			</td>
+		</tr>
+		<tr>
+			<td>간략소개</td>
+			<td>
+				<input type="text" name="intro" th:value="${productsBoard.intro}" id="intro" />
+			</td>
+		</tr>
+		<tr>
+			<td>상세소개</td>
+			<td colspan="3">
+				<div contenteditable="true" id="wriCon"
+				th:utext="${productsBoard.contents}"
+				style="width: 500px; height: 600px;"></div>
+				<textarea th:field="*{contents}" id="cont"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td>배송정보</td>
+			<td>
+				<input type="text" name="addressInfo" th:value="${productsBoard.addressInfo}" id="addrInfo" />
+			</td>
+		</tr>
+		<tr>
+			<td>구매가이드</td>
+			<td>
+				<input type="text" name="guide" th:value="${productsBoard.guide}" id="guide" />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="4">
+				<input type="submit" value="등록" />
+				<input type="button" value="취소" onclick="confirmCancel()" />
+			</td>
+		</tr>
+	</table>
+</form>
+<script th:inline="javascript">
+	$(document).ready(function(){
+		let category = null;
+		let product = [[${bagsList}]];
+		let prbCode = [[${productsBoard.productCode}]];
+		if(category == null){
+			category = 1;
+			product.forEach(function(item){
+				if(category == item.categoriesId){
+					$('#product').append('<option value="'+item.productCode+'">' +
+					item.bagName+'</option>');
+					$('#product').find('option[value="'+prbCode+'"').prop('selected', true);
+				}
+			})
+		}
+		
+		$('#category').change(function(){
+			category = $('#category').val();
+			$('#product').empty();
+			product.forEach(function(item){
+				if(category == item.categoriesId){
+					$('#product').append('<option value="'+item.productCode+'">' + 
+					item.bagName+'</option>');
+					$('#product').find('option[value="'+prbCode+'"').prop('selected', true);
+				}
+			})
+		})
+	})
+</script>

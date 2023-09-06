@@ -10,8 +10,8 @@ import lombok.Data;
 @Alias("prbDTO")
 @Data
 public class ProductsBoardDTO {
-	int productsBoardId, categoriesCode, productCode, brandId, categoriesId;
-	String intro, contents, addressInfo, guide;
+	int productsBoardId, typeId, productCode, brandId, categoriesId;
+	String intro, contents, addressInfo, guide, memberId;
 	Date productsBoardRegDate;
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd (E) HH:mm");
 	

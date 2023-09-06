@@ -6,10 +6,4 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<select id="categoriesList" resultType="catDTO">
 		select * from categories
 	</select>
-	<select id="maxCatCode" resultType="Integer">
-		select max(categories_id) from categories
-	</select>
-	<select id="categoryName" resultType="catDTO">
-		select distinct(categories_name) from categories
-	</select>
 </mapper>

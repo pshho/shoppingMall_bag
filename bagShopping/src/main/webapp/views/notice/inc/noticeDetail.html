@@ -26,8 +26,8 @@
 		</tr>
 		<tr>
 			<td colspan="4">
-				<a th:href="|/notice/noticeModify/${noticeDetail.noticeId}|">수정</a>
-				<a href="#" th:onclick="|confirmDelete(${noticeDetail.noticeId})|">삭제</a>
+				<a th:if="${session.admin ne null}" th:href="|/notice/noticeModify/${noticeDetail.noticeId}|">수정</a>
+				<a th:if="${session.admin ne null}" href="#" th:onclick="|confirmDelete(${noticeDetail.noticeId})|">삭제</a>
 				<a href="/notice/noticeList/1">뒤로</a>
 			</td>
 		</tr>
