@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import bag.model.CategoriesDTO;
 
+
 @Mapper
 public interface CategoriesMapper {
 	List<CategoriesDTO> categoriesList();
