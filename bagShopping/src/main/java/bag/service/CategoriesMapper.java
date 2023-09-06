@@ -10,6 +10,4 @@ import bag.model.CategoriesDTO;
 @Mapper
 public interface CategoriesMapper {
 	List<CategoriesDTO> categoriesList();
-	int maxCatCode();
-	List<CategoriesDTO> categoryName();
 }

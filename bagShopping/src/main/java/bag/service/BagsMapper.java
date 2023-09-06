@@ -13,5 +13,5 @@ public interface BagsMapper {
 	List<BagsDTO> allBagsList();
 	BagsDTO bags(BagsDTO bagDTO);
 	List<BagsDTO> cartBags(String memberId);
-
+	BagsDTO productsBoardBag(int productCode);
 }

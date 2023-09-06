@@ -1,7 +1,5 @@
 package bag.model;
 
-import java.util.List;
-
 import org.apache.ibatis.type.Alias;
 
 import lombok.Data;
@@ -10,6 +8,6 @@ import lombok.Data;
 @Data
 public class TypeDTO {
 
-	int typeId;
+	int typeId, categoriesId;
 	String typeName;
 }

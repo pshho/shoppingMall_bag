@@ -1,6 +1,204 @@
 <html xmlns="http://www.thymeleaf.org">
-<h1>장바구니</h1>
-[[${cartList}]]
-<br />
-<hr />
-[[${cartBags}]]
+<table border="">
+	<tr>
+		<td colspan="5">
+			<h1>장바구니</h1>
+		</td>
+	</tr>
+	<th:block th:if="${cartList != null and #arrays.length(cartList) != 0}">
+		<tr>
+			<td>상품명</td>
+			<td>상품이미지</td>
+			<td>수량</td>
+			<td>합산 금액</td>
+			<td>삭제</td>
+		</tr>
+		<tr th:each="cart,no:${cartList}">
+			<td th:text="${cartBags[no.index].bagName}"></td>
+			<td></td>
+			<td>
+				<button type="button" 
+				th:onclick="|subAmount(${cartBags[no.index].bagPrice}, ${cart.cartId})|">-</button>
+				<input type="text" th:value="${cart.productsCount}" th:id="|cartAmount${cart.cartId}|" />
+				<input type="hidden" th:value="${cartBags[no.index].bagPrice}" th:id="|pricecartAmount${cart.cartId}|" />
+				<input type="hidden" th:value="${cartBags[no.index].bagStock}" th:id="|stockcartAmount${cart.cartId}|" />
+				<button type="button" 
+				th:onclick="|addAmount(
+					${cartBags[no.index].bagStock}, 
+					${cartBags[no.index].bagPrice},
+					${cart.cartId})|">+</button>
+			</td>
+			<td>
+				<input type="text" th:value="${cart.sumPrice}" th:id="|cartTotal${cart.cartId}|" readonly />
+			</td>
+			<td>
+				<button type="button" th:onclick="|confirmDelete(${cart.cartId})|">삭제</button>
+			</td>
+		</tr>
+		<tr>
+			<td>전체 금액</td>
+			<td colspan="4">
+				<input type="text" th:value="${total}" id="total" readonly />
+			</td>
+		</tr>
+	</th:block>
+	<th:block th:unless="${cartList != null and #arrays.length(cartList) != 0}">
+		<tr>
+			<td colspan="5">
+				장바구니가 비었습니다.<br />
+				상품을 추가해주세요!
+			</td>
+		</tr>
+	</th:block>
+</table>
+<script>
+	function addAmount(amount, price, cartId){
+		let cartAmount = null;
+		if(!isNaN($('#cartAmount'+cartId).val())){
+			cartAmount = parseInt($('#cartAmount'+cartId).val()) + 1;
+		}else {
+			alert('숫자를 입력해주세요');
+			return false;
+		}
+		if(cartAmount > amount){
+			alert(amount+'개까지 선택할 수 있습니다');
+			return false;
+		}
+		
+		$('#cartAmount'+cartId).val(cartAmount);
+		const params = {
+			cartAmount : cartAmount,
+			price : price,
+			cartId : cartId
+		}
+		
+		$.ajax({
+			url : '/shopping/shoppingCartChange',
+			type : 'post',
+			contentType : 'application/json; charset=utf-8',
+			dataType : 'json',
+			data : JSON.stringify(params),
+			success : function(res){
+				$('#cartTotal'+cartId).val(res.sumPrice);
+				$('#total').val(res.total);
+			},
+			error : function(error){
+				console.log(error);
+			}
+		})
+	}
+	
+	function subAmount(price, cartId){
+		let cartAmount = null;
+		if(!isNaN($('#cartAmount'+cartId).val())){
+			cartAmount = parseInt($('#cartAmount'+cartId).val()) - 1;
+		}else {
+			alert('숫자를 입력해주세요');
+			return false;
+		}
+		if(cartAmount < 1){
+			alert('상품은 1개 이상 선택해야 합니다');
+			return false;
+		}
+		$('#cartAmount'+cartId).val(cartAmount);
+		const params = {
+			cartAmount : cartAmount,
+			price : price,
+			cartId : cartId
+		}
+		
+		$.ajax({
+			url : '/shopping/shoppingCartChange',
+			type : 'post',
+			contentType : 'application/json; charset=utf-8',
+			dataType : 'json',
+			data : JSON.stringify(params),
+			success : function(res){
+				$('#cartTotal'+cartId).val(res.sumPrice);
+				$('#total').val(res.total);
+			},
+			error : function(error){
+				console.log(error);
+			}
+		})
+	}
+	
+	$(document).ready(function(){
+		const cart = document.querySelectorAll('input[id^="cartAmount"]');
+		let delay;
+		cart.forEach(function(item){
+			$('#'+item.id).keyup(function(event){
+				clearTimeout(delay);
+				delay = setTimeout(function(){
+					let cartAmount = null;
+					if(!isNaN($('#'+item.id).val())){
+						cartAmount = parseInt(item.value);
+					}else {
+						alert('숫자를 입력해주세요');
+						return false;
+					}
+					let stock = $('#stock'+item.id).val();
+					let price = $('#price'+item.id).val();
+					let cartId = item.id.substring('cartAmount'.length, item.id.length);
+					
+					if(cartAmount < 1){
+						alert('상품은 1개 이상 선택해야 합니다');
+						return false;
+					}else if(cartAmount > stock){
+						alert(stock+'개까지 선택할 수 있습니다');
+						return false;
+					}
+					
+					const params = {
+						cartAmount : cartAmount,
+						price : price,
+						cartId : cartId
+					}
+					
+					$.ajax({
+						url : '/shopping/shoppingCartChange',
+						type : 'post',
+						contentType : 'application/json; charset=utf-8',
+						dataType : 'json',
+						data : JSON.stringify(params),
+						success : function(res){
+							$('#cartTotal'+cartId).val(res.sumPrice);
+							$('#total').val(res.total);
+						},
+						error : function(error){
+							console.log(error);
+						}
+					})
+				}, 200);
+			})
+		})
+	})
+	
+	function confirmDelete(cartId){
+		if(confirm('정말 삭제하시겠습니까?')){
+			cartDelete(cartId);
+		}
+	}
+	
+	function cartDelete(cartId){
+		const params = {
+			cartId : cartId
+		}
+		
+		$.ajax({
+			url : '/shopping/cartDelete',
+			type : 'post',
+			contentType : 'application/json; charset=utf-8',
+			dataType : 'json',
+			async : false,
+			data : JSON.stringify(params),
+			success : function(res){
+				alert(res.msg);
+				location.href=res.url;
+			},
+			error : function(error){
+				console.log(error);
+			}
+		})
+	}
+</script>

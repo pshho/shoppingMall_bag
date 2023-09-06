@@ -26,13 +26,13 @@ public class FileController {
 	FileUploadDownload fud;
 	
 	@PostMapping("files")
-	Map<String, String> file(@RequestParam("file") MultipartFile mf, @RequestParam("distinct") int distinct) {
+	Map<String, String> file(@RequestParam("file") MultipartFile mf, @RequestParam("member") String member) {
 		Map<String, String> msg = new HashMap<>();
 		String fName = fud.fileSave(mf);
 		msg.put("file", fName);
 		FileDTO fDTO = new FileDTO();
 		fDTO.setFiles(fName);
-		fDTO.setBoardDistinct(distinct);
+		fDTO.setMemberId(member);
 		fMapper.insertFile(fDTO);
 		return msg;
 	}

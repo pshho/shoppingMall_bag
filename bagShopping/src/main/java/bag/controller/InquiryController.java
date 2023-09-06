@@ -70,7 +70,7 @@ public class InquiryController {
 		FileDTO fDTO = new FileDTO();
 		fDTO.setInquiryId(inqMapper.maxInquiryId());
 		fDTO.setComplete(true);
-		fDTO.setBoardDistinct(2);
+		fDTO.setMemberId(inDTO.getInWriter());
 		fMapper.updateFile(fDTO);
 		pd.setMsg("문의게시글 작성");
 		pd.setUrl("/inquiry/inquiryDetail/"+fDTO.getInquiryId());
@@ -106,7 +106,7 @@ public class InquiryController {
 		FileDTO fDTO = new FileDTO();
 		fDTO.setInquiryId(inqMapper.maxInquiryId());
 		fDTO.setComplete(true);
-		fDTO.setBoardDistinct(2);
+		fDTO.setMemberId(inDTO.getInWriter());
 		fMapper.updateFile(fDTO);
 		pd.setMsg("문의게시글 답글 작성");
 		pd.setUrl("/inquiry/inquiryDetail/"+fDTO.getInquiryId());
@@ -120,7 +120,7 @@ public class InquiryController {
 		FileDTO fDTO = new FileDTO();
 		fDTO.setInquiryId(id);
 		fDTO.setComplete(true);
-		fDTO.setBoardDistinct(2);
+		fDTO.setMemberId(inDTO.getInWriter());
 		fMapper.updateFile(fDTO);
 		pd.setMsg("문의게시글 수정");
 		pd.setUrl("/inquiry/inquiryDetail/"+id);

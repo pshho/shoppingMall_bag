@@ -10,7 +10,7 @@
 		<tr>
 			<td>작성자</td>
 			<td>
-				<input type="text" th:field="*{nWriter}" />
+				<input type="text" name="nWriter" th:value="${session.admin}" readonly />
 			</td>
 		</tr>
 		<tr>

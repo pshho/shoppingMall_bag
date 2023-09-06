@@ -3,13 +3,15 @@
 PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bag.service.CartMapper">
-	<select id="cartList" resultType="cartDTO">
-		select * from cart
+	<sql id="wh_memberId">
 		<where>
 			<if test="memberId!=null">
 				member_id = #{memberId}
 			</if>
 		</where>
+	</sql>
+	<select id="cartList" resultType="cartDTO">
+		select * from cart <include refid="wh_memberId" />
 	</select>
 	<insert id="addCart" parameterType="cartDTO">
 		insert into cart(member_id, product_code, products_count, sum_price)
@@ -27,4 +29,26 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</update>
+	<select id="cartCount" resultType="Integer">
+		select count(*) from cart <include refid="wh_memberId" />
+	</select>
+	<update id="changeCart" parameterType="cartDTO">
+		update cart set products_count = #{productsCount}, sum_price = #{sumPrice}
+		<where>
+			<if test="cartId!=0">
+				cart_id = #{cartId}
+			</if>
+		</where>
+	</update>
+	<delete id="deleteCart" parameterType="Integer">
+		delete from cart
+		<where>
+			<if test="cartId!=0">
+				cart_id = #{cartId}
+			</if>
+		</where>
+	</delete>
+	<delete id="allDelete">
+		delete from cart <include refid="wh_memberId" />
+	</delete>
 </mapper>

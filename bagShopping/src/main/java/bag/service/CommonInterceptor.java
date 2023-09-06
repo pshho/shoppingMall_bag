@@ -1,13 +1,10 @@
 package bag.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import bag.model.CartDTO;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -24,25 +21,34 @@ public class CommonInterceptor implements HandlerInterceptor {
 	@Autowired
 	CartMapper cartMapper;
 	
+	@Autowired
+	TypeMapper typeMapper;
+	
+	String userId = null;
+	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		HttpSession session = request.getSession();
-		String userId = (String)session.getAttribute("userId");
+		HttpSession session = request.getSession(false);
 		
 		if(modelAndView != null) {
 			modelAndView.addObject("brandList", bMapper.brandList());
 			modelAndView.addObject("categoriesList", catMapper.categoriesList());
-			modelAndView.addObject("maxCatCode", catMapper.maxCatCode());
-			modelAndView.addObject("categoryName", catMapper.categoryName());
+			modelAndView.addObject("typeList", typeMapper.typeList());
 			
-			if(userId != null) {
-				List<CartDTO> cartList = cartMapper.cartList(userId);
-				if(cartList.size() != 0) {
-					modelAndView.addObject("cartList", cartMapper.cartList(userId));
-				}
+			if(session!= null) {
+				userId = (String)session.getAttribute("userId");
+				modelAndView.addObject("cartCount", cartMapper.cartCount(userId));
 			}
 		}
-		
+	}
+	
+	@Override
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
+			throws Exception {
+		HttpSession session = request.getSession(false);
+		if(session == null) {
+			cartMapper.allDelete(userId);
+		}
 	}
 }

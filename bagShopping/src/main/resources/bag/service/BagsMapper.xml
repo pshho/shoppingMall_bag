@@ -12,10 +12,13 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			<if test="categoriesId!=0">
 				products_board.categories_id = #{categoriesId}
 			</if>
+			<if test="typeId!=0">
+				and products_board.type_id = #{typeId}
+			</if>
 		</where>
 	</select>
 
-	<select id="allBagsList">
+	<select id="allBagsList" resultType="bagDTO">
 		select * from bags
 	</select>
 
@@ -27,12 +30,20 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
-	
-  <select id="cartBags" resultType="bagDTO">
+	<select id="cartBags" resultType="bagDTO">
 		select bags.* from bags inner join cart on cart.product_code = bags.product_code
 		<where>
 			<if test="memberId!=null">
 				member_id = #{memberId}
+			</if>
+		</where>
+	</select>
+	
+	<select id="productsBoardBag" resultType="bagDTO">
+		select * from bags
+		<where>
+			<if test="productCode!=0">
+				product_code = #{productCode}
 			</if>
 		</where>
 	</select>

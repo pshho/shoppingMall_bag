@@ -9,116 +9,150 @@ layout:decorate="shopping/inc/view">
 <script src="https://code.jquery.com/jquery-3.7.1.js" 
 integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4=" 
 crossorigin="anonymous"></script>
-<script>
-	function addAmount(){
-		let bagsAmount = parseInt($('#bagsAmount').val()) + 1;
-		$('#bagsAmount').val(bagsAmount);
-		const params = {
-			bagsAmount : bagsAmount
-		}
-		const bagsTotal = document.querySelectorAll('#bagsTotal');
-		
+<script th:inline="javascript">
+	function shoppingWriteCancel(){
 		$.ajax({
-			url : '/shopping/shoppingDetail',
+			url : '/fileUpload/fileDelete',
 			type : 'post',
-			contentType : 'application/json; charset=utf-8',
 			dataType : 'json',
-			data : JSON.stringify(params),
-			success : function(res){
-				bagsTotal.forEach(function(item){
-					item.value = res.totalPrice;
-				})
+			async : false,
+			success : function(res) {
+				// console.log(response);
+				alert(res.msg);
+				location.href='/shopping/shoppingList/0/0/0/1';
 			},
-			error : function(error){
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
 				console.log(error);
 			}
 		})
 	}
 	
-	function subAmount(){
-		let bagsAmount = parseInt($('#bagsAmount').val()) - 1;
-		if(bagsAmount < 1){
-			alert('상품은 1개 이상 선택해야 합니다');
-			return false;
-		}
-		$('#bagsAmount').val(bagsAmount);
-		const params = {
-			bagsAmount : bagsAmount
-		}
-		const bagsTotal = document.querySelectorAll('#bagsTotal');
-		
+	function shoppingDelete(productsBoardId){
 		$.ajax({
-			url : '/shopping/shoppingDetail',
+			url : '/shopping/shoppingDelete/'+productsBoardId,
 			type : 'post',
-			contentType : 'application/json; charset=utf-8',
 			dataType : 'json',
-			data : JSON.stringify(params),
-			success : function(res){
-				bagsTotal.forEach(function(item){
-					item.value = res.totalPrice;
-				})
+			async : false,
+			success : function(res) {
+				// console.log(response);
+				alert(res.msg);
+				location.href=res.url;
 			},
-			error : function(error){
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
 				console.log(error);
 			}
 		})
+	}
+	
+	function confirmDelete(productsBoardId){
+		if(confirm('정말 삭제하시겠습니까?')){
+			shoppingDelete(productsBoardId);
+		}
+	}
+	
+	function confirmCancel(){
+		if(confirm('정말 취소하시겠습니까?')){
+			shoppingWriteCancel();
+		}
 	}
 	
 	$(document).ready(function(){
-		$('#bagsAmount').keydown(function(event){
-			if(event.keyCode === 13){
-				let bagsAmount = parseInt($('#bagsAmount').val());
-				
-				if(bagsAmount < 1){
-					alert('상품은 1개 이상 선택해야 합니다');
-					return false;
+		let dropDiv = document.getElementById('wriCon');
+		let member = [[${session.admin}]];
+		
+		dropDiv.addEventListener('drop', function(event){
+			event.preventDefault();
+			
+			let files = event.dataTransfer.files;
+		
+			const selection = window.getSelection();
+			const range = selection.getRangeAt(0);
+			const span = document.createElement('span');
+			range.insertNode(span);
+			
+			let regPtn = /\.(jpg|png|jpeg|svg|bmf|gif)$/i;
+			
+			// div - id: notWriCon으로 drop된 이미지 파일들
+			Array.from(files).forEach(file => {
+				if(!regPtn.test(file.name)){
+					alert('이미지 파일이 아닙니다');
+					return;
 				}
 				
-				const params = {
-					bagsAmount : bagsAmount
-				}
-				const bagsTotal = document.querySelectorAll('#bagsTotal');
+				let form = new FormData(); // 파일을 보낼 새로운 form
+				form.append('file', file);
+				form.append('member', member);
 				
-				$.ajax({
-					url : '/shopping/shoppingDetail',
-					type : 'post',
-					contentType : 'application/json; charset=utf-8',
-					dataType : 'json',
-					data : JSON.stringify(params),
-					success : function(res){
-						bagsTotal.forEach(function(item){
-							item.value = res.totalPrice;
-						})
-					},
-					error : function(error){
-						console.log(error);
-					}
+				fetch('/fileUpload/files', {
+					method : 'post',
+					body : form
 				})
+				.then(response => response.json())
+				.then(data => {
+					let addVal = '<img src="/upFile/'+data.file+'" alt="등록된 이미지"/>';
+					span.innerHTML += addVal;
+				})
+				.catch(error => {
+		            console.error('파일 전송 실패:', error);
+		        });
+			});
+		});
+		
+		const config = {childList: true, subtree: true};
+		const mutationCallback = (mutationList, observer) => {
+			for(const mutation of mutationList){
+				for(const removedNode of mutation.removedNodes){
+					let src = removedNode.querySelector('img').src;
+					let fileName = src.substring(src.lastIndexOf("/")+1);
+					$.ajax({
+						url : '/fileUpload/writingFileDelete/'+fileName,
+						type : 'post',
+						dataType : 'json',
+						async : false,
+						success : function(res) {
+							console.log(res.msg);
+						},
+						error : function (req, status, error) {
+							console.log(req);
+							console.log(status);
+							console.log(error);
+						}
+					})
+				}
+			}
+		}
+		const observer = new MutationObserver(mutationCallback);
+		observer.observe(dropDiv, config);
+		
+		$('#wri').submit(function(event){
+			event.preventDefault();
+			
+			let intro = $('#intro').val().trim();
+			let content = $('#wriCon').text().trim();
+			let addrInfo = $('#addrInfo').val().trim();
+			let guide = $('#guide').val().trim();
+			if(intro.length === 0 || intro.length > 300){
+				alert('간략소개는 1~300글자까지 가능합니다');
+				return false;
+			}else if(content.length === 0 || content.length > 5000){
+				alert('상세소개는 1~5000글자까지 가능합니다');
+				return false;
+			}else if(addrInfo.length === 0 || addrInfo.length > 1000){
+				alert('배송정보는 1~1000글자까지 가능합니다');
+				return false;
+			}else if(guide.length === 0 || guide.length > 1000){
+				alert('구매가이드는 1~1000글자까지 가능합니다');
+				return false;
+			}else {
+				$('#cont').val(dropDiv.innerHTML);
+			    $('#wri').get(0).submit();
 			}
 		})
 	})
-	
-	function cartAdd(){
-		let bagsAmount = parseInt($('#bagsAmount').val());
-		
-		const params = {
-			bagsAmount : bagsAmount
-		}
-		
-		$.ajax({
-			url : '/shopping/shoppingCart',
-			type : 'post',
-			contentType : 'application/json; charset=utf-8',
-			dataType : 'json',
-			data : JSON.stringify(params),
-			success : function(res){
-				console.log(res);
-			},
-			error : function(error){
-				console.log(error);
-			}
-		})
-	}
 </script>
 </head>
 <body>

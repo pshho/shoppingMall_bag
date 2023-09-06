@@ -2,3 +2,6 @@
 .shopDetail {
 	display: flex;
 }
+#cont {
+	display: none;
+}

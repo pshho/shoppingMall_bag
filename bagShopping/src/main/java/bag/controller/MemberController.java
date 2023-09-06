@@ -14,6 +14,7 @@ import bag.model.AddressDTO;
 import bag.model.InquiryDTO;
 import bag.model.MemberDTO;
 import bag.service.AddressMapper;
+import bag.service.CartMapper;
 import bag.service.InquiryMapper;
 import bag.service.MemberMapper;
 import jakarta.annotation.Resource;
@@ -34,6 +35,8 @@ public class MemberController {
 	AddressMapper addrMapper;
 	@Resource
 	InquiryMapper inqMapper;
+	@Resource
+	CartMapper cartMapper;
 
 	final DefaultMessageService messageService;
 
@@ -143,6 +146,7 @@ public class MemberController {
 				msg = "로그인 되었습니다.";
 				goUrl = "/";
 				session.setAttribute("userId", mdto.getMemberId());
+				session.setMaxInactiveInterval(1800);
 			}
 		}
 		
@@ -156,7 +160,7 @@ public class MemberController {
 	String logOut(Model mm, HttpSession session) {
 		String msg = session.getAttribute("userId")+"님 로그아웃 되었습니다.";
 		String goUrl = "/";
-		
+		cartMapper.allDelete((String)session.getAttribute("userId"));
 		session.invalidate();
 		
 		mm.addAttribute("msg", msg);
