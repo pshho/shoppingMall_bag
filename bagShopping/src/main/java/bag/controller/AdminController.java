@@ -12,6 +12,7 @@ import bag.service.BagsMapper;
 import bag.service.BrandMapper;
 import bag.service.CategoriesMapper;
 import bag.service.MemberMapper;
+import bag.service.TypeMapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -27,7 +28,8 @@ public class AdminController {
 	BrandMapper brandMapper;
 	@Resource
 	CategoriesMapper cateMapper;
-	
+	@Resource
+	TypeMapper typeMapper;
 
 	// 관리자 메인화면
 	@GetMapping("{adminService}")
@@ -65,7 +67,22 @@ public class AdminController {
 		
 		String adminUrl = "goodsManage";
 		
+		mm.addAttribute("brands", brandMapper.brandList());
+		mm.addAttribute("categories", cateMapper.categoriesList());
 		mm.addAttribute("bags", bagsMapper.allBagsList());
+		mm.addAttribute("adminService", adminUrl);
+		return "admin/template";
+	}
+	
+	// 상품 관리
+	@GetMapping("addGoods")
+	String addGoods(Model mm) {
+		
+		String adminUrl = "addGoods";
+		
+		mm.addAttribute("brands", brandMapper.brandList());
+		mm.addAttribute("categories", cateMapper.categoriesList());
+		mm.addAttribute("type",typeMapper.typeList());
 		mm.addAttribute("adminService", adminUrl);
 		return "admin/template";
 	}

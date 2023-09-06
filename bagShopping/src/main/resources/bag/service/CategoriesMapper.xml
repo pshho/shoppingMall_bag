@@ -7,7 +7,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		select * from categories
 	</select>
 	<select id="maxCatCode" resultType="Integer">
-		select max(categories_code) from categories
+		select max(category_code) from categories
 	</select>
 	<select id="categoryName" resultType="catDTO">
 		select distinct(category_name) from categories

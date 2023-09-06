@@ -7,6 +7,6 @@ import lombok.Data;
 @Alias("catDTO")
 @Data
 public class CategoriesDTO {
-	int categoriesId, categoriesCode;
-	String category, categoryName;
+	int categoriesId;
+	String categoriesName;
 }

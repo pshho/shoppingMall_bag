@@ -10,6 +10,9 @@
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 	<script>
 		function memberList(member) {
+			if (!confirm('정말로 삭제하시겠습니까?')) {
+				return false;
+			}
 			$.ajax({
 				url: "deleteMember",
 				type: "post",
@@ -18,7 +21,7 @@
 				success: function (result) {
 					if (result > 0) {
 						window.alert("삭제 되었습니다.")
-						window.location.href='memberManage'
+						window.location.href = 'memberManage'
 					} else {
 						window.alert("삭제 실패.")
 					}
@@ -27,6 +30,11 @@
 					alert("요청 실패");
 				}
 			})
+		}
+		
+		function deleteCategoryButton() {
+			console.log()
+			
 		}
 
 	</script>
