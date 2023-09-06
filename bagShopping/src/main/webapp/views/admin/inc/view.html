@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>admin</title>
+</head>
+<body>
+	<th:block th:replace="header/header" />
+	<th:block th:replace="|admin/inc/${adminService}|"/>
+	<th:block th:replace="footer/footer" />
+</body>
+
+</html>

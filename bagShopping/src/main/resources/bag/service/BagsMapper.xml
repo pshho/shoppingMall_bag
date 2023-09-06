@@ -14,6 +14,10 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
+
+	<select id="allBagsList">
+		select * from bags
+
 	<select id="bags" resultType="bagDTO">
 		select bags.* from bags inner join products_board on products_board.product_code = bags.product_code
 		<where>
@@ -22,7 +26,8 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
-	<select id="cartBags" resultType="bagDTO">
+	
+  <select id="cartBags" resultType="bagDTO">
 		select bags.* from bags inner join cart on cart.product_code = bags.product_code
 		<where>
 			<if test="memberId!=null">
@@ -30,4 +35,5 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
+    
 </mapper>
