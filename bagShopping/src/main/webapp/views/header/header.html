@@ -17,11 +17,11 @@
 	</ul>
 </div>
 <div th:each="num:${#numbers.sequence(1, maxCatCode)}">
-	<h3 th:text="${categoryName[num-1].categoryName}"></h3>
+	<h3 th:text="${categoriesName[num-1].categoriesName}"></h3>
 	<ul>
 		<li th:each="cate:${categoriesList}"
 		th:if="${cate.categoriesCode eq num}">
-			<a th:href="|/shopping/shoppingList/0/${cate.categoriesId}/${cate.categoriesCode}/1|"
+			<a th:href="|/shopping/shoppingList/0/${cate.categoriesId}/${cate.categoriesId}/1|"
 			th:text="${cate.category}"></a>
 		</li>
 	</ul>

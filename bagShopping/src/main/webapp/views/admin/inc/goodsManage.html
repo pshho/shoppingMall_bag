@@ -7,6 +7,55 @@
 <body>
 <h2>상품 관리</h2>
 <a href="adminMain">뒤로</a>
-[[${bags}]]
+<a href="addGoods">상품 추가</a>
+<table border="">
+	<tr>
+		<td>상품코드</td>
+		<td>카테고리</td>
+		<td>타입</td>
+		<td>브랜드</td>
+		<td>상품명</td>
+		<td>가격</td>
+		<td>너비</td>
+		<td>높이</td>
+		<td>깊이</td>
+		<td>용량</td>
+		<td>무게</td>
+		<td>겉감</td>
+		<td>안감</td>
+		<td>지퍼</td>
+		<td>버클</td>
+		<td>재고</td>
+		<td>상품설명</td>
+		<td colspan="2" align="center">관리</td>
+	</tr>
+	<tr th:each="bag : ${bags}">
+		<td th:text="${bag.productCode}"/>
+		<th:block th:each="category : ${categories}" th:if="${category.categoriesId == bag.categoriesId}">
+		<td th:text="${category.categoriesName}"/>
+		</th:block>
+		<th:block th:each="type : ${types}" th:if="${type.typeId == bag.typeId}">
+		<td th:text="${type.typeName}"/>
+		</th:block>
+		<th:block th:each="brand : ${brands}" th:if="${brand.brandId == bag.brandId}">
+		<td th:text="${brand.brandName}"/>
+		</th:block>
+		<td th:text="${bag.bagName}"/>
+		<td th:text="${bag.bagPrice}"/>
+		<td th:text="${bag.bagSizeW}"/>
+		<td th:text="${bag.bagSizeH}"/>
+		<td th:text="${bag.bagSizeD}"/>
+		<td th:text="${bag.bagCapacity}"/>
+		<td th:text="${bag.bagWeight}"/>
+		<td th:text="${bag.bagOuterFabric}"/>
+		<td th:text="${bag.bagInnerFabric}"/>
+		<td th:text="${bag.bagZipper}"/>
+		<td th:text="${bag.bagBuckle}"/>
+		<td th:text="${bag.bagStock}"/>
+		<td th:text="${bag.bagComment}"/>
+		<td><a href="">수정</a></td>
+		<td><a href="">삭제</a></td>
+	</tr>
+</table>
 </body>
 </html>

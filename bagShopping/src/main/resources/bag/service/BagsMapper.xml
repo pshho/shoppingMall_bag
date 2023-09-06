@@ -17,6 +17,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 
 	<select id="allBagsList">
 		select * from bags
+	</select>
 
 	<select id="bags" resultType="bagDTO">
 		select bags.* from bags inner join products_board on products_board.product_code = bags.product_code

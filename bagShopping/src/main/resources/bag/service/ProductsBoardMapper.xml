@@ -3,6 +3,7 @@
 PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bag.service.ProductsBoardMapper">
+	
 	<select id="productsBoardList" resultType="prbDTO">
 		select * from products_board
 		<where>
@@ -17,6 +18,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
+	
 	<select id="productsBoard" resultType="prbDTO">
 		select * from products_board
 		<where>
@@ -25,4 +27,5 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
+	
 </mapper>
