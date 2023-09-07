@@ -8,7 +8,7 @@
 	<script src="https://code.jquery.com/jquery-3.7.1.min.js"
 		integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-	<script>
+	<script th:inline="javascript">
 		function memberList(member) {
 			if (!confirm('정말로 삭제하시겠습니까?')) {
 				return false;
@@ -30,11 +30,6 @@
 					alert("요청 실패");
 				}
 			})
-		}
-		
-		function deleteCategoryButton() {
-			console.log()
-			
 		}
 
 	</script>

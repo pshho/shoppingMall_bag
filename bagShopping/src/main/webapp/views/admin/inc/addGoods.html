@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns="http://thymeleaf.org">
 <head>
 <meta charset="UTF-8">
 <title>상품 추가</title>
@@ -15,9 +15,9 @@
 		<tr>
 			<td>카테고리</td>
 			<td>
-				<select id="categoryName">
+				<select name="categoriesName">
 					<th:block th:each="category : ${categories}">
-					<option th:text="${category.categoryName}"></option>
+					<option th:text="${category.categoriesName}"></option>
 					</th:block>
 				</select>
 				<button type="button" 
@@ -33,9 +33,9 @@
 		<tr>
 			<td>타입</td>
 			<td>
-				<select id="category">
-					<th:block th:each="category : ${categories}">
-					<option th:text="${category.category}"></option>
+				<select name="typeName">
+					<th:block th:each="type : ${types}">
+					<option th:text="${type.typeName}"></option>
 					</th:block>
 				</select>
 				<button type="button" 
@@ -51,13 +51,19 @@
 		<tr>
 			<td>브랜드명</td>
 			<td>
-				<select name="brandId">
+				<select name="brandName">
 					<th:block th:each="brand : ${brands}">
 					<option th:text="${brand.brandName}"></option>
 					</th:block>
 				</select>
-				<button type="button" id="addBrand" onclick="addBrandButton()">브랜드 추가</button>
-				<button type="button" id="deleteBrand" onclick="deleteBrandButton()">브랜드 삭제</button>
+				<button type="button" 
+				id="addBrand" 
+				onclick="addBrandButton()"
+				th:text="|브랜드 추가|"/>
+				<button type="button" 
+				id="deleteBrand" 
+				onclick="deleteBrandButton()"
+				th:text="|브랜드 삭제|"/>
 			</td>
 		</tr>
 		<tr>
@@ -110,23 +116,23 @@
 		</tr>
 		<tr>
 			<td>상품 설명</td>
-			<td><textarea name="sizeGuide" cols="30" rows="10"></textarea></td>
+			<td><textarea name="bagComment" cols="30" rows="10"></textarea></td>
 		</tr>
 		<tr>
 			<td>이미지1</td>
-			<td><input type="file" name="bagImg1" /></td>
+			<td><input type="file" name="Img1" /></td>
 		</tr>
 		<tr>
 			<td>이미지2</td>
-			<td><input type="file" name="bagImg2" /></td>
+			<td><input type="file" name="Img2" /></td>
 		</tr>
 		<tr>
 			<td>이미지3</td>
-			<td><input type="file" name="bagImg3" /></td>
+			<td><input type="file" name="Img3" /></td>
 		</tr>
 		<tr>
 			<td>이미지4</td>
-			<td><input type="file" name="bagImg4" /></td>
+			<td><input type="file" name="Img4" /></td>
 		</tr>
 		<tr>
 			<td colspan="2">

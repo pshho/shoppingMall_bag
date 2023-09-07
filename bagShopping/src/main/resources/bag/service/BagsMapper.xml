@@ -3,8 +3,35 @@
 PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bag.service.BagsMapper">
+	<update id="deleteImg1">
+		update bags set bag_img1 = "" where product_code = #{productCode}
+	</update>
+	<update id="deleteImg2">
+		update bags set bag_img2 = "" where product_code = #{productCode}
+	</update>
+	<update id="deleteImg3">
+		update bags set bag_img3 = "" where product_code = #{productCode}
+	</update>
+	<update id="deleteImg4">
+		update bags set bag_img4 = "" where product_code = #{productCode}
+	</update>
+	
+	<select id="getImg1" resultType="Integer">
+		select bag_img1 from bags where product_code = #{productCode}
+	</select>
+	<select id="getImg2" resultType="Integer">
+		select bag_img2 from bags where product_code = #{productCode}
+	</select>
+	<select id="getImg3" resultType="Integer">
+		select bag_img3 from bags where product_code = #{productCode}
+	</select>
+	<select id="getImg4" resultType="Integer">
+		select bag_img4 from bags where product_code = #{productCode}
+	</select>
+
 	<select id="bagsList" resultType="bagDTO">
-		select bags.* from bags inner join products_board on products_board.product_code = bags.product_code
+		select bags.* from bags inner join products_board on
+		products_board.product_code = bags.product_code
 		<where>
 			<if test="brandId!=0">
 				products_board.brand_id = #{brandId}
@@ -23,22 +50,25 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	</select>
 
 	<select id="bags" resultType="bagDTO">
-		select bags.* from bags inner join products_board on products_board.product_code = bags.product_code
+		select bags.* from bags inner join products_board on
+		products_board.product_code = bags.product_code
 		<where>
 			<if test="productsBoardId!=0">
 				products_board.products_board_id = #{productsBoardId}
 			</if>
 		</where>
 	</select>
+	
 	<select id="cartBags" resultType="bagDTO">
-		select bags.* from bags inner join cart on cart.product_code = bags.product_code
+		select bags.* from bags inner join cart on cart.product_code =
+		bags.product_code
 		<where>
 			<if test="memberId!=null">
 				member_id = #{memberId}
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="productsBoardBag" resultType="bagDTO">
 		select * from bags
 		<where>
@@ -47,5 +77,123 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
-    
+
+	<select id="detailBag" resultType="bagDTO">
+		select * from bags
+		<where>
+			<if test="productCode != null">
+				product_code = #{productCode}
+			</if>
+		</where>
+	</select>
+
+	<insert id="insertBag" parameterType="bagDTO">
+		<include refid="case_of_insert_bag" />
+	</insert>
+
+	<sql id="case_of_insert_bag">
+		<choose>
+			<when test="bagImg1 != null and bagImg2 != null and bagImg3 != null and bagImg4 != null">
+				insert into bags
+				(product_code, brand_id, categories_id,
+				type_id, bag_name, bag_price,
+				bag_size_w, bag_size_h, bag_size_d,
+				bag_capacity, bag_weight, bag_outer_fabric, bag_inner_fabric,
+				bag_zipper,
+				bag_buckle, bag_stock, bag_comment, bags_production_day,
+				bag_img1,
+				bag_img2, bag_img3, bag_img4)
+				values
+				(#{productCode},
+				#{brandId}, #{categoriesId}, #{typeId},
+				#{bagName}, #{bagPrice},
+				#{bagSizeW}, #{bagSizeH},
+				#{bagSizeD}, #{bagCapacity}, #{bagWeight},
+				#{bagOuterFabric},
+				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
+				#{bagStock},
+				#{bagComment}, sysdate(), #{bagImg1}, #{bagImg2},
+				#{bagImg3}, #{bagImg4})
+			</when>
+			<when test="bagImg1 != null and bagImg2 != null and bagImg3 != null">
+				insert into bags
+				(product_code, brand_id, categories_id,
+				type_id, bag_name, bag_price,
+				bag_size_w, bag_size_h, bag_size_d,
+				bag_capacity, bag_weight, bag_outer_fabric, bag_inner_fabric,
+				bag_zipper,
+				bag_buckle, bag_stock, bag_comment, bags_production_day,
+				bag_img1,
+				bag_img2, bag_img3)
+				values
+				(#{productCode},
+				#{brandId}, #{categoriesId}, #{typeId},
+				#{bagName}, #{bagPrice},
+				#{bagSizeW}, #{bagSizeH},
+				#{bagSizeD}, #{bagCapacity}, #{bagWeight},
+				#{bagOuterFabric},
+				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
+				#{bagStock},
+				#{bagComment}, sysdate(), #{bagImg1}, #{bagImg2},
+				#{bagImg3})
+			</when>
+			<when test="bagImg1 != null and bagImg2 != null">
+				insert into bags
+				(product_code, brand_id, categories_id,
+				type_id, bag_name, bag_price,
+				bag_size_w, bag_size_h, bag_size_d,
+				bag_capacity, bag_weight, bag_outer_fabric, bag_inner_fabric,
+				bag_zipper,
+				bag_buckle, bag_stock, bag_comment, bags_production_day,
+				bag_img1, bag_img2)
+				values
+				(#{productCode},
+				#{brandId}, #{categoriesId}, #{typeId},
+				#{bagName}, #{bagPrice},
+				#{bagSizeW}, #{bagSizeH},
+				#{bagSizeD}, #{bagCapacity}, #{bagWeight},
+				#{bagOuterFabric},
+				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
+				#{bagStock},
+				#{bagComment}, sysdate(), #{bagImg1}, #{bagImg2})
+			</when>
+			<when test="bagImg1 != null">
+				insert into bags
+				(product_code, brand_id, categories_id,
+				type_id, bag_name, bag_price,
+				bag_size_w, bag_size_h, bag_size_d,
+				bag_capacity, bag_weight, bag_outer_fabric, bag_inner_fabric,
+				bag_zipper,
+				bag_buckle, bag_stock, bag_comment, bags_production_day,
+				bag_img1)
+				values
+				(#{productCode},
+				#{brandId}, #{categoriesId}, #{typeId},
+				#{bagName}, #{bagPrice},
+				#{bagSizeW}, #{bagSizeH},
+				#{bagSizeD}, #{bagCapacity}, #{bagWeight},
+				#{bagOuterFabric},
+				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
+				#{bagStock},
+				#{bagComment}, sysdate(), #{bagImg1})
+			</when>
+			<otherwise>
+				insert into bags
+				(product_code, brand_id, categories_id,
+				type_id, bag_name, bag_price,
+				bag_size_w, bag_size_h, bag_size_d,
+				bag_capacity, bag_weight, bag_outer_fabric, bag_inner_fabric,
+				bag_zipper,
+				bag_buckle, bag_stock, bag_comment, bags_production_day)
+				values
+				(#{productCode}, #{brandId}, #{categoriesId}, #{typeId},
+				#{bagName}, #{bagPrice}, #{bagSizeW}, #{bagSizeH},
+				#{bagSizeD},
+				#{bagCapacity}, #{bagWeight}, #{bagOuterFabric},
+				#{bagInnerFabric},
+				#{bagZipper}, #{bagBuckle}, #{bagStock},
+				#{bagComment}, sysdate())
+			</otherwise>
+		</choose>
+	</sql>
 </mapper>

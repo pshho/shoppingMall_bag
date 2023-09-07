@@ -7,7 +7,7 @@ import lombok.Data;
 @Alias("fDTO")
 @Data
 public class FileDTO {
-	int fileId, productsBoardId, noticeId, inquiryId;
+	int fileId, productsBoardId, noticeId, inquiryId, productCode;
 	String files, memberId;
 	boolean complete;
 }
