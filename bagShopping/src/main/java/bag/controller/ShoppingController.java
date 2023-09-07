@@ -68,10 +68,10 @@ public class ShoppingController {
 		String memberId = (String)session.getAttribute("userId");
 		CartDTO cart = new CartDTO();
 		cartList = cartMapper.cartList(memberId);
-		total = cart.sumTotal(cartList);
+		cart.sumTotal(cartList);
 		mav.addObject("cartBags", bagMapper.cartBags(memberId));
 		mav.addObject("cartList", cartList);
-		mav.addObject("total", total);
+		mav.addObject("total", cart.getSumTotal());
 		mav.addObject("bagsList", bagMapper.allBagsList());
 		return mav;
 	}
@@ -117,7 +117,8 @@ public class ShoppingController {
 	
 	@PostMapping("shoppingCart")
 	@ResponseBody
-	Object cart(HttpSession session, @RequestBody Map<String, Integer> bagsAmount) {
+	Map<String, String> cart(HttpSession session, @RequestBody Map<String, Integer> bagsAmount) {
+		Map<String, String> msg = new HashMap<>();
 		String memberId = (String)session.getAttribute("userId");
 		int length = cartMapper.cartList(memberId).size();
 		CartDTO cart = new CartDTO();
@@ -134,7 +135,10 @@ public class ShoppingController {
 		}else {
 			cartMapper.addCart(cart);
 		}
-		return cart;
+		msg.put("msg", "장바구니 추가");
+		msg.put("url", "/shopping/shoppingCart");
+		msg.put("cartCount", cartMapper.cartCount(memberId)+"");
+		return msg;
 	}
 	
 	@PostMapping("shoppingCartChange")
@@ -147,10 +151,10 @@ public class ShoppingController {
 		cart.setSumPrice(cartAmount.get("price")*cartAmount.get("cartAmount"));
 		cartMapper.changeCart(cart);
 		cartList = cartMapper.cartList(memberId);
-		total = cart.sumTotal(cartList);
+		cart.sumTotal(cartList);
 		LinkedHashMap<String, Integer> calc = new LinkedHashMap<>(); 
 		calc.put("sumPrice", cart.getSumPrice());
-		calc.put("total", total);
+		calc.put("total", cart.getSumTotal());
 		return calc;
 	}
 	

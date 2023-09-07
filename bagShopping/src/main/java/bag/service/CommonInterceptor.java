@@ -30,13 +30,12 @@ public class CommonInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		HttpSession session = request.getSession(false);
-		
 		if(modelAndView != null) {
 			modelAndView.addObject("brandList", bMapper.brandList());
 			modelAndView.addObject("categoriesList", catMapper.categoriesList());
 			modelAndView.addObject("typeList", typeMapper.typeList());
 			
-			if(session!= null) {
+			if(session != null) {
 				userId = (String)session.getAttribute("userId");
 				modelAndView.addObject("cartCount", cartMapper.cartCount(userId));
 			}
