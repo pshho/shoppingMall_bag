@@ -9,14 +9,13 @@ import lombok.Data;
 @Alias("cartDTO")
 @Data
 public class CartDTO {
-	int cartId, productCode, productsCount, sumPrice;
+	int cartId, productCode, productsCount, sumPrice, sumTotal;
 	String memberId;
-	
-	public int sumTotal(List<CartDTO> cartList) {
-		int total = 0;
+
+	public void sumTotal(List<CartDTO> cartList) {
+		sumTotal = 0;
 		for(CartDTO cart : cartList) {
-			total += cart.getSumPrice();
+			sumTotal += cart.getSumPrice();
 		}
-		return total;
 	}
 }

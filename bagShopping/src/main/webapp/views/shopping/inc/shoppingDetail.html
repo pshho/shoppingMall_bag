@@ -117,7 +117,7 @@ th:text="${cate.categoriesName}"></h1>
 				<tr>
 					<td colspan="3">
 						<button type="button" onclick="cartAdd()">장바구니</button>
-						<button type="button">바로구매</button>
+						<a href="/orders/orders">바로구매</a>
 					</td>
 				</tr>
 			</th:block>
@@ -257,6 +257,14 @@ th:text="${cate.categoriesName}"></h1>
 		})
 	})
 	
+	function confirmation(msg, url, cartCount){
+		if(confirm(msg+'\n장바구니로 이동하시겠습니까?')){
+			location.href=url;
+		}else {
+			$('#cartLink').text('장바구니('+cartCount+')');
+		}
+	}
+	
 	function cartAdd(){
 		let bagsAmount = null;
 		if(!isNaN($('#bagsAmount').val())){
@@ -277,7 +285,7 @@ th:text="${cate.categoriesName}"></h1>
 			dataType : 'json',
 			data : JSON.stringify(params),
 			success : function(res){
-				alert('장바구니 추가');
+				confirmation(res.msg, res.url, res.cartCount);
 			},
 			error : function(error){
 				console.log(error);

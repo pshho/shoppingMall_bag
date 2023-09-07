@@ -1,19 +1,21 @@
 <html xmlns="http://www.thymeleaf.org">
 <table border="">
 	<tr>
-		<td colspan="5">
+		<td colspan="6">
 			<h1>장바구니</h1>
 		</td>
 	</tr>
 	<th:block th:if="${cartList != null and #arrays.length(cartList) != 0}">
 		<tr>
-			<td>상품명</td>
 			<td>상품이미지</td>
+			<td>상품명</td>
+			<td>배송비</td>
 			<td>수량</td>
 			<td>합산 금액</td>
 			<td>삭제</td>
 		</tr>
 		<tr th:each="cart,no:${cartList}">
+			<td></td>
 			<td th:text="${cartBags[no.index].bagName}"></td>
 			<td></td>
 			<td>
@@ -37,14 +39,19 @@
 		</tr>
 		<tr>
 			<td>전체 금액</td>
-			<td colspan="4">
+			<td colspan="5">
 				<input type="text" th:value="${total}" id="total" readonly />
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+				<a href="/orders/orders">구매</a>
 			</td>
 		</tr>
 	</th:block>
 	<th:block th:unless="${cartList != null and #arrays.length(cartList) != 0}">
 		<tr>
-			<td colspan="5">
+			<td colspan="6">
 				장바구니가 비었습니다.<br />
 				상품을 추가해주세요!
 			</td>

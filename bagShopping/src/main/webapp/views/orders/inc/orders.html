@@ -1,0 +1,302 @@
+<html xmlns="http://www.thymeleaf.org">
+<form action="" method="post">
+	<div>
+		<table border="">
+			<tr>
+				<td colspan="5">
+					<h3>주문 목록</h3>
+				</td>
+			</tr>
+			<tr>
+				<td>상품이미지</td>
+				<td>상품명</td>
+				<td>배송비</td>
+				<td>수량</td>
+				<td>합산 금액</td>
+			</tr>
+			<tr th:each="cart,no:${cartList}">
+				<td></td>
+				<td th:text="${cartBags[no.index].bagName}"></td>
+				<td></td>
+				<td th:text="${cart.productsCount}"></td>
+				<td th:text="${cart.sumPrice}"></td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<table border="">
+			<tr>
+				<td>
+					<h3>주문자 정보</h3>
+				</td>
+			</tr>
+			<th:block th:if="${user!=null}">
+				<tr>
+					<td th:text="${user.memberName}"></td>
+				</tr>
+				<tr>
+					<td th:text="${user.memberPhone}">연락처</td>
+				</tr>
+				<tr>
+					<td th:text="${user.memberEmail}">이메일</td>
+				</tr>
+			</th:block>
+		</table>
+	</div>
+	<div>
+		<table border="">
+			<tr>
+				<td colspan="3">
+					<h3>배송지 정보</h3>
+				</td>
+			</tr>
+			<tr>
+				<td>배송지 선택</td>
+				<td>
+					<label for="origAddr">
+						<input type="radio" name="addr" id="origAddr" checked />
+						기본배송지
+					</label>
+					<label for="newAddr">
+						<input type="radio" name="addr" id="newAddr" />
+						신규배송지
+					</label>
+				</td>
+				<td>
+					<button type="button" onclick="addressList()">배송지 목록</button>
+				</td>
+			</tr>
+			<tr id="addrName"></tr>
+			<tr id="addrPhone"></tr>
+			<tr id="addrAddr"></tr>
+			<tr id="prodName"></tr>
+			<tr>
+				<td colspan="3" class="shipInfo">
+					<input type="text" name="addressMsg" placeholder="배송 요청사항을 직접 입력합니다" id="shipReq" />
+					<select id="shipSel">
+						<option value="배송 전 연락바랍니다">배송 전 연락바랍니다</option>
+						<option value="부재 시 경비실에 맡겨주세요">부재 시 경비실에 맡겨주세요</option>
+						<option value="부재 시 문자나 전화주세요">부재 시 문자나 전화주세요</option>
+						<option th:each="addr:${addrList}" th:if="${addr.addressMsg != null}"
+						th:value="${addr.addressMsg}" th:text="|(사용한 요청사항) ${addr.addressMsg}|"></option>
+					</select>
+				</td>
+			</tr>
+		</table>
+	</div>
+	<div>
+		<table border="">
+			<tr>
+				<td>
+					<h3>결제수단</h3>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					<input type="submit" value="결제하기" />
+				</td>
+			</tr>
+		</table>
+	</div>
+</form>
+<script th:inline="javascript">
+	const userName = [[${user.memberName}]];
+	const phone = [[${user.memberPhone}]];
+	const zipcode = [[${address.zipCode}]];
+	const address = [[${address.address}]];
+	const detailAddr = [[${address.detailAddress}]];
+	const prod = [[${cartBags[0].bagName}]];
+	const prodSize = [[${#arrays.length(cartBags)}]];
+	const phones = ['010', '011', '016', '017', '019'];
+	const addrList = [[${addrList}]];
+	
+	$(document).ready(function(){
+		
+		if($('#origAddr').is(':checked')){
+			$('#addrName').empty();
+			$('#addrName').append('<td colspan="3">'+userName+'</td>');
+			$('#addrPhone').empty();
+			$('#addrPhone').append('<td colspan="3">'+phone+'</td>');
+			$('#addrAddr').empty();
+			$('#addrAddr').append('<td colspan="2">('+zipcode+') '+
+				address+' '+detailAddr+'</td>')
+				.append('<td><input type="button" onclick="changeAddr()" value="정보수정" /></td>');
+			$('#prodName').empty();
+			if(prodSize === 1){
+				$('#prodName').append('<td colspan="3">'+prod+'</td>');
+			}else {
+				$('#prodName').append('<td colspan="3">'+prod+
+					' 외 '+prodSize+'건</td>');
+			}
+		}
+		
+		$('#origAddr').change(function(){
+			$('#addrName').empty();
+			$('#addrName').append('<td colspan="3">'+userName+'</td>');
+			$('#addrPhone').empty();
+			$('#addrPhone').append('<td colspan="3">'+phone+'</td>');
+			$('#addrAddr').empty();
+			$('#addrAddr').append('<td colspan="2">('+zipcode+') '+
+				address+' '+detailAddr+'</td>')
+				.append('<td><input type="button" onclick="changeAddr()" value="정보수정" /></td>');
+			$('#prodName').empty();
+			if(prodSize === 1){
+				$('#prodName').append('<td colspan="3">'+prod+'</td>');
+			}else {
+				$('#prodName').append('<td colspan="3">'+prod+
+					' 외 '+prodSize+'건</td>');
+			}
+		})
+		
+		$('#newAddr').change(function(){
+			$('#addrName').empty();
+			$('#addrName').append('<td>수령인</td>')
+			.append('<td colspan="2"><input type="text" name="addrName" />')
+			$('#addrPhone').empty();
+			let htmlCode = '<td>연락처</td><td colspan="2"><select id="phone1" name="phone1">';
+			phones.forEach(function(item, no){
+				htmlCode += '<option>'+item+'</option>';
+			})
+			htmlCode += '</select> - <input type="text" id="phone2" name="phone2"/>'+
+					' - <input type="text" id="phone3" name="phone3"/></td>';
+			$('#addrPhone').append(htmlCode);
+			$('#addrAddr').empty();
+			let htmlCode2 = '<td>배송주소</td>';
+			htmlCode2 += '<td><input type="text" id="zipCode" name="zipCode" placeholder="우편번호" readonly/>';
+			htmlCode2 += '<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" /><br />';
+			htmlCode2 += '<input type="text" id="address" name="address" placeholder="도로명주소" readonly /><br />';
+			htmlCode2 += '<input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" /><br />';
+			htmlCode2 += '<td><label><input type="checkbox" name="basicAddr" value="1">기본배송지로 선택</label></td>';
+			$('#addrAddr').append(htmlCode2);
+			$('#prodName').empty();
+			if(prodSize === 1){
+				$('#prodName').append('<td colspan="3">'+prod+'</td>');
+			}else {
+				$('#prodName').append('<td colspan="3">'+prod+
+					' 외 '+prodSize+'건</td>');
+			}
+		})
+		
+		let table = '<table id="orderFrame" border=""><tr><td colspan="6"><h3>배송지 목록</h3></td></tr>' + 
+		'<tr><td>수령인</td><td>연락처</td><td>우편번호</td><td>주소</td><td>상세주소</td><td>배송지 선택</td></tr>';
+		addrList.forEach(function(item){
+			table += '<tr><td>' + item.addrName + '</td>';
+			table += '<td>' + item.addressPhone + '</td>';
+			table += '<td>' + item.zipCode + '</td>';
+			table += '<td>' + item.address + '</td>';
+			table += '<td>' + item.detailAddress + '</td>';
+			table += '<td><input type="button" onclick="changeAddr(' + item.addressId + ')" value="선택" /></td>';
+		})
+		table += '</tr></table>';
+		$('body').append(table);
+		
+		$('#shipReq').click(function(e){
+			e.stopPropagation();
+			$('#shipSel').css('display', 'block');
+			$('#shipSel').attr("size", $('#shipSel').find("option").length);
+		})
+		
+		$('#shipSel').click(function(){
+			$('#shipReq').val($('#shipSel').val());
+		})
+		
+		$('body').on("click", function(){
+			$('#shipSel').css('display', 'none');
+		})
+	})
+	
+	// 주소 입력부
+	function execDaumPostcode() {
+		new daum.Postcode({
+			oncomplete: function (data) {
+				// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+				// 각 주소의 노출 규칙에 따라 주소를 조합한다.
+				// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+				var addr = ''; // 주소 변수
+				var extraAddr = ''; // 참고항목 변수
+
+				//사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+				if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
+					addr = data.roadAddress;
+				} else { // 사용자가 지번 주소를 선택했을 경우(J)
+					addr = data.jibunAddress;
+				}
+
+				// 사용자가 선택한 주소가 도로명 타입일때 참고항목을 조합한다.
+				if (data.userSelectedType === 'R') {
+					// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+					// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+					if (data.bname !== '' && /[동|로|가]$/g.test(data.bname)) {
+						extraAddr += data.bname;
+					}
+					// 건물명이 있고, 공동주택일 경우 추가한다.
+					if (data.buildingName !== '' && data.apartment === 'Y') {
+						extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+					}
+
+				}
+
+				// 우편번호와 주소 정보를 해당 필드에 넣는다.
+				document.getElementById('zipCode').value = data.zonecode;
+				document.getElementById("address").value = addr;
+				// 커서를 상세주소 필드로 이동한다.
+				document.getElementById("detailAddress").focus();
+			}
+		}).open();
+	}
+	
+	function changeAddr(){
+		let phone1 = phone.substring(0, 3);
+		let phone2 = null;
+		let phone3 = null;
+		$('#newAddr').prop('checked', true);
+		$('#addrName').empty();
+		$('#addrName').append('<td>수령인</td>')
+		.append('<td colspan="2"><input type="text" name="addrName" value="'+userName+'" />')
+		
+		if(phone.length === 11){
+			phone2 = phone.substring(3, 7);
+			phone3 = phone.substring(7, 11);
+		}else if(phone.length === 10){
+			phone2 = phone.substring(3, 6);
+			phone3 = phone.substring(6, 10);
+		}
+		
+		$('#addrPhone').empty();
+		let htmlCode = '<td>연락처</td><td colspan="2"><select id="phone1" name="phone1">';
+		phones.forEach(function(item, no){
+			if(item===phone1){
+				htmlCode += '<option selected>'+item+'</option>';
+			}else{
+				htmlCode += '<option>'+item+'</option>';
+			}
+		})
+		htmlCode += '</select> - <input type="text" id="phone2" name="phone2"/>'+
+				' - <input type="text" id="phone3" name="phone3"/></td>';
+		$('#addrPhone').append(htmlCode);
+		$('#addrAddr').empty();
+		let htmlCode2 = '<td>배송주소</td>';
+		htmlCode2 += '<td><input type="text" id="zipCode" name="zipCode" placeholder="우편번호" value="'+zipcode+'" readonly/>';
+		htmlCode2 += '<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" /><br />';
+		htmlCode2 += '<input type="text" id="address" name="address" value="'+address+'" placeholder="도로명주소" readonly /><br />';
+		htmlCode2 += '<input type="text" id="detailAddress" name="detailAddress" value="'+detailAddr+'" placeholder="상세주소" /><br />';
+		htmlCode2 += '<td><label><input type="checkbox" name="basicAddr" value="1">기본배송지로 선택</label></td>';
+		$('#addrAddr').append(htmlCode2);
+		$('#prodName').empty();
+		if(prodSize === 1){
+			$('#prodName').append('<td colspan="3">'+prod+'</td>');
+		}else {
+			$('#prodName').append('<td colspan="3">'+prod+
+				' 외 '+prodSize+'건</td>');
+		}
+	}
+	
+	function addressList(){
+		$('#orderFrame').css('display', 'block');
+	}
+	
+	function removeList(){
+		$('#orderFrame').css('display', 'none');
+	}
+</script>

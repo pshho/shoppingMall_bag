@@ -31,7 +31,7 @@
 		<li>
 			<a href="/shopping/shoppingCart" 
 			th:if="${cartCount != null and cartCount != 0}" 
-			th:text="|장바구니(${cartCount})|"></a>
+			th:text="|장바구니(${cartCount})|" id="cartLink"></a>
 			<a href="/shopping/shoppingCart" 
 			th:unless="${cartCount != null and cartCount != 0}">장바구니</a>
 		</li>

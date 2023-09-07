@@ -63,7 +63,10 @@ public class MemberController {
 			mdto.setMemberPhone(mdto.getPhone1() + mdto.getPhone2() + mdto.getPhone3());
 			signUp = memMapper.insertMember(mdto);
 			// adto 에 member 조회용으로 사용할 memberId 추가
+			adto.setBasicAddr(1);
 			adto.setMemberId(mdto.getMemberId());
+			adto.setAddressPhone(mdto.getMemberPhone());
+			adto.setAddrName(mdto.getMemberName());
 			address = addrMapper.insertAddress(adto);
 		}
 		// db insert 성공시 가입 환영 메세지와 url 변경

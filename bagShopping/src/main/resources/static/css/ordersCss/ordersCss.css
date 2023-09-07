@@ -1,0 +1,26 @@
+@charset "UTF-8";
+.shipInfo {
+	height: 50px;
+	position: relative;
+}
+#shipReq {
+	width: 98%;
+	position: absolute;
+	top: 0;
+}
+#shipSel {
+	display: none;
+	position: absolute;
+	top: 22px;
+	left: 0;
+	overflow: hidden;
+}
+#orderFrame {
+	display: none;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	z-index: 10;
+	transform: translate(-50%, -50%);
+	background: #eee;
+}

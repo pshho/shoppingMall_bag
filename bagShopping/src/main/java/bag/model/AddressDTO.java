@@ -7,6 +7,7 @@ import lombok.Data;
 @Alias("aDTO")
 @Data
 public class AddressDTO {
-
-	String addressId, zipCode, address, detailAddress, memberId;
+	int basicAddr, addressId;
+	String addrName, zipCode, address, detailAddress, memberId, addressPhone;
+	String phone1, phone2, phone3, addressMsg;
 }
