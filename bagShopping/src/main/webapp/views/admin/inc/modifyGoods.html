@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html xmlns="http://thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>상품 추가</title>
+	<script th:inline="javascript">
+		var productCode = [[${modifyBag.productCode}]]
+		function fileDel1() {
+			if (!confirm('정말로 삭제하시겠습니까?')) {
+				return false;
+			}
+			$.ajax({
+				url: "/admin/deleteImg1",
+				type: "post",
+				data: {productCode: productCode},
+				dataType: 'json',
+				success: function (result) {
+					if (result == 0) {
+						window.alert("삭제 되었습니다.")
+						window.location.href = "/admin/modifyGoods/"+productCode
+					} else {
+						window.alert("삭제 실패.")
+					}
+				},
+				error: function () {
+					alert("요청 실패");
+				}
+			})
+		}
+		function fileDel2() {
+			if (!confirm('정말로 삭제하시겠습니까?')) {
+				return false;
+			}
+			$.ajax({
+				url: "/admin/deleteImg2",
+				type: "post",
+				data: {productCode: productCode},
+				dataType: 'json',
+				success: function (result) {
+					if (result == 0) {
+						window.alert("삭제 되었습니다.")
+						window.location.href = "/admin/modifyGoods/"+productCode
+					} else {
+						window.alert("삭제 실패.")
+					}
+				},
+				error: function () {
+					alert("요청 실패");
+				}
+			})
+		}
+		function fileDel3() {
+			if (!confirm('정말로 삭제하시겠습니까?')) {
+				return false;
+			}
+			$.ajax({
+				url: "/admin/deleteImg3",
+				type: "post",
+				data: {productCode: productCode},
+				dataType: 'json',
+				success: function (result) {
+					if (result == 0) {
+						window.alert("삭제 되었습니다.")
+						window.location.href = "/admin/modifyGoods/"+productCode
+					} else {
+						window.alert("삭제 실패.")
+					}
+				},
+				error: function () {
+					alert("요청 실패");
+				}
+			})
+		}
+		function fileDel4() {
+			console.log("/admin/modifyGoods/"+productCode)
+			if (!confirm('정말로 삭제하시겠습니까?')) {
+				return false;
+			}
+			$.ajax({
+				url: "/admin/deleteImg4",
+				type: "post",
+				data: {productCode: productCode},
+				dataType: 'json',
+				success: function (result) {
+					if (result == 0) {
+						window.alert("삭제 되었습니다.")
+						window.location.href = "/admin/modifyGoods/"+productCode
+					} else {
+						window.alert("삭제 실패.")
+					}
+				},
+				error: function () {
+					alert("요청 실패");
+				}
+			})
+		}
+
+	</script>
+</head>
+
+<body>
+	<h2>상품 추가</h2>
+	<form name="modiForm" method="post" enctype="multipart/form-data">
+		<table border="">
+			<tr>
+				<td>상품코드</td>
+				<td><input type="text" name="productCode" th:value="${modifyBag.productCode}" /></td>
+			</tr>
+			<tr>
+				<td>카테고리</td>
+				<td>
+					<select name="categoriesName" th:selected="${modifyBag.categoriesName}">
+						<th:block th:each="category : ${categories}">
+							<option th:text="${category.categoriesName}"
+								th:selected="${category.categoriesName == modifyBag.categoriesName}" />
+						</th:block>
+					</select>
+					<button type="button" id="addCategory" onclick="addCategoryButton()" th:text="|카테고리 추가|" />
+					<button type="button" id="deleteCategory" onclick="deleteCategoryButton" th:text="|카테고리 삭제|" />
+				</td>
+			</tr>
+			<tr>
+				<td>타입</td>
+				<td>
+					<select name="typeName" th:selected="${modifyBag.typeName}">
+						<th:block th:each="type : ${types}">
+							<option th:text="${type.typeName}" th:selected="${type.typeName == modifyBag.typeName}" />
+						</th:block>
+					</select>
+					<button type="button" id="addType" onclick="addTypeButton()" th:text="|타입 추가|" />
+					<button type="button" id="deleteType" onclick="deleteTypeButton" th:text="|타입 삭제|" />
+				</td>
+			</tr>
+			<tr>
+				<td>브랜드명</td>
+				<td>
+					<select name="brandName">
+						<th:block th:each="brand : ${brands}">
+							<option th:text="${brand.brandName}"
+								th:selected="${brand.brandName == modifyBag.brandName}" />
+						</th:block>
+					</select>
+					<button type="button" id="addBrand" onclick="addBrandButton()" th:text="|브랜드 추가|" />
+					<button type="button" id="deleteBrand" onclick="deleteBrandButton()" th:text="|브랜드 삭제|" />
+				</td>
+			</tr>
+			<tr>
+				<td>상품명</td>
+				<td><input type="text" name="bagName" th:value="${modifyBag.bagName}" /></td>
+			</tr>
+			<tr>
+				<td>가격</td>
+				<td><input type="text" name="bagPrice" th:value="${modifyBag.bagPrice}" /></td>
+			</tr>
+			<tr>
+				<td>너비</td>
+				<td><input type="text" name="bagSizeW" th:value="${modifyBag.bagSizeW}" /></td>
+			</tr>
+			<tr>
+				<td>높이</td>
+				<td><input type="text" name="bagSizeH" th:value="${modifyBag.bagSizeH}" /></td>
+			</tr>
+			<tr>
+				<td>깊이</td>
+				<td><input type="text" name="bagSizeD" th:value="${modifyBag.bagSizeD}" /></td>
+			</tr>
+			<tr>
+				<td>용량</td>
+				<td><input type="text" name="bagCapacity" th:value="${modifyBag.bagCapacity}" /></td>
+			</tr>
+			<tr>
+				<td>무게</td>
+				<td><input type="text" name="bagWeight" th:value="${modifyBag.bagWeight}" /></td>
+			</tr>
+			<tr>
+				<td>겉감</td>
+				<td><input type="text" name="bagOuterFabric" th:value="${modifyBag.bagOuterFabric}" /></td>
+			</tr>
+			<tr>
+				<td>안감</td>
+				<td><input type="text" name="bagInnerFabric" th:value="${modifyBag.bagInnerFabric}" /></td>
+			</tr>
+			<tr>
+				<td>지퍼</td>
+				<td><input type="text" name="bagZipper" th:value="${modifyBag.bagZipper}" /></td>
+			</tr>
+			<tr>
+				<td>버클</td>
+				<td><input type="text" name="bagBuckle" th:value="${modifyBag.bagBuckle}" /></td>
+			</tr>
+			<tr>
+				<td>재고</td>
+				<td><input type="text" name="bagStock" th:value="${modifyBag.bagStock}" /></td>
+			</tr>
+			<tr>
+				<td>상품 설명</td>
+				<td><textarea name="bagComment" cols="30" rows="10" th:value="${modifyBag.bagComment}"></textarea></td>
+			</tr>
+			<tr>
+				<td>이미지1</td>
+				<td th:if="${modifyBag.bagImg1 == null or modifyBag.bagImg1 == ''}"><input type="file" name="Img1" />
+				</td>
+				<td th:unless="${modifyBag.bagImg1 == null or modifyBag.bagImg1 == ''}" id="Img1">
+					[[${modifyBag.bagImg1}]]<input type="hidden" id="bagImg1" name="bagImg1"
+						th:value="${modifyBag.bagImg1}" /><input type="button" value="파일삭제" onclick="fileDel1()" /></td>
+			</tr>
+			<tr>
+				<td>이미지2</td>
+				<td th:if="${modifyBag.bagImg2 == null or modifyBag.bagImg2 == ''}"><input type="file" name="Img2" />
+				</td>
+				<td th:unless="${modifyBag.bagImg2 == null or modifyBag.bagImg2 == ''}" id="Img2">
+					[[${modifyBag.bagImg2}]]<input type="hidden" id="bagImg2" name="bagImg2"
+						th:value="${modifyBag.bagImg2}" /><input type="button" value="파일삭제" onclick="fileDel2()" /></td>
+			</tr>
+			<tr>
+				<td>이미지3</td>
+				<td th:if="${modifyBag.bagImg3 == null or modifyBag.bagImg3 == ''}"><input type="file" name="Img3" />
+				</td>
+				<td th:unless="${modifyBag.bagImg3 == null or modifyBag.bagImg3 == ''}" id="Img3">
+					[[${modifyBag.bagImg3}]]<input type="hidden" id="bagImg3" name="bagImg3"
+						th:value="${modifyBag.bagImg3}" /><input type="button" value="파일삭제" onclick="fileDel3()" /></td>
+			</tr>
+			<tr>
+				<td>이미지4</td>
+				<td th:if="${modifyBag.bagImg4 == null or modifyBag.bagImg4 == ''}"><input type="file" name="Img4" />
+				</td>
+				<td th:unless="${modifyBag.bagImg4 == null or modifyBag.bagImg4 == ''}" id="Img4">
+					[[${modifyBag.bagImg4}]]<input type="hidden" id="bagImg4" name="bagImg4"
+						th:value="${modifyBag.bagImg4}" /><input type="button" value="파일삭제" onclick="fileDel4()" /></td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<input type="submit" value="등록" />
+					<a href="goodsManage">뒤로</a>
+				</td>
+			</tr>
+		</table>
+	</form>
+</body>
+
+</html>

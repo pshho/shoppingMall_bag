@@ -6,4 +6,10 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<select id="typeList" resultType="tDTO">
 		select * from type
 	</select>
+	<select id="getTypeId" parameterType="bagDTO">
+		select type_id from type where type_name = #{typeName}
+	</select>
+	<select id="getTypeName" parameterType="bagDTO">
+		select type_name from type where type_id = #{typeId}
+	</select>
 </mapper>
