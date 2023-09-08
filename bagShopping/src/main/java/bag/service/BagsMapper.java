@@ -11,7 +11,11 @@ import bag.model.PageData2;
 public interface BagsMapper {
 	
 	List<BagsDTO> bagsList(BagsDTO bagDTO);
+
 	List<BagsDTO> allBagsList(PageData2 pd);
+
+	List<BagsDTO> allProducts();
+
 	BagsDTO bags(BagsDTO bagDTO);
 	List<BagsDTO> cartBags(String memberId);
 	BagsDTO productsBoardBag(int productCode);

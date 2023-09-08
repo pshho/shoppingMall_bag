@@ -243,6 +243,7 @@ th:text="${cate.categoriesName}"></h1>
 					type : 'post',
 					contentType : 'application/json; charset=utf-8',
 					dataType : 'json',
+					async : false,
 					data : JSON.stringify(params),
 					success : function(res){
 						bagsTotal.forEach(function(item){
@@ -253,16 +254,15 @@ th:text="${cate.categoriesName}"></h1>
 						console.log(error);
 					}
 				})
-			}, 200);
+			}, 300);
 		})
 	})
 	
 	function confirmation(msg, url, cartCount){
 		if(confirm(msg+'\n장바구니로 이동하시겠습니까?')){
 			location.href=url;
-		}else {
-			$('#cartLink').text('장바구니('+cartCount+')');
 		}
+		$('#cartLink').text('장바구니('+cartCount+')');
 	}
 	
 	function cartAdd(){
@@ -283,6 +283,7 @@ th:text="${cate.categoriesName}"></h1>
 			type : 'post',
 			contentType : 'application/json; charset=utf-8',
 			dataType : 'json',
+			async : false,
 			data : JSON.stringify(params),
 			success : function(res){
 				confirmation(res.msg, res.url, res.cartCount);
