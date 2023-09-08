@@ -72,7 +72,7 @@ public class ShoppingController {
 		mav.addObject("cartBags", bagMapper.cartBags(memberId));
 		mav.addObject("cartList", cartList);
 		mav.addObject("total", cart.getSumTotal());
-		mav.addObject("bagsList", bagMapper.allBagsList());
+		mav.addObject("bagsList", bagMapper.allProducts());
 		return mav;
 	}
 	
@@ -212,7 +212,7 @@ public class ShoppingController {
 		ModelAndView mav = new ModelAndView("shopping/templates");
 		prbDTO.setProductsBoardId(id);
 		mav.addObject("productsBoard", prbMapper.productsBoard(prbDTO));
-		mav.addObject("bagsList", bagMapper.allBagsList());
+		mav.addObject("bagsList", bagMapper.allProducts());
 		return mav;
 	}
 	

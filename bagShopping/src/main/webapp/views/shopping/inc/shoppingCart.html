@@ -58,7 +58,7 @@
 		</tr>
 	</th:block>
 </table>
-<script>
+<script th:inline="javascript">
 	function addAmount(amount, price, cartId){
 		let cartAmount = null;
 		if(!isNaN($('#cartAmount'+cartId).val())){
@@ -176,7 +176,7 @@
 							console.log(error);
 						}
 					})
-				}, 200);
+				}, 300);
 			})
 		})
 	})
@@ -197,7 +197,6 @@
 			type : 'post',
 			contentType : 'application/json; charset=utf-8',
 			dataType : 'json',
-			async : false,
 			data : JSON.stringify(params),
 			success : function(res){
 				alert(res.msg);
