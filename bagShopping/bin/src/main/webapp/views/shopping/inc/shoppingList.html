@@ -1,22 +1,15 @@
 <html xmlns="http://www.thymeleaf.org">
-[[${brandList}]]
-<br />
-<hr />
-[[${categoriesList}]]
-<br />
-<hr />
-[[${bagsList}]]
-<br />
-<hr />
-[[${productsBoardList}]]
-<br />
-<hr />
 <table border="">
+	<tr>
+		<td colspan="4">
+			<h1>상품목록</h1>
+		</td>
+	</tr>
 	<tr th:each="no:${#numbers.sequence(0, 3)}">
 		<td th:each="num:${#numbers.sequence(pd.listStart, pd.listEnd)}"
 		th:if="${num &lt; (1+no)*4 and num &gt;= no*4}">
 			<ul>
-				<a href="">
+				<a th:href="|/shopping/shoppingDetail/${brand}/${category}/${type}/${productsBoardList[num].productsBoardId}|">
 					<li>사진들어갈자리</li>
 					<li th:each="brand:${brandList}"
 					th:if="${brand.brandId eq productsBoardList[num].brandId}"
@@ -30,16 +23,21 @@
 	</tr>
 	<tr>
 		<td colspan="4">
-			<a th:href="|/shopping/shoppingList/${brand}/${category}/${categoriesCode}/1|"><<</a>
-			<a th:href="|/shopping/shoppingList/${brand}/${category}/${categoriesCode}/${pd.pageLJump}|"><</a>
+			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/1|"><<</a>
+			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pd.pageLJump}|"><</a>
 			<a th:each="pageNum:${#numbers.sequence(
 			(pd.pageEnd eq pd.endPage)?(pd.pageEnd-4 le 0)?1:pd.pageEnd-4:pd.pageStart
 			, pd.pageEnd)}"
-			th:href="|/shopping/shoppingList/${brand}/${category}/${categoriesCode}/${pageNum}|"
+			th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pageNum}|"
 			th:text="|${(pd.pageStart eq pageNum) ? '[' + pageNum + ']' : pageNum}|">
 			</a>
-			<a th:href="|/shopping/shoppingList/${brand}/${category}/${categoriesCode}/${pd.pageRJump}|">></a>
-			<a th:href="|/shopping/shoppingList/${brand}/${category}/${categoriesCode}/${pd.endPage}|">>></a>
+			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pd.pageRJump}|">></a>
+			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pd.endPage}|">>></a>
+		</td>
+	</tr>
+	<tr>
+		<td colspan="4" th:if="${session.admin ne null}">
+			<a href="/shopping/shoppingWrite">글작성</a>
 		</td>
 	</tr>
 </table>

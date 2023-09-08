@@ -12,7 +12,7 @@ import lombok.Data;
 @Data
 public class BagsDTO {
 	int productCode, categoriesId, typeId, brandId, bagPrice, bagSizeW, bagSizeH, bagSizeD,
-	bagCapacity, bagWeight, bagStock, productsBoardId, totalPrice, amount, sellsAmount;
+	bagCapacity, bagWeight, bagStock, productsBoardId, totalPrice, amount, sellsAmount,defaultProductCode;
 	
 	String bagName, bagOuterFabric, bagInnerFabric, bagZipper, bagBuckle, bagComment,
 	categoriesName, typeName, brandName, bagImg1, bagImg2, bagImg3, bagImg4;
@@ -22,6 +22,8 @@ public class BagsDTO {
 	Date bagsProductionDay;
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 	
+	
+
 	public int getTotalPrice() {
 		return bagPrice * amount;
 	}

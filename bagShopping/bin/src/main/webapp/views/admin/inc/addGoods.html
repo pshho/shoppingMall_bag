@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>상품 추가</title>
+</head>
+<body>
+<h2>상품 추가</h2>
+<form action="" method="post" enctype="multipart/form-data">
+	<table border="">
+		<tr>
+			<td>상품코드</td>
+			<td><input type="text" name="productCode" /></td>
+		</tr>
+		<tr>
+			<td>카테고리</td>
+			<td>
+				<select name="categoriesName">
+					<th:block th:each="category : ${categories}">
+					<option th:text="${category.categoriesName}"></option>
+					</th:block>
+				</select>
+				<button type="button" 
+						id="addCategory" 
+						onclick="addCategoryButton()"
+						th:text="|카테고리 추가|"/>
+				<button type="button" 
+						id="deleteCategory" 
+						onclick="deleteCategoryButton"
+						th:text="|카테고리 삭제|"/>
+			</td>
+		</tr>
+		<tr>
+			<td>타입</td>
+			<td>
+				<select name="typeName">
+					<th:block th:each="type : ${types}">
+					<option th:text="${type.typeName}"></option>
+					</th:block>
+				</select>
+				<button type="button" 
+						id="addType" 
+						onclick="addTypeButton()"
+						th:text="|타입 추가|"/>
+				<button type="button" 
+						id="deleteType" 
+						onclick="deleteTypeButton"
+						th:text="|타입 삭제|"/>
+			</td>
+		</tr>
+		<tr>
+			<td>브랜드명</td>
+			<td>
+				<select name="brandName">
+					<th:block th:each="brand : ${brands}">
+					<option th:text="${brand.brandName}"></option>
+					</th:block>
+				</select>
+				<button type="button" 
+				id="addBrand" 
+				onclick="addBrandButton()"
+				th:text="|브랜드 추가|"/>
+				<button type="button" 
+				id="deleteBrand" 
+				onclick="deleteBrandButton()"
+				th:text="|브랜드 삭제|"/>
+			</td>
+		</tr>
+		<tr>
+			<td>상품명</td>
+			<td><input type="text" name="bagName" /></td>
+		</tr>
+		<tr>
+			<td>가격</td>
+			<td><input type="text" name="bagPrice" /></td>
+		</tr>
+		<tr>
+			<td>너비</td>
+			<td><input type="text" name="bagSizeW" /></td>
+		</tr>
+		<tr>
+			<td>높이</td>
+			<td><input type="text" name="bagSizeH" /></td>
+		</tr>
+		<tr>
+			<td>깊이</td>
+			<td><input type="text" name="bagSizeD" /></td>
+		</tr>
+		<tr>
+			<td>용량</td>
+			<td><input type="text" name="bagCapacity" /></td>
+		</tr>
+		<tr>
+			<td>무게</td>
+			<td><input type="text" name="bagWeight" /></td>
+		</tr>
+		<tr>
+			<td>겉감</td>
+			<td><input type="text" name="bagOuterFabric" /></td>
+		</tr>
+		<tr>
+			<td>안감</td>
+			<td><input type="text" name="bagInnerFabric" /></td>
+		</tr>
+		<tr>
+			<td>지퍼</td>
+			<td><input type="text" name="bagZipper" /></td>
+		</tr>
+		<tr>
+			<td>버클</td>
+			<td><input type="text" name="bagBuckle" /></td>
+		</tr>
+		<tr>
+			<td>재고</td>
+			<td><input type="text" name="bagStock" /></td>
+		</tr>
+		<tr>
+			<td>상품 설명</td>
+			<td><textarea name="bagComment" cols="30" rows="10"></textarea></td>
+		</tr>
+		<tr>
+			<td>이미지1</td>
+			<td><input type="file" name="Img1" /></td>
+		</tr>
+		<tr>
+			<td>이미지2</td>
+			<td><input type="file" name="Img2" /></td>
+		</tr>
+		<tr>
+			<td>이미지3</td>
+			<td><input type="file" name="Img3" /></td>
+		</tr>
+		<tr>
+			<td>이미지4</td>
+			<td><input type="file" name="Img4" /></td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="submit" value="등록"/>
+				<a href="goodsManage">뒤로</a>
+			</td>
+		</tr>
+	</table>
+</form>
+</body>
+</html>

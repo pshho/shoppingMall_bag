@@ -3,6 +3,7 @@
 PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bag.service.ProductsBoardMapper">
+	
 	<select id="productsBoardList" resultType="prbDTO">
 		select * from products_board
 		<where>
@@ -12,9 +13,37 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			<if test="categoriesId!=0">
 				categories_id = #{categoriesId}
 			</if>
-			<if test="categoriesCode!=0">
-				and categories_code = #{categoriesCode}
+			<if test="typeId!=0">
+				and type_id = #{typeId}
 			</if>
 		</where>
 	</select>
+	
+	<sql id="wh_prbBoardId">
+		<where>
+			<if test="productsBoardId!=0">
+				products_board_id = #{productsBoardId}
+			</if>
+		</where>
+	</sql>
+	
+	<select id="productsBoard" resultType="prbDTO">
+		select * from products_board <include refid="wh_prbBoardId" />
+	</select>
+	<select id="maxPrbId" resultType="Integer">
+		select max(products_board_id) from products_board
+	</select>
+	<insert id="writeProduct" parameterType="prbDTO">
+		insert into products_board(categories_id, type_id, brand_id, intro, contents, address_info, guide, product_code)
+		values
+		(#{categoriesId}, #{typeId}, #{brandId}, #{intro}, #{contents}, #{addressInfo}, #{guide}, #{productCode})
+	</insert>
+	<delete id="deleteProduct" parameterType="Integer">
+		delete from products_board <include refid="wh_prbBoardId" />
+	</delete>
+	<update id="updateProduct" parameterType="prbDTO">
+		update products_board set categories_id = #{categoriesId}, type_id = #{typeId}, brand_id = #{brandId},
+		intro = #{intro}, contents = #{contents}, address_info = #{addressInfo}, guide = #{guide}, product_code = #{productCode}
+		<include refid="wh_prbBoardId" />
+	</update>
 </mapper>
