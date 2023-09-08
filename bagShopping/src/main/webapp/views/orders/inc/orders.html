@@ -1,5 +1,5 @@
 <html xmlns="http://www.thymeleaf.org">
-<form action="" method="post">
+<form action="" method="post" id="addrForm">
 	<div>
 		<table border="">
 			<tr>
@@ -63,7 +63,7 @@
 					</label>
 				</td>
 				<td>
-					<button type="button" onclick="addressList()">배송지 목록</button>
+					<button type="button" id="addrListOn">배송지 목록</button>
 				</td>
 			</tr>
 			<tr id="addrName"></tr>
@@ -100,15 +100,17 @@
 	</div>
 </form>
 <script th:inline="javascript">
-	const userName = [[${user.memberName}]];
-	const phone = [[${user.memberPhone}]];
-	const zipcode = [[${address.zipCode}]];
-	const address = [[${address.address}]];
-	const detailAddr = [[${address.detailAddress}]];
-	const prod = [[${cartBags[0].bagName}]];
-	const prodSize = [[${#arrays.length(cartBags)}]];
-	const phones = ['010', '011', '016', '017', '019'];
-	const addrList = [[${addrList}]];
+	if([[${user}]]!==null){
+		var userName = [[${user.memberName}]];
+		var phone = [[${user.memberPhone}]];
+	}
+	var zipcode = [[${address.zipCode}]];
+	var address = [[${address.address}]];
+	var detailAddr = [[${address.detailAddress}]];
+	var prod = [[${cartBags[0].bagName}]];
+	var prodSize = [[${#arrays.length(cartBags)}]];
+	var phones = ['010', '011', '016', '017', '019'];
+	var addrList = [[${addrList}]];
 	
 	$(document).ready(function(){
 		
@@ -151,7 +153,7 @@
 		$('#newAddr').change(function(){
 			$('#addrName').empty();
 			$('#addrName').append('<td>수령인</td>')
-			.append('<td colspan="2"><input type="text" name="addrName" />')
+			.append('<td colspan="2"><input type="text" id="addresses" name="addrName" />')
 			$('#addrPhone').empty();
 			let htmlCode = '<td>연락처</td><td colspan="2"><select id="phone1" name="phone1">';
 			phones.forEach(function(item, no){
@@ -185,10 +187,15 @@
 			table += '<td>' + item.zipCode + '</td>';
 			table += '<td>' + item.address + '</td>';
 			table += '<td>' + item.detailAddress + '</td>';
-			table += '<td><input type="button" onclick="changeAddr(' + item.addressId + ')" value="선택" /></td>';
+			table += '<td><input type="button" onclick="addr(' + item.addressId + ')" value="선택" /></td>';
 		})
 		table += '</tr></table>';
 		$('body').append(table);
+		
+		$('#addrListOn').click(function(e){
+			e.stopPropagation();
+			$('#orderFrame').css('display', 'block');
+		})
 		
 		$('#shipReq').click(function(e){
 			e.stopPropagation();
@@ -200,8 +207,39 @@
 			$('#shipReq').val($('#shipSel').val());
 		})
 		
-		$('body').on("click", function(){
+		$('body').on("click", function(e){
 			$('#shipSel').css('display', 'none');
+			if(!$(e.target).closest('#orderFrame').length > 0){
+				$('#orderFrame').css('display', 'none');
+			}
+		})
+		
+		$('#addrForm').submit(function(e){
+			e.preventDefault();
+			let name = $('#addresses').val().trim();
+			let ph2 = $('#phone2').val().trim();
+			let ph3 = $('#phone3').val().trim();
+			let deAd = $('#detailAddress').val().trim();
+			const ptn = /^[가-힣]+$/;
+			const ptn2 = /^\d{3,4}$/;
+			const ptn3 = /^\d{4}$/;
+			
+			if(name.length === 0 || name.length > 5){
+				alert('수령인은 1~5글자 내여야 합니다');
+				return false;
+			}else if(!ptn.test(name)){
+				alert('수령인은 한글만 가능합니다');
+				return false;
+			}else if(!ptn2.test(ph2)){
+				alert('전화번호를 3~4자로 맞게 입력해주세요');
+				return false;
+			}else if(!ptn3.test(ph3)){
+				alert('전화번호를 4자로 맞게 입력해주세요');
+				return false;
+			}else if(deAd.length === 0 || deAd.length > 50){
+				alert('상세주소를 1~50자내로 입력해주세요');
+				return false;
+			}
 		})
 	})
 	
@@ -253,7 +291,7 @@
 		$('#newAddr').prop('checked', true);
 		$('#addrName').empty();
 		$('#addrName').append('<td>수령인</td>')
-		.append('<td colspan="2"><input type="text" name="addrName" value="'+userName+'" />')
+		.append('<td colspan="2"><input type="text" name="addrName" id="addresses" value="'+userName+'" />')
 		
 		if(phone.length === 11){
 			phone2 = phone.substring(3, 7);
@@ -272,8 +310,8 @@
 				htmlCode += '<option>'+item+'</option>';
 			}
 		})
-		htmlCode += '</select> - <input type="text" id="phone2" name="phone2"/>'+
-				' - <input type="text" id="phone3" name="phone3"/></td>';
+		htmlCode += '</select> - <input type="text" id="phone2" name="phone2" value="'+phone2+'" />'+
+				' - <input type="text" id="phone3" name="phone3" value="'+phone3+'" /></td>';
 		$('#addrPhone').append(htmlCode);
 		$('#addrAddr').empty();
 		let htmlCode2 = '<td>배송주소</td>';
@@ -292,11 +330,46 @@
 		}
 	}
 	
-	function addressList(){
-		$('#orderFrame').css('display', 'block');
-	}
-	
-	function removeList(){
-		$('#orderFrame').css('display', 'none');
+	function addr(addressId){
+		const params = {
+			addressId : addressId
+		}
+		
+		$.ajax({
+			url : '/orders/addrChange',
+			type : 'post',
+			dataType : 'json',
+			contentType : 'application/json; charset=utf-8',
+			data : JSON.stringify(params),
+			success : function(res) {
+				userName = res.addrName;
+				phone = res.addressPhone;
+				zipcode = res.zipCode;
+				address = res.address;
+				detailAddr = res.detailAddress;
+				
+				$('#origAddr').prop('checked', true);
+				$('#addrName').empty();
+				$('#addrName').append('<td colspan="3">'+userName+'</td>');
+				$('#addrPhone').empty();
+				$('#addrPhone').append('<td colspan="3">'+phone+'</td>');
+				$('#addrAddr').empty();
+				$('#addrAddr').append('<td colspan="2">('+zipcode+') '+
+					address+' '+detailAddr+'</td>')
+					.append('<td><input type="button" onclick="changeAddr()" value="정보수정" /></td>');
+				$('#prodName').empty();
+				if(prodSize === 1){
+					$('#prodName').append('<td colspan="3">'+prod+'</td>');
+				}else {
+					$('#prodName').append('<td colspan="3">'+prod+
+						' 외 '+prodSize+'건</td>');
+				}
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
 	}
 </script>

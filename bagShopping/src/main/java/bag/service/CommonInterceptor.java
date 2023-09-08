@@ -41,13 +41,4 @@ public class CommonInterceptor implements HandlerInterceptor {
 			}
 		}
 	}
-	
-	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
-			throws Exception {
-		HttpSession session = request.getSession(false);
-		if(session == null) {
-			cartMapper.allDelete(userId);
-		}
-	}
 }
