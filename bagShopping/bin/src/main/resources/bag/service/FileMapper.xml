@@ -4,9 +4,9 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bag.service.FileMapper">
 	<insert id="insertFile" parameterType="fDTO">
-		insert into files(files, products_board_id, notice_id, inquiry_id, complete, board_distinct)
+		insert into files(files, products_board_id, notice_id, inquiry_id, complete, member_id)
 		values
-		(#{files}, #{productsBoardId}, #{noticeId}, #{inquiryId}, #{complete}, #{boardDistinct})
+		(#{files}, #{productsBoardId}, #{noticeId}, #{inquiryId}, #{complete}, #{memberId})
 	</insert>
 	<update id="updateFile">
 		update files set products_board_id = #{productsBoardId},
@@ -24,8 +24,8 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			<if test="inquiryId!=null">
 				and inquiry_id = 0
 			</if>
-			<if test="boardDistinct!=0">
-				and board_distinct = #{boardDistinct}
+			<if test="memberId!=null">
+				and member_id = #{memberId}
 			</if>
 		</where>
 	</update>

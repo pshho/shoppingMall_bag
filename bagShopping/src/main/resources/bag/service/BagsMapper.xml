@@ -4,30 +4,40 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bag.service.BagsMapper">
 	<update id="deleteImg1">
-		update bags set bag_img1 = "" where product_code = #{productCode}
+		update bags set bag_img1 = "" where product_code =
+		#{productCode}
 	</update>
 	<update id="deleteImg2">
-		update bags set bag_img2 = "" where product_code = #{productCode}
+		update bags set bag_img2 = "" where product_code =
+		#{productCode}
 	</update>
 	<update id="deleteImg3">
-		update bags set bag_img3 = "" where product_code = #{productCode}
+		update bags set bag_img3 = "" where product_code =
+		#{productCode}
 	</update>
 	<update id="deleteImg4">
-		update bags set bag_img4 = "" where product_code = #{productCode}
+		update bags set bag_img4 = "" where product_code =
+		#{productCode}
 	</update>
-	
+
 	<select id="getImg1" resultType="Integer">
-		select bag_img1 from bags where product_code = #{productCode}
+		select bag_img1 from bags where
+		product_code = #{productCode}
 	</select>
 	<select id="getImg2" resultType="Integer">
-		select bag_img2 from bags where product_code = #{productCode}
+		select bag_img2 from bags where
+		product_code = #{productCode}
 	</select>
 	<select id="getImg3" resultType="Integer">
-		select bag_img3 from bags where product_code = #{productCode}
+		select bag_img3 from bags where
+		product_code = #{productCode}
 	</select>
 	<select id="getImg4" resultType="Integer">
-		select bag_img4 from bags where product_code = #{productCode}
+		select bag_img4 from bags where
+		product_code = #{productCode}
 	</select>
+
+
 
 	<select id="bagsList" resultType="bagDTO">
 		select bags.* from bags inner join products_board on
@@ -45,10 +55,104 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		</where>
 	</select>
 
+	<sql id="searchGoods">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if
+				test="searchType=='Code' and keyword != null and keyword != '' ">
+				AND product_code like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if
+				test="searchType=='Name' and keyword != null and keyword != '' ">
+				AND bag_name like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if
+				test="searchType=='Price' and keyword != null and keyword != '' ">
+				AND bag_price like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if
+				test="searchType=='Comment' and keyword != null and keyword != '' ">
+				AND bag_comment like CONCAT('%', #{keyword}, '%')
+			</if>
+		</trim>
+	</sql>
+
+
+	<select id="allBagsList" parameterType="PageData2">
+		<choose>
+			<when
+				test="searchType=='Category' and keyword != null and keyword != ''">
+				SELECT bags.*, categories.* FROM bags JOIN categories ON
+				(bags.categories_id = categories.categories_id) WHERE
+				categories_name like CONCAT('%', #{keyword} , '%') limit #{start} , #{limit};
+			</when>
+			<when
+				test="searchType=='Type' and keyword != null and keyword != ''">
+				SELECT bags.*, type.* FROM bags JOIN type ON (bags.type_id =
+				type.type_id) WHERE type_name like CONCAT('%', #{keyword} , '%') limit #{start} , #{limit};
+			</when>
+			<when
+				test="searchType=='Brand' and keyword != null and keyword != ''">
+				SELECT bags.*, brand.* FROM bags JOIN brand ON (bags.brand_id =
+				brand.brand_id) WHERE brand_name like CONCAT('%', #{keyword} , '%') limit #{start} , #{limit};
+			</when>
+			<otherwise>
+				select * from bags
+				<include refid="searchGoods" />
+				limit #{start} , #{limit}
+			</otherwise>
+		</choose>
+
 	<select id="allProducts" resultType="bagDTO">
 		select * from bags
 	</select>
 
+	<select id="cntMaxGoods" resultType="Integer">
+		<choose>
+			<when
+				test="searchType=='Category' and keyword != null and keyword != ''">
+				SELECT COUNT(bags.categories_id), categories.categories_id
+				FROM bags INNER JOIN categories ON (bags.categories_id =
+				categories.categories_id)
+				WHERE categories_name like CONCAT('%',
+				#{keyword} , '%')
+				GROUP BY categories.categories_id;
+			</when>
+			<when
+				test="searchType=='Type' and keyword != null and keyword != ''">
+				SELECT COUNT(bags.type_id), type.type_id
+				FROM bags INNER JOIN type ON (bags.type_id = type.type_id)
+				WHERE type_name like CONCAT('%', #{keyword} , '%')
+				GROUP BY type.type_id;
+			</when>
+			<when
+				test="searchType=='Brand' and keyword != null and keyword != ''">
+				SELECT COUNT(bags.brand_id), brand.brand_id
+				FROM bags INNER JOIN brand ON (bags.brand_id = brand.brand_id)
+				WHERE brand_name like CONCAT('%', #{keyword} , '%')
+				GROUP BY brand.brand_id;
+			</when>
+			<otherwise>
+				select count(*) from bags
+				<include refid="cntGoods" />
+			</otherwise>
+		</choose>
+	</select>
+
+	<sql id="cntGoods">
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="keyword != null and keyword != '' ">
+				<if test="searchType=='Code'">
+					AND product_code like CONCAT('%', #{keyword}, '%')
+				</if>
+				<if test="searchType=='Name'">
+					AND bag_name like CONCAT('%', #{keyword}, '%')
+				</if>
+				<if test="searchType=='Price'">
+					AND bag_price like CONCAT('%', #{keyword}, '%')
+				</if>
+			</if>
+		</trim>
+	</sql>
 	<select id="bags" resultType="bagDTO">
 		select bags.* from bags inner join products_board on
 		products_board.product_code = bags.product_code
@@ -58,7 +162,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
-	
+
 	<select id="cartBags" resultType="bagDTO">
 		select bags.* from bags inner join cart on cart.product_code =
 		bags.product_code
@@ -91,9 +195,19 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		<include refid="case_of_insert_bag" />
 	</insert>
 
+	<update id="modifyBag" parameterType="bagDTO">
+		<include refid="case_of_update_bag" />
+	</update>
+
+	<delete id="deleteGoods" parameterType="Integer">
+		delete from bags where
+		product_code = #{productCode}
+	</delete>
+
 	<sql id="case_of_insert_bag">
 		<choose>
-			<when test="bagImg1 != null and bagImg2 != null and bagImg3 != null and bagImg4 != null">
+			<when
+				test="bagImg1 != null and bagImg2 != null and bagImg3 != null and bagImg4 != null">
 				insert into bags
 				(product_code, brand_id, categories_id,
 				type_id, bag_name, bag_price,
@@ -115,7 +229,8 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagComment}, sysdate(), #{bagImg1}, #{bagImg2},
 				#{bagImg3}, #{bagImg4})
 			</when>
-			<when test="bagImg1 != null and bagImg2 != null and bagImg3 != null">
+			<when
+				test="bagImg1 != null and bagImg2 != null and bagImg3 != null">
 				insert into bags
 				(product_code, brand_id, categories_id,
 				type_id, bag_name, bag_price,
@@ -127,9 +242,11 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				bag_img2, bag_img3)
 				values
 				(#{productCode},
-				#{brandId}, #{categoriesId}, #{typeId},
+				#{brandId},
+				#{categoriesId}, #{typeId},
 				#{bagName}, #{bagPrice},
-				#{bagSizeW}, #{bagSizeH},
+				#{bagSizeW},
+				#{bagSizeH},
 				#{bagSizeD}, #{bagCapacity}, #{bagWeight},
 				#{bagOuterFabric},
 				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
@@ -139,12 +256,16 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</when>
 			<when test="bagImg1 != null and bagImg2 != null">
 				insert into bags
-				(product_code, brand_id, categories_id,
+				(product_code, brand_id,
+				categories_id,
 				type_id, bag_name, bag_price,
-				bag_size_w, bag_size_h, bag_size_d,
-				bag_capacity, bag_weight, bag_outer_fabric, bag_inner_fabric,
+				bag_size_w, bag_size_h,
+				bag_size_d,
+				bag_capacity, bag_weight, bag_outer_fabric,
+				bag_inner_fabric,
 				bag_zipper,
-				bag_buckle, bag_stock, bag_comment, bags_production_day,
+				bag_buckle, bag_stock, bag_comment,
+				bags_production_day,
 				bag_img1, bag_img2)
 				values
 				(#{productCode},
@@ -159,18 +280,24 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</when>
 			<when test="bagImg1 != null">
 				insert into bags
-				(product_code, brand_id, categories_id,
+				(product_code, brand_id,
+				categories_id,
 				type_id, bag_name, bag_price,
-				bag_size_w, bag_size_h, bag_size_d,
-				bag_capacity, bag_weight, bag_outer_fabric, bag_inner_fabric,
+				bag_size_w, bag_size_h,
+				bag_size_d,
+				bag_capacity, bag_weight, bag_outer_fabric,
+				bag_inner_fabric,
 				bag_zipper,
-				bag_buckle, bag_stock, bag_comment, bags_production_day,
+				bag_buckle, bag_stock, bag_comment,
+				bags_production_day,
 				bag_img1)
 				values
 				(#{productCode},
-				#{brandId}, #{categoriesId}, #{typeId},
+				#{brandId},
+				#{categoriesId}, #{typeId},
 				#{bagName}, #{bagPrice},
-				#{bagSizeW}, #{bagSizeH},
+				#{bagSizeW},
+				#{bagSizeH},
 				#{bagSizeD}, #{bagCapacity}, #{bagWeight},
 				#{bagOuterFabric},
 				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
@@ -193,6 +320,142 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagInnerFabric},
 				#{bagZipper}, #{bagBuckle}, #{bagStock},
 				#{bagComment}, sysdate())
+			</otherwise>
+		</choose>
+	</sql>
+
+	<sql id="case_of_update_bag">
+		<choose>
+			<when
+				test="bagImg1 != null and bagImg2 != null and bagImg3 != null and bagImg4 != null">
+				update bags set
+				product_code = #{productCode},
+				brand_id =
+				#{brandId},
+				categories_id = #{categoriesId},
+				type_id = #{typeId},
+				bag_name = #{bagName}, bag_price = #{bagPrice},
+				bag_size_w =
+				#{bagSizeW},
+				bag_size_h = #{bagSizeH}, bag_size_d = #{bagSizeD},
+				bag_capacity =
+				#{bagCapacity}, bag_weight = #{bagWeight},
+				bag_outer_fabric =
+				#{bagOuterFabric},
+				bag_inner_fabric =
+				#{bagInnerFabric}, bag_zipper = #{bagZipper}, bag_buckle =
+				#{bagBuckle}, bag_stock = #{bagStock},
+				bag_comment = #{bagComment},
+				bags_production_day = sysdate(),
+				bag_img1 =
+				#{bagImg1}, bag_img2 =
+				#{bagImg2}, bag_img3 = #{bagImg3}, bag_img4 =
+				#{bagImg4}
+				where
+				product_code = #{defaultProductCode}
+			</when>
+			<when
+				test="bagImg1 != null and bagImg2 != null and bagImg3 != null">
+				update bags set
+				product_code = #{productCode},
+				brand_id =
+				#{brandId},
+				categories_id = #{categoriesId},
+				type_id = #{typeId},
+				bag_name = #{bagName}, bag_price = #{bagPrice},
+				bag_size_w =
+				#{bagSizeW},
+				bag_size_h = #{bagSizeH}, bag_size_d = #{bagSizeD},
+				bag_capacity =
+				#{bagCapacity}, bag_weight = #{bagWeight},
+				bag_outer_fabric =
+				#{bagOuterFabric},
+				bag_inner_fabric =
+				#{bagInnerFabric}, bag_zipper = #{bagZipper}, bag_buckle =
+				#{bagBuckle}, bag_stock = #{bagStock},
+				bag_comment = #{bagComment},
+				bags_production_day = sysdate(),
+				bag_img1 =
+				#{bagImg1}, bag_img2 =
+				#{bagImg2}, bag_img3 = #{bagImg3}
+				where
+				product_code =
+				#{defaultProductCode}
+			</when>
+			<when test="bagImg1 != null and bagImg2 != null">
+				update bags set
+				product_code = #{productCode},
+				brand_id = #{brandId},
+				categories_id = #{categoriesId},
+				type_id =
+				#{typeId},
+				bag_name = #{bagName}, bag_price = #{bagPrice},
+				bag_size_w
+				= #{bagSizeW},
+				bag_size_h = #{bagSizeH}, bag_size_d = #{bagSizeD},
+				bag_capacity =
+				#{bagCapacity}, bag_weight = #{bagWeight},
+				bag_outer_fabric =
+				#{bagOuterFabric},
+				bag_inner_fabric =
+				#{bagInnerFabric}, bag_zipper = #{bagZipper}, bag_buckle =
+				#{bagBuckle}, bag_stock = #{bagStock},
+				bag_comment = #{bagComment},
+				bags_production_day = sysdate(),
+				bag_img1 =
+				#{bagImg1}, bag_img2 =
+				#{bagImg2}
+				where product_code =
+				#{defaultProductCode}
+			</when>
+			<when test="bagImg1 != null">
+				update bags set
+				product_code = #{productCode},
+				brand_id = #{brandId},
+				categories_id = #{categoriesId},
+				type_id =
+				#{typeId},
+				bag_name = #{bagName}, bag_price = #{bagPrice},
+				bag_size_w
+				= #{bagSizeW},
+				bag_size_h = #{bagSizeH}, bag_size_d = #{bagSizeD},
+				bag_capacity =
+				#{bagCapacity}, bag_weight = #{bagWeight},
+				bag_outer_fabric =
+				#{bagOuterFabric},
+				bag_inner_fabric =
+				#{bagInnerFabric}, bag_zipper = #{bagZipper}, bag_buckle =
+				#{bagBuckle}, bag_stock = #{bagStock},
+				bag_comment = #{bagComment},
+				bags_production_day = sysdate(),
+				bag_img1 =
+				#{bagImg1}
+				where
+				product_code = #{defaultProductCode}
+			</when>
+			<otherwise>
+				update bags set
+				product_code = #{productCode},
+				brand_id =
+				#{brandId},
+				categories_id = #{categoriesId},
+				type_id = #{typeId},
+				bag_name = #{bagName}, bag_price = #{bagPrice},
+				bag_size_w =
+				#{bagSizeW},
+				bag_size_h = #{bagSizeH}, bag_size_d = #{bagSizeD},
+				bag_capacity =
+				#{bagCapacity}, bag_weight = #{bagWeight},
+				bag_outer_fabric =
+				#{bagOuterFabric},
+				bag_inner_fabric =
+				#{bagInnerFabric}, bag_zipper = #{bagZipper}, bag_buckle =
+				#{bagBuckle}, bag_stock = #{bagStock},
+				bag_comment = #{bagComment},
+				bags_production_day = sysdate()
+				where product_code
+				=
+				#{defaultProductCode}
 			</otherwise>
 		</choose>
 	</sql>

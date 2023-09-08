@@ -6,4 +6,10 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<select id="brandList" resultType="brDTO">
 		select * from brand
 	</select>
+	<select id="getBrandId" parameterType="bagDTO">
+		select brand_id from brand where brand_name = #{brandName}
+	</select>
+	<select id="getBrandName" parameterType="bagDTO">
+		select brand_name from brand where brand_id = #{brandId}
+	</select>
 </mapper>

@@ -12,7 +12,7 @@
 		<tr>
 			<td>작성자</td>
 			<td>
-				<input type="text" th:field="*{inWriter}" />
+				<input type="text" name="inWriter" th:value="${session.admin}" readonly />
 			</td>
 		</tr>
 		<tr>
@@ -35,3 +35,148 @@
 		</tr>
 	</table>
 </form>
+<script th:inline="javascript">
+	function inquiryWriteCancel(){
+		$.ajax({
+			url : '/fileUpload/fileDelete',
+			type : 'post',
+			dataType : 'json',
+			async : false,
+			success : function(res) {
+				// console.log(response);
+				alert(res.msg);
+				location.href='/inquiry/inquiryList/1';
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	}
+	
+	function inquiryDelete(inquiryId){
+		$.ajax({
+			url : '/inquiry/inquiryDelete/'+inquiryId,
+			type : 'post',
+			dataType : 'json',
+			async : false,
+			success : function(res) {
+				// console.log(response);
+				alert(res.msg);
+				location.href=res.url;
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	}
+	
+	function confirmDelete(inquiryId){
+		if(confirm('정말 삭제하시겠습니까?')){
+			inquiryDelete(inquiryId);
+		}
+	}
+	
+	function confirmCancel(){
+		if(confirm('정말 취소하시겠습니까?')){
+			inquiryWriteCancel();
+		}
+	}
+	
+	$(document).ready(function(){
+		let dropDiv = document.getElementById('wriCon');
+		let member = [[${session.admin}]];
+		
+		dropDiv.addEventListener('drop', function(event){
+			event.preventDefault();
+			
+			let files = event.dataTransfer.files;
+		
+			const selection = window.getSelection();
+			const range = selection.getRangeAt(0);
+			const span = document.createElement('span');
+			range.insertNode(span);
+			
+			let regPtn = /\.(jpg|png|jpeg|svg|bmf|gif)$/i;
+			
+			// div - id: notWriCon으로 drop된 이미지 파일들
+			Array.from(files).forEach(file => {
+				if(!regPtn.test(file.name)){
+					alert('이미지 파일이 아닙니다');
+					return;
+				}
+				
+				let form = new FormData(); // 파일을 보낼 새로운 form
+				form.append('file', file);
+				form.append('member', member);
+				
+				fetch('/fileUpload/files', {
+					method : 'post',
+					body : form
+				})
+				.then(response => response.json())
+				.then(data => {
+					let addVal = '<img src="/upFile/'+data.file+'" alt="등록된 이미지"/>';
+					span.innerHTML += addVal;
+				})
+				.catch(error => {
+		            console.error('파일 전송 실패:', error);
+		        });
+			});
+		});
+		
+		const config = {childList: true, subtree: true};
+		const mutationCallback = (mutationList, observer) => {
+			for(const mutation of mutationList){
+				for(const removedNode of mutation.removedNodes){
+					let src = removedNode.querySelector('img').src;
+					let fileName = src.substring(src.lastIndexOf("/")+1);
+					$.ajax({
+						url : '/fileUpload/writingFileDelete/'+fileName,
+						type : 'post',
+						dataType : 'json',
+						async : false,
+						success : function(res) {
+							console.log(res.msg);
+						},
+						error : function (req, status, error) {
+							console.log(req);
+							console.log(status);
+							console.log(error);
+						}
+					})
+				}
+			}
+		}
+		const observer = new MutationObserver(mutationCallback);
+		observer.observe(dropDiv, config);
+		
+		$('#wri').submit(function(event){
+			event.preventDefault();
+			
+			let regPtn = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*_-])(?!.*\s)(?!.*[가-힣ㄱ-ㅎ])/;
+			let title = $('#title').val().trim();
+			let content = $('#wriCon').text().trim();
+			let pw = $('#pw').val().trim();
+			if(title.length === 0 || title.length > 50){
+				alert('제목은 1~50글자까지 가능합니다');
+				return false;
+			}else if(content.length === 0 || content.length > 5000){
+				alert('내용은 1~5000글자까지 가능합니다');
+				return false;
+			}else if(pw.length === 0 || pw.length > 15){
+				alert('비밀번호는 1~15자로 가능합니다');
+				return false;
+			}else if(!regPtn.test(pw)){
+				alert('비밀번호는 영문+숫자+특수문자로 가능합니다');
+				return false;
+			}else {
+				$('#cont').val(dropDiv.innerHTML);
+			    $('#wri').get(0).submit();
+			}
+		})
+	})
+</script>
