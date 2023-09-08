@@ -81,7 +81,7 @@ public class AdminController {
 
 		mm.addAttribute("brands", brandMapper.brandList());
 		mm.addAttribute("categories", cateMapper.categoriesList());
-		mm.addAttribute("bags", bagsMapper.allBagsList());
+		mm.addAttribute("bags", bagsMapper.allProducts());
 		mm.addAttribute("types", typeMapper.typeList());
 		mm.addAttribute("adminService", adminUrl);
 		return "admin/template";
