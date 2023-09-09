@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bag.service.OrdersMapper">
+	<insert id="orderInsert" parameterType="ordDTO">
+		insert into orders
+		(orders_total_price, merchant_uid, pay_type, member_id, imp_uid, prod_code, prd_name, buyer_name,
+		buyer_email, buyer_tel, buyer_addr, buyer_postcode, address_msg, orders_reg_date)
+		values
+		(#{ordersTotalPrice}, #{merchant_uid}, #{payType}, #{memberId}, #{imp_uid}, #{prodCode},
+		#{prdName}, #{buyerName}, #{buyerEmail}, #{buyerTel}, #{buyerAddr}, #{buyerPostcode},
+		#{addressMsg}, #{ordersRegDate})
+	</insert>
+</mapper>

@@ -101,6 +101,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				limit #{start} , #{limit}
 			</otherwise>
 		</choose>
+	</select>
 
 	<select id="allProducts" resultType="bagDTO">
 		select * from bags

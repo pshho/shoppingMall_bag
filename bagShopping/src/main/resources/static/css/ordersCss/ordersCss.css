@@ -23,4 +23,6 @@
 	z-index: 10;
 	transform: translate(-50%, -50%);
 	background: #eee;
+	overflow: auto;
+	height: 700px;
 }
