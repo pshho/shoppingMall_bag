@@ -149,7 +149,6 @@ public class MemberController {
 				msg = "로그인 되었습니다.";
 				goUrl = "/";
 				session.setAttribute("userId", mdto.getMemberId());
-				session.setMaxInactiveInterval(1800);
 			}
 		}
 		

@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import org.springframework.stereotype.Service;
 
 import bag.model.BagsDTO;
-import jakarta.servlet.http.HttpServletRequest;
 
 @Service
 public class ImgSaveUtil {
