@@ -199,7 +199,11 @@ public class ShoppingController {
 		prbDTO.setTypeId(bag.getTypeId());
 		prbMapper.writeProduct(prbDTO);
 		FileDTO fDTO = new FileDTO();
-		fDTO.setProductsBoardId(prbMapper.maxPrbId());
+		Object prbId = prbMapper.maxPrbId();
+		if(prbId == null) {
+			prbId = 1;
+		}
+		fDTO.setProductsBoardId((int)prbId);
 		fDTO.setComplete(true);
 		fDTO.setMemberId(prbDTO.getMemberId());
 		fMapper.updateFile(fDTO);

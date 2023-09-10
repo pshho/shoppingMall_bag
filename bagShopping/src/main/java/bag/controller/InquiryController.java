@@ -67,7 +67,12 @@ public class InquiryController {
 			InquiryDTO inDTO) {
 		inqMapper.inqWrite(inDTO);
 		FileDTO fDTO = new FileDTO();
-		fDTO.setInquiryId(inqMapper.maxInquiryId());
+		Object inquiryId = inqMapper.maxInquiryId();
+		if(inquiryId == null) {
+			inquiryId = 1;
+		}
+		
+		fDTO.setInquiryId((int)inquiryId);
 		fDTO.setComplete(true);
 		fDTO.setMemberId(inDTO.getInWriter());
 		fMapper.updateFile(fDTO);
@@ -103,7 +108,11 @@ public class InquiryController {
 		inDTO.setLev(inDTO.getLev()+1);
 		inqMapper.inqReply(inDTO);
 		FileDTO fDTO = new FileDTO();
-		fDTO.setInquiryId(inqMapper.maxInquiryId());
+		Object inquiryId = inqMapper.maxInquiryId();
+		if(inquiryId == null) {
+			inquiryId = 1;
+		}
+		fDTO.setInquiryId((int)inquiryId);
 		fDTO.setComplete(true);
 		fDTO.setMemberId(inDTO.getInWriter());
 		fMapper.updateFile(fDTO);
