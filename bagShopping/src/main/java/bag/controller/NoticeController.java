@@ -1,14 +1,17 @@
 package bag.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bag.model.FileDTO;
@@ -33,10 +36,7 @@ public class NoticeController {
 	@Autowired
 	FileUploadDownload fud;
 	
-	@ModelAttribute("noticeList")
-	Object noticeList() {
-		return notMapper.notList();
-	}
+	List<NoticeDTO> notList;
 	
 	@ModelAttribute("noticeDetail")
 	Object noticeDetail(@PathVariable int id) {
@@ -45,7 +45,6 @@ public class NoticeController {
 	
 	@ModelAttribute("pd")
 	Object pd() {
-		pd.setTotalPage(notMapper.totalNotice());
 		return pd;
 	}
 	
@@ -101,9 +100,19 @@ public class NoticeController {
 	}
 	
 	@RequestMapping("{noticeSer}/{id}")
-	String goNotice(@PathVariable String noticeSer, 
-			@PathVariable int id, NoticeDTO nDTO) {
+	String goNotice(Model md,
+			@PathVariable String noticeSer, 
+			@PathVariable int id, NoticeDTO nDTO,
+			@RequestParam(required = false) String searchCate,
+			@RequestParam(required = false) String searchCont) {
+		if(searchCate == null) {
+			notList = notMapper.notList();
+		}else {
+			notList = notMapper.searchList(searchCate, searchCont);
+		}
+		pd.setTotalPage(notList.size());
 		pd.setPageStart(id);
+		md.addAttribute("noticeList", notList);
 		return "notice/templates";
 	}
 }

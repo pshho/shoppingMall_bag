@@ -50,6 +50,21 @@ th:text="${cate.categoriesName}"></h1>
 			<tr>
 				<td colspan="2" th:text="${productsBoard.guide}"></td>
 			</tr>
+			<tr>
+				<td colspan="2" class="replyTd">
+					<textarea cols="40" rows="5" id="content"
+					placeholder="리뷰를 남겨보세요"></textarea>
+					<input type="button" value="등록" onclick="saveComments()" />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div class="comments"></div>
+					<div class="onComments" onclick="clickComments()">
+						<p>다음 댓글 보기</p>
+					</div>
+				</td>
+			</tr>
 		</table>
 	</div>
 	<!-- 배송, 결제 관련 정보 -->
@@ -289,6 +304,259 @@ th:text="${cate.categoriesName}"></h1>
 				confirmation(res.msg, res.url, res.cartCount);
 			},
 			error : function(error){
+				console.log(error);
+			}
+		})
+	}
+	
+	const pid = [[${productsBoard.productsBoardId}]];
+	let gpid = pid;
+	let writer = [[${session.userId}]];
+	function saveComments(){
+		let content = $('#content').val();
+		
+		let params = {
+			content: content,
+			gpid: gpid,
+			comWriter: writer
+		};
+		
+		$.ajax({
+			url : '/shopping/shoppingDetail/'+pid+'/comments',
+			type : 'post',
+			contentType : 'application/json; charset=utf-8',
+			dataType : 'json',
+			data : JSON.stringify(params),
+			async : false,
+			success : function(res) {
+				alert(res.msg);
+				$('#content').val('');
+				listComments();
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	}
+	
+	window.onload = () => {
+		listComments();
+	}
+	
+	function listComments(){
+		$.ajax({
+			url : '/shopping/shoppingDetail/'+pid+'/comments',
+			type : 'get',
+			dataType : 'json',
+			async : false,
+			success : function (res) {
+				$('.comments').empty();
+				$('.comments').append('<h3>댓글</h3>');
+				res.forEach((row, i) => {
+					if(res.length <= 0){
+						return;
+					}
+					
+					if(i>4){
+						for(j=0; j<row.lev; j++){
+							$('.comments')
+							.append('<div class="commsOn"></div>');
+						}
+						$('.comments').append('<ul class="commentsOn"><li id="comm' + row.commentsId + '">' + '<span>작성자: ' + row.comWriter +
+						'</span><span>' + row.comRegDate2 + '</span><p>' + row.content + '<i>' +
+						'<input type="button" onclick="openReplyComments(' + row.commentsId + ')" value="답글" >' +
+						'<input type="button" onclick="openUpdateComments(' + row.commentsId + ')" value="수정" >' +
+						'<input type="button" onclick="confirmDelete(' + row.commentsId + ')" value="삭제" ></i></p></li></ul>');
+					}else {
+						for(j=0; j<row.lev; j++){
+							$('.comments')
+							.append('<div class="comm"></div>');
+						}
+						$('.comments').append('<ul><li id="comm' + row.commentsId + '">' + '<span>작성자: ' + row.comWriter +
+						'</span><span>' + row.comRegDate2 + '</span><p>' + row.content + '<i>' +
+						'<input type="button" onclick="openReplyComments(' + row.commentsId + ')" value="답글" >' +
+						'<input type="button" onclick="openUpdateComments(' + row.commentsId + ')" value="수정" >' +
+						'<input type="button" onclick="confirmDelete(' + row.commentsId + ')" value="삭제" ></i></p></li></ul>');
+					}
+				});
+				$('.onComments').css('display', 'block');
+				
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	}
+	
+	function openUpdateComments(commentsId) {
+		$.ajax({
+			url : '/shopping/shoppingDetail/'+pid+'/comments/'+commentsId,
+			type : 'get',
+			dataType : 'json',
+			async : false,
+			success : function(res) {
+				$('#comm'+commentsId+'').html(
+					'<span>작성자: ' + res.comWriter + '</span><span>' + res.comRegDate2 +
+					'</span>' + '<textarea cols="20" rows="3" id="updateComments"' +
+					'placeholder="' + res.content + '"></textarea><input type="button"' +
+					'value="수정" onclick="updateComments(' + commentsId +')"><input type="button"' +
+					'value="취소" onclick="cancel(' + commentsId  + ')">'
+				);
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	}
+	
+	function cancel(commentsId){
+		$.ajax({
+			url : '/shopping/shoppingDetail/'+pid+'/comments/'+commentsId,
+			type : 'get',
+			dataType : 'json',
+			async : false,
+			success : function(res) {
+				$('#comm'+commentsId+'').html(
+					'<span>작성자: ' + res.comWriter + '</span><span>' + res.comRegDate2 +
+					'</span><p>' + res.content + '<i>' +
+					'<input type="button" onclick="openReplyComments(' + res.commentsId + ')" value="답글" >' +
+					'<input type="button" onclick="openUpdateComments(' + res.commentsId + ')" value="수정" >' +
+					'<input type="button" onclick="confirmDelete(' + res.commentsId + ')" value="삭제" ></i></p>'
+				);
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	}
+	
+	function updateComments(commentsId) {
+		let content = $('#updateComments').val();
+		
+		let params = {
+			content : content
+		}
+		
+		$.ajax({
+			url : '/shopping/shoppingDetail/'+pid+'/comments/'+commentsId,
+			type : 'post',
+			contentType : 'application/json; charset=utf-8',
+			dataType : 'json',
+			data : JSON.stringify(params),
+			async : false,
+			success : function(res) {
+				// console.log(response);
+				alert(res.msg);
+				listComments();
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	}
+	
+	function confirmDelete(commentsId){
+		if(confirm('정말 삭제하시겠습니까?')){
+			deleteComments(commentsId);
+		}
+	}
+	
+	function deleteComments(commentsId){
+		let params = {
+			commentsId : commentsId
+		}
+		
+		$.ajax({
+			url : '/shopping/shoppingDetail/'+pid+'/comments/delete/'+commentsId,
+			type : 'post',
+			dataType : 'json',
+			data : JSON.stringify(params),
+			async : false,
+			success : function(res) {
+				alert(res.msg);
+				listComments();
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	}
+	
+	function clickComments() {
+		$('.onComments').css('display', 'none');
+		$('.commentsOn').css('display', 'block');
+		$('.comments > .commsOn').css({'display': 'block',
+			'float': 'left', 'height': '100px', 'margin-right': '55px'});
+	}
+	
+	function openReplyComments(commentsId) {
+		$.ajax({
+			url : '/shopping/shoppingDetail/'+pid+'/comments/reply/'+commentsId,
+			type : 'get',
+			dataType : 'json',
+			async : false,
+			success : function(res) {
+			$('#comm'+commentsId+'').html(
+			'<span>작성자: ' + res.comWriter +
+			'</span><span>' + res.comRegDate2 + '</span><p>' + res.content + '<i>' +
+			'<input type="button" onclick="openReplyComments(' + res.commentsId + ')" value="대댓글" >' +
+			'<input type="button" onclick="openUpdateComments(' + res.commentsId + ')" value="수정" >' +
+			'<input type="button" onclick="confirmDelete(' + res.commentsId + ')" value="삭제" ></i></p>' +
+			'<p><textarea cols="20" rows="3" id="replyComments"' +
+			'placeholder="답글을 다세요"></textarea><input type="button"' +
+			'value="등록" onclick="replyComments(' + commentsId + ', ' + res.seq + ', ' + res.lev + ')">' + 
+			'<input type="button" value="취소" onclick="cancel(' + commentsId + ')"></p>');
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	}
+	
+	function replyComments(commentsId, seq, lev){
+		let content = $('#replyComments').val();
+		var lev = lev + 1;
+		var seq = seq;
+		
+		let params = {
+			content: content,
+			gpid: gpid,
+			comWriter: writer,
+			lev: lev,
+			seq: seq
+		};
+		
+		// console.log(params);
+		
+		$.ajax({
+			url : '/shopping/shoppingDetail/'+pid+'/comments/reply/'+commentsId,
+			type : 'post',
+			contentType : 'application/json; charset=utf-8',
+			dataType : 'json',
+			data : JSON.stringify(params),
+			async : false,
+			success : function(res) {
+				// console.log(response);
+				alert(res.msg);
+				listComments();
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
 				console.log(error);
 			}
 		})

@@ -1,14 +1,17 @@
 package bag.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import bag.model.FileDTO;
@@ -33,15 +36,11 @@ public class InquiryController {
 	@Autowired
 	PageData pd;
 	
+	List<InquiryDTO> inquiryList;
+	
 	@ModelAttribute("pd")
 	Object pd() {
-		pd.setTotalPage(inqMapper.totalInquiry());
 		return pd;
-	}
-	
-	@ModelAttribute("inquiryList")
-	Object inquiryList() {
-		return inqMapper.inqList();
 	}
 	
 	@ModelAttribute("inquiryDetail")
@@ -133,9 +132,19 @@ public class InquiryController {
 	}
 	
 	@RequestMapping("{inquirySer}/{id}")
-	String goInquiry(@PathVariable String inquirySer, @PathVariable int id,
+	String goInquiry(Model md,
+			@RequestParam(required = false) String searchCate,
+			@RequestParam(required = false) String searchCont,
+			@PathVariable String inquirySer, @PathVariable int id,
 			InquiryDTO inDTO) {
+		if(searchCate == null) {
+			inquiryList = inqMapper.inqList();
+		}else {
+			inquiryList = inqMapper.searchList(searchCate, searchCont);
+		}
+		pd.setTotalPage(inquiryList.size());
 		pd.setPageStart(id);
+		md.addAttribute("inquiryList", inquiryList);
 		return "inquiry/templates";
 	}
 }

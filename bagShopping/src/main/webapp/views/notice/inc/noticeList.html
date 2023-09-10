@@ -12,7 +12,7 @@
 		<td>조회수</td>
 		<td>작성일</td>
 	</tr>
-	<tr th:each="num,no:${#numbers.sequence(pd.listStart, pd.listEnd)}">
+	<tr th:if="${#arrays.length(noticeList) ne 0}" th:each="num,no:${#numbers.sequence(pd.listStart, pd.listEnd)}">
 		<td th:text="${pd.pageIndex - no.index}"></td>
 		<td>
 			<a th:href="|/notice/noticeDetail/${noticeList[num].noticeId}|" th:text="${noticeList[num].nTitle}"></a>
@@ -20,6 +20,9 @@
 		<td th:text="${noticeList[num].nWriter}"></td>
 		<td th:text="${noticeList[num].cnt}"></td>
 		<td th:text="${noticeList[num].noticeRegDate2}"></td>
+	</tr>
+	<tr th:unless="${#arrays.length(noticeList) ne 0}">
+		<td colspan="5">검색된 게시글이 없습니다</td>
 	</tr>
 	<tr>
 		<td colspan="5">
@@ -35,9 +38,42 @@
 			<a th:href="|/notice/noticeList/${pd.endPage}|">>></a>
 		</td>
 	</tr>
+	<form action="/notice/noticeList/1" id="searForm">
+		<tr>
+			<td colspan="2">
+				<select name="searchCate">
+					<option value="전체">전체</option>
+					<option value="제목">제목</option>
+					<option value="내용">내용</option>
+				</select>
+			</td>
+			<td>
+				<input type="text" name="searchCont" id="searchCont" />
+			</td>
+			<td colspan="2">
+				<input type="submit" value="검색" />
+			</td>
+		</tr>
+	</form>
 	<tr>
 		<td align="right" colspan="5" th:if="${session.admin ne null}">
 			<a href="/notice/noticeWrite/1">글작성</a>
 		</td>
 	</tr>
 </table>
+<script>
+	$(document).ready(function(){
+		$('#searForm').submit(function(e){
+			e.preventDefault();
+			
+			const search = $('#searchCont').val().trim();
+			
+			if(search.length == 0 || search.length > 30){
+				alert('검색 내용은 1~30글자 내로 해주세요');
+				return false;
+			}else {
+				$('#searForm').get(0).submit();
+			}
+		})
+	})
+</script>

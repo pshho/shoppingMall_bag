@@ -9,10 +9,10 @@ import bag.model.NoticeDTO;
 @Mapper
 public interface NoticeMapper {
 	List<NoticeDTO> notList();
-	int totalNotice();
 	NoticeDTO notDetail(int id);
 	void notWrite(NoticeDTO nDTO);
 	int maxNoticeId();
 	void deleteNotice(int id);
 	void updateNotice(NoticeDTO nDTO);
+	List<NoticeDTO> searchList(String searchCate, String searchCont);
 }

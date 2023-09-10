@@ -1,5 +1,6 @@
 package bag.controller;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -52,6 +54,9 @@ public class ShoppingController {
 	
 	List<CartDTO> cartList = null;
 	
+	List<ProductsBoardDTO> prbDTOs;
+	List<BagsDTO> bagDTOs;
+	
 	int total = 0;
 	
 	@ModelAttribute("pd")
@@ -77,7 +82,9 @@ public class ShoppingController {
 	}
 	
 	@RequestMapping("{shoppingSer}/{brand}/{category}/{type}/{page}")
-	ModelAndView goShopping(@PathVariable String shoppingSer,
+	ModelAndView goShopping(
+			@RequestParam(required = false) String searchCont,
+			@PathVariable String shoppingSer,
 			@PathVariable int brand,
 			@PathVariable int category,
 			@PathVariable int type,
@@ -87,14 +94,29 @@ public class ShoppingController {
 		BagsDTO bagDTO = new BagsDTO();
 		if(shoppingSer.equals("shoppingList")) {
 			pd.setPageStart(page);
-			prbDTO.setBrandId(brand);
-			prbDTO.setCategoriesId(category);
-			prbDTO.setTypeId(type);
 			bagDTO.setBrandId(brand);
 			bagDTO.setCategoriesId(category);
 			bagDTO.setTypeId(type);
-			mav.addObject("bagsList", bagMapper.bagsList(bagDTO));
-			mav.addObject("productsBoardList", prbMapper.productsBoardList(prbDTO));
+			prbDTO.setBrandId(brand);
+			prbDTO.setCategoriesId(category);
+			prbDTO.setTypeId(type);
+			if(searchCont == null) {
+				bagDTOs = bagMapper.bagsList(bagDTO);
+				prbDTOs = prbMapper.productsBoardList(prbDTO);
+			}else {
+				bagDTOs = new ArrayList<>();
+				prbDTOs = prbMapper.searchList(searchCont);
+				for(ProductsBoardDTO prb : prbDTOs) {
+					for(BagsDTO bag : bagMapper.allProducts()) {
+						if(prb.getProductCode() == bag.getProductCode()) {
+							bagDTOs.add(bag);
+						}
+					}
+				}
+			}
+			pd.setTotalPage(prbDTOs.size());
+			mav.addObject("bagsList", bagDTOs);
+			mav.addObject("productsBoardList", prbDTOs);
 		}else if(shoppingSer.equals("shoppingDetail")) {
 			prbDTO.setProductsBoardId(page);
 			bagDTO.setProductsBoardId(page);
@@ -103,7 +125,6 @@ public class ShoppingController {
 			mav.addObject("bags", bags);
 			mav.addObject("productsBoard", prbMapper.productsBoard(prbDTO));
 		}
-		pd.setTotalPage(prbMapper.productsBoardList(prbDTO).size());
 		mav.addObject("pd", pd);
 		return mav;
 	}
