@@ -46,4 +46,17 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		intro = #{intro}, contents = #{contents}, address_info = #{addressInfo}, guide = #{guide}, product_code = #{productCode}
 		<include refid="wh_prbBoardId" />
 	</update>
+	<select id="searchList" resultType="prbDTO">
+		select pb.* from products_board as pb
+		left join type as t on pb.type_id = t.type_id
+		left join brand as b on pb.brand_id = b.brand_id
+		left join categories as c on pb.categories_id = c.categories_id
+		left join bags as pd on pb.product_code = pd.product_code
+		where
+		t.type_name like concat('%', #{searchCont}, '%') or
+		b.brand_name like concat('%', #{searchCont}, '%') or
+		c.categories_name like concat('%', #{searchCont}, '%') or
+		pd.bag_name like concat('%', #{searchCont}, '%') or
+		intro like concat('%', #{searchCont}, '%') or contents like concat('%', #{searchCont}, '%')
+	</select>
 </mapper>

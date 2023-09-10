@@ -73,4 +73,23 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</update>
+	<select id="searchList" resultType="inDTO">
+		select * from inquiry
+		<where>
+			<if test="searchCate=='전체'">
+				in_title like concat('%', #{searchCont}, '%') or in_content like concat('%', #{searchCont}, '%') or 
+				in_writer like concat('%', #{searchCont}, '%')
+			</if>
+			<if test="searchCate=='작성자'">
+				in_writer like concat('%', #{searchCont}, '%')
+			</if>
+			<if test="searchCate=='제목'">
+				in_title like concat('%', #{searchCont}, '%')
+			</if>
+			<if test="searchCate=='내용'">
+				in_content like concat('%', #{searchCont}, '%')
+			</if>
+		</where>
+		order by gid desc, seq
+	</select>
 </mapper>

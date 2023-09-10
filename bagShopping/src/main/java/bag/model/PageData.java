@@ -18,7 +18,11 @@ public class PageData {
 		if(getTotalPage() % getPageLimit() != 0) {
 			endPage = getTotalPage()/getPageLimit() + 1;
 		}else {
-			endPage = getTotalPage()/getPageLimit();
+			if(getTotalPage()/getPageLimit() > 0) {
+				endPage = getTotalPage()/getPageLimit();
+			}else {
+				endPage = 1;
+			}
 		}
 		return endPage;
 	}

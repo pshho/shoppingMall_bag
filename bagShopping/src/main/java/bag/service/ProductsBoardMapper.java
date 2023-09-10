@@ -14,4 +14,5 @@ public interface ProductsBoardMapper {
 	int maxPrbId();
 	void deleteProduct(int productsBoardId);
 	void updateProduct(ProductsBoardDTO prbDTO);
+	List<ProductsBoardDTO> searchList(String searchCont);
 }

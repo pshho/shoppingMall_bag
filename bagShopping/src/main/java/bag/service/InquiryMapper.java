@@ -18,6 +18,7 @@ public interface InquiryMapper {
 	void deleteInquiry(int id);
 	void updateInquiry(InquiryDTO inDTO);
 	void updateSeq(InquiryDTO inDTO);
+	List<InquiryDTO> searchList(String searchCate, String searchCont);
 	
 	List<InquiryDTO> myInqList(String id);
 }
