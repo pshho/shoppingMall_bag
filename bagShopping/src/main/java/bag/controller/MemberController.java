@@ -13,10 +13,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import bag.model.AddressDTO;
 import bag.model.InquiryDTO;
 import bag.model.MemberDTO;
+import bag.model.OrderDTO;
+import bag.model.PageData2;
 import bag.service.AddressMapper;
 import bag.service.CartMapper;
 import bag.service.InquiryMapper;
 import bag.service.MemberMapper;
+import bag.service.OrdersMapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -37,6 +40,8 @@ public class MemberController {
 	InquiryMapper inqMapper;
 	@Resource
 	CartMapper cartMapper;
+	@Resource
+	OrdersMapper ordMapper;
 
 	final DefaultMessageService messageService;
 
@@ -185,7 +190,7 @@ public class MemberController {
 		
 		if(idPwCheck > 0) {
 			
-			return "redirect:myProfile";
+			return "redirect:myProfile/1";
 		}
 
 		mm.addAttribute("msg", msg);
@@ -195,8 +200,8 @@ public class MemberController {
 	
 	
 	// 내 정보
-	@RequestMapping("myProfile")
-	String myProfile(HttpSession session, Model mm) {	
+	@RequestMapping("myProfile/{page}")
+	String myProfile(HttpSession session, Model mm, PageData2 pd) {	
 		
 		String userId = (String)session.getAttribute("userId");
 		String templateUrl = "myProfile";
@@ -207,13 +212,13 @@ public class MemberController {
 		mm.addAttribute("profile", getUserProfile);
 		mm.addAttribute("address", getUserAddr);
 		mm.addAttribute("memberService",templateUrl);
-		
+		mm.addAttribute("pd",pd);
 		return "member/template";
 	}
 	
 	// 내 문의내역
-	@RequestMapping("myInquiry")
-	String myInquiry(HttpSession session, Model mm) {	
+	@RequestMapping("myInquiry/{page}")
+	String myInquiry(HttpSession session, Model mm, PageData2 pd) {	
 		
 		String userId = (String)session.getAttribute("userId");
 		String templateUrl = "myInquiry";
@@ -222,7 +227,21 @@ public class MemberController {
 		
 		mm.addAttribute("myInq", getUserInq);
 		mm.addAttribute("memberService", templateUrl);
+		mm.addAttribute("pd",pd);
+		return "member/template";
+	}
+	
+	@RequestMapping("myOrder/{page}")
+	String myOrder(HttpSession session, Model mm, PageData2 pd) {	
 		
+		String userId = (String)session.getAttribute("userId");
+		String templateUrl = "myOrder";
+		
+		List<OrderDTO> getUserOrd = ordMapper.myOrdList(userId);
+		
+		mm.addAttribute("orderList", getUserOrd);
+		mm.addAttribute("memberService", templateUrl);
+		mm.addAttribute("pd",pd);
 		return "member/template";
 	}
 	

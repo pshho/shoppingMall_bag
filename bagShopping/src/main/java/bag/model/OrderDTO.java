@@ -10,7 +10,7 @@ import lombok.Data;
 @Data
 public class OrderDTO {
 	int ordersTotalPrice;
-	String merchant_uid, payType, memberId, imp_uid, prodCode, prodCount;
+	String merchant_uid, payType, memberId, imp_uid, prodCode, prodCount, merchantUid;
 	String prdName, buyerName, buyerEmail, buyerTel, buyerAddr, buyerPostcode, addressMsg;
 	Date ordersRegDate;
 }

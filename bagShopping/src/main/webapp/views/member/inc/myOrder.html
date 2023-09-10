@@ -5,9 +5,55 @@
 <title>마이페이지 - 내 주문내역</title>
 </head>
 <body>
-	<a href="myProfile">내 정보</a>
-	<a href="myOrder">주문내역</a>
-	<a href="myInquiry">문의내역</a>
+	<a th:href="|/member/myProfile/1|">내 정보</a>
+	<a th:href="|/member/myOrder/1|">주문내역</a>
+	<a th:href="|/member/myInquiry/1|">문의내역</a>
 <h2>주문내역입니다.</h2>
+<table border="">
+		<tr>
+			<td>주문번호</td>
+			<td>상품코드</td>
+			<td>상품갯수</td>
+			<td>총가격</td>
+			<td>구매자명</td>
+			<td>주소</td>
+			<td>전화번호</td>
+			<td>이메일</td>
+			<td>주문일자</td>
+		</tr>
+		<tr th:each="order : ${orderList}">
+			<td th:text="${order.merchantUid}" />
+			<td th:text="${order.prodCode}" />
+			<td th:text="${order.prodCount}" />
+			<td th:text="${order.ordersTotalPrice}" />
+			<td th:text="${order.buyerName}" />
+			<td th:text="${order.buyerAddr}" />
+			<td th:text="${order.buyerTel}" />
+			<td th:text="${order.buyerEmail}" />
+			<td th:text="${order.ordersRegDate}" />
+		</tr>
+		<tr>
+			<td colspan="9" align="center">
+				<th:block th:if="${pd.pageStart} > 1">
+					<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
+				</th:block>
+				<th:block th:if="${pd.pageEnd > 0}">
+					<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
+						<b th:if="${num} == ${pd.page}">
+							<a th:href="|${num}|" th:text="${num}" />
+						</b>
+						<th:block th:unless="${num} == ${pd.page}">
+							<a th:href="|${num}|" th:text="${num}" />
+						</th:block>
+					</th:block>
+				</th:block>
+				<th:block th:if="${pd.pageEnd == 0}"><a th:href="1">1</a></th:block>
+				<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
+					<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
+				</th:block>
+			</td>
+		</tr>
+
+	</table>
 </body>
 </html>

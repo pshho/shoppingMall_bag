@@ -19,6 +19,7 @@ import bag.service.CategoriesMapper;
 import bag.service.FileMapper;
 import bag.service.ImgSaveUtil;
 import bag.service.MemberMapper;
+import bag.service.OrdersMapper;
 import bag.service.TypeMapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,6 +40,8 @@ public class AdminController {
 	TypeMapper typeMapper;
 	@Resource
 	FileMapper fileMapper;
+	@Resource
+	OrdersMapper ordMapper;
 	@Resource
 	ImgSaveUtil saveutil;
 
@@ -86,9 +89,6 @@ public class AdminController {
 		System.out.println(pd);
 		mm.addAttribute("brands", brandMapper.brandList());
 		mm.addAttribute("categories", cateMapper.categoriesList());
-
-		mm.addAttribute("bags", bagsMapper.allProducts());
-
 		mm.addAttribute("types", typeMapper.typeList());
 		mm.addAttribute("adminService", adminUrl);
 		return "admin/template";
@@ -259,6 +259,7 @@ public class AdminController {
 
 		String adminUrl = "salesHistory";
 
+		mm.addAttribute("orderList", ordMapper.orderList(pd));
 		mm.addAttribute("adminService", adminUrl);
 		mm.addAttribute("pd",pd);
 		return "admin/template";

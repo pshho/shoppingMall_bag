@@ -12,4 +12,12 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		#{prdName}, #{buyerName}, #{buyerEmail}, #{buyerTel}, #{buyerAddr}, #{buyerPostcode},
 		#{addressMsg}, #{ordersRegDate})
 	</insert>
+	
+	<select id="orderList">
+		select * from orders limit #{start},#{limit}
+	</select>
+	
+	<select id="myOrdList" >
+		select * from orders where member_id = #{id}
+	</select>
 </mapper>
