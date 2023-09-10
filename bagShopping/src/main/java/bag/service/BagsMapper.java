@@ -34,4 +34,7 @@ public interface BagsMapper {
 	int getImg2(int productCode);
 	int getImg3(int productCode);
 	int getImg4(int productCode);
+	
+	void updSells(BagsDTO bagDTO);
+	void updStock(BagsDTO bagDTO);
 }

@@ -217,7 +217,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				bag_zipper,
 				bag_buckle, bag_stock, bag_comment, bags_production_day,
 				bag_img1,
-				bag_img2, bag_img3, bag_img4)
+				bag_img2, bag_img3, bag_img4, sells_amount)
 				values
 				(#{productCode},
 				#{brandId}, #{categoriesId}, #{typeId},
@@ -228,7 +228,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
 				#{bagStock},
 				#{bagComment}, sysdate(), #{bagImg1}, #{bagImg2},
-				#{bagImg3}, #{bagImg4})
+				#{bagImg3}, #{bagImg4}, 0)
 			</when>
 			<when
 				test="bagImg1 != null and bagImg2 != null and bagImg3 != null">
@@ -240,7 +240,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				bag_zipper,
 				bag_buckle, bag_stock, bag_comment, bags_production_day,
 				bag_img1,
-				bag_img2, bag_img3)
+				bag_img2, bag_img3, sells_amount)
 				values
 				(#{productCode},
 				#{brandId},
@@ -253,7 +253,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
 				#{bagStock},
 				#{bagComment}, sysdate(), #{bagImg1}, #{bagImg2},
-				#{bagImg3})
+				#{bagImg3}, 0)
 			</when>
 			<when test="bagImg1 != null and bagImg2 != null">
 				insert into bags
@@ -267,7 +267,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				bag_zipper,
 				bag_buckle, bag_stock, bag_comment,
 				bags_production_day,
-				bag_img1, bag_img2)
+				bag_img1, bag_img2, sells_amount)
 				values
 				(#{productCode},
 				#{brandId}, #{categoriesId}, #{typeId},
@@ -277,7 +277,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagOuterFabric},
 				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
 				#{bagStock},
-				#{bagComment}, sysdate(), #{bagImg1}, #{bagImg2})
+				#{bagComment}, sysdate(), #{bagImg1}, #{bagImg2}, 0)
 			</when>
 			<when test="bagImg1 != null">
 				insert into bags
@@ -291,7 +291,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				bag_zipper,
 				bag_buckle, bag_stock, bag_comment,
 				bags_production_day,
-				bag_img1)
+				bag_img1, sells_amount)
 				values
 				(#{productCode},
 				#{brandId},
@@ -303,7 +303,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagOuterFabric},
 				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
 				#{bagStock},
-				#{bagComment}, sysdate(), #{bagImg1})
+				#{bagComment}, sysdate(), #{bagImg1}, 0)
 			</when>
 			<otherwise>
 				insert into bags
@@ -312,7 +312,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				bag_size_w, bag_size_h, bag_size_d,
 				bag_capacity, bag_weight, bag_outer_fabric, bag_inner_fabric,
 				bag_zipper,
-				bag_buckle, bag_stock, bag_comment, bags_production_day)
+				bag_buckle, bag_stock, bag_comment, bags_production_day, sells_amount)
 				values
 				(#{productCode}, #{brandId}, #{categoriesId}, #{typeId},
 				#{bagName}, #{bagPrice}, #{bagSizeW}, #{bagSizeH},
@@ -320,7 +320,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagCapacity}, #{bagWeight}, #{bagOuterFabric},
 				#{bagInnerFabric},
 				#{bagZipper}, #{bagBuckle}, #{bagStock},
-				#{bagComment}, sysdate())
+				#{bagComment}, sysdate(), 0)
 			</otherwise>
 		</choose>
 	</sql>
@@ -460,4 +460,12 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</otherwise>
 		</choose>
 	</sql>
+	<update id="updSells" parameterType="bagDTO">
+		update bags set sells_amount = sells_amount + #{sellsAmount}
+       	where product_code = #{productCode}
+	</update>
+	<update id="updStock" parameterType="bagDTO">
+		update bags set bag_stock = bag_stock - sells_amount
+		where product_code = #{productCode}
+	</update>
 </mapper>

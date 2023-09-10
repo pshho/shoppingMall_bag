@@ -1,6 +1,7 @@
 package bag.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -49,11 +50,13 @@ public class OrderController {
 	@Autowired
 	RestPayService restPay;
 	
-	List<BagsDTO> bags;
+	List<CartDTO> cartList;
 	OrderDTO ordDTO;
 	String total;
 	String productUid;
 	String key;
+	String productCount;
+	ArrayList<BagsDTO> updStock;
 	
 	@RequestMapping("{ordersSer}")
 	ModelAndView goOrders(HttpSession session,
@@ -62,11 +65,10 @@ public class OrderController {
 		CartDTO cart = new CartDTO();
 		if(session != null) {
 			String memberId = (String)session.getAttribute("userId");
-			List<CartDTO> cartList = cartMapper.cartList(memberId);
+			cartList = cartMapper.cartList(memberId);
 			cart.sumTotal(cartList);
 			mav.addObject("cartList", cartList);
-			bags = bagMapper.cartBags(memberId);
-			mav.addObject("cartBags", bags);
+			mav.addObject("cartBags", bagMapper.cartBags(memberId));
 			total = cart.getSumTotal()+"";
 			mav.addObject("total", total);
 			mav.addObject("user", memMapper.getUser(memberId));
@@ -108,17 +110,26 @@ public class OrderController {
 	@ResponseBody
 	Object requestPay(@RequestBody OrderDTO ordDTO) {
 		String prdCode = "";
-		if(bags != null) {
-			for(int i=0; i<bags.size(); i++) {
-				if(i==bags.size()-1) {
-					prdCode += bags.get(i).getProductCode();
+		String prdCount = "";
+		if(cartList != null) {
+			updStock = new ArrayList<>();
+			for(int i=0; i<cartList.size(); i++) {
+				BagsDTO bag = new BagsDTO();
+				if(i==cartList.size()-1) {
+					prdCode += cartList.get(i).getProductCode();
+					prdCount += cartList.get(i).getProductsCount();
 				}else {
-					prdCode += bags.get(i).getProductCode()+",";
+					prdCode += cartList.get(i).getProductCode()+",";
+					prdCount += cartList.get(i).getProductsCount()+",";
 				}
+				bag.setProductCode(cartList.get(i).getProductCode());
+				bag.setSellsAmount(cartList.get(i).getProductsCount());
+				updStock.add(bag);
 			}
 		}
 		this.ordDTO = ordDTO;
 		this.ordDTO.setProdCode(prdCode);
+		this.ordDTO.setProdCount(prdCount);
 		return this.ordDTO;
 	}
 	
@@ -140,6 +151,11 @@ public class OrderController {
 		if(this.ordDTO.getOrdersTotalPrice() == (int)response.get("response").get("amount")) {
 			this.ordDTO.setPayType((String)response.get("response").get("card_name"));
 			this.ordDTO.setImp_uid(ordDTO.getImp_uid());
+			for(BagsDTO bag : updStock) {
+				bagMapper.updSells(bag);
+				bagMapper.updStock(bag);
+			}
+			cartMapper.allDelete(ordDTO.getMemberId());
 			ordMapper.orderInsert(this.ordDTO);
 			return ResponseEntity.ok("결제 완료");
 		}else {

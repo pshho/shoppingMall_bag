@@ -20,7 +20,10 @@
 			<th:block th:if="${inquiryList[num].lev ne 0}"
 				th:each="re:${#numbers.sequence(1, inquiryList[num].lev)}">
 				<span>└</span></th:block>
-			<a th:href="|/inquiry/detailCheck/${inquiryList[num].inquiryId}|" th:text="|비밀글입니다|"></a>
+			<a th:if="${session.admin}" 
+			th:href="|/inquiry/detailCheck/${inquiryList[num].inquiryId}|" th:text="${inquiryList[num].inTitle}"></a>
+			<a th:unless="${session.admin}"
+			th:href="|/inquiry/detailCheck/${inquiryList[num].inquiryId}|" th:text="|비밀글입니다|"></a>
 		</td>
 		<td th:text="${inquiryList[num].inWriter}"></td>
 		<td th:text="${inquiryList[num].inquiryRegDate2}"></td>
