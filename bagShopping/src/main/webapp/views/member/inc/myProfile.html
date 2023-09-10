@@ -5,11 +5,47 @@
 <title>마이페이지 - 내 정보</title>
 </head>
 <body>
-	<a href="myProfile">내 정보</a>
-	<a href="myOrder">주문내역</a>
-	<a href="myInquiry">문의내역</a>
+	<a th:href="|/member/myProfile/1|">내 정보</a>
+	<a th:href="|/member/myOrder/1|">주문내역</a>
+	<a th:href="|/member/myInquiry/1|">문의내역</a>
 	<h2>내정보 입니다.</h2>
-	[[${profile}]]
-	[[${address}]]
+	<table border="" >
+		<th:block th:each="my : ${profile}">
+		<tr >
+			<td>아이디</td>
+			<td th:text="${my.memberId}"></td>
+		</tr>
+		<tr>
+			<td>이름</td>
+			<td th:text="${my.memberName}"></td>
+		</tr>
+		<tr>
+			<td>이메일</td>
+			<td th:text="${my.memberEmail}"></td>
+		</tr>
+		<tr>
+			<td>전화번호</td>
+			<td th:text="${my.memberPhone}"></td>
+		</tr>
+		<tr>
+			<td>가입일</td>
+			<td th:text="${my.memberRegDateStr}"></td>
+		</tr>
+		</th:block>
+		<th:block th:each="addr : ${address}">
+		<tr >
+			<td>우편번호</td>
+			<td th:text="${addr.zipCode}"></td>
+		</tr>
+		<tr >
+			<td>주소</td>
+			<td th:text="${addr.address}"></td>
+		</tr>
+		<tr>
+			<td>상세주소</td>
+			<td th:text="${addr.detailAddress}"></td>
+		</tr>
+		</th:block>
+	</table>
 </body>
 </html>

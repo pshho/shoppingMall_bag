@@ -13,7 +13,8 @@ public interface BagsMapper {
 	List<BagsDTO> bagsList(BagsDTO bagDTO);
 
 	List<BagsDTO> allBagsList(PageData2 pd);
-
+	int cntMaxGoods(PageData2 pd);
+	
 	List<BagsDTO> allProducts();
 
 	BagsDTO bags(BagsDTO bagDTO);
@@ -23,7 +24,7 @@ public interface BagsMapper {
 	BagsDTO detailBag(int productCode);
 	int modifyBag(BagsDTO bagDTO);
 	int deleteGoods(int productCode);
-	int cntMaxGoods(PageData2 pd);
+	
 	
 	void deleteImg1(int productCode);
 	void deleteImg2(int productCode);

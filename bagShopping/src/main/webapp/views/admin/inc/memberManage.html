@@ -70,6 +70,7 @@
 				<th:block th:if="${pd.pageStart} > 1">
 					<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
 				</th:block>
+				<th:block th:if="${pd.pageEnd > 0}">
 				<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
 					<b th:if="${num} == ${pd.page}">
 						<a th:href="|${num}|" th:text="${num}" />
@@ -77,6 +78,12 @@
 					<th:block th:unless="${num} == ${pd.page}">
 						<a th:href="|${num}|" th:text="${num}" />
 					</th:block>
+				</th:block>
+				</th:block>
+				<th:block th:if="${pd.pageEnd == 0}">
+					<b>
+						<a th:href="|1?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="1" />
+					</b>
 				</th:block>
 				<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
 					<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
