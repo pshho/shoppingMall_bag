@@ -5,10 +5,10 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 <mapper namespace="bag.service.OrdersMapper">
 	<insert id="orderInsert" parameterType="ordDTO">
 		insert into orders
-		(orders_total_price, merchant_uid, pay_type, member_id, imp_uid, prod_code, prd_name, buyer_name,
+		(orders_total_price, merchant_uid, pay_type, member_id, imp_uid, prod_code, prod_count, prd_name, buyer_name,
 		buyer_email, buyer_tel, buyer_addr, buyer_postcode, address_msg, orders_reg_date)
 		values
-		(#{ordersTotalPrice}, #{merchant_uid}, #{payType}, #{memberId}, #{imp_uid}, #{prodCode},
+		(#{ordersTotalPrice}, #{merchant_uid}, #{payType}, #{memberId}, #{imp_uid}, #{prodCode}, #{prodCount},
 		#{prdName}, #{buyerName}, #{buyerEmail}, #{buyerTel}, #{buyerAddr}, #{buyerPostcode},
 		#{addressMsg}, #{ordersRegDate})
 	</insert>
