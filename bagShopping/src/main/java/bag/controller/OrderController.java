@@ -128,6 +128,7 @@ public class OrderController {
 			}
 		}
 		this.ordDTO = ordDTO;
+		this.ordDTO.setPayType(ordDTO.getPayType());
 		this.ordDTO.setProdCode(prdCode);
 		this.ordDTO.setProdCount(prdCount);
 		return this.ordDTO;
@@ -149,7 +150,6 @@ public class OrderController {
 		Map<Object, LinkedHashMap<Object, Object>> response = 
 				(Map<Object, LinkedHashMap<Object, Object>>) restPay.afterPay(ordDTO, key);
 		if(this.ordDTO.getOrdersTotalPrice() == (int)response.get("response").get("amount")) {
-			this.ordDTO.setPayType((String)response.get("response").get("card_name"));
 			this.ordDTO.setImp_uid(ordDTO.getImp_uid());
 			for(BagsDTO bag : updStock) {
 				bagMapper.updSells(bag);
