@@ -34,8 +34,8 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 	<select id="basicAddress" resultType="aDTO">
 		select * from address
 		<where>
-			<if test="memberId=null">
-				member_id = #{memberId}
+			<if test="id!=null">
+				member_id = #{id}
 			</if>
 			<if test="basicAddr!=0">
 				and basic_addr = #{basicAddr}

@@ -63,8 +63,8 @@ public class OrderController {
 			@PathVariable String ordersSer) {
 		ModelAndView mav = new ModelAndView("orders/templates");
 		CartDTO cart = new CartDTO();
+		String memberId = (String)session.getAttribute("userId");
 		if(session != null) {
-			String memberId = (String)session.getAttribute("userId");
 			cartList = cartMapper.cartList(memberId);
 			cart.sumTotal(cartList);
 			mav.addObject("cartList", cartList);
