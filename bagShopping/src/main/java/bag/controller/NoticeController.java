@@ -54,7 +54,11 @@ public class NoticeController {
 			NoticeDTO nDTO) {
 		FileDTO fDTO = new FileDTO();
 		notMapper.notWrite(nDTO);
-		fDTO.setNoticeId(notMapper.maxNoticeId());
+		Object noticeId = notMapper.maxNoticeId();
+		if(noticeId == null) {
+			noticeId = 0;
+		}
+		fDTO.setNoticeId((int)noticeId);
 		fDTO.setComplete(true);
 		fDTO.setMemberId(nDTO.getNWriter());
 		fMapper.updateFile(fDTO);
