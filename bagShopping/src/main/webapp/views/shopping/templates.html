@@ -4,6 +4,7 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 layout:decorate="shopping/inc/view">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title></title>
 <link rel="stylesheet" href="/css/shoppingCss/shopping.css" />
 <script src="https://code.jquery.com/jquery-3.7.1.js" 
@@ -17,9 +18,8 @@ crossorigin="anonymous"></script>
 			dataType : 'json',
 			async : false,
 			success : function(res) {
-				// console.log(response);
 				alert(res.msg);
-				location.href='/shopping/shoppingList/0/0/0/1';
+				location.href='/shopping/shoppingList/0/0/0/1/newest';
 			},
 			error : function (req, status, error) {
 				console.log(req);
@@ -36,7 +36,6 @@ crossorigin="anonymous"></script>
 			dataType : 'json',
 			async : false,
 			success : function(res) {
-				// console.log(response);
 				alert(res.msg);
 				location.href=res.url;
 			},
@@ -48,7 +47,7 @@ crossorigin="anonymous"></script>
 		})
 	}
 	
-	function confirmDelete(productsBoardId){
+	function confirmDeletePrb(productsBoardId){
 		if(confirm('정말 삭제하시겠습니까?')){
 			shoppingDelete(productsBoardId);
 		}

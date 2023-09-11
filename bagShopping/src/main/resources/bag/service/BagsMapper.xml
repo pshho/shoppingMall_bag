@@ -53,6 +53,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				and products_board.type_id = #{typeId}
 			</if>
 		</where>
+		order by products_board_id desc
 	</select>
 
 	<sql id="searchGoods">

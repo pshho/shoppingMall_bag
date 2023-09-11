@@ -36,13 +36,13 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		select * from inquiry <include refid="wh_inquiryId" />
 	</select>
 	<insert id="inqWrite" parameterType="inDTO">
-		<selectKey keyProperty="inquiryId" resultType="Integer" order="BEFORE">
-			select max(inquiry_id)+1 from inquiry
-		</selectKey>
 		insert into inquiry(in_title, in_writer, in_content, inquiry_pw, seq, lev, gid)
 		values
-		(#{inTitle}, #{inWriter}, #{inContent}, #{inquiryPw}, 0, 0, #{inquiryId})
+		(#{inTitle}, #{inWriter}, #{inContent}, #{inquiryPw}, 0, 0, 0)
 	</insert>
+	<update id="updateGid" parameterType="Integer">
+		update inquiry set gid = #{maxId} where inquiry_id = #{maxId}
+	</update>
 	<insert id="inqReply" parameterType="inDTO">
 		insert into inquiry(in_title, in_writer, in_content, inquiry_pw, seq, lev, gid)
 		values

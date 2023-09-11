@@ -25,8 +25,8 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 	
 	<sql id="wh_memberId">
 		<where>
-			<if test="memberId!=null">
-				member_id = #{memberId}
+			<if test="id!=null">
+				member_id = #{id}
 			</if>
 		</where>
 	</sql>

@@ -15,6 +15,8 @@ public class SessionListener implements HttpSessionListener {
 	@Override
 	public void sessionDestroyed(HttpSessionEvent se) {
 		String user = (String)se.getSession().getAttribute("userId");
+		String nonMember = (String)se.getSession().getAttribute("nonMemberId");
 		cartMapper.allDelete(user);
+		cartMapper.allDelete(nonMember);
 	}
 }

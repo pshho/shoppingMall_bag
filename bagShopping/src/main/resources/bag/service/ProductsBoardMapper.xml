@@ -4,6 +4,10 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bag.service.ProductsBoardMapper">
 	
+	<select id="allPrbList" resultType="prbDTO">
+		select * from products_board
+	</select>
+	
 	<select id="productsBoardList" resultType="prbDTO">
 		select * from products_board
 		<where>
@@ -17,6 +21,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				and type_id = #{typeId}
 			</if>
 		</where>
+		order by products_board_id desc
 	</select>
 	
 	<sql id="wh_prbBoardId">
@@ -34,9 +39,9 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		select max(products_board_id) from products_board
 	</select>
 	<insert id="writeProduct" parameterType="prbDTO">
-		insert into products_board(categories_id, type_id, brand_id, intro, contents, address_info, guide, product_code)
+		insert into products_board(categories_id, type_id, brand_id, intro, contents, address_info, guide, product_code, review_count)
 		values
-		(#{categoriesId}, #{typeId}, #{brandId}, #{intro}, #{contents}, #{addressInfo}, #{guide}, #{productCode})
+		(#{categoriesId}, #{typeId}, #{brandId}, #{intro}, #{contents}, #{addressInfo}, #{guide}, #{productCode}, 0)
 	</insert>
 	<delete id="deleteProduct" parameterType="Integer">
 		delete from products_board <include refid="wh_prbBoardId" />
@@ -58,5 +63,12 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		c.categories_name like concat('%', #{searchCont}, '%') or
 		pd.bag_name like concat('%', #{searchCont}, '%') or
 		intro like concat('%', #{searchCont}, '%') or contents like concat('%', #{searchCont}, '%')
+		order by products_board_id desc
 	</select>
+	<update id="updateReviewCount" parameterType="Integer">
+		update products_board set review_count = review_count + 1 where products_board_id = #{productsBoardId}
+	</update>
+	<update id="updateSells" parameterType="Integer">
+		update products_board set sells_amount = #{sells} where product_code = #{productCode}
+	</update>
 </mapper>

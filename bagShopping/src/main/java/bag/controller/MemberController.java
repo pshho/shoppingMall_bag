@@ -207,7 +207,7 @@ public class MemberController {
 		String templateUrl = "myProfile";
 		
 		MemberDTO getUserProfile = memMapper.getUser(userId);
-		AddressDTO getUserAddr = addrMapper.getUserAddress(userId);
+		List<AddressDTO> getUserAddr = addrMapper.getUserAddress(userId);
 		
 		mm.addAttribute("profile", getUserProfile);
 		mm.addAttribute("address", getUserAddr);

@@ -11,7 +11,7 @@ public interface NoticeMapper {
 	List<NoticeDTO> notList();
 	NoticeDTO notDetail(int id);
 	void notWrite(NoticeDTO nDTO);
-	Object maxNoticeId();
+	int maxNoticeId();
 	void deleteNotice(int id);
 	void updateNotice(NoticeDTO nDTO);
 	List<NoticeDTO> searchList(String searchCate, String searchCont);
