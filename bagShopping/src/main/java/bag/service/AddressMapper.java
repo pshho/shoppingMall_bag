@@ -10,8 +10,8 @@ import bag.model.AddressDTO;
 public interface AddressMapper {
 	List<AddressDTO> addrList(String id);
 	int insertAddress(AddressDTO adto);
-	AddressDTO getUserAddress(String id);
+	List<AddressDTO> getUserAddress(String memberId);
 	AddressDTO basicAddress(String id, int basicAddr);
-	AddressDTO selAddr(int id);
+	AddressDTO selAddr(int addressId);
 	void chgBasicAddr(AddressDTO adto);
 }

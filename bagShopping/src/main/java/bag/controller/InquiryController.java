@@ -66,13 +66,9 @@ public class InquiryController {
 			@PathVariable int id,
 			InquiryDTO inDTO) {
 		inqMapper.inqWrite(inDTO);
+		inqMapper.updateGid(inqMapper.maxInquiryId());
 		FileDTO fDTO = new FileDTO();
-		Object inquiryId = inqMapper.maxInquiryId();
-		if(inquiryId == null) {
-			inquiryId = 1;
-		}
-		
-		fDTO.setInquiryId((int)inquiryId);
+		fDTO.setInquiryId(inqMapper.maxInquiryId());
 		fDTO.setComplete(true);
 		fDTO.setMemberId(inDTO.getInWriter());
 		fMapper.updateFile(fDTO);
@@ -108,11 +104,7 @@ public class InquiryController {
 		inDTO.setLev(inDTO.getLev()+1);
 		inqMapper.inqReply(inDTO);
 		FileDTO fDTO = new FileDTO();
-		Object inquiryId = inqMapper.maxInquiryId();
-		if(inquiryId == null) {
-			inquiryId = 1;
-		}
-		fDTO.setInquiryId((int)inquiryId);
+		fDTO.setInquiryId(inqMapper.maxInquiryId());
 		fDTO.setComplete(true);
 		fDTO.setMemberId(inDTO.getInWriter());
 		fMapper.updateFile(fDTO);

@@ -1,0 +1,60 @@
+<html xmlns="http://www.thymeleaf.org">
+<form action="/orders/orderCancel" method="post" id="orderCancel">
+	<input type="hidden" name="url" value="가고 싶은 url을 적어주세요" />
+	<table border="">
+		<tr>
+			<td colspan="2">
+				<h3>주문취소</h3>
+			</td>
+		</tr>
+		<tr>
+			<td>주문번호</td>
+			<td>
+				<input type="text" name="merchant_uid" id="merchant_uid" />
+			</td>
+		</tr>
+		<tr>
+			<td>환불사유</td>
+			<td>
+				<textarea name="cancelReason" id="cancelReason" cols="70" rows="10"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="submit" value="제출" />
+			</td>
+		</tr>
+	</table>
+</form>
+<script>
+	var queryString = window.location.search;
+	var urlParams = new URLSearchParams(queryString);
+	const msg = urlParams.get('msg');
+	const url = urlParams.get('url');
+	
+	$(document).ready(function(){
+		if(msg != null){
+			alert(msg);
+			if(url != null){
+				location.href=url;
+			}
+		}
+		
+		$('#orderCancel').submit(function(e){
+			e.preventDefault();
+			
+			const merchant_uid = $('#merchant_uid').val().trim();
+			const cancelReason = $('#cancelReason').val().trim();
+			
+			if(merchant_uid.length == 0){
+				alert('주문번호를 입력해주세요');
+				return false;
+			}else if(cancelReason.length == 0){
+				alert('환불사유를 입력해주세요');
+				return false;
+			}else {
+				$('#orderCancel').get(0).submit();
+			}
+		})
+	})
+</script>

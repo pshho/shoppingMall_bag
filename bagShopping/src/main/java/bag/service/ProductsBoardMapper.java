@@ -9,10 +9,13 @@ import bag.model.ProductsBoardDTO;
 @Mapper
 public interface ProductsBoardMapper {
 	List<ProductsBoardDTO> productsBoardList(ProductsBoardDTO prbDTO);
+	List<ProductsBoardDTO> allPrbList();
 	ProductsBoardDTO productsBoard(ProductsBoardDTO prbDTO);
 	void writeProduct(ProductsBoardDTO prbDTO);
-	Object maxPrbId();
+	int maxPrbId();
 	void deleteProduct(int productsBoardId);
 	void updateProduct(ProductsBoardDTO prbDTO);
 	List<ProductsBoardDTO> searchList(String searchCont);
+	void updateReviewCount(int productsBoardId);
+	void updateSells(int sells, int productCode);
 }
