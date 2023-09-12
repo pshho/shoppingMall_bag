@@ -1,6 +1,7 @@
 package bag.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -11,6 +12,11 @@ import bag.model.PageData2;
 public interface OrdersMapper {
 	void orderInsert(OrderDTO ordDTO);
 	List<OrderDTO> orderList(PageData2 pd);
+
+	List<OrderDTO> myOrdList2(Map<String, Object> map);
+	int myOrdCnt(String id);
+
 	List<OrderDTO> myOrdList(String id);
 	OrderDTO cancelOrder(String merchantUid);
+
 }

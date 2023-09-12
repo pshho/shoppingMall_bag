@@ -14,9 +14,6 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<select id="notList" resultType="nDTO">
 		select * from notice order by notice_id desc
 	</select>
-	<select id="totalNotice" resultType="Integer">
-		select count(*) from notice
-	</select>
 	<select id="notDetail" parameterType="Integer" resultType="nDTO">
 		select * from notice <include refid="wh_noticeId" />
 	</select>
@@ -39,4 +36,19 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</update>
+	<select id="searchList" resultType="nDTO">
+		select * from notice
+		<where>
+			<if test="searchCate=='전체'">
+				n_title like concat('%', #{searchCont}, '%') or n_content like concat('%', #{searchCont}, '%')
+			</if>
+			<if test="searchCate=='제목'">
+				n_title like concat('%', #{searchCont}, '%')
+			</if>
+			<if test="searchCate=='내용'">
+				n_content like concat('%', #{searchCont}, '%')
+			</if>
+		</where>
+		order by notice_id desc
+	</select>
 </mapper>

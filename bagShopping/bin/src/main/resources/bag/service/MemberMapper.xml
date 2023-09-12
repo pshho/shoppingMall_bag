@@ -6,34 +6,86 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 <mapper namespace="bag.service.MemberMapper">
 
 	<insert id="insertMember" parameterType="mDTO">
-		insert into member (member_id, member_pw, member_name, member_email, member_phone, member_reg_date)
+		insert into member
+		(member_id, member_pw, member_name, member_email, member_phone,
+		member_reg_date)
 		values
-		(#{memberId}, #{memberPw}, #{memberName}, #{memberEmail}, #{memberPhone}, sysdate())
+		(#{memberId}, #{memberPw}, #{memberName},
+		#{memberEmail}, #{memberPhone}, sysdate())
 	</insert>
-	
-	<select id="memberList">
-		select * from member
+
+	<select id="memberList" parameterType="PageData2">
+		select * from member 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="searchType=='Id' and keyword != null and keyword != '' ">
+				AND member_id like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType=='Name' and keyword != null and keyword != '' ">
+				AND member_name like CONCAT('%', #{keyword}, '%')
+			</if>
+		</trim>
+		limit #{start} , #{limit}
 	</select>
-	
+
+	<select id="cntMaxUser" resultType="Integer">
+		select count(*) from member
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="searchType=='Id' and keyword != null and keyword != '' ">
+				AND member_id like CONCAT('%', #{keyword}, '%')
+			</if>
+			<if test="searchType=='Name' and keyword != null and keyword != '' ">
+				AND member_name like CONCAT('%', #{keyword}, '%')
+			</if>
+		</trim>
+	</select>
+
+
 	<select id="idCheck" parameterType="String" resultType="Integer">
-		select count(member_id) from member where member_id = #{memberId}
+		select
+		count(member_id) from member where member_id = #{memberId}
 	</select>
-	
-	<select id="phoneCheck" parameterType="String" resultType="Integer">
-		select count(member_phone) from member where member_phone = #{memberPhone}
+
+	<select id="phoneCheck" parameterType="String"
+		resultType="Integer">
+		select count(member_phone) from member where member_phone =
+		#{memberPhone}
 	</select>
-	
+
 	<select id="idPwCheck" parameterType="mDTO" resultType="Integer">
-		select count(*) from member where member_id = #{memberId} and member_pw = #{memberPw}
+		select
+		count(*) from member where member_id = #{memberId} and member_pw =
+		#{memberPw}
 	</select>
 
 	<select id="getUser" parameterType="String" resultType="mDTO">
-		select * from member where member_id = #{memberId}
+		select *
+		from member where member_id = #{memberId}
 	</select>
-	
+
 	<delete id="deleteMember" parameterType="String">
-		delete from member where member_id = #{memberId}
+		delete from member where
+		member_id = #{memberId}
 	</delete>
 
+	<!-- 검색 조건문 -->
+	<sql id="searchMember">
+		<choose>
+			<when test="searchOption == 'I'.toString()">
+				member_id like '%'||#{keyword}||'%'
+			</when>
+			<when test="searchOption == 'N'.toString()">
+				member_name like '%'||#{keyword}||'%'
+			</when>
+			<when test="searchOption == 'E'.toString()">
+				member_email like '%'||#{keyword}||'%'
+			</when>
+			<when test="searchOption == 'P'.toString()">
+				member_phone like '%'||#{keyword}||'%'
+			</when>
+			<when test="searchOption == 'R'.toString()">
+				member_reg_date like '%'||#{keyword}||'%'
+			</when>
+		</choose>
+	</sql>
 
 </mapper>

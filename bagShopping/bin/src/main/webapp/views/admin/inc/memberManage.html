@@ -1,36 +1,111 @@
 <!DOCTYPE html>
 <html xmlns="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>회원 관리</title>
+	<meta charset="UTF-8">
+	<title>회원 관리</title>
+	<script th:inline="javascript">
+		function memberList(member) {
+			if (!confirm('정말로 삭제하시겠습니까?')) {
+				return false;
+			}
+			$.ajax({
+				url: "/admin/deleteMember/" + [[${pd.page}]],
+				type: "post",
+				data: {memberId: member},
+				dataType: 'json',
+				success: function (result) {
+					if (result > 0) {
+						window.alert("삭제 되었습니다.")
+						window.location.href = '/admin/memberManage/' + [[${pd.page}]]
+					} else {
+						window.alert("삭제 실패.")
+					}
+				},
+				error: function () {
+					alert("요청 실패");
+				}
+			})
+		}
+
+		$(document).on('click', '#btnSearch', function (e) {
+			console.log("눌렀어")
+			e.preventDefault();
+			var url = "/admin/memberManage/1";
+			url = url + "?searchType=" + $('#searchType').val();
+			url = url + "&keyword=" + $('#keyword').val();
+			console.log(url);
+			location.href = url;
+		});	
+	</script>
 </head>
+
 <body>
-<h2>회원 관리</h2>
-<a href="adminMain">뒤로</a>
-<table border="">
-	<tr>
-		<td>ID</td>
-		<td>이름</td>
-		<td>email</td>
-		<td>전화번호</td>
-		<td>가입일</td>
-		<td>관리</td>
-	</tr>
-	<tr th:each="member : ${memberList}">
-		<td th:text="${member.memberId}"></td>
-		<td th:text="${member.memberName}"></td>
-		<td th:text="${member.memberEmail}"></td>
-		<td th:text="${member.memberPhone}"></td>
-		<td th:text="${member.memberRegDateStr}"></td>
-		<td>
-			<th:block th:if="${member.memberId} != admin">
-			<button id="deleteMember" 
-					th:memberParam="${member.memberId}"
-                    th:onclick="memberList(this.getAttribute('memberParam'))"  
-                    th:text="|삭제|" />
-            </th:block>
-        </td>
-	</tr>
-</table>
+	<h2>회원 관리</h2>
+	<a href="/admin/adminMain">뒤로</a>
+	<table border="">
+		<tr>
+			<td>ID</td>
+			<td>이름</td>
+			<td>email</td>
+			<td>전화번호</td>
+			<td>가입일</td>
+			<td>관리</td>
+		</tr>
+		<tr th:each="member : ${memberList}">
+			<td th:text="${member.memberId}"></td>
+			<td th:text="${member.memberName}"></td>
+			<td th:text="${member.memberEmail}"></td>
+			<td th:text="${member.memberPhone}"></td>
+			<td th:text="${member.memberRegDateStr}"></td>
+			<td>
+				<th:block th:if="${member.memberId} != admin">
+					<button id="deleteMember" th:memberParam="${member.memberId}"
+						th:onclick="memberList(this.getAttribute('memberParam'))" th:text="|삭제|" />
+				</th:block>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6" align="center">
+				<th:block th:if="${pd.pageStart} > 1">
+					<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
+				</th:block>
+				<th:block th:if="${pd.pageEnd > 0}">
+				<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
+					<b th:if="${num} == ${pd.page}">
+						<a th:href="|${num}|" th:text="${num}" />
+					</b>
+					<th:block th:unless="${num} == ${pd.page}">
+						<a th:href="|${num}|" th:text="${num}" />
+					</th:block>
+				</th:block>
+				</th:block>
+				<th:block th:if="${pd.pageEnd == 0}">
+					<b>
+						<a th:href="|1?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="1" />
+					</b>
+				</th:block>
+				<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
+					<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
+				</th:block>
+			</td>
+		</tr>
+		<tr>
+			<td>
+
+				<select id="searchType" name="searchType">
+					<option value="Id" selected>ID</option>
+					<option value="Name">이름</option>
+				</select>
+
+				<input type="text" id="keyword">
+				<input type="submit" id="btnSearch" value="검색">
+			</td>
+			<td>
+				<a href="/admin/memberManage/1">검색 초기화</a>
+			</td>
+		</tr>
+	</table>
 </body>
+
 </html>

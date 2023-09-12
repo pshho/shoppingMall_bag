@@ -20,22 +20,22 @@
 <div th:each="cate:${categoriesList}">
 	<h3 th:text="${cate.categoriesName}"></h3>
 	<ul>
+
 		<li th:each="type:${typeList}"
 		th:if="${type.categoriesId eq cate.categoriesId}">
 			<a th:href="|/shopping/shoppingList/0/${cate.categoriesId}/${type.typeId}/1/newest|"
 			th:text="${type.typeName}"></a>
+
 		</li>
 	</ul>
 </div>
 <div>
 	<ul>
 		<li>
-			<a id="cartLink" href="/shopping/shoppingCart" 
-			th:if="${cartCount != null and cartCount != 0}" 
-			th:text="|장바구니(${cartCount})|"></a>
-			<a id="cartLink" href="/shopping/shoppingCart" 
-			th:unless="${cartCount != null and cartCount != 0}">장바구니</a>
+			<a id="cartLink" href="/shopping/shoppingCart" th:if="${cartCount != null and cartCount != 0}"
+				th:text="|장바구니(${cartCount})|"></a>
+			<a id="cartLink" href="/shopping/shoppingCart" th:unless="${cartCount != null and cartCount != 0}">장바구니</a>
 		</li>
 	</ul>
 </div>
-<hr/>
+<hr />

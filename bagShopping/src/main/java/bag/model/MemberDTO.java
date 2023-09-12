@@ -15,6 +15,7 @@ public class MemberDTO {
 	String memberEmail, emailId, emailDomain;
 	String memberPhone, phone1, phone2, phone3;
 	Date memberRegDate;
+	String modifyPw;
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd (E) HH:mm");
 	

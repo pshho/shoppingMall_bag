@@ -100,7 +100,7 @@
 		// 핸드폰 인증
 		$(function () {
 			var code;
-			var check = 0;
+			
 			$("#phoneChk").click(function () {
 				var phone1 = $("#phone1 option:selected").val();
 				var phone2 = $("#phone2").val();
@@ -127,17 +127,28 @@
 			// 인증 번호 확인
 			$("#phoneChk2").click(function () {
 				if ($("#phoneChkInput").val()!=null && $("#phoneChkInput").val() == code) {
-					alert('인증 성공')
 					$("#phoneChkInput").attr("readonly","readonly")	
-					check = 1;
+					$("#phoneChk2").val("인증 완료")
+					alert('인증 성공')
 				} else {
 					alert('인증 실패')
-					check = 0;
+					
 				}
 			});
 		})
-
-
+		
+		function signUp(){
+			if($("#idCheckBox").html() == "중복된 아이디 입니다."){
+				alert('아이디 중복 확인을 해 주세요.')
+				return false;
+			}
+			if($("#phoneChk2").val() != "인증 완료"){
+				alert('핸드폰 인증을 해 주세요.')
+				return false;
+			}
+			
+			$("#signUpForm").submit()
+		}
 	</script>
 </head>
 

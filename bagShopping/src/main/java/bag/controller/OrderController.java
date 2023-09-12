@@ -173,6 +173,7 @@ public class OrderController {
 				bagMapper.updStock(bag);
 			}
 			cartMapper.allDelete(ordDTO.getMemberId());
+			this.ordDTO.setOrderStatus("결제 완료");
 			ordMapper.orderInsert(this.ordDTO);
 			if(nonMem != null) {
 				session.removeAttribute("nonMemberId");
@@ -186,6 +187,7 @@ public class OrderController {
 		}
 	}
 	
+
 	@PostMapping("orderCancel")
 	ModelAndView orderCancel(
 			HttpServletRequest request,
@@ -207,4 +209,5 @@ public class OrderController {
 		}
 		return mav;
 	}
+
 }

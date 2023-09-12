@@ -11,7 +11,7 @@
 		<td>작성자</td>
 		<td>작성일</td>
 	</tr>
-	<tr th:each="num,no:${#numbers.sequence(pd.listStart, pd.listEnd)}">
+	<tr th:if="${#arrays.length(inquiryList) ne 0}" th:each="num,no:${#numbers.sequence(pd.listStart, pd.listEnd)}">
 		<td th:text="${pd.pageIndex - no.index}"></td>
 		<td>
 			<th:block th:if="${inquiryList[num].lev ne 0}"
@@ -20,10 +20,16 @@
 			<th:block th:if="${inquiryList[num].lev ne 0}"
 				th:each="re:${#numbers.sequence(1, inquiryList[num].lev)}">
 				<span>└</span></th:block>
-			<a th:href="|/inquiry/detailCheck/${inquiryList[num].inquiryId}|" th:text="|비밀글입니다|"></a>
+			<a th:if="${session.admin}" 
+			th:href="|/inquiry/inquiryDetail/${inquiryList[num].inquiryId}|" th:text="${inquiryList[num].inTitle}"></a>
+			<a th:unless="${session.admin}"
+			th:href="|/inquiry/detailCheck/${inquiryList[num].inquiryId}|" th:text="|비밀글입니다|"></a>
 		</td>
 		<td th:text="${inquiryList[num].inWriter}"></td>
 		<td th:text="${inquiryList[num].inquiryRegDate2}"></td>
+	</tr>
+	<tr th:unless="${#arrays.length(inquiryList) ne 0}">
+		<td colspan="5">검색된 게시글이 없습니다</td>
 	</tr>
 	<tr>
 		<td colspan="5">
@@ -39,9 +45,43 @@
 			<a th:href="|/inquiry/inquiryList/${pd.endPage}|">>></a>
 		</td>
 	</tr>
+	<form th:if="${session.admin}" action="/inquiry/inquiryList/1" id="searForm">
+		<tr>
+			<td colspan="2">
+				<select name="searchCate">
+					<option value="전체">전체</option>
+					<option value="작성자">작성자</option>
+					<option value="제목">제목</option>
+					<option value="내용">내용</option>
+				</select>
+			</td>
+			<td>
+				<input type="text" name="searchCont" id="searchCont" />
+			</td>
+			<td colspan="2">
+				<input type="submit" value="검색" />
+			</td>
+		</tr>
+	</form>
 	<tr>
 		<td colspan="5">
 			<a href="/inquiry/inquiryWrite/1">글작성</a>
 		</td>
 	</tr>
 </table>
+<script>
+	$(document).ready(function(){
+		$('#searForm').submit(function(e){
+			e.preventDefault();
+			
+			const search = $('#searchCont').val().trim();
+			
+			if(search.length == 0 || search.length > 30){
+				alert('검색 내용은 1~30글자 내로 해주세요');
+				return false;
+			}else {
+				$('#searForm').get(0).submit();
+			}
+		})
+	})
+</script>

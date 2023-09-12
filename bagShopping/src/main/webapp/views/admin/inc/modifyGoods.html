@@ -120,8 +120,7 @@
 								th:selected="${category.categoriesName == modifyBag.categoriesName}" />
 						</th:block>
 					</select>
-					<button type="button" id="addCategory" onclick="addCategoryButton()" th:text="|카테고리 추가|" />
-					<button type="button" id="deleteCategory" onclick="deleteCategoryButton" th:text="|카테고리 삭제|" />
+			
 				</td>
 			</tr>
 			<tr>
@@ -132,8 +131,7 @@
 							<option th:text="${type.typeName}" th:selected="${type.typeName == modifyBag.typeName}" />
 						</th:block>
 					</select>
-					<button type="button" id="addType" onclick="addTypeButton()" th:text="|타입 추가|" />
-					<button type="button" id="deleteType" onclick="deleteTypeButton" th:text="|타입 삭제|" />
+
 				</td>
 			</tr>
 			<tr>
@@ -145,8 +143,7 @@
 								th:selected="${brand.brandName == modifyBag.brandName}" />
 						</th:block>
 					</select>
-					<button type="button" id="addBrand" onclick="addBrandButton()" th:text="|브랜드 추가|" />
-					<button type="button" id="deleteBrand" onclick="deleteBrandButton()" th:text="|브랜드 삭제|" />
+					
 				</td>
 			</tr>
 			<tr>

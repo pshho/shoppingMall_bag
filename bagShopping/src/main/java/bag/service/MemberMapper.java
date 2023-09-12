@@ -1,6 +1,7 @@
 package bag.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -16,6 +17,8 @@ public interface MemberMapper {
 	
 	int idCheck(String memberId);
 	
+	int pwCheck(String memberId, String memberPw);
+	
 	int phoneCheck(String memberPhone);
 	
 	int idPwCheck(MemberDTO mdto);
@@ -25,4 +28,6 @@ public interface MemberMapper {
 	int deleteMember(String id);
 	
 	int cntMaxUser();
+	
+	int modifyUserPw(MemberDTO mdto);
 }
