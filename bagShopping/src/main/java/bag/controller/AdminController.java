@@ -1,16 +1,21 @@
 package bag.controller;
 
 import java.io.File;
+import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import bag.model.BagsDTO;
+import bag.model.OrderDTO;
 import bag.model.PageData2;
 
 import bag.service.BagsMapper;
@@ -20,6 +25,7 @@ import bag.service.FileMapper;
 import bag.service.ImgSaveUtil;
 import bag.service.MemberMapper;
 import bag.service.OrdersMapper;
+import bag.service.RestPayService;
 import bag.service.TypeMapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
@@ -45,13 +51,16 @@ public class AdminController {
 	@Resource
 	ImgSaveUtil saveutil;
 
+	@Autowired
+	RestPayService restPay;
+
 	String path = "C:\\SPRING_JH\\shoppingMall_bag\\bagShopping\\src\\main\\webapp\\upFile";
 
 	// 관리자 메인화면
 	@GetMapping("{adminService}")
 	String adminService(@PathVariable String adminService) {
 
-		//System.out.println(adminService);
+		// System.out.println(adminService);
 		return "admin/template";
 	}
 
@@ -60,10 +69,10 @@ public class AdminController {
 	String memberManage(Model mm, PageData2 pd) {
 		String adminUrl = "memberManage";
 		pd.calc(memMapper.cntMaxUser());
-	
+
 		mm.addAttribute("memberList", memMapper.memberList(pd));
 		mm.addAttribute("adminService", adminUrl);
-		mm.addAttribute("pd",pd);
+		mm.addAttribute("pd", pd);
 		return "admin/template";
 	}
 
@@ -74,7 +83,7 @@ public class AdminController {
 		String memberId = request.getParameter("memberId");
 
 		int deleteMember = memMapper.deleteMember(memberId);
-		mm.addAttribute("pd",pd);
+		mm.addAttribute("pd", pd);
 		return deleteMember;
 	}
 
@@ -85,7 +94,7 @@ public class AdminController {
 		String adminUrl = "goodsManage";
 		pd.calc(bagsMapper.cntMaxGoods(pd));
 		mm.addAttribute("bags", bagsMapper.allBagsList(pd));
-		mm.addAttribute("pd",pd);
+		mm.addAttribute("pd", pd);
 		System.out.println(pd);
 		mm.addAttribute("brands", brandMapper.brandList());
 		mm.addAttribute("categories", cateMapper.categoriesList());
@@ -100,7 +109,7 @@ public class AdminController {
 
 		String adminUrl = "addGoods";
 
-		mm.addAttribute("pd",pd);
+		mm.addAttribute("pd", pd);
 		mm.addAttribute("brands", brandMapper.brandList());
 		mm.addAttribute("categories", cateMapper.categoriesList());
 		mm.addAttribute("types", typeMapper.typeList());
@@ -121,8 +130,8 @@ public class AdminController {
 		bagsMapper.insertBag(bdto);
 
 		String msg = "상품 등록 성공";
-		String goUrl = "/admin/goodsManage/"+pd.page;
-		mm.addAttribute("pd",pd);
+		String goUrl = "/admin/goodsManage/" + pd.page;
+		mm.addAttribute("pd", pd);
 		mm.addAttribute("goUrl", goUrl);
 		mm.addAttribute("msg", msg);
 		return "admin/inc/alert";
@@ -144,20 +153,20 @@ public class AdminController {
 		mm.addAttribute("types", typeMapper.typeList());
 		mm.addAttribute("modifyBag", modifyBag);
 		mm.addAttribute("adminService", adminUrl);
-		mm.addAttribute("pd",pd);
+		mm.addAttribute("pd", pd);
 		return "admin/template";
 	}
 
 	@PostMapping("modifyGoods/{productCode}/{page}")
-	String modifyGoodsReg(Model mm, @PathVariable int productCode, BagsDTO bdto, PageData2 pd){
+	String modifyGoodsReg(Model mm, @PathVariable int productCode, BagsDTO bdto, PageData2 pd) {
 		String msg = "상품 수정 실패";
-		String goUrl = "/admin/modifyGoods/" + productCode+"/"+pd.page;
-		//System.out.println(bdto);
+		String goUrl = "/admin/modifyGoods/" + productCode + "/" + pd.page;
+		// System.out.println(bdto);
 		bdto.setCategoriesId(cateMapper.getCategoriesId(bdto));
 		bdto.setTypeId(typeMapper.getTypeId(bdto));
 		bdto.setBrandId(brandMapper.getBrandId(bdto));
 		bdto.setDefaultProductCode(productCode);
-		//System.out.println();
+		// System.out.println();
 		saveutil.img1Save(bdto);
 		saveutil.img2Save(bdto);
 		saveutil.img3Save(bdto);
@@ -166,37 +175,37 @@ public class AdminController {
 		int cnt = bagsMapper.modifyBag(bdto);
 		if (cnt > 0) {
 			msg = "상품 수정 성공";
-			goUrl = "/admin/goodsManage/"+pd.page;
+			goUrl = "/admin/goodsManage/" + pd.page;
 		}
 		mm.addAttribute("goUrl", goUrl);
 		mm.addAttribute("msg", msg);
-		mm.addAttribute("pd",pd);
+		mm.addAttribute("pd", pd);
 		return "admin/inc/alert";
 	}
-	
+
 	@PostMapping("deleteGoods/{page}")
 	@ResponseBody
 	int deleteGoods(HttpServletRequest request, Model mm, PageData2 pd) {
 
 		String Code = request.getParameter("productCode");
 		int productCode = Integer.parseInt(Code);
-	
-		//삭제될 상품 가져와서 남아있는 이미지 삭제
+
+		// 삭제될 상품 가져와서 남아있는 이미지 삭제
 		BagsDTO bDto = bagsMapper.detailBag(productCode);
-		if(bDto.getBagImg1() != null) {
+		if (bDto.getBagImg1() != null) {
 			new File(path + "\\" + bDto.getBagImg1()).delete();
 		}
-		if(bDto.getBagImg2() != null) {
+		if (bDto.getBagImg2() != null) {
 			new File(path + "\\" + bDto.getBagImg2()).delete();
 		}
-		if(bDto.getBagImg3() != null) {
+		if (bDto.getBagImg3() != null) {
 			new File(path + "\\" + bDto.getBagImg3()).delete();
 		}
-		if(bDto.getBagImg4() != null) {
+		if (bDto.getBagImg4() != null) {
 			new File(path + "\\" + bDto.getBagImg4()).delete();
 		}
 		int deleteGoods = bagsMapper.deleteGoods(productCode);
-		mm.addAttribute("pd",pd);
+		mm.addAttribute("pd", pd);
 		return deleteGoods;
 	}
 
@@ -209,7 +218,7 @@ public class AdminController {
 		String imgName = request.getParameter("imgName");
 		new File(path + "\\" + imgName).delete();
 		mm.addAttribute("productCode", productCode);
-		mm.addAttribute("pd",pd);
+		mm.addAttribute("pd", pd);
 		return bagsMapper.getImg1(productCode);
 	}
 
@@ -222,7 +231,7 @@ public class AdminController {
 		String imgName = request.getParameter("imgName");
 		new File(path + "\\" + imgName).delete();
 		mm.addAttribute("productCode", productCode);
-		mm.addAttribute("pd",pd);
+		mm.addAttribute("pd", pd);
 		return bagsMapper.getImg2(productCode);
 	}
 
@@ -235,7 +244,7 @@ public class AdminController {
 		String imgName = request.getParameter("imgName");
 		new File(path + "\\" + imgName).delete();
 		mm.addAttribute("productCode", productCode);
-		mm.addAttribute("pd",pd);
+		mm.addAttribute("pd", pd);
 		return bagsMapper.getImg3(productCode);
 	}
 
@@ -248,8 +257,8 @@ public class AdminController {
 		String imgName = request.getParameter("imgName");
 		new File(path + "\\" + imgName).delete();
 		mm.addAttribute("productCode", productCode);
-		//System.out.println(bagsMapper.getImg4(productCode));
-		mm.addAttribute("pd",pd);
+		// System.out.println(bagsMapper.getImg4(productCode));
+		mm.addAttribute("pd", pd);
 		return bagsMapper.getImg4(productCode);
 	}
 
@@ -261,8 +270,60 @@ public class AdminController {
 
 		mm.addAttribute("orderList", ordMapper.orderList(pd));
 		mm.addAttribute("adminService", adminUrl);
-		mm.addAttribute("pd",pd);
+		mm.addAttribute("pd", pd);
 		return "admin/template";
+	}
+
+	@ResponseBody
+	@PostMapping("/orderCancel")
+	int orderCancel(HttpServletRequest request, OrderDTO ordDTO) {
+		String merchant_uid = request.getParameter("data");
+		String cancelReason = request.getParameter("cancelReason");
+		ordDTO.setMerchant_uid(merchant_uid);
+		OrderDTO oDTOs = ordMapper.cancelOrder(ordDTO.getMerchant_uid());
+		oDTOs.setCancelReason(cancelReason);
+		Map<String, Object> response = (Map<String, Object>) restPay.cancelPay(oDTOs);
+		if ((int) response.get("code") == 0) {
+			System.out.println(response);
+			ordDTO.setOrderStatus("결제 취소");
+			ordMapper.cancelOrderUpdate(ordDTO);
+			return (int) response.get("code");
+		}
+
+		return (int) response.get("code");
+	}
+
+	@ResponseBody
+	@PostMapping("/shipReady")
+	int shipReady(HttpServletRequest request, OrderDTO ordDTO) {
+		String merchant_uid = request.getParameter("data");
+		ordDTO.setMerchant_uid(merchant_uid);
+		ordDTO.setOrderStatus("배송 준비");
+		int ordCheck = ordMapper.shipChange(ordDTO);
+		System.out.println(merchant_uid);
+		return ordCheck;
+	}
+
+	@ResponseBody
+	@PostMapping("/shipIng")
+	int shipIng(HttpServletRequest request, OrderDTO ordDTO) {
+		String merchant_uid = request.getParameter("data");
+		ordDTO.setMerchant_uid(merchant_uid);
+		ordDTO.setOrderStatus("배송 중");
+		int ordCheck = ordMapper.shipChange(ordDTO);
+		System.out.println(merchant_uid);
+		return ordCheck;
+	}
+
+	@ResponseBody
+	@PostMapping("/shipEnd")
+	int shipEnd(HttpServletRequest request, OrderDTO ordDTO) {
+		String merchant_uid = request.getParameter("data");
+		ordDTO.setMerchant_uid(merchant_uid);
+		ordDTO.setOrderStatus("배송 완료");
+		int ordCheck = ordMapper.shipChange(ordDTO);
+		System.out.println(merchant_uid);
+		return ordCheck;
 	}
 
 	// 다중 이미지 처리 - 나중에 재도전... ( 파일 중복시 처리, 이전 img 누락시 등록불가 이슈 )

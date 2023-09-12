@@ -65,7 +65,7 @@
 			<td th:text="|구매 확정|"></td>
 			</th:block>
 			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="구매 취소" onclick="orderCancel()"/></td>
-			<td th:if="${order.orderStatus == '결제 취소'}"></td>
+			<td th:if="${order.orderStatus == '결제 취소'}" th:text="${order.cancelReason}"></td>
 		</tr>
 		<tr>
 			<td colspan="10" align="center">

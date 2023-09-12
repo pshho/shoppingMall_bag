@@ -281,38 +281,7 @@ public class MemberController {
 		return "member/inc/alert";
 	}
 	
-	@ResponseBody
-	@PostMapping("/shipReady")
-	int shipReady(HttpServletRequest request, OrderDTO ordDTO) {
-		String merchant_uid = request.getParameter("data");
-		ordDTO.setMerchant_uid(merchant_uid);
-		ordDTO.setOrderStatus("배송 준비");
-		int ordCheck = ordMapper.shipChange(ordDTO);
-		System.out.println(merchant_uid);
-		return ordCheck;
-	}
 	
-	@ResponseBody
-	@PostMapping("/shipIng")
-	int shipIng(HttpServletRequest request, OrderDTO ordDTO) {
-		String merchant_uid = request.getParameter("data");
-		ordDTO.setMerchant_uid(merchant_uid);
-		ordDTO.setOrderStatus("배송 중");
-		int ordCheck = ordMapper.shipChange(ordDTO);
-		System.out.println(merchant_uid);
-		return ordCheck;
-	}
-	
-	@ResponseBody
-	@PostMapping("/shipEnd")
-	int shipEnd(HttpServletRequest request, OrderDTO ordDTO) {
-		String merchant_uid = request.getParameter("data");
-		ordDTO.setMerchant_uid(merchant_uid);
-		ordDTO.setOrderStatus("배송 완료");
-		int ordCheck = ordMapper.shipChange(ordDTO);
-		System.out.println(merchant_uid);
-		return ordCheck;
-	}
 	
 	@ResponseBody
 	@PostMapping("/perchaseConfirm")
