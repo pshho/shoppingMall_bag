@@ -13,10 +13,13 @@ public interface OrdersMapper {
 	void orderInsert(OrderDTO ordDTO);
 	List<OrderDTO> orderList(PageData2 pd);
 
-	List<OrderDTO> myOrdList2(Map<String, Object> map);
+	List<OrderDTO> myPageOrdList(Map<String, Object> map);
 	int myOrdCnt(String id);
-
+	
+	int shipChange(OrderDTO ordDTO);
+	
 	List<OrderDTO> myOrdList(String id);
 	OrderDTO cancelOrder(String merchantUid);
+	void cancelOrderUpdate(OrderDTO ordDTO);
 
 }

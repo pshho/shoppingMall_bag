@@ -253,7 +253,7 @@ public class MemberController {
 		Map<String,Object> map = new HashMap<>();
 		map.put("id", userId);
 		map.put("pd", pd);
-		List<OrderDTO> getUserOrd = ordMapper.myOrdList(map);
+		List<OrderDTO> getUserOrd = ordMapper.myPageOrdList(map);
 		mm.addAttribute("orderList", getUserOrd);
 		mm.addAttribute("memberService", templateUrl);
 		mm.addAttribute("pd",pd);
@@ -279,6 +279,50 @@ public class MemberController {
 		mm.addAttribute("msg", msg);
 		mm.addAttribute("goUrl", goUrl);
 		return "member/inc/alert";
+	}
+	
+	@ResponseBody
+	@PostMapping("/shipReady")
+	int shipReady(HttpServletRequest request, OrderDTO ordDTO) {
+		String merchant_uid = request.getParameter("data");
+		ordDTO.setMerchant_uid(merchant_uid);
+		ordDTO.setOrderStatus("배송 준비");
+		int ordCheck = ordMapper.shipChange(ordDTO);
+		System.out.println(merchant_uid);
+		return ordCheck;
+	}
+	
+	@ResponseBody
+	@PostMapping("/shipIng")
+	int shipIng(HttpServletRequest request, OrderDTO ordDTO) {
+		String merchant_uid = request.getParameter("data");
+		ordDTO.setMerchant_uid(merchant_uid);
+		ordDTO.setOrderStatus("배송 중");
+		int ordCheck = ordMapper.shipChange(ordDTO);
+		System.out.println(merchant_uid);
+		return ordCheck;
+	}
+	
+	@ResponseBody
+	@PostMapping("/shipEnd")
+	int shipEnd(HttpServletRequest request, OrderDTO ordDTO) {
+		String merchant_uid = request.getParameter("data");
+		ordDTO.setMerchant_uid(merchant_uid);
+		ordDTO.setOrderStatus("배송 완료");
+		int ordCheck = ordMapper.shipChange(ordDTO);
+		System.out.println(merchant_uid);
+		return ordCheck;
+	}
+	
+	@ResponseBody
+	@PostMapping("/perchaseConfirm")
+	int perchaseConfirm(HttpServletRequest request, OrderDTO ordDTO) {
+		String merchant_uid = request.getParameter("data");
+		ordDTO.setMerchant_uid(merchant_uid);
+		ordDTO.setOrderStatus("구매 확정");
+		int ordCheck = ordMapper.shipChange(ordDTO);
+		System.out.println(merchant_uid);
+		return ordCheck;
 	}
 	
 }
