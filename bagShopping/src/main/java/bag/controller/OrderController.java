@@ -199,6 +199,8 @@ public class OrderController {
 			oDTOs.setCancelReason(ordDTO.getCancelReason());
 			Map<String, Object> response = (Map<String, Object>) restPay.cancelPay(oDTOs);
 			if((int)response.get("code") == 0) {
+				ordDTO.setOrderStatus("결제 취소");
+				ordMapper.cancelOrderUpdate(ordDTO);
 				mav.addObject("msg", "주문취소 성공");
 				mav.addObject("url", url);
 			}else {

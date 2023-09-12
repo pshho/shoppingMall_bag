@@ -4,6 +4,92 @@
 <head>
 	<meta charset="UTF-8">
 	<title>판매 관리</title>
+	<script>
+		function orderCancel() {
+			if (confirm("결제를 취소 하시겠습니까?")) {
+				location.href = "/orders/payCancel"
+			}
+		}
+
+		function shipReady(data) {
+			if ($("#status").text() == "배송 준비") {
+				alert("이미 배송 준비 상태 입니다.")
+				return false;
+			}
+			if (confirm("배송상태를 변경 하시겠습니까?")) {
+				$.ajax({
+					url: "/member/shipReady",
+					type: "post",
+					data: {data: data},
+					dataType: 'json',
+					success: function (result) {
+						if (result > 0) {
+							alert("배송정보 변경 완료")
+							location.href = "/admin/salesHistory/1"
+						}
+					},
+					error: function () {
+						alert("요청 실패");
+					}
+				})
+			} else {
+				alert("변경 취소 하셨습니다.");
+			}
+		}
+
+		function shipIng(data) {
+			if ($("#status").text() == "배송 중") {
+				alert("이미 배송 중 상태 입니다.")
+				return false;
+			}
+			if (confirm("배송상태를 변경 하시겠습니까?")) {
+				$.ajax({
+					url: "/member/shipIng",
+					type: "post",
+					data: {data: data},
+					dataType: 'json',
+					success: function (result) {
+						if (result > 0) {
+							alert("배송정보 변경 완료")
+							location.href = "/admin/salesHistory/1"
+						}
+					},
+					error: function () {
+						alert("요청 실패");
+					}
+				})
+			} else {
+				alert("변경 취소 하셨습니다.");
+			}
+		}
+
+		function shipEnd(data) {
+			if ($("#status").text() == "배송 완료") {
+				alert("이미 배송 완료 상태 입니다.")
+				return false;
+			}
+			if (confirm("배송상태를 변경 하시겠습니까?")) {
+				$.ajax({
+					url: "/member/shipEnd",
+					type: "post",
+					data: {data: data},
+					dataType: 'json',
+					success: function (result) {
+						if (result > 0) {
+							alert("배송정보 변경 완료")
+							location.href = "/admin/salesHistory/1"
+						}
+					},
+					error: function () {
+						alert("요청 실패");
+					}
+				})
+			} else {
+				alert("변경 취소 하셨습니다.");
+			}
+		}
+
+	</script>
 </head>
 
 <body>
@@ -21,10 +107,12 @@
 			<td>전화번호</td>
 			<td>이메일</td>
 			<td>주문일자</td>
-			<td colspan="4">배송 관리</td>
+			<td>결제 관리</td>
+			<td>배송 관리</td>
+			<td>취소 사유</td>
 		</tr>
 		<tr th:each="order : ${orderList}">
-			<td th:text="${order.orderStatus}"/>
+			<td th:text="${order.orderStatus}" id="status" />
 			<td th:text="${order.merchantUid}" />
 			<td th:text="${order.prodCode}" />
 			<td th:text="${order.prodCount}" />
@@ -34,15 +122,25 @@
 			<td th:text="${order.buyerTel}" />
 			<td th:text="${order.buyerEmail}" />
 			<td th:text="${order.ordersRegDateStr}" />
-			
-			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="취소"/></td>
+
+			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소" onclick="orderCancel()" /></td>
 			<td th:unless="${order.orderStatus == '결제 완료'}"></td>
-			<td><input type="button" value="배송 준비"/></td>
-			<td><input type="button" value="배송 중"/></td>
-			<td><input type="button" value="배송 완료"/></td>
+
+			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="배송 준비"
+					th:orderParam="${order.merchantUid}" th:onclick="shipReady(this.getAttribute('orderParam'))" /></td>
+			<td th:if="${order.orderStatus == '배송 준비'}"><input type="button" value="배송 중"
+					th:orderParam="${order.merchantUid}" th:onclick="shipIng(this.getAttribute('orderParam'))" /></td>
+			<td th:if="${order.orderStatus == '배송 준비'} or ${order.orderStatus == '배송 중'}"><input type="button"
+					value="배송 완료" th:orderParam="${order.merchantUid}"
+					th:onclick="shipEnd(this.getAttribute('orderParam'))" /></td>
+			<td th:if="${order.orderStatus == '배송 완료'}"><input type="button" value="구매확정 요청" /></td>
+			<th:block th:if="${order.orderStatus == '결제 취소'} and ${order.cancelReason}">
+				<td></td>
+				<td th:text="${order.cancelReason}"></td>
+			</th:block>
 		</tr>
 		<tr>
-			<td colspan="14" align="center">
+			<td colspan="15" align="center">
 				<th:block th:if="${pd.pageStart} > 1">
 					<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
 				</th:block>

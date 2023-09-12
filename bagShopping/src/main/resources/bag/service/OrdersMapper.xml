@@ -17,7 +17,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		select * from orders limit #{start},#{limit}
 	</select>
 	
-	<select id="myOrdList" parameterType="map">
+	<select id="myPageOrdList" parameterType="map">
 		select * from orders where member_id = #{id} limit #{pd.start}, #{pd.limit}
 	</select>
 	
@@ -28,4 +28,12 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<select id="cancelOrder" resultType="ordDTO">
 		select * from orders where merchant_uid = #{merchantUid}
 	</select>
+	
+	<update id="shipChange" parameterType="ordDTO">
+		update orders set order_status = #{orderStatus} where merchant_uid = #{merchant_uid}
+	</update>
+	
+	<update id="cancelOrderUpdate" parameterType="ordDTO">
+		update orders set order_status = #{orderStatus}, cancel_reason = #{cancelReason} where merchant_uid = #{merchant_uid}
+	</update>
 </mapper>

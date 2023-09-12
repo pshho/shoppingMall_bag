@@ -3,6 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <title>마이페이지 - 내 주문내역</title>
+<script>
+	function orderCancel() {
+			if (confirm("결제를 취소 하시겠습니까?")) {
+				location.href = "/orders/payCancel"
+			}
+		}
+		
+	function perchaseConfirm(data) {
+			if (confirm("구매 확정 하시겠습니까??")) {
+				$.ajax({
+				url: "/member/perchaseConfirm",
+				type: "post",
+				data: {data: data},
+				dataType: 'json',
+				success: function (result) {
+					if (result > 0) {
+						alert("아윌비백을 이용해주셔서 감사합니다!")
+						location.href = "/member/myOrder/1"
+					}
+				},
+				error: function () {
+					alert("요청 실패");
+				}
+			})
+			} else {
+				alert("구매 확정 취소 하셨습니다.");
+			}
+		}
+</script>
 </head>
 <body>
 	<a th:href="|/member/myProfile|">내 정보</a>
@@ -17,7 +46,7 @@
 			<td>상품갯수</td>
 			<td>총가격</td>
 			<td>주문일자</td>
-			<td >관리</td>
+			<td colspan="2">관리</td>
 		</tr>
 		<tr th:each="order : ${orderList}">
 			<td th:text="${order.orderStatus}"/>
@@ -26,9 +55,17 @@
 			<td th:text="${order.prodCount}" />
 			<td th:text="${order.ordersTotalPrice}" />
 			<td th:text="${order.ordersRegDateStr}" />
-			
-			<td th:if="${order.orderStatus == '배송 중'} or ${order.orderStatus == '배송 완료'}"><input type="button" value="구매 확정"/></td>
-			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="구매 취소"/></td>
+			<th:block th:if="${order.orderStatus == '배송 중'} or ${order.orderStatus == '배송 완료'}">
+			<td><input type="button" value="구매 확정"
+					th:orderParam="${order.merchantUid}"
+					th:onclick="perchaseConfirm(this.getAttribute('orderParam'))"/></td>
+			<td><input type="button" value="반품 요청"/></td>
+			</th:block>
+			<th:block th:if="${order.orderStatus == '구매 확정'}">
+			<td th:text="|구매 확정|"></td>
+			</th:block>
+			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="구매 취소" onclick="orderCancel()"/></td>
+			<td th:if="${order.orderStatus == '결제 취소'}"></td>
 		</tr>
 		<tr>
 			<td colspan="10" align="center">
