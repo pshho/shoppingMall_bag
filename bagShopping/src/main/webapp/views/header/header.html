@@ -1,10 +1,11 @@
 <html xmlns="http://www.thymeleaf.org">
 <h1>header</h1>
 <a href="/">홈으로</a>
+<a href="/orders/payCancel">주문취소</a>
 <div>
 	<ul>
 		<li>
-			<a href="/shopping/shoppingList/0/0/0/1">전체보기</a>
+			<a href="/shopping/shoppingList/0/0/0/1/newest">전체보기</a>
 		</li>
 	</ul>
 </div>
@@ -12,16 +13,19 @@
 	<h3>브랜드</h3>
 	<ul>
 		<li th:each="brand:${brandList}">
-			<a th:href="|/shopping/shoppingList/${brand.brandId}/0/0/1|" th:text="${brand.brandName}"></a>
+			<a th:href="|/shopping/shoppingList/${brand.brandId}/0/0/1/newest|" th:text="${brand.brandName}"></a>
 		</li>
 	</ul>
 </div>
 <div th:each="cate:${categoriesList}">
 	<h3 th:text="${cate.categoriesName}"></h3>
 	<ul>
-		<li th:each="type:${typeList}" th:if="${type.categoriesId eq cate.categoriesId}">
-			<a th:href="|/shopping/shoppingList/0/${cate.categoriesId}/${type.typeId}/1|"
-				th:text="${type.typeName}"></a>
+
+		<li th:each="type:${typeList}"
+		th:if="${type.categoriesId eq cate.categoriesId}">
+			<a th:href="|/shopping/shoppingList/0/${cate.categoriesId}/${type.typeId}/1/newest|"
+			th:text="${type.typeName}"></a>
+
 		</li>
 	</ul>
 </div>

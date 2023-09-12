@@ -1,0 +1,133 @@
+<html xmlns="http://www.thymeleaf.org">
+<form action="/shopping/shoppingNonMember" method="post" id="nonMemberForm">
+	<table border="">
+		<tr>
+			<td colspan="2">
+				<h3>비회원 주문</h3>
+			</td>
+		</tr>
+		<tr>
+			<td>이름</td>
+			<td>
+				<input type="text" id="nonMemberName" name="nonMemberName" />
+			</td>
+		</tr>
+		<tr>
+			<td>연락처</td>
+			<td>
+				<select id="phone1" name="phone1">
+					<option>010</option>
+					<option>011</option>
+					<option>016</option>
+					<option>017</option>
+					<option>019</option>
+				</select>
+				- <input type="text" id="phone2" name="phone2" />
+				- <input type="text" id="phone3" name="phone3" />
+				<input type="button" value="인증" id="phoneChk">
+			</td>
+		</tr>
+		<tr>
+			<td>인증번호 확인</td>
+			<td>
+				<input id="phoneChkInput" type="text" placeholder="인증번호를 입력해주세요">
+				<input id="phoneChk2" type="button" value="인증확인">
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<input type="submit" value="제출" />
+			</td>
+		</tr>
+	</table>
+</form>
+<script>
+	$(document).ready(function(){
+		$('#nonMemberForm').submit(function(e){
+			e.preventDefault();
+			const nonMemberName = $('#nonMemberName').val().trim();
+			const phone2 = $('#phone2').val().trim();
+			const phone3 = $('#phone3').val().trim();
+			const ptn = /^[가-힣]+$/;
+			const ptn2 = /^\d{3,4}$/;
+			const ptn3 = /^\d{4}$/;
+			
+			if(nonMemberName.length == 0 || nonMemberName.length > 5){
+				alert('이름은 1~5글자내로 해야 합니다');
+				return false;
+			}else if(!ptn.test(nonMemberName)){
+				alert('이름은 한글만 가능합니다');
+				return false;
+			}else if(!ptn2.test(phone2)){
+				alert('전화번호를 3~4내로 정확히 입력해주세요');
+				return false;
+			}else if(!ptn3.test(phone3)){
+				alert('전화번호를 4자로 정확히 입력해주세요');
+				return false;
+			}else {
+				$('#nonMemberForm').get(0).submit();
+			}
+		})
+	})
+	
+	// 핸드폰 인증
+	$(function () {
+		var code;
+		var check = 0;
+		$("#phoneChk").click(function () {
+			var phone1 = $("#phone1 option:selected").val();
+			var phone2 = $("#phone2").val();
+			var phone3 = $("#phone3").val();
+			var phone = phone1 + phone2 + phone3;
+			console.log(phone);
+			$.ajax({
+				type: "POST",
+				url: "sendSMS",
+				data: {phone: phone},
+				success: function (data) {
+					if (data == "error") {
+						alert("휴대폰 번호가 올바르지 않습니다.")
+					} if(data == "exist"){
+						alert("이미 가입된 휴대폰 번호입니다.")
+					} else {
+						alert("전송 완료")
+						code = data;
+					}
+				}
+
+			});
+		})
+		// 인증 번호 확인
+		$("#phoneChk2").click(function () {
+			if ($("#phoneChkInput").val()!=null && $("#phoneChkInput").val() == code) {
+				alert('인증 성공')
+				$("#phoneChkInput").attr("readonly","readonly")	
+				check = 1;
+			} else {
+				alert('인증 실패')
+				check = 0;
+			}
+		});
+	})
+	
+	// 이메일 도메인 입력부분 선택
+	function changeDomain() {
+		var domainSelect = document.getElementById("emailDomain");
+		var selectOption = domainSelect.options[domainSelect.selectedIndex].text;
+		var domainInputSelect = document.getElementById("emailDomainInput");
+
+		if (selectOption == "직접입력") {
+			domainInputSelect.type = "text";
+			domainInputSelect.setAttribute('name', 'emailDomain')
+			domainSelect.removeAttribute('name');
+			console.log("select " + domainInputSelect.name);
+			console.log("input  " + domainSelect.name);
+		} else {
+			domainInputSelect.type = "hidden";
+			domainInputSelect.removeAttribute('name');
+			domainSelect.setAttribute('name', 'emailDomain')
+			console.log("input " + domainInputSelect.name);
+			console.log("select  " + domainSelect.name);
+		}
+	}
+</script>

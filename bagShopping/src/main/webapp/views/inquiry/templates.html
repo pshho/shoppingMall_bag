@@ -9,6 +9,31 @@ layout:decorate="inquiry/inc/view">
 <script src="https://code.jquery.com/jquery-3.7.1.js"
 integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
 crossorigin="anonymous"></script>
+<script>
+	function inquiryDelete(inquiryId){
+		$.ajax({
+			url : '/inquiry/inquiryDelete/'+inquiryId,
+			type : 'post',
+			dataType : 'json',
+			async : false,
+			success : function(res) {
+				alert(res.msg);
+				location.href=res.url;
+			},
+			error : function (req, status, error) {
+				console.log(req);
+				console.log(status);
+				console.log(error);
+			}
+		})
+	}
+	
+	function confirmDelete(inquiryId){
+		if(confirm('정말 삭제하시겠습니까?')){
+			inquiryDelete(inquiryId);
+		}
+	}
+</script>
 </head>
 <body>
 </body>

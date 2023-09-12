@@ -1,7 +1,9 @@
 package bag.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,9 +56,8 @@ public class OrderController {
 	
 	List<CartDTO> cartList;
 	OrderDTO ordDTO;
-	String total;
+	int total;
 	String productUid;
-	String key;
 	String productCount;
 	ArrayList<BagsDTO> updStock;
 	
@@ -66,15 +67,12 @@ public class OrderController {
 		ModelAndView mav = new ModelAndView("orders/templates");
 		CartDTO cart = new CartDTO();
 		String memberId = (String)session.getAttribute("userId");
-		if(session != null) {
+		String nonMem = (String)session.getAttribute("nonMemberId");
+		if(memberId != null) {
 			cartList = cartMapper.cartList(memberId);
-			cart.sumTotal(cartList);
-			mav.addObject("cartList", cartList);
 			mav.addObject("cartBags", bagMapper.cartBags(memberId));
-			total = cart.getSumTotal()+"";
-			mav.addObject("total", total);
-			mav.addObject("user", memMapper.getUser(memberId));
 			List<AddressDTO> addrList = addrMapper.addrList(memberId);
+			mav.addObject("user", memMapper.getUser(memberId));
 			mav.addObject("addrList", addrList);
 			mav.addObject("address", addrMapper.basicAddress(memberId, 1));
 			List<String> addrMsg = new ArrayList<>();
@@ -88,7 +86,14 @@ public class OrderController {
 				}
 			}
 			mav.addObject("addrMsg", addrMsg);
+		}else {
+			cartList = cartMapper.cartList(nonMem);
+			mav.addObject("cartBags", bagMapper.cartBags(nonMem));
 		}
+		cart.sumTotal(cartList);
+		mav.addObject("cartList", cartList);
+		total = cart.getSumTotal();
+		mav.addObject("total", total);
 		return mav;
 	}
 	
@@ -111,6 +116,14 @@ public class OrderController {
 	@PostMapping("requestPay")
 	@ResponseBody
 	Object requestPay(@RequestBody OrderDTO ordDTO) {
+		Date today = new Date();
+		LocalDateTime date = LocalDateTime.now();
+		DateTimeFormatter formatMonth = DateTimeFormatter.ofPattern("MM");
+		DateTimeFormatter formatDay = DateTimeFormatter.ofPattern("dd");
+		DateTimeFormatter formatHours = DateTimeFormatter.ofPattern("HH");
+		DateTimeFormatter formatMinutes = DateTimeFormatter.ofPattern("mm");
+		String merchanUid = "IWILLBAG"+date.getYear()+date.format(formatMonth)+date.format(formatDay)+
+				date.format(formatHours)+date.format(formatMinutes)+date.getNano();
 		String prdCode = "";
 		String prdCount = "";
 		if(cartList != null) {
@@ -130,6 +143,8 @@ public class OrderController {
 			}
 		}
 		this.ordDTO = ordDTO;
+		this.ordDTO.setMerchant_uid(merchanUid);
+		this.ordDTO.setOrdersRegDate(today);
 		this.ordDTO.setPayType(ordDTO.getPayType());
 		this.ordDTO.setProdCode(prdCode);
 		this.ordDTO.setProdCount(prdCount);
@@ -139,18 +154,18 @@ public class OrderController {
 	@PostMapping("preparePay")
 	@ResponseBody
 	Object preparePay() {
-		Map<Object, LinkedHashMap<Object, Object>> response = 
-				(Map<Object, LinkedHashMap<Object, Object>>) restPay.accessToken();
-		key = (String)response.get("response").get("access_token");
-		restPay.preparePay(ordDTO, key);
+		restPay.preparePay(ordDTO, total);
 		return "사전 검증 성공";
 	}
 	
 	@PostMapping("orderConfirm")
 	@ResponseBody
-	Object orderConfirm(@RequestBody OrderDTO ordDTO) {
+	Object orderConfirm(
+			HttpSession session,
+			@RequestBody OrderDTO ordDTO) {
+		String nonMem = (String)session.getAttribute("nonMemberId");
 		Map<Object, LinkedHashMap<Object, Object>> response = 
-				(Map<Object, LinkedHashMap<Object, Object>>) restPay.afterPay(ordDTO, key);
+				(Map<Object, LinkedHashMap<Object, Object>>) restPay.afterPay(ordDTO);
 		if(this.ordDTO.getOrdersTotalPrice() == (int)response.get("response").get("amount")) {
 			this.ordDTO.setImp_uid(ordDTO.getImp_uid());
 			for(BagsDTO bag : updStock) {
@@ -160,11 +175,39 @@ public class OrderController {
 			cartMapper.allDelete(ordDTO.getMemberId());
 			this.ordDTO.setOrderStatus("결제 완료");
 			ordMapper.orderInsert(this.ordDTO);
+			if(nonMem != null) {
+				session.removeAttribute("nonMemberId");
+				session.removeAttribute("nonMemberName");
+				session.removeAttribute("nonMemberPhone");
+			}
+			
 			return ResponseEntity.ok("결제 완료");
 		}else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 실패");
 		}
 	}
 	
+
+	@PostMapping("orderCancel")
+	ModelAndView orderCancel(
+			HttpServletRequest request,
+			@RequestParam(required = false) String url,
+			OrderDTO ordDTO) {
+		ModelAndView mav = new ModelAndView("redirect:"+request.getHeader("referer"));
+		OrderDTO oDTOs = ordMapper.cancelOrder(ordDTO.getMerchant_uid());
+		if(oDTOs != null) {
+			oDTOs.setCancelReason(ordDTO.getCancelReason());
+			Map<String, Object> response = (Map<String, Object>) restPay.cancelPay(oDTOs);
+			if((int)response.get("code") == 0) {
+				mav.addObject("msg", "주문취소 성공");
+				mav.addObject("url", url);
+			}else {
+				mav.addObject("msg", response.get("message"));
+			}
+		}else {
+			mav.addObject("msg", "주문취소 실패");
+		}
+		return mav;
+	}
 
 }

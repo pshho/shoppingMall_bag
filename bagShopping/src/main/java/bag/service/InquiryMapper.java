@@ -14,8 +14,9 @@ public interface InquiryMapper {
 	InquiryDTO inqDetail(int id);
 	int checkPw(InquiryDTO inDTO);
 	void inqWrite(InquiryDTO inDTO);
+	int updateGid(int maxId);
 	void inqReply(InquiryDTO inDTO);
-	Object maxInquiryId();
+	int maxInquiryId();
 	void deleteInquiry(int id);
 	void updateInquiry(InquiryDTO inDTO);
 	void updateSeq(InquiryDTO inDTO);

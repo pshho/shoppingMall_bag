@@ -24,8 +24,6 @@ public class CommonInterceptor implements HandlerInterceptor {
 	@Autowired
 	TypeMapper typeMapper;
 	
-	String userId = null;
-	
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
@@ -36,8 +34,13 @@ public class CommonInterceptor implements HandlerInterceptor {
 			modelAndView.addObject("typeList", typeMapper.typeList());
 			
 			if(session != null) {
-				userId = (String)session.getAttribute("userId");
-				modelAndView.addObject("cartCount", cartMapper.cartCount(userId));
+				String userId = (String)session.getAttribute("userId");
+				String nonMem = (String)session.getAttribute("nonMemberId");
+				if(userId != null) {
+					modelAndView.addObject("cartCount", cartMapper.cartCount(userId));
+				}else {
+					modelAndView.addObject("cartCount", cartMapper.cartCount(nonMem));
+				}
 			}
 		}
 	}

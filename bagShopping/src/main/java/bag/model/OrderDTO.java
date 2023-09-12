@@ -11,8 +11,10 @@ import lombok.Data;
 @Data
 public class OrderDTO {
 	int ordersTotalPrice;
-	String merchant_uid, payType, memberId, imp_uid, prodCode, prodCount, merchantUid, orderStatus;
-	String prdName, buyerName, buyerEmail, buyerTel, buyerAddr, buyerPostcode, addressMsg;
+
+	String merchant_uid, payType, memberId, imp_uid, prodCode, prodCount, merchantUid, impUid, orderStatus;
+	String prdName, buyerName, buyerEmail, buyerTel, buyerAddr, buyerPostcode, addressMsg, cancelReason;
+
 	Date ordersRegDate;
 	
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd (E) HH:mm");

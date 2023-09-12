@@ -1,10 +1,13 @@
 package bag.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -21,8 +24,11 @@ import bag.model.BagsDTO;
 import bag.model.CartDTO;
 import bag.model.FileDTO;
 import bag.model.FileUploadDownload;
+import bag.model.NonMember;
 import bag.model.PageData;
 import bag.model.ProductsBoardDTO;
+import bag.model.ReviewDistinct;
+import bag.model.SellsDistinct;
 import bag.service.BagsMapper;
 import bag.service.CartMapper;
 import bag.service.FileMapper;
@@ -81,14 +87,19 @@ public class ShoppingController {
 		return mav;
 	}
 	
-	@RequestMapping("{shoppingSer}/{brand}/{category}/{type}/{page}")
+	@RequestMapping("{shoppingSer}/{brand}/{category}/{type}/{page}/{distinct}")
 	ModelAndView goShopping(
 			@RequestParam(required = false) String searchCont,
 			@PathVariable String shoppingSer,
 			@PathVariable int brand,
 			@PathVariable int category,
 			@PathVariable int type,
-			@PathVariable int page) {
+			@PathVariable int page,
+			@PathVariable String distinct) {
+		for(BagsDTO bag : bagMapper.allProducts()) {
+			prbMapper.updateSells(bag.getSellsAmount(), bag.getProductCode());
+		}
+		
 		ModelAndView mav = new ModelAndView("shopping/templates");
 		ProductsBoardDTO prbDTO = new ProductsBoardDTO();
 		BagsDTO bagDTO = new BagsDTO();
@@ -100,20 +111,50 @@ public class ShoppingController {
 			prbDTO.setBrandId(brand);
 			prbDTO.setCategoriesId(category);
 			prbDTO.setTypeId(type);
-			if(searchCont == null) {
-				bagDTOs = bagMapper.bagsList(bagDTO);
+			
+			if(searchCont == null || searchCont.equals("null")) {
 				prbDTOs = prbMapper.productsBoardList(prbDTO);
+				bagDTOs = bagMapper.bagsList(bagDTO);
 			}else {
+				mav.addObject("sear", searchCont);
 				bagDTOs = new ArrayList<>();
 				prbDTOs = prbMapper.searchList(searchCont);
+				
 				for(ProductsBoardDTO prb : prbDTOs) {
 					for(BagsDTO bag : bagMapper.allProducts()) {
 						if(prb.getProductCode() == bag.getProductCode()) {
 							bagDTOs.add(bag);
+							break;
 						}
 					}
 				}
 			}
+			
+			if(!distinct.equals("newest")) {
+				TreeSet<ProductsBoardDTO> prbs = null;
+				bagDTOs = new ArrayList<>();
+				
+				if(distinct.equals("review")) {
+					prbs = new TreeSet<>(new ReviewDistinct());
+				}else if(distinct.equals("sells")) {
+					prbs = new TreeSet<>(new SellsDistinct());
+				}
+				
+				for(ProductsBoardDTO prb : prbDTOs) {
+					prbs.add(prb);
+				}
+				prbDTOs = new ArrayList<>(prbs);
+				
+				for(ProductsBoardDTO prb : prbDTOs) {
+					for(BagsDTO bag : bagMapper.allProducts()) {
+						if(prb.getProductCode() == bag.getProductCode()) {
+							bagDTOs.add(bag);
+							break;
+						}
+					}
+				}
+			}
+			
 			pd.setTotalPage(prbDTOs.size());
 			mav.addObject("bagsList", bagDTOs);
 			mav.addObject("productsBoardList", prbDTOs);
@@ -141,9 +182,16 @@ public class ShoppingController {
 	Map<String, String> cart(HttpSession session, @RequestBody Map<String, Integer> bagsAmount) {
 		Map<String, String> msg = new HashMap<>();
 		String memberId = (String)session.getAttribute("userId");
-		int length = cartMapper.cartList(memberId).size();
+		String nonMem = (String)session.getAttribute("nonMemberId");
 		CartDTO cart = new CartDTO();
-		cart.setMemberId(memberId);
+		int length = 0;
+		if(memberId != null) {
+			length = cartMapper.cartList(memberId).size();
+			cart.setMemberId(memberId);
+		}else {
+			length = cartMapper.cartList(nonMem).size();
+			cart.setMemberId(nonMem);
+		}
 		cart.setProductsCount(bagsAmount.get("bagsAmount"));
 		cart.setProductCode(bags.getProductCode());
 		cart.setSumPrice(bagsAmount.get("bagsAmount")*bags.getBagPrice());
@@ -166,12 +214,17 @@ public class ShoppingController {
 	@ResponseBody
 	Object shoppingCartUpd(HttpSession session, @RequestBody Map<String, Integer> cartAmount) {
 		String memberId = (String)session.getAttribute("userId");
+		String nonMem = (String)session.getAttribute("nonMemberId");
 		CartDTO cart = new CartDTO();
 		cart.setProductsCount(cartAmount.get("cartAmount"));
 		cart.setCartId(cartAmount.get("cartId"));
 		cart.setSumPrice(cartAmount.get("price")*cartAmount.get("cartAmount"));
 		cartMapper.changeCart(cart);
-		cartList = cartMapper.cartList(memberId);
+		if(memberId != null) {
+			cartList = cartMapper.cartList(memberId);
+		}else {
+			cartList = cartMapper.cartList(nonMem);
+		}
 		cart.sumTotal(cartList);
 		LinkedHashMap<String, Integer> calc = new LinkedHashMap<>(); 
 		calc.put("sumPrice", cart.getSumPrice());
@@ -199,16 +252,12 @@ public class ShoppingController {
 		prbDTO.setTypeId(bag.getTypeId());
 		prbMapper.writeProduct(prbDTO);
 		FileDTO fDTO = new FileDTO();
-		Object prbId = prbMapper.maxPrbId();
-		if(prbId == null) {
-			prbId = 1;
-		}
-		fDTO.setProductsBoardId((int)prbId);
+		fDTO.setProductsBoardId(prbMapper.maxPrbId());
 		fDTO.setComplete(true);
 		fDTO.setMemberId(prbDTO.getMemberId());
 		fMapper.updateFile(fDTO);
 		pd.setMsg("상품소개글 작성");
-		pd.setUrl("/shopping/shoppingDetail/0/0/0/"+fDTO.getProductsBoardId());
+		pd.setUrl("/shopping/shoppingDetail/0/0/0/"+fDTO.getProductsBoardId()+"/newest");
 		return "shopping/inc/alert";
 	}
 	
@@ -225,7 +274,7 @@ public class ShoppingController {
 		fMapper.boardFileDelete(fDTO);
 		Map<String, String> msg = new HashMap<>();
 		msg.put("msg", "상품소개글 삭제");
-		msg.put("url", "/shopping/shoppingList/0/0/0/1");
+		msg.put("url", "/shopping/shoppingList/0/0/0/1/newest");
 		return msg;
 	}
 	
@@ -257,7 +306,22 @@ public class ShoppingController {
 		fDTO.setMemberId(prbDTO.getMemberId());
 		fMapper.updateFile(fDTO);
 		pd.setMsg("상품소개글 수정");
-		pd.setUrl("/shopping/shoppingDetail/0/0/0/"+id);
+		pd.setUrl("/shopping/shoppingDetail/0/0/0/"+id+"/newest");
 		return "shopping/inc/alert";
+	}
+	
+	@PostMapping("shoppingNonMember")
+	String shoppingNonMember(HttpSession session, NonMember nonMem) {
+		LocalDateTime date = LocalDateTime.now();
+		DateTimeFormatter formatMonth = DateTimeFormatter.ofPattern("MM");
+		DateTimeFormatter formatDay = DateTimeFormatter.ofPattern("dd");
+		DateTimeFormatter formatHours = DateTimeFormatter.ofPattern("HH");
+		DateTimeFormatter formatMinutes = DateTimeFormatter.ofPattern("mm");
+		String nonMemberId = "nonMember"+date.getYear()+date.format(formatMonth)+date.format(formatDay)+
+				date.format(formatHours)+date.format(formatMinutes)+date.getNano();
+		session.setAttribute("nonMemberId", nonMemberId);
+		session.setAttribute("nonMemberName", nonMem.getNonMemberName());
+		session.setAttribute("nonMemberPhone", nonMem.getPhone());
+		return "shopping/inc/closePopUp";
 	}
 }

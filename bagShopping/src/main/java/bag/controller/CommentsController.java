@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 
 import bag.model.CommentsDTO;
 import bag.service.CommentsMapper;
+import bag.service.ProductsBoardMapper;
 
 @RestController
 public class CommentsController {
 	@Autowired
 	CommentsMapper comMapper;
+	
+	@Autowired
+	ProductsBoardMapper prbMapper;
 	
 	@GetMapping("shopping/shoppingDetail/{prbId}/comments")
 	public List<CommentsDTO> reList(@PathVariable int prbId) {
@@ -33,9 +37,10 @@ public class CommentsController {
 		}
 		
 		comDTO.setGid((int)max+1);
-		Map<String, String> msg = new HashMap<>();
-		msg.put("msg", "댓글 작성");
 		comMapper.insertComments(comDTO);
+		prbMapper.updateReviewCount(comDTO.getGpid());
+		Map<String, String> msg = new HashMap<>();
+		msg.put("msg", "리뷰 작성");
 		return msg;
 	}
 	
@@ -51,7 +56,7 @@ public class CommentsController {
 		comDTO.setCommentsId(id);
 		comMapper.updateComments(comDTO);
 		Map<String, String> msg = new HashMap<>();
-		msg.put("msg", "댓글 수정");
+		msg.put("msg", "리뷰 수정");
 		return msg;
 	}
 	
@@ -59,7 +64,7 @@ public class CommentsController {
 	public Map<String, String> reDel(@PathVariable int id){
 		comMapper.deleteComments(id);
 		Map<String, String> msg = new HashMap<>();
-		msg.put("msg", "댓글 삭제");
+		msg.put("msg", "리뷰 삭제");
 		return msg;
 	}
 	
@@ -75,6 +80,7 @@ public class CommentsController {
 		comMapper.updateComSeq(comDTO);
 		comDTO.setSeq(comDTO.getSeq()+1);
 		comMapper.insertReComments(comDTO);
+		prbMapper.updateReviewCount(comDTO.getGpid());
 		Map<String, String> msg = new HashMap<>();
 		msg.put("msg", "답글 등록");
 		return msg;
