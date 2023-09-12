@@ -1,6 +1,8 @@
 package bag.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 import org.springframework.stereotype.Controller;
@@ -65,7 +67,7 @@ public class MemberController {
 		// db insert 성공시 1, 실패시 0 으로 return
 		if (mdto != null && adto != null) {
 			mdto.setMemberEmail(mdto.getEmailId() + "@" + mdto.getEmailDomain());
-			mdto.setMemberPhone(mdto.getPhone1() + mdto.getPhone2() + mdto.getPhone3());
+			mdto.setMemberPhone(mdto.getPhone1() +"-"+ mdto.getPhone2() +"-"+ mdto.getPhone3());
 			signUp = memMapper.insertMember(mdto);
 			// adto 에 member 조회용으로 사용할 memberId 추가
 			adto.setBasicAddr(1);
@@ -96,12 +98,23 @@ public class MemberController {
 
 		return idCheck;
 	}
+	
+	@ResponseBody
+	@PostMapping("/pwCheck")
+	int pwCheck(HttpServletRequest request, HttpSession session) {
+		String memberId = (String) session.getAttribute("userId");	
+		String memberPw = request.getParameter("userPw");
+		
+		int pwCheck = memMapper.pwCheck(memberId, memberPw);
+
+		return pwCheck;
+	}
 
 	
 	// 휴대폰 인증
 	public MemberController() {
 		// 반드시 계정 내 등록된 유효한 API 키, API Secret Key를 입력해주셔야 합니다!
-		this.messageService = NurigoApp.INSTANCE.initialize("key", "secret", "https://api.coolsms.co.kr");
+		this.messageService = NurigoApp.INSTANCE.initialize("NCSVLIX3AOOHHTOQ", "ZFYWIZR78FZ1LL4EMF0BHF1EACVQUKPG", "https://api.coolsms.co.kr");
 	}
 
 	// 회원 핸드폰 번호 중복 체크 및 통과시 문자 인증 진행
@@ -189,8 +202,7 @@ public class MemberController {
 		int idPwCheck = memMapper.idPwCheck(mdto);
 		
 		if(idPwCheck > 0) {
-			
-			return "redirect:myProfile/1";
+			return "redirect:myProfile";
 		}
 
 		mm.addAttribute("msg", msg);
@@ -200,8 +212,8 @@ public class MemberController {
 	
 	
 	// 내 정보
-	@RequestMapping("myProfile/{page}")
-	String myProfile(HttpSession session, Model mm, PageData2 pd) {	
+	@RequestMapping("myProfile")
+	String myProfile(HttpSession session, Model mm) {	
 		
 		String userId = (String)session.getAttribute("userId");
 		String templateUrl = "myProfile";
@@ -212,7 +224,6 @@ public class MemberController {
 		mm.addAttribute("profile", getUserProfile);
 		mm.addAttribute("address", getUserAddr);
 		mm.addAttribute("memberService",templateUrl);
-		mm.addAttribute("pd",pd);
 		return "member/template";
 	}
 	
@@ -222,9 +233,11 @@ public class MemberController {
 		
 		String userId = (String)session.getAttribute("userId");
 		String templateUrl = "myInquiry";
-		
-		List<InquiryDTO> getUserInq = inqMapper.myInqList(userId);
-		
+		pd.calc(inqMapper.myInqCnt(userId));
+		Map<String,Object> map = new HashMap<>();
+		map.put("id", userId);
+		map.put("pd", pd);
+		List<InquiryDTO> getUserInq = inqMapper.myInqList(map);
 		mm.addAttribute("myInq", getUserInq);
 		mm.addAttribute("memberService", templateUrl);
 		mm.addAttribute("pd",pd);
@@ -236,13 +249,36 @@ public class MemberController {
 		
 		String userId = (String)session.getAttribute("userId");
 		String templateUrl = "myOrder";
-		
-		List<OrderDTO> getUserOrd = ordMapper.myOrdList(userId);
-		
+		pd.calc(ordMapper.myOrdCnt(userId));
+		Map<String,Object> map = new HashMap<>();
+		map.put("id", userId);
+		map.put("pd", pd);
+		List<OrderDTO> getUserOrd = ordMapper.myOrdList(map);
 		mm.addAttribute("orderList", getUserOrd);
 		mm.addAttribute("memberService", templateUrl);
 		mm.addAttribute("pd",pd);
 		return "member/template";
+	}
+	
+	@PostMapping("modifyPw")
+	String modifyProfile(HttpSession session, Model mm, MemberDTO mdto) {
+		String msg = "비밀번호 변경 실패.";
+		String goUrl = "/member/modifyPw";
+		mdto.setMemberId((String)session.getAttribute("userId"));
+		int modiPw = memMapper.modifyUserPw(mdto);
+		
+		if(modiPw > 0) {
+			msg = "비밀번호 변경 성공. 다시 로그인 해 주세요";
+			goUrl = "/";
+			session.invalidate();
+			mm.addAttribute("msg", msg);
+			mm.addAttribute("goUrl", goUrl);
+			return "member/inc/alert";
+		}
+		
+		mm.addAttribute("msg", msg);
+		mm.addAttribute("goUrl", goUrl);
+		return "member/inc/alert";
 	}
 	
 }

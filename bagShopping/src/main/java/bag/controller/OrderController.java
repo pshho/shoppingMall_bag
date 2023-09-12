@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -27,6 +28,7 @@ import bag.service.CartMapper;
 import bag.service.MemberMapper;
 import bag.service.OrdersMapper;
 import bag.service.RestPayService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
@@ -156,10 +158,13 @@ public class OrderController {
 				bagMapper.updStock(bag);
 			}
 			cartMapper.allDelete(ordDTO.getMemberId());
+			this.ordDTO.setOrderStatus("결제 완료");
 			ordMapper.orderInsert(this.ordDTO);
 			return ResponseEntity.ok("결제 완료");
 		}else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 실패");
 		}
 	}
+	
+
 }

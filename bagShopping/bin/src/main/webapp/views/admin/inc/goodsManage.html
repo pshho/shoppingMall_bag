@@ -1,61 +1,150 @@
 <!DOCTYPE html>
-<html xmlns="http://thymeleaf.org">
+<html xmlns="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>상품 관리</title>
+	<meta charset="UTF-8">
+	<title>상품 관리</title>
+	<script th:inline="javascript">
+
+		function deleteGoods(goods) {
+			console.log([[${pd.page}]])
+			if (!confirm('정말로 삭제하시겠습니까?')) {
+				return false;
+			}
+			$.ajax({
+				url: "/admin/deleteGoods/" + [[${pd.page}]],
+				type: "post",
+				data: {productCode: goods},
+				dataType: 'json',
+				success: function (result) {
+					if (result > 0) {
+						window.alert("삭제 되었습니다.")
+						window.location.href = '/admin/goodsManage/' + [[${pd.page}]]
+					} else {
+						window.alert("삭제 실패.")
+					}
+				},
+				error: function () {
+					alert("요청 실패");
+				}
+			})
+		}
+		$(document).on('click', '#btnSearch', function (e) {
+			console.log("눌렀어")
+			e.preventDefault();
+			var url = "/admin/goodsManage/1";
+			url = url + "?searchType=" + $('#searchType').val();
+			url = url + "&keyword=" + $('#keyword').val();
+			console.log(url);
+			location.href = url;
+		});	
+	</script>
 </head>
+
 <body>
-<h2>상품 관리</h2>
-<a href="adminMain">뒤로</a>
-<a href="addGoods">상품 추가</a>
-<table border="">
-	<tr>
-		<td>상품코드</td>
-		<td>카테고리</td>
-		<td>타입</td>
-		<td>브랜드</td>
-		<td>상품명</td>
-		<td>가격</td>
-		<td>너비</td>
-		<td>높이</td>
-		<td>깊이</td>
-		<td>용량</td>
-		<td>무게</td>
-		<td>겉감</td>
-		<td>안감</td>
-		<td>지퍼</td>
-		<td>버클</td>
-		<td>재고</td>
-		<td>상품설명</td>
-		<td colspan="2" align="center">관리</td>
-	</tr>
-	<tr th:each="bag : ${bags}">
-		<td th:text="${bag.productCode}"/>
-		<th:block th:each="category : ${categories}" th:if="${category.categoriesId == bag.categoriesId}">
-		<td th:text="${category.categoriesName}"/>
+	<h2>상품 관리</h2>
+	<a href="/admin/adminMain">뒤로</a>
+	<a th:href="|/admin/addGoods/${pd.page}|">상품 추가</a>
+	<table border="">
+		<tr>
+			<td>상품코드</td>
+			<td>카테고리</td>
+			<td>타입</td>
+			<td>브랜드</td>
+			<td>상품명</td>
+			<td>가격</td>
+			<td>너비</td>
+			<td>높이</td>
+			<td>깊이</td>
+			<td>용량</td>
+			<td>무게</td>
+			<td>겉감</td>
+			<td>안감</td>
+			<td>지퍼</td>
+			<td>버클</td>
+			<td>재고</td>
+			<td>상품설명</td>
+			<td colspan="2" align="center">관리</td>
+		</tr>
+		<th:block th:if="${pd.pageEnd > 0}">
+			<tr th:each="bag : ${bags}">
+				<td th:text="${bag.productCode}" />
+				<th:block th:each="category : ${categories}" th:if="${category.categoriesId == bag.categoriesId}">
+					<td th:text="${category.categoriesName}" />
+				</th:block>
+				<th:block th:each="type : ${types}" th:if="${type.typeId == bag.typeId}">
+					<td th:text="${type.typeName}" />
+				</th:block>
+				<th:block th:each="brand : ${brands}" th:if="${brand.brandId == bag.brandId}">
+					<td th:text="${brand.brandName}" />
+				</th:block>
+				<td th:text="${bag.bagName}" />
+				<td th:text="${bag.bagPrice}" />
+				<td th:text="${bag.bagSizeW}" />
+				<td th:text="${bag.bagSizeH}" />
+				<td th:text="${bag.bagSizeD}" />
+				<td th:text="${bag.bagCapacity}" />
+				<td th:text="${bag.bagWeight}" />
+				<td th:text="${bag.bagOuterFabric}" />
+				<td th:text="${bag.bagInnerFabric}" />
+				<td th:text="${bag.bagZipper}" />
+				<td th:text="${bag.bagBuckle}" />
+				<td th:text="${bag.bagStock}" />
+				<td th:text="${bag.bagComment}" />
+				<td><a th:href="|/admin/modifyGoods/${bag.productCode}/${pd.page}|">수정</a></td>
+				<td><button id="deleteMember" th:goodsParam="${bag.productCode}"
+						th:onclick="deleteGoods(this.getAttribute('goodsParam'))" th:text="|삭제|" /></input></td>
+			</tr>
 		</th:block>
-		<th:block th:each="type : ${types}" th:if="${type.typeId == bag.typeId}">
-		<td th:text="${type.typeName}"/>
+		<th:block th:if="${pd.pageEnd == 0}">
+			<tr>
+				<td colspan="18">검색된 상품이 없습니다!</td>
+			</tr>
 		</th:block>
-		<th:block th:each="brand : ${brands}" th:if="${brand.brandId == bag.brandId}">
-		<td th:text="${brand.brandName}"/>
-		</th:block>
-		<td th:text="${bag.bagName}"/>
-		<td th:text="${bag.bagPrice}"/>
-		<td th:text="${bag.bagSizeW}"/>
-		<td th:text="${bag.bagSizeH}"/>
-		<td th:text="${bag.bagSizeD}"/>
-		<td th:text="${bag.bagCapacity}"/>
-		<td th:text="${bag.bagWeight}"/>
-		<td th:text="${bag.bagOuterFabric}"/>
-		<td th:text="${bag.bagInnerFabric}"/>
-		<td th:text="${bag.bagZipper}"/>
-		<td th:text="${bag.bagBuckle}"/>
-		<td th:text="${bag.bagStock}"/>
-		<td th:text="${bag.bagComment}"/>
-		<td><a th:href="|modifyGoods/${bag.productCode}|">수정</a></td>
-		<td><a href="">삭제</a></td>
-	</tr>
-</table>
+		<tr>
+			<td colspan="19" align="center">
+				<th:block th:if="${pd.pageStart} > 1">
+					<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
+				</th:block>
+				<th:block th:if="${pd.pageEnd > 0}">
+					<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)}">
+						<b th:if="${num} == ${pd.page}">
+							<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="${num}" />
+						</b>
+						<th:block th:unless="${num} == ${pd.page}">
+							<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="${num}" />
+						</th:block>
+					</th:block>
+				
+				<th:block th:if="${pd.pageEnd == 0}">
+					<b>
+						<a th:href="|1?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="1" />
+					</b>
+				</th:block>
+				<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
+					<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
+				</th:block>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="19">
+
+				<select id="searchType" name="searchType">
+					<option value="Code" selected>상품코드</option>
+					<option value="Category">카테고리</option>
+					<option value="Type">타입</option>
+					<option value="Brand">브랜드</option>
+					<option value="Name">상품명</option>
+					<option value="Price">가격</option>
+					<option value="Comment">상품설명</option>
+				</select>
+
+				<input type="text" id="keyword">
+				<input type="submit" id="btnSearch" value="검색">
+				<a href="/admin/goodsManage/1">검색 초기화</a>
+			</td>
+		</tr>
+	</table>
 </body>
+
 </html>

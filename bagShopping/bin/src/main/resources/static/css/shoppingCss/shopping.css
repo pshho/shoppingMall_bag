@@ -5,3 +5,17 @@
 #cont {
 	display: none;
 }
+.commentsOn,
+.comments > .commsOn {
+	display: none;
+}
+.onComments {
+	display: block;
+	height: 50px;
+}
+.comments > .comm {
+	display: block;
+	float: left;
+	height: 100px;
+	margin-right: 55px;
+}

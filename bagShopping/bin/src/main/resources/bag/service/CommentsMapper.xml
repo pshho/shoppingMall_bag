@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bag.service.CommentsMapper">
+	<sql id="wh_commentsId">
+		<where>
+			<if test="commentsId!=0">
+				comments_id = #{commentsId}
+			</if>
+		</where>
+	</sql>
+
+	<select id="comList" resultType="comDTO" parameterType="Integer">
+		select * from comments where gpid = #{id} order by gid desc, seq
+	</select>
+	<insert id="insertComments" parameterType="comDTO">
+		insert into comments(content, com_writer, seq, lev, gid, gpid)
+		values(#{content}, #{comWriter}, 0, 0, #{gid}, #{gpid})
+	</insert>
+	<select id="maxCommentsId">
+		select max(comments_id) from comments
+	</select>
+	<update id="updateComments" parameterType="comDTO">
+		update comments set content = #{content} <include refid="wh_commentsId" />
+	</update>
+	<select id="comDetail" parameterType="Integer">
+		select * from comments <include refid="wh_commentsId" />
+	</select>
+	<delete id="deleteComments" parameterType="Integer">
+		delete from comments <include refid="wh_commentsId" />
+	</delete>
+	<insert id="insertReComments" parameterType="comDTO">
+		insert into comments(content, com_writer, seq, lev, gid, gpid)
+		values(#{content}, #{comWriter}, #{seq}, #{lev}, #{gid}, #{gpid})
+	</insert>
+	<update id="updateComSeq" parameterType="comDTO">
+		update comments set seq = seq + 1 where gid = #{gid} and seq &gt; #{seq}
+	</update>
+</mapper>

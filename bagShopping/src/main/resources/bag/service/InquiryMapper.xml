@@ -11,8 +11,12 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		</where>
 	</sql>
 
-	<select id="myInqList" parameterType="String" resultType="inDTO">
-		select * from inquiry where in_writer = #{id}
+	<select id="myInqList" parameterType="map">
+		select * from inquiry where in_writer = #{id} limit #{pd.start}, #{pd.limit} 
+	</select>
+	
+	<select id="myInqCnt">
+		select count(*) from inquiry where in_writer = #{id}
 	</select>
 
 	<select id="inqList" resultType="inDTO">

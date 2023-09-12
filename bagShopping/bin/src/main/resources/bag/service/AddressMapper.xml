@@ -6,20 +6,36 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 <mapper namespace="bag.service.AddressMapper">
 
 	<insert id="insertAddress" parameterType="aDTO">
-		insert into address (address, zip_code, detail_address, member_id, address_phone, addr_name)
+		insert into address (address, zip_code, detail_address, member_id, address_phone, addr_name, basic_addr
+		<if test="addressMsg!=null">
+			 , address_msg
+		</if>
+		)
 		values
-		(#{address}, #{zipCode}, #{detailAddress}, #{memberId}), #{addressPhone}, #{addrName}
+		(#{address}, #{zipCode}, #{detailAddress}, #{memberId}, #{addressPhone}, #{addrName}, #{basicAddr}
+		<if test="addressMsg!=null">
+			 , #{addressMsg}
+		</if>
+		)
 	</insert>
 
 	<select id="getUserAddress" parameterType="String" resultType="aDTO">
 		select * from address where member_id = #{memberId}
 	</select>
 	
+	<sql id="wh_memberId">
+		<where>
+			<if test="memberId!=null">
+				member_id = #{memberId}
+			</if>
+		</where>
+	</sql>
+	
 	<select id="basicAddress" resultType="aDTO">
 		select * from address
 		<where>
-			<if test="memberId=null">
-				member_id = #{memberId}
+			<if test="id!=null">
+				member_id = #{id}
 			</if>
 			<if test="basicAddr!=0">
 				and basic_addr = #{basicAddr}
@@ -27,12 +43,7 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 		</where>
 	</select>
 	<select id="addrList" resultType="aDTO">
-		select * from address
-		<where>
-			<if test="memberId!=null">
-				member_id = #{memberId}
-			</if>
-		</where>
+		select * from address <include refid="wh_memberId" />
 	</select>
 	<select id="selAddr" resultType="aDTO">
 		select * from address
@@ -42,4 +53,7 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
+	<update id="chgBasicAddr" parameterType="aDTO">
+		update address set basic_addr = 0 <include refid="wh_memberId" />
+	</update>
 </mapper>

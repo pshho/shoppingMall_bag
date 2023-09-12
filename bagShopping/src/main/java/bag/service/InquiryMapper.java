@@ -1,6 +1,7 @@
 package bag.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -20,5 +21,6 @@ public interface InquiryMapper {
 	void updateSeq(InquiryDTO inDTO);
 	List<InquiryDTO> searchList(String searchCate, String searchCont);
 	
-	List<InquiryDTO> myInqList(String id);
+	List<InquiryDTO> myInqList(Map<String, Object> map);
+	int myInqCnt(String id);
 }
