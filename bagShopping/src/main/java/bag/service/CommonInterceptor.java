@@ -27,7 +27,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		HttpSession session = request.getSession(false);
+		HttpSession session = request.getSession();
 		if(modelAndView != null) {
 			modelAndView.addObject("brandList", bMapper.brandList());
 			modelAndView.addObject("categoriesList", catMapper.categoriesList());
