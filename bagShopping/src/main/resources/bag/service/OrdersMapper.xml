@@ -17,12 +17,51 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		#{addressMsg}, #{ordersRegDate})
 	</insert>
 
+	<sql id="searchSales">
+		<choose>
+			<when
+				test="searchType=='S'.toString() and keyword != null and keyword != '' ">
+				AND order_status like CONCAT('%', #{keyword}, '%')
+			</when>
+			<when
+				test="searchType=='I'.toString() and keyword != null and keyword != '' ">
+				AND merchant_uid like CONCAT('%', #{keyword}, '%')
+			</when>
+			<when
+				test="searchType=='C'.toString() and keyword != null and keyword != '' ">
+				AND prod_code like CONCAT('%', #{keyword}, '%')
+			</when>
+			<when
+				test="searchType=='B'.toString() and keyword != null and keyword != '' ">
+				AND member_id like CONCAT('%', #{keyword}, '%')
+			</when>
+			<when
+				test="searchType=='C'.toString() and keyword != null and keyword != '' ">
+				AND cancel_reason like CONCAT('%', #{keyword}, '%')
+			</when>
+		</choose>
+	</sql>
 
+	<sql id="searchDate">
+		<if test="dateStart != null and dateStart != ''">
+			and orders_reg_date >= str_to_date(#{dateStart},
+			'%Y-%m-%d')
+
+		</if>
+		<if test="dateEnd != null and dateEnd != ''">
+			and orders_reg_date &lt;
+			str_to_date(#{dateEnd},'%Y-%m-%d')+1
+
+		</if>
+	</sql>
 
 	<select id="orderList" parameterType="PageData2">
 		select * from orders
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<include refid="searchSales" />
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<include refid="searchDate" />
 		</trim>
 		order by order_id desc
 		limit #{start},#{limit}
@@ -32,6 +71,9 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		select count(*) from orders
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<include refid="searchSales" />
+		</trim>
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<include refid="searchDate" />
 		</trim>
 	</select>
 
@@ -65,28 +107,5 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		merchant_uid = #{merchant_uid}
 	</update>
 
-	<sql id="searchSales">
-		<choose>
-			<when
-				test="searchType=='S'.toString() and keyword != null and keyword != '' ">
-				AND order_status like CONCAT('%', #{keyword}, '%')
-			</when>
-			<when
-				test="searchType=='I'.toString() and keyword != null and keyword != '' ">
-				AND merchant_uid like CONCAT('%', #{keyword}, '%')
-			</when>
-			<when
-				test="searchType=='C'.toString() and keyword != null and keyword != '' ">
-				AND prod_code like CONCAT('%', #{keyword}, '%')
-			</when>
-			<when
-				test="searchType=='B'.toString() and keyword != null and keyword != '' ">
-				AND member_id like CONCAT('%', #{keyword}, '%')
-			</when>
-			<when
-				test="searchType=='C'.toString() and keyword != null and keyword != '' ">
-				AND cancel_reason like CONCAT('%', #{keyword}, '%')
-			</when>
-		</choose>
-	</sql>
+
 </mapper>

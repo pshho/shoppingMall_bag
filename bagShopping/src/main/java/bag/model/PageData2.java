@@ -14,6 +14,7 @@ public class PageData2 {
 	public int start, pageStart, pageEnd, total, pageTotal;
 	public String searchType;
 	public String keyword;
+	public String dateStart, dateEnd;
 
 	public void calc(int total) {
 		this.total = total;
