@@ -167,6 +167,9 @@
 	var addrAdd = 0;
 	
 	$(document).ready(function(){
+		if(user == null && nonMem == null){
+			location.href="/";
+		}
 		
 		if(user == null){
 			$('#newAddr').prop('checked', true);
@@ -633,8 +636,13 @@
 			contentType: 'application/json; charset=utf-8',
 			data: JSON.stringify(params),
 			success: function(res){
-				requestPay(res.payType, res.merchant_uid, res.prdName, res.ordersTotalPrice, 
-				res.buyerEmail, res.buyerName, res.buyerTel, res.buyerAddr, res.buyerPostcode);
+				if(res.msg === '재고 부족'){
+					alert(res.msg);
+					return false;
+				}else{
+					requestPay(res.payType, res.merchant_uid, res.prdName, res.ordersTotalPrice, 
+					res.buyerEmail, res.buyerName, res.buyerTel, res.buyerAddr, res.buyerPostcode);
+				}
 			},
 			error: function(error){
 				console.log(error);
