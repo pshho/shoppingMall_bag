@@ -13,7 +13,7 @@
 			<td>수량</td>
 			<td>합산 금액</td>
 		</tr>
-		<tr th:each="cart,no:${cartList}">
+		<tr th:if="${cartList ne null}" th:each="cart,no:${cartList}">
 			<td></td>
 			<td th:text="${cartBags[no.index].bagName}"></td>
 			<td></td>
@@ -167,10 +167,6 @@
 	var addrAdd = 0;
 	
 	$(document).ready(function(){
-		if(user == null && nonMem == null){
-			location.href="/";
-		}
-		
 		if(user == null){
 			$('#newAddr').prop('checked', true);
 			$('#origAddr').prop('disabled', true);
