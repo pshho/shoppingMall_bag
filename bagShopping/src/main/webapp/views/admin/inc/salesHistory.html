@@ -115,6 +115,8 @@
 			var url = "/admin/salesHistory/1";
 			url = url + "?searchType=" + $('#searchType').val();
 			url = url + "&keyword=" + $('#keyword').val();
+			url = url + "&dateStart="+$('#dateStart').val();
+			url = url + "&dateEnd="+$('#dateEnd').val();
 			console.log(url);
 			location.href = url;
 		});	
@@ -203,7 +205,7 @@
 		</tr>
 		<tr>
 			<td colspan="15">
-
+				
 				<select id="searchType" name="searchType">
 					<option value="S" selected>배송상태</option>
 					<option value="I">주문번호</option>
@@ -213,6 +215,9 @@
 				</select>
 
 				<input type="text" id="keyword">
+				<input type="date" value="start" id="dateStart">
+				~
+				<input type="date" value="end" id="dateEnd">
 				<input type="submit" id="btnSearch" value="검색">
 				<a href="/admin/salesHistory/1">검색 초기화</a>
 			</td>
