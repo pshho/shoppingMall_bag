@@ -10,7 +10,7 @@
 			}
 		}
 		
-	function perchaseConfirm(data) {
+	<!--function perchaseConfirm(data) {
 			if (confirm("구매 확정 하시겠습니까??")) {
 				$.ajax({
 				url: "/member/perchaseConfirm",
@@ -30,7 +30,7 @@
 			} else {
 				alert("구매 확정 취소 하셨습니다.");
 			}
-		}
+		}-->
 </script>
 </head>
 <body>
@@ -50,20 +50,19 @@
 		</tr>
 		<tr th:each="order : ${orderList}">
 			<td th:text="${order.orderStatus}"/>
-			<td th:text="${order.merchantUid}" />
+			<td><a th:href="|/member/myOrder/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
 			<td th:text="${order.prodCode}" />
 			<td th:text="${order.prodCount}" />
 			<td th:text="${order.ordersTotalPrice}" />
 			<td th:text="${order.ordersRegDateStr}" />
-			<th:block th:if="${order.orderStatus == '배송 중'} or ${order.orderStatus == '배송 완료'}">
-			<td><input type="button" value="구매 확정"
+			<th:block th:if="${order.orderStatus == '배송 완료'}">
+			<!--<td><input type="button" value="구매 확정"
 					th:orderParam="${order.merchantUid}"
-					th:onclick="perchaseConfirm(this.getAttribute('orderParam'))"/></td>
-			<td><input type="button" value="반품 요청"/></td>
+					th:onclick="perchaseConfirm(this.getAttribute('orderParam'))"/></td>-->
+			<td th:text="|배송 완료|"></td>
 			</th:block>
-			<th:block th:if="${order.orderStatus == '구매 확정'}">
-			<td th:text="|구매 확정|"></td>
-			</th:block>
+			<td th:if="${order.orderStatus == '배송 준비'}"></td>
+			<td th:if="${order.orderStatus == '배송 중'}"></td>
 			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="구매 취소" onclick="orderCancel()"/></td>
 			<td th:if="${order.orderStatus == '결제 취소'}" th:text="${order.cancelReason}"></td>
 		</tr>

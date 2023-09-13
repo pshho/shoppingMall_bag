@@ -11,7 +11,9 @@ import bag.model.PageData2;
 @Mapper
 public interface OrdersMapper {
 	void orderInsert(OrderDTO ordDTO);
+	
 	List<OrderDTO> orderList(PageData2 pd);
+	int orderCnt(PageData2 pd);
 
 	List<OrderDTO> myPageOrdList(Map<String, Object> map);
 	int myOrdCnt(String id);
@@ -21,5 +23,7 @@ public interface OrdersMapper {
 	List<OrderDTO> myOrdList(String id);
 	OrderDTO cancelOrder(String merchantUid);
 	void cancelOrderUpdate(OrderDTO ordDTO);
-
+	
+	OrderDTO getOrder(String merchantUid);
+	
 }

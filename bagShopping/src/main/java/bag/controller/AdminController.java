@@ -1,6 +1,7 @@
 package bag.controller;
 
 import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +30,7 @@ import bag.service.RestPayService;
 import bag.service.TypeMapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("/admin")
@@ -268,9 +270,38 @@ public class AdminController {
 
 		String adminUrl = "salesHistory";
 
+		pd.calc(ordMapper.orderCnt(pd));
 		mm.addAttribute("orderList", ordMapper.orderList(pd));
 		mm.addAttribute("adminService", adminUrl);
 		mm.addAttribute("pd", pd);
+		return "admin/template";
+	}
+	
+	@RequestMapping("salesHistory/{page}/{merchantUid}")
+	String salesHistoryDetail(HttpSession session, Model mm, PageData2 pd, OrderDTO ordDTO) {	
+		String templateUrl = "orderDetail";
+		// 상품 정보
+		OrderDTO ord = ordMapper.getOrder(ordDTO.getMerchantUid());
+		System.out.println(ord);
+		// 상품이 여러개면
+		if(ord.getProdCode().indexOf(",") > 0) {
+			String [] prod = ord.getProdCode().split(",");
+			List<BagsDTO> myBagList = bagsMapper.getOrderBags(prod);
+			for(int i = 0; i<myBagList.size(); i++) {
+				myBagList.get(i).setAmount(Integer.parseInt(ord.getProdCount().split(",")[i]));
+				myBagList.get(i).setMerchantUid(ordDTO.getMerchantUid());
+			}
+			mm.addAttribute("myOrd",myBagList);
+		}else {
+			BagsDTO myBag = bagsMapper.detailBag(Integer.parseInt(ord.getProdCode()));
+			myBag.setAmount(Integer.parseInt(ord.getProdCount()));
+			myBag.setMerchantUid(ordDTO.getMerchantUid());
+			mm.addAttribute("myOrd",myBag);
+		}
+		// 상품 끝
+		mm.addAttribute("orderInfo", ord);
+		mm.addAttribute("adminService", templateUrl);
+		mm.addAttribute("pd",pd);
 		return "admin/template";
 	}
 

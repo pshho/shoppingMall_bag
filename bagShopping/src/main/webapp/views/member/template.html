@@ -100,7 +100,7 @@
 		// 핸드폰 인증
 		$(function () {
 			var code;
-			
+
 			$("#phoneChk").click(function () {
 				var phone1 = $("#phone1 option:selected").val();
 				var phone2 = $("#phone2").val();
@@ -114,7 +114,7 @@
 					success: function (data) {
 						if (data == "error") {
 							alert("휴대폰 번호가 올바르지 않습니다.")
-						} if(data == "exist"){
+						} if (data == "exist") {
 							alert("이미 가입된 휴대폰 번호입니다.")
 						} else {
 							alert("전송 완료")
@@ -126,28 +126,51 @@
 			})
 			// 인증 번호 확인
 			$("#phoneChk2").click(function () {
-				if ($("#phoneChkInput").val()!=null && $("#phoneChkInput").val() == code) {
-					$("#phoneChkInput").attr("readonly","readonly")	
+				if ($("#phoneChkInput").val() != null && $("#phoneChkInput").val() == code) {
+					$("#phoneChkInput").attr("readonly", "readonly")
 					$("#phoneChk2").val("인증 완료")
 					alert('인증 성공')
 				} else {
 					alert('인증 실패')
-					
+
 				}
 			});
 		})
-		
-		function signUp(){
-			if($("#idCheckBox").html() == "중복된 아이디 입니다."){
+
+		function signUp() {
+			if ($("#idCheckBox").html() == "중복된 아이디 입니다.") {
 				alert('아이디 중복 확인을 해 주세요.')
 				return false;
 			}
-			if($("#phoneChk2").val() != "인증 완료"){
+			if ($("#phoneChk2").val() != "인증 완료") {
 				alert('핸드폰 인증을 해 주세요.')
 				return false;
 			}
-			
+
 			$("#signUpForm").submit()
+		}
+		function inquiryDelete(inquiryId) {
+			$.ajax({
+				url: '/inquiry/inquiryDelete/' + inquiryId,
+				type: 'post',
+				dataType: 'json',
+				async: false,
+				success: function (res) {
+					alert(res.msg);
+					location.href = res.url;
+				},
+				error: function (req, status, error) {
+					console.log(req);
+					console.log(status);
+					console.log(error);
+				}
+			})
+		}
+
+		function confirmDelete(inquiryId) {
+			if (confirm('정말 삭제하시겠습니까?')) {
+				inquiryDelete(inquiryId);
+			}
 		}
 	</script>
 </head>

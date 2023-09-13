@@ -25,6 +25,7 @@ public interface BagsMapper {
 	int modifyBag(BagsDTO bagDTO);
 	int deleteGoods(int productCode);
 	
+	List<BagsDTO> getOrderBags(String [] prod);
 	
 	void deleteImg1(int productCode);
 	void deleteImg2(int productCode);
