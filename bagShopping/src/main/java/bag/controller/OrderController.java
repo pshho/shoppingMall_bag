@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -59,7 +60,7 @@ public class OrderController {
 	int total;
 	String productUid;
 	String productCount;
-	ArrayList<BagsDTO> updStock;
+	List<BagsDTO> updStock;
 	
 	@RequestMapping("{ordersSer}")
 	ModelAndView goOrders(HttpSession session,
@@ -126,20 +127,33 @@ public class OrderController {
 				date.format(formatHours)+date.format(formatMinutes)+date.getNano();
 		String prdCode = "";
 		String prdCount = "";
+		Map<String, String> msg = new HashMap<>();
 		if(cartList != null) {
 			updStock = new ArrayList<>();
 			for(int i=0; i<cartList.size(); i++) {
 				BagsDTO bag = new BagsDTO();
-				if(i==cartList.size()-1) {
-					prdCode += cartList.get(i).getProductCode();
-					prdCount += cartList.get(i).getProductsCount();
-				}else {
-					prdCode += cartList.get(i).getProductCode()+",";
-					prdCount += cartList.get(i).getProductsCount()+",";
-				}
 				bag.setProductCode(cartList.get(i).getProductCode());
 				bag.setSellsAmount(cartList.get(i).getProductsCount());
 				updStock.add(bag);
+				if(i==cartList.size()-1) {
+					if(bagMapper.productsBoardBag(cartList.get(i).getProductCode()).getBagStock() 
+							< cartList.get(i).getProductsCount()) {
+						msg.put("msg", "재고 부족");
+						break;
+					}else {
+						prdCode += cartList.get(i).getProductCode();
+						prdCount += cartList.get(i).getProductsCount();
+					}
+				}else {
+					if(bagMapper.productsBoardBag(cartList.get(i).getProductCode()).getBagStock() 
+							< cartList.get(i).getProductsCount()) {
+						msg.put("msg", "재고 부족");
+						break;
+					}else {
+						prdCode += cartList.get(i).getProductCode()+",";
+						prdCount += cartList.get(i).getProductsCount()+",";
+					}
+				}
 			}
 		}
 		this.ordDTO = ordDTO;
@@ -148,7 +162,12 @@ public class OrderController {
 		this.ordDTO.setPayType(ordDTO.getPayType());
 		this.ordDTO.setProdCode(prdCode);
 		this.ordDTO.setProdCount(prdCount);
-		return this.ordDTO;
+		
+		if(!msg.containsKey("msg")) {
+			return this.ordDTO;
+		}else {
+			return msg;
+		}
 	}
 	
 	@PostMapping("preparePay")
