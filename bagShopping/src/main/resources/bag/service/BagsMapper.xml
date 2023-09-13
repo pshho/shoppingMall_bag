@@ -37,7 +37,13 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		product_code = #{productCode}
 	</select>
 
-
+	<select id="getOrderBags">
+		select * from bags
+		where product_code in
+		<foreach collection="array" index="index" item="prodCode" open="(" separator="," close=")" >
+		#{prodCode}
+		</foreach>
+	</select>
 
 	<select id="bagsList" resultType="bagDTO">
 		select bags.* from bags inner join products_board on

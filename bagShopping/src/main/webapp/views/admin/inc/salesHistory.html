@@ -7,22 +7,27 @@
 	<script>
 		function orderCancel(data) {
 			if (confirm("결제를 취소 하시겠습니까?")) {
-				var inputString = prompt('취소 사유를 입력해주세요.');
-				$.ajax({
-					url: "/admin/orderCancel",
-					type: "post",
-					data: {data: data, cancelReason: inputString},
-					dataType: 'json',
-					success: function (result) {
-						if (result == 0) {
-							alert("결제 취소 완료")
-							location.href = "/admin/salesHistory/1"
+				var inputString = prompt('취소 사유를 입력해주세요.', '[관리자] 사유 : ');
+				if (inputString == null) {
+					alert("취소 하셨습니다.")
+					return false;
+				} else {
+					$.ajax({
+						url: "/admin/orderCancel",
+						type: "post",
+						data: {data: data, cancelReason: inputString},
+						dataType: 'json',
+						success: function (result) {
+							if (result == 0) {
+								alert("결제 취소 완료")
+								location.href = "/admin/salesHistory/1"
+							}
+						},
+						error: function () {
+							alert("요청 실패");
 						}
-					},
-					error: function () {
-						alert("요청 실패");
-					}
-				})
+					})
+				}
 			}
 		}
 
@@ -104,6 +109,15 @@
 			}
 		}
 
+		$(document).on('click', '#btnSearch', function (e) {
+			console.log("누름")
+			e.preventDefault();
+			var url = "/admin/salesHistory/1";
+			url = url + "?searchType=" + $('#searchType').val();
+			url = url + "&keyword=" + $('#keyword').val();
+			console.log(url);
+			location.href = url;
+		});	
 	</script>
 </head>
 
@@ -128,7 +142,7 @@
 		</tr>
 		<tr th:each="order : ${orderList}">
 			<td th:text="${order.orderStatus}" id="status" />
-			<td th:text="${order.merchantUid}" />
+			<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
 			<td th:text="${order.prodCode}" />
 			<td th:text="${order.prodCount}" />
 			<td th:text="${order.ordersTotalPrice}" />
@@ -138,21 +152,32 @@
 			<td th:text="${order.buyerEmail}" />
 			<td th:text="${order.ordersRegDateStr}" />
 
-			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소" 
-					th:orderParam="${order.merchantUid}" th:onclick="orderCancel(this.getAttribute('orderParam'))"/></td>
+			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
+					th:orderParam="${order.merchantUid}" th:onclick="orderCancel(this.getAttribute('orderParam'))" />
+			</td>
 			<td th:unless="${order.orderStatus == '결제 완료'}"></td>
-
-			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="배송 준비"
-					th:orderParam="${order.merchantUid}" th:onclick="shipReady(this.getAttribute('orderParam'))" /></td>
-			<td th:if="${order.orderStatus == '배송 준비'}"><input type="button" value="배송 중"
-					th:orderParam="${order.merchantUid}" th:onclick="shipIng(this.getAttribute('orderParam'))" /></td>
-			<td th:if="${order.orderStatus == '배송 중'}"><input type="button"
-					value="배송 완료" th:orderParam="${order.merchantUid}"
-					th:onclick="shipEnd(this.getAttribute('orderParam'))" /></td>
-			<td th:if="${order.orderStatus == '배송 완료'}"></td>
+			<th:block th:if="${order.orderStatus == '결제 완료'}">
+				<td><input type="button" value="배송 준비" th:orderParam="${order.merchantUid}"
+						th:onclick="shipReady(this.getAttribute('orderParam'))" /></td>
+				<td></td>
+			</th:block>
+			<th:block th:if="${order.orderStatus == '배송 준비'}">
+				<td><input type="button" value="배송 중" th:orderParam="${order.merchantUid}"
+						th:onclick="shipIng(this.getAttribute('orderParam'))" /></td>
+				<td></td>
+			</th:block>
+			<th:block th:if="${order.orderStatus == '배송 중'}">
+				<td><input type="button" value="배송 완료" th:orderParam="${order.merchantUid}"
+						th:onclick="shipEnd(this.getAttribute('orderParam'))" /></td>
+				<td></td>
+			</th:block>
 			<th:block th:if="${order.orderStatus == '결제 취소'} and ${order.cancelReason}">
 				<td></td>
 				<td th:text="${order.cancelReason}"></td>
+			</th:block>
+			<th:block th:if="${order.orderStatus == '배송 완료'}">
+				<td></td>
+				<td></td>
 			</th:block>
 		</tr>
 		<tr>
@@ -176,7 +201,22 @@
 				</th:block>
 			</td>
 		</tr>
+		<tr>
+			<td colspan="15">
 
+				<select id="searchType" name="searchType">
+					<option value="S" selected>배송상태</option>
+					<option value="I">주문번호</option>
+					<option value="C">상품코드</option>
+					<option value="B">구매자명</option>
+					<option value="C">취소사유</option>
+				</select>
+
+				<input type="text" id="keyword">
+				<input type="submit" id="btnSearch" value="검색">
+				<a href="/admin/salesHistory/1">검색 초기화</a>
+			</td>
+		</tr>
 	</table>
 </body>
 

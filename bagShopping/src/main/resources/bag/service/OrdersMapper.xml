@@ -5,35 +5,88 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 <mapper namespace="bag.service.OrdersMapper">
 	<insert id="orderInsert" parameterType="ordDTO">
 		insert into orders
-		(orders_total_price, order_status, merchant_uid, pay_type, member_id, imp_uid, prod_code, prod_count, prd_name, buyer_name,
-		buyer_email, buyer_tel, buyer_addr, buyer_postcode, address_msg, orders_reg_date)
+		(orders_total_price, order_status, merchant_uid, pay_type, member_id,
+		imp_uid, prod_code, prod_count, prd_name, buyer_name,
+		buyer_email,
+		buyer_tel, buyer_addr, buyer_postcode, address_msg, orders_reg_date)
 		values
-		(#{ordersTotalPrice}, #{orderStatus}, #{merchant_uid}, #{payType}, #{memberId}, #{imp_uid}, #{prodCode}, #{prodCount},
-		#{prdName}, #{buyerName}, #{buyerEmail}, #{buyerTel}, #{buyerAddr}, #{buyerPostcode},
+		(#{ordersTotalPrice}, #{orderStatus}, #{merchant_uid},
+		#{payType}, #{memberId}, #{imp_uid}, #{prodCode}, #{prodCount},
+		#{prdName}, #{buyerName}, #{buyerEmail}, #{buyerTel}, #{buyerAddr},
+		#{buyerPostcode},
 		#{addressMsg}, #{ordersRegDate})
 	</insert>
-	
-	<select id="orderList">
-		select * from orders limit #{start},#{limit}
+
+
+
+	<select id="orderList" parameterType="PageData2">
+		select * from orders
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<include refid="searchSales" />
+		</trim>
+		order by order_id desc
+		limit #{start},#{limit}
 	</select>
-	
+
+	<select id="orderCnt" parameterType="PageData2">
+		select count(*) from orders
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<include refid="searchSales" />
+		</trim>
+	</select>
+
 	<select id="myPageOrdList" parameterType="map">
-		select * from orders where member_id = #{id} limit #{pd.start}, #{pd.limit}
+		select * from orders
+		where member_id = #{id} order by order_id desc limit #{pd.start},
+		#{pd.limit}
 	</select>
-	
+
 	<select id="myOrdCnt">
 		select count(*) from orders where member_id = #{id}
 	</select>
-	
+
 	<select id="cancelOrder" resultType="ordDTO">
-		select * from orders where merchant_uid = #{merchantUid}
+		select * from orders where
+		merchant_uid = #{merchantUid}
 	</select>
-	
+
+	<select id="getOrder" resultType="ordDTO">
+		select * from orders where
+		merchant_uid = #{merchantUid}
+	</select>
 	<update id="shipChange" parameterType="ordDTO">
-		update orders set order_status = #{orderStatus} where merchant_uid = #{merchant_uid}
+		update orders set
+		order_status = #{orderStatus} where merchant_uid = #{merchant_uid}
 	</update>
-	
+
 	<update id="cancelOrderUpdate" parameterType="ordDTO">
-		update orders set order_status = #{orderStatus}, cancel_reason = #{cancelReason} where merchant_uid = #{merchant_uid}
+		update orders set
+		order_status = #{orderStatus}, cancel_reason = #{cancelReason} where
+		merchant_uid = #{merchant_uid}
 	</update>
+
+	<sql id="searchSales">
+		<choose>
+			<when
+				test="searchType=='S'.toString() and keyword != null and keyword != '' ">
+				AND order_status like CONCAT('%', #{keyword}, '%')
+			</when>
+			<when
+				test="searchType=='I'.toString() and keyword != null and keyword != '' ">
+				AND merchant_uid like CONCAT('%', #{keyword}, '%')
+			</when>
+			<when
+				test="searchType=='C'.toString() and keyword != null and keyword != '' ">
+				AND prod_code like CONCAT('%', #{keyword}, '%')
+			</when>
+			<when
+				test="searchType=='B'.toString() and keyword != null and keyword != '' ">
+				AND member_id like CONCAT('%', #{keyword}, '%')
+			</when>
+			<when
+				test="searchType=='C'.toString() and keyword != null and keyword != '' ">
+				AND cancel_reason like CONCAT('%', #{keyword}, '%')
+			</when>
+		</choose>
+	</sql>
 </mapper>

@@ -8,16 +8,19 @@ import java.util.Random;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import bag.model.AddressDTO;
+import bag.model.BagsDTO;
 import bag.model.InquiryDTO;
 import bag.model.MemberDTO;
 import bag.model.OrderDTO;
 import bag.model.PageData2;
 import bag.service.AddressMapper;
+import bag.service.BagsMapper;
 import bag.service.CartMapper;
 import bag.service.InquiryMapper;
 import bag.service.MemberMapper;
@@ -36,6 +39,8 @@ public class MemberController {
 
 	@Resource
 	MemberMapper memMapper;
+	@Resource
+	BagsMapper bagMapper;
 	@Resource
 	AddressMapper addrMapper;
 	@Resource
@@ -244,6 +249,16 @@ public class MemberController {
 		return "member/template";
 	}
 	
+	@RequestMapping("myInquiry/{page}/{id}")
+	String inquiryDetail(@PathVariable int id,PageData2 pd, Model mm) {
+		
+		String templateUrl = "myInquiryDetail";
+		mm.addAttribute("pd",pd);
+		mm.addAttribute("memberService", templateUrl);
+		mm.addAttribute("inquiryDetail",inqMapper.inqDetail(id));
+		return "member/template";
+	}
+	
 	@RequestMapping("myOrder/{page}")
 	String myOrder(HttpSession session, Model mm, PageData2 pd) {	
 		
@@ -255,6 +270,35 @@ public class MemberController {
 		map.put("pd", pd);
 		List<OrderDTO> getUserOrd = ordMapper.myPageOrdList(map);
 		mm.addAttribute("orderList", getUserOrd);
+		mm.addAttribute("memberService", templateUrl);
+		mm.addAttribute("pd",pd);
+		return "member/template";
+	}
+	
+	@RequestMapping("myOrder/{page}/{merchantUid}")
+	String myOrderDetail(HttpSession session, Model mm, PageData2 pd, OrderDTO ordDTO) {	
+		String userId = (String)session.getAttribute("userId");
+		String templateUrl = "myOrderDetail";
+		// 상품 정보
+		OrderDTO ord = ordMapper.getOrder(ordDTO.getMerchantUid());
+		System.out.println(ord);
+		// 상품이 여러개면
+		if(ord.getProdCode().indexOf(",") > 0) {
+			String [] prod = ord.getProdCode().split(",");
+			List<BagsDTO> myBagList = bagMapper.getOrderBags(prod);
+			for(int i = 0; i<myBagList.size(); i++) {
+				myBagList.get(i).setAmount(Integer.parseInt(ord.getProdCount().split(",")[i]));
+				myBagList.get(i).setMerchantUid(ordDTO.getMerchantUid());
+			}
+			mm.addAttribute("myOrd",myBagList);
+		}else {
+			BagsDTO myBag = bagMapper.detailBag(Integer.parseInt(ord.getProdCode()));
+			myBag.setAmount(Integer.parseInt(ord.getProdCount()));
+			myBag.setMerchantUid(ordDTO.getMerchantUid());
+			mm.addAttribute("myOrd",myBag);
+		}
+		// 상품 끝
+		mm.addAttribute("orderInfo", ord);
 		mm.addAttribute("memberService", templateUrl);
 		mm.addAttribute("pd",pd);
 		return "member/template";
@@ -282,16 +326,15 @@ public class MemberController {
 	}
 	
 	
-	
-	@ResponseBody
-	@PostMapping("/perchaseConfirm")
-	int perchaseConfirm(HttpServletRequest request, OrderDTO ordDTO) {
-		String merchant_uid = request.getParameter("data");
-		ordDTO.setMerchant_uid(merchant_uid);
-		ordDTO.setOrderStatus("구매 확정");
-		int ordCheck = ordMapper.shipChange(ordDTO);
-		System.out.println(merchant_uid);
-		return ordCheck;
-	}
+	//구매 확정
+	/*
+	 * @ResponseBody
+	 * 
+	 * @PostMapping("/perchaseConfirm") int perchaseConfirm(HttpServletRequest
+	 * request, OrderDTO ordDTO) { String merchant_uid =
+	 * request.getParameter("data"); ordDTO.setMerchant_uid(merchant_uid);
+	 * ordDTO.setOrderStatus("구매 확정"); int ordCheck = ordMapper.shipChange(ordDTO);
+	 * System.out.println(merchant_uid); return ordCheck; }
+	 */
 	
 }
