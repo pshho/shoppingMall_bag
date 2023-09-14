@@ -305,6 +305,7 @@ public class MemberController {
 			myBag.setAmount(Integer.parseInt(ord.getProdCount()));
 			myBag.setMerchantUid(ordDTO.getMerchantUid());
 			mm.addAttribute("myOrd",myBag);
+			System.out.println(myBag);
 		}
 		// 상품 끝
 		mm.addAttribute("orderInfo", ord);

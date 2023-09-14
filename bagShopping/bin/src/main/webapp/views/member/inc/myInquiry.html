@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html xmlns="http://www.thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>마이페이지 - 내 문의내역</title>
+	<meta charset="UTF-8">
+	<title>마이페이지 - 내 문의내역</title>
 </head>
+
 <body>
 	<a th:href="|/member/myProfile|">내 정보</a>
 	<a th:href="|/member/myOrder/1|">주문내역</a>
 	<a th:href="|/member/myInquiry/1|">문의내역</a>
-<h2>문의내역입니다.</h2>
-<table border="">
+	<h2>문의내역입니다.</h2>
+	<table border="">
 		<tr>
 			<td>번호</td>
 			<td>제목</td>
@@ -17,8 +19,12 @@
 			<td>작성일</td>
 		</tr>
 		<tr th:each="inq, inqStat : ${myInq}">
-			<td th:text="${inqStat.count}" />
-			<td><a th:href="|/member/myInquiry/${pd.page}/${inq.inquiryId}|">[[${inq.inTitle}]]</a></td>
+			<td th:text="${pd.total - pd.start - inqStat.count + 1}" />
+			<td>
+				<th:block th:if="${inq.lev>0}" th:each="no : ${#numbers.sequence(0,inq.lev)}">&nbsp;</th:block>
+				<th:block th:if="${inq.lev} > 0">└</th:block>
+				<a th:href="|/member/myInquiry/${pd.page}/${inq.inquiryId}|">[[${inq.inTitle}]]</a>
+			</td>
 			<td th:text="${inq.inWriter}" />
 			<td th:text="${inq.inquiryRegDate2}" />
 		</tr>
@@ -46,4 +52,5 @@
 
 	</table>
 </body>
+
 </html>
