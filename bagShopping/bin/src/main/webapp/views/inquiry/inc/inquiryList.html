@@ -33,19 +33,19 @@
 	</tr>
 	<tr>
 		<td colspan="5">
-			<a href="/inquiry/inquiryList/1"><<</a>
-			<a th:href="|/inquiry/inquiryList/${pd.pageLJump}|"><</a>
+			<a th:href="|/inquiry/inquiryList/1?searchCate=${searC}&searchCont=${sear}|"><<</a>
+			<a th:href="|/inquiry/inquiryList/${pd.pageLJump}?searchCate=${searC}&searchCont=${sear}|"><</a>
 			<a th:each="pageNum:${#numbers.sequence(
 			(pd.pageEnd eq pd.endPage)?(pd.pageEnd-4 le 0)?1:pd.pageEnd-4:pd.pageStart
 			, pd.pageEnd)}"
-			th:href="|/inquiry/inquiryList/${pageNum}|"
+			th:href="|/inquiry/inquiryList/${pageNum}?searchCate=${searC}&searchCont=${sear}|"
 			th:text="|${(pd.pageStart eq pageNum) ? '[' + pageNum + ']' : pageNum}|">
 			</a>
-			<a th:href="|/inquiry/inquiryList/${pd.pageRJump}|">></a>
-			<a th:href="|/inquiry/inquiryList/${pd.endPage}|">>></a>
+			<a th:href="|/inquiry/inquiryList/${pd.pageRJump}?searchCate=${searC}&searchCont=${sear}|">></a>
+			<a th:href="|/inquiry/inquiryList/${pd.endPage}?searchCate=${searC}&searchCont=${sear}|">>></a>
 		</td>
 	</tr>
-	<form th:if="${session.admin}" action="/inquiry/inquiryList/1" id="searForm">
+	<form th:if="${session.admin ne null}" action="/inquiry/inquiryList/1" id="searForm">
 		<tr>
 			<td colspan="2">
 				<select name="searchCate">
@@ -63,7 +63,7 @@
 			</td>
 		</tr>
 	</form>
-	<tr>
+	<tr th:if="${session.userId ne null}">
 		<td colspan="5">
 			<a href="/inquiry/inquiryWrite/1">글작성</a>
 		</td>

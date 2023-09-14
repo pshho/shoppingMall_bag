@@ -9,7 +9,6 @@
 		<td>번호</td>
 		<td>제목</td>
 		<td>작성자</td>
-		<td>조회수</td>
 		<td>작성일</td>
 	</tr>
 	<tr th:if="${#arrays.length(noticeList) ne 0}" th:each="num,no:${#numbers.sequence(pd.listStart, pd.listEnd)}">
@@ -18,7 +17,6 @@
 			<a th:href="|/notice/noticeDetail/${noticeList[num].noticeId}|" th:text="${noticeList[num].nTitle}"></a>
 		</td>
 		<td th:text="${noticeList[num].nWriter}"></td>
-		<td th:text="${noticeList[num].cnt}"></td>
 		<td th:text="${noticeList[num].noticeRegDate2}"></td>
 	</tr>
 	<tr th:unless="${#arrays.length(noticeList) ne 0}">
@@ -26,16 +24,16 @@
 	</tr>
 	<tr>
 		<td colspan="5">
-			<a href="/notice/noticeList/1"><<</a>
-			<a th:href="|/notice/noticeList/${pd.pageLJump}|"><</a>
+			<a th:href="|/notice/noticeList/1?searchCate=${searC}&searchCont=${sear}|"><<</a>
+			<a th:href="|/notice/noticeList/${pd.pageLJump}?searchCate=${searC}&searchCont=${sear}|"><</a>
 			<a th:each="pageNum:${#numbers.sequence(
 			(pd.pageEnd eq pd.endPage)?(pd.pageEnd-4 le 0)?1:pd.pageEnd-4:pd.pageStart
 			, pd.pageEnd)}"
-			th:href="|/notice/noticeList/${pageNum}|"
+			th:href="|/notice/noticeList/${pageNum}?searchCate=${searC}&searchCont=${sear}|"
 			th:text="|${(pd.pageStart eq pageNum) ? '[' + pageNum + ']' : pageNum}|">
 			</a>
-			<a th:href="|/notice/noticeList/${pd.pageRJump}|">></a>
-			<a th:href="|/notice/noticeList/${pd.endPage}|">>></a>
+			<a th:href="|/notice/noticeList/${pd.pageRJump}?searchCate=${searC}&searchCont=${sear}|">></a>
+			<a th:href="|/notice/noticeList/${pd.endPage}?searchCate=${searC}&searchCont=${sear}|">>></a>
 		</td>
 	</tr>
 	<form action="/notice/noticeList/1" id="searForm">

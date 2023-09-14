@@ -22,7 +22,7 @@ method="post" id="wri" th:object="${productsBoardDTO}">
 		<tr>
 			<td>간략소개</td>
 			<td>
-				<input type="text" name="intro" th:value="${productsBoard.intro}" id="intro" />
+				<textarea cols="70" rows="10" name="intro" th:text="${productsBoard.intro}" id="intro"></textarea>
 			</td>
 		</tr>
 		<tr>
@@ -37,13 +37,13 @@ method="post" id="wri" th:object="${productsBoardDTO}">
 		<tr>
 			<td>배송정보</td>
 			<td>
-				<input type="text" name="addressInfo" th:value="${productsBoard.addressInfo}" id="addrInfo" />
+				<textarea cols="70" rows="10" name="addressInfo" th:text="${productsBoard.addressInfo}" id="addrInfo"></textarea>
 			</td>
 		</tr>
 		<tr>
 			<td>구매가이드</td>
 			<td>
-				<input type="text" name="guide" th:value="${productsBoard.guide}" id="guide" />
+				<textarea cols="70" rows="10" name="guide" th:text="${productsBoard.guide}" id="guide"></textarea>
 			</td>
 		</tr>
 		<tr>
