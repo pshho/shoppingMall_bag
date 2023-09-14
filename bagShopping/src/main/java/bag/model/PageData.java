@@ -10,7 +10,7 @@ public class PageData {
 	String url, msg;
 	int pageStart, pageEnd, totalPage, endPage, listStart, listEnd;
 	int pageLJump, pageRJump;
-	int pageLimit = 10;
+	int pageLimit;
 	int pageIndex;
 
 	// 마지막 페이지 번호

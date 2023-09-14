@@ -40,6 +40,7 @@ public class InquiryController {
 	
 	@ModelAttribute("pd")
 	Object pd() {
+		pd.setPageLimit(10);
 		return pd;
 	}
 	
@@ -145,6 +146,8 @@ public class InquiryController {
 		}
 		pd.setTotalPage(inquiryList.size());
 		pd.setPageStart(id);
+		md.addAttribute("searC", searchCate);
+		md.addAttribute("sear", searchCont);
 		md.addAttribute("inquiryList", inquiryList);
 		return "inquiry/templates";
 	}

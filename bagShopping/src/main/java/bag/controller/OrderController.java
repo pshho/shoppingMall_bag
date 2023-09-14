@@ -57,7 +57,7 @@ public class OrderController {
 	
 	List<CartDTO> cartList;
 	OrderDTO ordDTO;
-	int total;
+	int total, delivery;
 	String productUid;
 	String productCount;
 	List<BagsDTO> updStock;
@@ -92,9 +92,16 @@ public class OrderController {
 			mav.addObject("cartBags", bagMapper.cartBags(nonMem));
 		}
 		cart.sumTotal(cartList);
+		
+		if(cart.getSumTotal() < 50000) {
+			cart.setDeliveryFee(3000);
+			cart.setSumTotal(cart.getSumTotal()+cart.getDeliveryFee());
+			delivery = cart.getDeliveryFee();
+		}
 		mav.addObject("cartList", cartList);
 		total = cart.getSumTotal();
 		mav.addObject("total", total);
+		mav.addObject("delivery", cart.getDeliveryFee());
 		return mav;
 	}
 	
@@ -157,6 +164,7 @@ public class OrderController {
 			}
 		}
 		this.ordDTO = ordDTO;
+		this.ordDTO.setDeliveryFee(delivery);
 		this.ordDTO.setMerchant_uid(merchanUid);
 		this.ordDTO.setOrdersRegDate(today);
 		this.ordDTO.setPayType(ordDTO.getPayType());

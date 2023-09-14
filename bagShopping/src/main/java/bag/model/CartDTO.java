@@ -9,7 +9,7 @@ import lombok.Data;
 @Alias("cartDTO")
 @Data
 public class CartDTO {
-	int cartId, productCode, productsCount, sumPrice, sumTotal;
+	int cartId, productCode, productsCount, sumPrice, sumTotal, deliveryFee;
 	String memberId;
 
 	public void sumTotal(List<CartDTO> cartList) {

@@ -3,7 +3,6 @@ package bag.model;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 
-
 import org.apache.ibatis.type.Alias;
 import org.springframework.web.multipart.MultipartFile;
 

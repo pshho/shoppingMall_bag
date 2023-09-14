@@ -18,9 +18,9 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		select * from notice <include refid="wh_noticeId" />
 	</select>
 	<insert id="notWrite" parameterType="nDTO">
-		insert into notice(n_title, n_writer, n_content, cnt)
+		insert into notice(n_title, n_writer, n_content)
 		values
-		(#{nTitle}, #{nWriter}, #{nContent}, 0)
+		(#{nTitle}, #{nWriter}, #{nContent})
 	</insert>
 	<select id="maxNoticeId" resultType="Integer">
 		select max(notice_id) from notice

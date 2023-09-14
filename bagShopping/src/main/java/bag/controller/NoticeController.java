@@ -45,6 +45,7 @@ public class NoticeController {
 	
 	@ModelAttribute("pd")
 	Object pd() {
+		pd.setPageLimit(10);
 		return pd;
 	}
 	
@@ -112,6 +113,8 @@ public class NoticeController {
 		}
 		pd.setTotalPage(notList.size());
 		pd.setPageStart(id);
+		md.addAttribute("searC", searchCate);
+		md.addAttribute("sear", searchCont);
 		md.addAttribute("noticeList", notList);
 		return "notice/templates";
 	}
