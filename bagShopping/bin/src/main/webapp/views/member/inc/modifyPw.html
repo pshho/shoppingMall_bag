@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>비밀번호 수정</title>
+	<script>
+		function modifyPwBtn() {
+			var userPw = $("#pw").val()
+			var modifyPw = $("#modifyPw").val()
+			var modifyPw2 = $("#modifyPw2").val()
+			if(modifyPw != modifyPw2){
+				alert("변경할 비밀번호를 확인해주세요.")
+				return false;
+			}
+			if(userPw == modifyPw || userPw == modifyPw2){
+				alert("변경할 비밀번호가 현재 비밀번호와 같습니다!")
+				return false;
+			}
+			$.ajax({
+				url: "pwCheck",
+				type: "post",
+				data: {userPw: userPw},
+				dataType: 'json',
+				success: function (result) {
+					if (result > 0) {
+						$("#modiForm").submit();
+					} else {
+						alert("현재 비밀번호가 다릅니다!")
+					}
+				},
+				error: function () {
+					alert("요청 실패");
+				}
+			})
+
+		}
+
+	</script>
+</head>
+
+<body>
+	<h2>비밀번호 수정</h2>
+	<form action="" method="post" id="modiForm">
+		현재 비밀번호 : <input type="text" id="pw" name="memberPw" /><br />
+		변경할 비밀번호 : <input type="text" id="modifyPw" name="modifyPw" /><br />
+		변경할 비밀번호 확인 : <input type="text" id="modifyPw2" /> <br />
+		<input type="button" onclick="modifyPwBtn()" value="수정" />
+		<a href="/member/myProfile">뒤로</a>
+	</form>
+</body>
+
+</html>

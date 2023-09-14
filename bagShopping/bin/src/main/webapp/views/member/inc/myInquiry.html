@@ -5,10 +5,46 @@
 <title>마이페이지 - 내 문의내역</title>
 </head>
 <body>
-	<a th:href="|/member/myProfile/1|">내 정보</a>
+	<a th:href="|/member/myProfile|">내 정보</a>
 	<a th:href="|/member/myOrder/1|">주문내역</a>
 	<a th:href="|/member/myInquiry/1|">문의내역</a>
 <h2>문의내역입니다.</h2>
-[[${myInq}]]
+<table border="">
+		<tr>
+			<td>번호</td>
+			<td>제목</td>
+			<td>작성자</td>
+			<td>작성일</td>
+		</tr>
+		<tr th:each="inq, inqStat : ${myInq}">
+			<td th:text="${inqStat.count}" />
+			
+			<td><a th:href="|/member/myInquiry/${pd.page}/${inq.inquiryId}|">[[${inq.inTitle}]]</a></td>
+			<td th:text="${inq.inWriter}" />
+			<td th:text="${inq.inquiryRegDate2}" />
+		</tr>
+		<tr>
+			<td colspan="9" align="center">
+				<th:block th:if="${pd.pageStart} > 1">
+					<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
+				</th:block>
+				<th:block th:if="${pd.pageEnd > 0}">
+					<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
+						<b th:if="${num} == ${pd.page}">
+							<a th:href="|${num}|" th:text="${num}" />
+						</b>
+						<th:block th:unless="${num} == ${pd.page}">
+							<a th:href="|${num}|" th:text="${num}" />
+						</th:block>
+					</th:block>
+				</th:block>
+				<th:block th:if="${pd.pageEnd == 0}"><a th:href="1">1</a></th:block>
+				<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
+					<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
+				</th:block>
+			</td>
+		</tr>
+
+	</table>
 </body>
 </html>

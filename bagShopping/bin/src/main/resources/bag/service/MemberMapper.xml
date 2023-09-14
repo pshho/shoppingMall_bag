@@ -88,4 +88,12 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 		</choose>
 	</sql>
 
+	<select id="pwCheck" parameterType="String" resultType="Integer">
+		select count(*) from member where member_id = #{memberId} and member_pw = #{memberPw}
+	</select>
+
+	<update id="modifyUserPw" parameterType="mDTO">
+		update member set member_pw = #{modifyPw} where member_id = #{memberId}
+	</update>
+
 </mapper>

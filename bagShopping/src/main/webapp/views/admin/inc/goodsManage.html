@@ -43,7 +43,7 @@
 <body>
 	<h2>상품 관리</h2>
 	<a href="/admin/adminMain">뒤로</a>
-	<a th:href="|/admin/addGoods/${pd.page}|">상품 추가</a>
+	
 	<table border="">
 		<tr>
 			<td>상품코드</td>
@@ -141,6 +141,7 @@
 				<input type="text" id="keyword">
 				<input type="submit" id="btnSearch" value="검색">
 				<a href="/admin/goodsManage/1">검색 초기화</a>
+				<a th:href="|/admin/addGoods/${pd.page}|">상품 추가</a>
 			</td>
 		</tr>
 	</table>

@@ -1,6 +1,6 @@
 <html xmlns="http://www.thymeleaf.org">
 <h1>header</h1>
-<a href="/">홈으로</a>
+
 <div>
 	<ul>
 		<li>
@@ -20,10 +20,9 @@
 	<h3 th:text="${cate.categoriesName}"></h3>
 	<ul>
 
-		<li th:each="type:${typeList}"
-		th:if="${type.categoriesId eq cate.categoriesId}">
+		<li th:each="type:${typeList}" th:if="${type.categoriesId eq cate.categoriesId}">
 			<a th:href="|/shopping/shoppingList/0/${cate.categoriesId}/${type.typeId}/1/newest|"
-			th:text="${type.typeName}"></a>
+				th:text="${type.typeName}"></a>
 
 		</li>
 	</ul>
@@ -37,4 +36,24 @@
 		</li>
 	</ul>
 </div>
+<a href="/">홈으로</a>
+
+<!--member-->
+<th:block th:if="${session.userId == null}">
+	<a href="/member/signUp">회원가입</a>
+	<a href="/member/signIn">로그인</a>
+</th:block>
+
+<th:block th:if="${session.userId != null}">
+	<a href="/member/logOut">[[${session.userId}]]님 로그아웃</a>
+	<a href="/member/myPage">마이페이지</a>
+</th:block>
+<!--member-->
+
+<a href="/notice/noticeList/1">공지사항</a>
+<a href="/inquiry/inquiryList/1">문의게시판</a>
+
+<th:block th:if="${session.admin != null}">
+	<a href="/admin/adminMain">관리자페이지 돌아가기</a>
+</th:block>
 <hr />

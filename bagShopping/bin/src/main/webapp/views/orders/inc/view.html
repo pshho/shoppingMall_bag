@@ -5,10 +5,8 @@
 <title></title>
 </head>
 <body>
-	<th:block th:if="${ordersSer ne 'addrList'}">
-		<th:block th:replace="header/header" />
-	</th:block>
-	<h1 th:if="${ordersSer ne 'addrList'}">orders/view</h1>
+	<th:block th:replace="header/header" />
+	<h1>orders/view</h1>
 	<table>
 		<tr>
 			<td>
@@ -16,8 +14,6 @@
 			</td>
 		</tr>
 	</table>
-	<th:block th:if="${ordersSer ne 'addrList'}">
-		<th:block th:replace="footer/footer" />
-	</th:block>
+	<th:block th:replace="footer/footer" />
 </body>
 </html>

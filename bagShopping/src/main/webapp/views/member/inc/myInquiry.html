@@ -18,7 +18,6 @@
 		</tr>
 		<tr th:each="inq, inqStat : ${myInq}">
 			<td th:text="${inqStat.count}" />
-			
 			<td><a th:href="|/member/myInquiry/${pd.page}/${inq.inquiryId}|">[[${inq.inTitle}]]</a></td>
 			<td th:text="${inq.inWriter}" />
 			<td th:text="${inq.inquiryRegDate2}" />
