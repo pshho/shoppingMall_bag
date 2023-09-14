@@ -18,7 +18,7 @@ public class BagsDTO {
 	categoriesName, typeName, brandName, bagImg1, bagImg2, bagImg3, bagImg4;
 	
 	MultipartFile Img1, Img2, Img3, Img4;
-	
+	String bagsProductionDayStr;
 	Date bagsProductionDay;
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
 	

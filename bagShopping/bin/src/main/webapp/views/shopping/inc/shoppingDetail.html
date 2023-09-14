@@ -16,6 +16,11 @@ th:text="${cate.categoriesName}"></h1>
 				</td>
 			</tr>
 			<tr>
+				<td>타입</td>
+				<td th:each="type:${typeList}" 
+				th:if="${bags.typeId eq type.typeId}" th:text="${type.typeName}"></td>
+			</tr>
+			<tr>
 				<td>사이즈</td>
 				<td th:text="|${bags.bagSizeW}/${bags.bagSizeH}/${bags.bagSizeD}|"></td>
 			</tr>
@@ -61,7 +66,7 @@ th:text="${cate.categoriesName}"></h1>
 				<td colspan="2">
 					<div class="comments"></div>
 					<div class="onComments" onclick="clickComments()">
-						<p>다음 댓글 보기</p>
+						<p>다음 리뷰 보기</p>
 					</div>
 				</td>
 			</tr>
@@ -132,7 +137,7 @@ th:text="${cate.categoriesName}"></h1>
 				<tr>
 					<td colspan="3">
 						<button type="button" onclick="cartAdd()">장바구니</button>
-						<a href="/orders/orders">바로구매</a>
+						<button type="button" onclick="goPay()">바로구매</button>
 					</td>
 				</tr>
 			</th:block>
@@ -146,14 +151,15 @@ th:text="${cate.categoriesName}"></h1>
 					<a th:if="${session.admin ne null}"
 					th:href="|/shopping/shoppingModify/${productsBoard.productsBoardId}|">수정</a>
 					<a th:if="${session.admin ne null}" href="#" 
-					th:onclick="|confirmDelete(${productsBoard.productsBoardId})|">삭제</a>
-					<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/1|">뒤로</a>
+					th:onclick="|confirmDeletePrb(${productsBoard.productsBoardId})|">삭제</a>
+					<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/1/${distinct}|">뒤로</a>
 				</td>
 			</tr>
 		</table>
 	</div>
 </section>
 <script th:inline="javascript">
+	const user = [[${session.userId}]];
 	function addAmount(){
 		let bagsAmount = null;
 		if(!isNaN($('#bagsAmount').val())){
@@ -271,6 +277,8 @@ th:text="${cate.categoriesName}"></h1>
 				})
 			}, 300);
 		})
+		
+		reload();
 	})
 	
 	function confirmation(msg, url, cartCount){
@@ -280,6 +288,8 @@ th:text="${cate.categoriesName}"></h1>
 		$('#cartLink').text('장바구니('+cartCount+')');
 	}
 	
+	const nonMember = [[${session.nonMemberId}]];
+	var popup = '';
 	function cartAdd(){
 		let bagsAmount = null;
 		if(!isNaN($('#bagsAmount').val())){
@@ -289,31 +299,91 @@ th:text="${cate.categoriesName}"></h1>
 			return false;
 		}
 		
-		const params = {
-			bagsAmount : bagsAmount
+		if(user == null && nonMember == null){
+			let popupLeft = (screen.width - 500) / 2;
+			let popupTop = (screen.height - 400) / 2;
+			popup = window.open('/shopping/shoppingNonMember', 
+			'비회원', 'width=500,height=400,left='+popupLeft+',top='+popupTop);
+		}else{
+			const params = {
+				bagsAmount : bagsAmount
+			}
+			
+			$.ajax({
+				url : '/shopping/shoppingCart',
+				type : 'post',
+				contentType : 'application/json; charset=utf-8',
+				dataType : 'json',
+				async : false,
+				data : JSON.stringify(params),
+				success : function(res){
+					confirmation(res.msg, res.url, res.cartCount);
+				},
+				error : function(error){
+					console.log(error);
+				}
+			})
+		}
+	}
+	
+	function goPay(){
+		let bagsAmount = null;
+		if(!isNaN($('#bagsAmount').val())){
+			bagsAmount = parseInt($('#bagsAmount').val());
+		}else {
+			alert('숫자를 입력해주세요');
+			return false;
 		}
 		
-		$.ajax({
-			url : '/shopping/shoppingCart',
-			type : 'post',
-			contentType : 'application/json; charset=utf-8',
-			dataType : 'json',
-			async : false,
-			data : JSON.stringify(params),
-			success : function(res){
-				confirmation(res.msg, res.url, res.cartCount);
-			},
-			error : function(error){
-				console.log(error);
+		if(user == null && nonMember == null){
+			let popupLeft = (screen.width - 500) / 2;
+			let popupTop = (screen.height - 400) / 2;
+			popup = window.open('/shopping/shoppingNonMember', 
+			'비회원', 'width=500,height=400,left='+popupLeft+',top='+popupTop);
+		}else {
+			const params = {
+				bagsAmount : bagsAmount
 			}
-		})
+			
+			$.ajax({
+				url : '/shopping/shoppingCart',
+				type : 'post',
+				contentType : 'application/json; charset=utf-8',
+				dataType : 'json',
+				async : false,
+				data : JSON.stringify(params),
+				success : function(res){
+					location.href="/shopping/shoppingCart";
+				},
+				error : function(error){
+					console.log(error);
+				}
+			})
+		}
+	}
+	
+	function reload(){
+		if(popup && popup.closed){
+			location.reload();
+		}else {
+			setTimeout(reload, 300);
+		}
 	}
 	
 	const pid = [[${productsBoard.productsBoardId}]];
+	var reviewCount = [[${productsBoard.reviewCount}]];
 	let gpid = pid;
-	let writer = [[${session.userId}]];
+	var writer = [[${session.userId}]];
+	if(writer === null){
+		writer = [[${session.admin}]];
+	}
 	function saveComments(){
-		let content = $('#content').val();
+		let content = $('#content').val().trim();
+		
+		if(content.length == 0 || content.length > 1000){
+			alert('리뷰는 1~1000자내로 입력해주세요');
+			return false;
+		}
 		
 		let params = {
 			content: content,
@@ -329,6 +399,7 @@ th:text="${cate.categoriesName}"></h1>
 			data : JSON.stringify(params),
 			async : false,
 			success : function(res) {
+				reviewCount++;
 				alert(res.msg);
 				$('#content').val('');
 				listComments();
@@ -353,7 +424,7 @@ th:text="${cate.categoriesName}"></h1>
 			async : false,
 			success : function (res) {
 				$('.comments').empty();
-				$('.comments').append('<h3>댓글</h3>');
+				$('.comments').append('<h3>리뷰('+reviewCount+')</h3>');
 				res.forEach((row, i) => {
 					if(res.length <= 0){
 						return;
@@ -439,7 +510,12 @@ th:text="${cate.categoriesName}"></h1>
 	}
 	
 	function updateComments(commentsId) {
-		let content = $('#updateComments').val();
+		let content = $('#updateComments').val().trim();
+		
+		if(content.length == 0 || content.length > 1000){
+			alert('리뷰는 1~1000자내로 입력해주세요');
+			return false;
+		}
 		
 		let params = {
 			content : content
@@ -511,7 +587,7 @@ th:text="${cate.categoriesName}"></h1>
 			$('#comm'+commentsId+'').html(
 			'<span>작성자: ' + res.comWriter +
 			'</span><span>' + res.comRegDate2 + '</span><p>' + res.content + '<i>' +
-			'<input type="button" onclick="openReplyComments(' + res.commentsId + ')" value="대댓글" >' +
+			'<input type="button" onclick="openReplyComments(' + res.commentsId + ')" value="답글" >' +
 			'<input type="button" onclick="openUpdateComments(' + res.commentsId + ')" value="수정" >' +
 			'<input type="button" onclick="confirmDelete(' + res.commentsId + ')" value="삭제" ></i></p>' +
 			'<p><textarea cols="20" rows="3" id="replyComments"' +
@@ -528,7 +604,13 @@ th:text="${cate.categoriesName}"></h1>
 	}
 	
 	function replyComments(commentsId, seq, lev){
-		let content = $('#replyComments').val();
+		let content = $('#replyComments').val().trim();
+		
+		if(content.length == 0 || content.length > 1000){
+			alert('답글은 1~1000자내로 입력해주세요');
+			return false;
+		}
+		
 		var lev = lev + 1;
 		var seq = seq;
 		
@@ -540,8 +622,6 @@ th:text="${cate.categoriesName}"></h1>
 			seq: seq
 		};
 		
-		// console.log(params);
-		
 		$.ajax({
 			url : '/shopping/shoppingDetail/'+pid+'/comments/reply/'+commentsId,
 			type : 'post',
@@ -550,7 +630,7 @@ th:text="${cate.categoriesName}"></h1>
 			data : JSON.stringify(params),
 			async : false,
 			success : function(res) {
-				// console.log(response);
+				reviewCount++;
 				alert(res.msg);
 				listComments();
 			},

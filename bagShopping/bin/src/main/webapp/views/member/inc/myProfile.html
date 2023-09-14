@@ -5,9 +5,10 @@
 <title>마이페이지 - 내 정보</title>
 </head>
 <body>
-	<a th:href="|/member/myProfile/1|">내 정보</a>
+	<a th:href="|/member/myProfile|">내 정보</a>
 	<a th:href="|/member/myOrder/1|">주문내역</a>
 	<a th:href="|/member/myInquiry/1|">문의내역</a>
+	
 	<h2>내정보 입니다.</h2>
 	<table border="" >
 		<th:block th:each="my : ${profile}">
@@ -46,6 +47,8 @@
 			<td th:text="${addr.detailAddress}"></td>
 		</tr>
 		</th:block>
+		
 	</table>
+	<a th:href="|/member/modifyPw|">비밀번호 수정</a>
 </body>
 </html>

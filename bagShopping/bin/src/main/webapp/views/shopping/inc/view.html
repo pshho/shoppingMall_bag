@@ -5,8 +5,10 @@
 <title></title>
 </head>
 <body>
-	<th:block th:replace="header/header" />
-	<h1>shopping/view</h1>
+	<th:block th:if="${shoppingSer ne 'shoppingNonMember'}">
+		<th:block th:replace="header/header" />
+	</th:block>
+	<h1 th:if="${shoppingSer ne 'shoppingNonMember'}">shopping/view</h1>
 	<table>
 		<tr>
 			<td>
@@ -14,6 +16,8 @@
 			</td>
 		</tr>
 	</table>
-	<th:block th:replace="footer/footer" />
+	<th:block th:if="${shoppingSer ne 'shoppingNonMember'}">
+		<th:block th:replace="footer/footer" />
+	</th:block>
 </body>
 </html>

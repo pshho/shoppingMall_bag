@@ -185,6 +185,15 @@ public class MemberController {
 	String logOut(Model mm, HttpSession session) {
 		String msg = session.getAttribute("userId")+"님 로그아웃 되었습니다.";
 		String goUrl = "/";
+		
+		if(session.getAttribute("admin") != null) {
+			msg = "관리자 로그아웃 되었습니다.";
+			session.invalidate();
+			mm.addAttribute("msg", msg);
+			mm.addAttribute("goUrl", goUrl);
+			return "member/inc/alert";
+		}
+
 		cartMapper.allDelete((String)session.getAttribute("userId"));
 		session.invalidate();
 		

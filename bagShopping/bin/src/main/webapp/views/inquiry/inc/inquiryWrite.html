@@ -53,31 +53,6 @@
 		})
 	}
 	
-	function inquiryDelete(inquiryId){
-		$.ajax({
-			url : '/inquiry/inquiryDelete/'+inquiryId,
-			type : 'post',
-			dataType : 'json',
-			async : false,
-			success : function(res) {
-				// console.log(response);
-				alert(res.msg);
-				location.href=res.url;
-			},
-			error : function (req, status, error) {
-				console.log(req);
-				console.log(status);
-				console.log(error);
-			}
-		})
-	}
-	
-	function confirmDelete(inquiryId){
-		if(confirm('정말 삭제하시겠습니까?')){
-			inquiryDelete(inquiryId);
-		}
-	}
-	
 	function confirmCancel(){
 		if(confirm('정말 취소하시겠습니까?')){
 			inquiryWriteCancel();
