@@ -12,11 +12,11 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	</sql>
 
 	<select id="myInqList" parameterType="map">
-		select * from inquiry where in_writer = #{id} limit #{pd.start}, #{pd.limit} 
+		select * from inquiry where in_writer = #{id} or in_writer = 'admin' order by gid desc, seq limit #{pd.start}, #{pd.limit} 
 	</select>
 	
 	<select id="myInqCnt">
-		select count(*) from inquiry where in_writer = #{id}
+		select count(*) from inquiry where in_writer = #{id} or in_writer = 'admin'
 	</select>
 
 	<select id="inqList" resultType="inDTO">

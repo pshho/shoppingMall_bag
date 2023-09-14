@@ -5,11 +5,25 @@
 			<h1>상품목록</h1>
 		</td>
 	</tr>
+	<tr>
+		<td>
+			<a id="newest"
+			th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${page}/newest?searchCont=${sear}|">최신순</a>
+		</td>
+		<td>
+			<a id="review"
+			th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${page}/review?searchCont=${sear}|">리뷰순</a>
+		</td>
+		<td colspan="2">
+			<a id="sells"
+			th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${page}/sells?searchCont=${sear}|">판매순</a>
+		</td>
+	</tr>
 	<tr th:if="${#arrays.length(productsBoardList) ne 0}" th:each="no:${#numbers.sequence(0, 3)}">
 		<td th:each="num:${#numbers.sequence(pd.listStart, pd.listEnd)}"
 		th:if="${num &lt; (1+no)*4 and num &gt;= no*4}">
 			<ul>
-				<a th:href="|/shopping/shoppingDetail/${brand}/${category}/${type}/${productsBoardList[num].productsBoardId}|">
+				<a th:href="|/shopping/shoppingDetail/${brand}/${category}/${type}/${productsBoardList[num].productsBoardId}/${distinct}|">
 					<li>사진들어갈자리</li>
 					<li th:each="brand:${brandList}"
 					th:if="${brand.brandId eq productsBoardList[num].brandId}"
@@ -26,19 +40,19 @@
 	</tr>
 	<tr>
 		<td colspan="4">
-			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/1|"><<</a>
-			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pd.pageLJump}|"><</a>
+			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/1/${distinct}|"><<</a>
+			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pd.pageLJump}/${distinct}|"><</a>
 			<a th:each="pageNum:${#numbers.sequence(
 			(pd.pageEnd eq pd.endPage)?(pd.pageEnd-4 le 0)?1:pd.pageEnd-4:pd.pageStart
 			, pd.pageEnd)}"
-			th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pageNum}|"
+			th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pageNum}/${distinct}|"
 			th:text="|${(pd.pageStart eq pageNum) ? '[' + pageNum + ']' : pageNum}|">
 			</a>
-			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pd.pageRJump}|">></a>
-			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pd.endPage}|">>></a>
+			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pd.pageRJump}/${distinct}|">></a>
+			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pd.endPage}/${distinct}|">>></a>
 		</td>
 	</tr>
-	<form action="/shopping/shoppingList/0/0/0/1" id="searForm">
+	<form th:action="|/shopping/shoppingList/${brand}/${category}/${type}/${page}/${distinct}|" id="searForm">
 		<tr>
 			<td colspan="3">
 				<input type="text" name="searchCont" id="searchCont" />

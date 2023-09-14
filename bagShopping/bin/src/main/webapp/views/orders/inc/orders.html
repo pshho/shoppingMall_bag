@@ -13,7 +13,7 @@
 			<td>수량</td>
 			<td>합산 금액</td>
 		</tr>
-		<tr th:each="cart,no:${cartList}">
+		<tr th:if="${cartList ne null}" th:each="cart,no:${cartList}">
 			<td></td>
 			<td th:text="${cartBags[no.index].bagName}"></td>
 			<td></td>
@@ -29,15 +29,23 @@
 				<h3>주문자 정보</h3>
 			</td>
 		</tr>
-		<th:block th:if="${user!=null}">
+		<th:block th:if="${user ne null}">
 			<tr>
 				<td th:text="${user.memberName}"></td>
 			</tr>
 			<tr>
-				<td th:text="${user.memberPhone}">연락처</td>
+				<td th:text="${user.memberPhone}"></td>
 			</tr>
 			<tr>
-				<td th:text="${user.memberEmail}">이메일</td>
+				<td th:text="${user.memberEmail}"></td>
+			</tr>
+		</th:block>
+		<th:block th:unless="${user ne null}">
+			<tr>
+				<td th:text="${session.nonMemberName}"></td>
+			</tr>
+			<tr>
+				<td th:text="${session.nonMemberPhone}"></td>
 			</tr>
 		</th:block>
 	</table>
@@ -61,7 +69,7 @@
 					신규배송지
 				</label>
 			</td>
-			<td>
+			<td th:if="${user ne null}">
 				<button type="button" id="addrListOn">배송지 목록</button>
 			</td>
 		</tr>
@@ -77,10 +85,12 @@
 					<option value="배송 전 연락바랍니다">배송 전 연락바랍니다</option>
 					<option value="부재 시 경비실에 맡겨주세요">부재 시 경비실에 맡겨주세요</option>
 					<option value="부재 시 문자나 전화주세요">부재 시 문자나 전화주세요</option>
-					<option th:each="msg:${addrMsg}" 
-					th:if="${msg ne '배송 전 연락바랍니다' and msg ne '부재 시 경비실에 맡겨주세요'
-					and msg ne '부재 시 문자나 전화주세요'}"
-					th:value="${msg}" th:text="|(사용한 요청사항) ${msg}|"></option>
+					<th:block th:if="${addrMsg ne null}">
+						<option th:each="msg:${addrMsg}" 
+						th:if="${msg ne '배송 전 연락바랍니다' and msg ne '부재 시 경비실에 맡겨주세요'
+						and msg ne '부재 시 문자나 전화주세요'}"
+						th:value="${msg}" th:text="|(사용한 요청사항) ${msg}|"></option>
+					</th:block>
 				</select>
 			</td>
 		</tr>
@@ -128,24 +138,84 @@
 	var IMP = window.IMP;
 	IMP.init("imp12144628");
 	
-	if([[${user}]]!=null){
-		var userId = [[${user.memberId}]];
-		var email = [[${user.memberEmail}]];
+	const nonMem = [[${session.nonMemberId}]];
+	const user = [[${user}]];
+	const adr = [[${address}]];
+	if(user != null){
+		var userId = user.memberId;
+		var email = user.memberEmail;
+		var userName = adr.addrName;
+		var phone = adr.addressPhone;
+		var zipcode = adr.zipCode;
+		var address = adr.address;
+		var detailAddr = adr.detailAddress;
+	}else {
+		var userId = nonMem;
+		var email = '';
+		var userName = [[${session.nonMemberName}]];
+		var phone = [[${session.nonMemberPhone}]];
+		var zipcode = '';
+		var address = '';
+		var detailAddr = '';
 	}
-	var userName = [[${address.addrName}]];
-	var phone = [[${address.addressPhone}]];
-	var zipcode = [[${address.zipCode}]];
-	var address = [[${address.address}]];
-	var detailAddr = [[${address.detailAddress}]];
+	var addrList = [[${addrList}]];
 	var prod = [[${cartBags[0].bagName}]];
 	var prodSize = [[${#arrays.length(cartBags)}]];
 	var phones = ['010', '011', '016', '017', '019'];
-	var addrList = [[${addrList}]];
 	const total = $('#total').text();
 	var basicAddr = 0;
 	var addrAdd = 0;
 	
 	$(document).ready(function(){
+		if(user == null){
+			$('#newAddr').prop('checked', true);
+			$('#origAddr').prop('disabled', true);
+			$('#addrName').empty();
+			$('#addrName').append('<td>수령인</td>')
+			.append('<td colspan="2"><input type="text" id="addresses" value="'+userName+'" />')
+			
+			let phone1 = phone.substring(0, 3);
+			let phone2 = null;
+			let phone3 = null;
+			
+			if(phone.length === 11){
+				phone2 = phone.substring(3, 7);
+				phone3 = phone.substring(7, 11);
+			}else if(phone.length === 10){
+				phone2 = phone.substring(3, 6);
+				phone3 = phone.substring(6, 10);
+			}
+			
+			$('#addrPhone').empty();
+			let htmlCode = '<td>연락처</td><td colspan="2"><select id="phone1">';
+			phones.forEach(function(item, no){
+				if(item===phone1){
+					htmlCode += '<option selected>'+item+'</option>';
+				}else{
+					htmlCode += '<option>'+item+'</option>';
+				}
+			})
+			htmlCode += '</select> - <input type="text" id="phone2" value="'+phone2+'" />'+
+					' - <input type="text" id="phone3" value="'+phone3+'" /></td>';
+			$('#addrPhone').append(htmlCode);
+			
+			$('#addrAddr').empty();
+			let htmlCode2 = '<td>배송주소</td>';
+			htmlCode2 += '<td><input type="text" id="zipCode" placeholder="우편번호" readonly/>';
+			htmlCode2 += '<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" /><br />';
+			htmlCode2 += '<input type="text" id="address" placeholder="도로명주소" readonly /><br />';
+			htmlCode2 += '<input type="text" id="detailAddress" placeholder="상세주소" /><br />';
+			$('#addrAddr').append(htmlCode2);
+			$('#btnAddr').empty();
+			$('#btnAddr').append('<td colspan="3"><button type="button" onclick="btnAddrChange()">입력</button></td>');
+			$('#prodName').empty();
+			if(prodSize === 1){
+				$('#prodName').append('<td colspan="3">'+prod+'</td>');
+			}else {
+				$('#prodName').append('<td colspan="3">'+prod+
+					' 외 '+(prodSize-1)+'건</td>');
+			}
+		}
 		
 		if($('#origAddr').is(':checked')){
 			$('#addrName').empty();
@@ -217,18 +287,20 @@
 			}
 		})
 		
-		let table = '<table id="orderFrame" border=""><tr><td colspan="6"><h3>배송지 목록</h3></td></tr>' + 
-		'<tr><td>수령인</td><td>연락처</td><td>우편번호</td><td>주소</td><td>상세주소</td><td>배송지 선택</td></tr>';
-		addrList.forEach(function(item){
-			table += '<tr><td>' + item.addrName + '</td>';
-			table += '<td>' + item.addressPhone + '</td>';
-			table += '<td>' + item.zipCode + '</td>';
-			table += '<td>' + item.address + '</td>';
-			table += '<td>' + item.detailAddress + '</td>';
-			table += '<td><input type="button" onclick="addr(' + item.addressId + ')" value="선택" /></td>';
-		})
-		table += '</tr></table>';
-		$('body').append(table);
+		if(nonMem == null){
+			let table = '<table id="orderFrame" border=""><tr><td colspan="6"><h3>배송지 목록</h3></td></tr>' + 
+			'<tr><td>수령인</td><td>연락처</td><td>우편번호</td><td>주소</td><td>상세주소</td><td>배송지 선택</td></tr>';
+			addrList.forEach(function(item){
+				table += '<tr><td>' + item.addrName + '</td>';
+				table += '<td>' + item.addressPhone + '</td>';
+				table += '<td>' + item.zipCode + '</td>';
+				table += '<td>' + item.address + '</td>';
+				table += '<td>' + item.detailAddress + '</td>';
+				table += '<td><input type="button" onclick="addr(' + item.addressId + ')" value="선택" /></td>';
+			})
+			table += '</tr></table>';
+			$('body').append(table);
+		}
 		
 		$('#addrListOn').click(function(e){
 			e.stopPropagation();
@@ -484,6 +556,11 @@
 			}
 		}
 		
+		if($('#newAddr').is(':checked')) {
+			alert('배송정보를 입력해주세요');
+			return false;
+		}
+		
 		if(addrAdd == 1 || basicAddr == 1){
 			const param = {
 				basicAddr: basicAddr,
@@ -527,14 +604,6 @@
 			return false;
 		}
 		
-		const currentDate = new Date();
-		const year = currentDate.getFullYear();
-		const month = (currentDate.getMonth()+1).toString().padStart(2, '0');
-		const day = currentDate.getDate().toString().padStart(2, '0');
-		const hour = currentDate.getHours().toString().padStart(2, '0');
-		const minute = currentDate.getMinutes().toString().padStart(2, '0');
-		const second = currentDate.getSeconds().toString().padStart(2, '0');
-		const merUid = 'IWILLBAG'+year+month+day+hour+minute+second;
 		var prdName = '';
 		
 		if(prodSize != 0){
@@ -547,15 +616,13 @@
 			ordersTotalPrice: total,
 			payType: type,
 			memberId: userId,
-			merchant_uid: merUid,
 			prdName: prdName,
 			buyerName: userName,
 			buyerEmail: email,
 			buyerTel: phone,
 			buyerAddr: address+' '+detailAddr,
 			buyerPostcode: zipcode,
-			addressMsg: addressMsg,
-			ordersRegDate: currentDate
+			addressMsg: addressMsg
 		}
 		
 		$.ajax({
@@ -565,8 +632,13 @@
 			contentType: 'application/json; charset=utf-8',
 			data: JSON.stringify(params),
 			success: function(res){
-				requestPay(res.payType, res.merchant_uid, res.prdName, res.ordersTotalPrice, 
-				res.buyerEmail, res.buyerName, res.buyerTel, res.buyerAddr, res.buyerPostcode);
+				if(res.msg === '재고 부족'){
+					alert(res.msg);
+					return false;
+				}else{
+					requestPay(res.payType, res.merchant_uid, res.prdName, res.ordersTotalPrice, 
+					res.buyerEmail, res.buyerName, res.buyerTel, res.buyerAddr, res.buyerPostcode);
+				}
 			},
 			error: function(error){
 				console.log(error);
