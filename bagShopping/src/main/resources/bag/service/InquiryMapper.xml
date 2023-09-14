@@ -12,19 +12,21 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	</sql>
 
 	<select id="myInqList" parameterType="map">
-		select * from inquiry where in_writer = #{id} or in_writer = 'admin' order by gid desc, seq limit #{pd.start}, #{pd.limit} 
+		select * from inquiry as a left join inquiry as b on a.gid = b.gid where b.in_writer = #{id}  order by b.gid desc, b.seq limit #{pd.start}, #{pd.limit} 
 	</select>
 	
 	<select id="myInqCnt">
-		select count(*) from inquiry where in_writer = #{id} or in_writer = 'admin'
+		select count(*) from inquiry as a left join inquiry as b on a.gid = b.gid where b.in_writer = #{id}
 	</select>
 
 	<select id="inqList" resultType="inDTO">
 		select * from inquiry order by gid desc, seq
 	</select>
+	
 	<select id="totalInquiry" resultType="Integer">
 		select count(*) from inquiry
 	</select>
+	
 	<select id="checkPw" resultType="Integer">
 		select count(*) from inquiry
 		<where>
