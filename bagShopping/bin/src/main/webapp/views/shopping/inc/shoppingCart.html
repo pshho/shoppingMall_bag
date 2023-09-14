@@ -1,7 +1,7 @@
 <html xmlns="http://www.thymeleaf.org">
 <table border="">
 	<tr>
-		<td colspan="6">
+		<td colspan="5">
 			<h1>장바구니</h1>
 		</td>
 	</tr>
@@ -9,7 +9,6 @@
 		<tr>
 			<td>상품이미지</td>
 			<td>상품명</td>
-			<td>배송비</td>
 			<td>수량</td>
 			<td>합산 금액</td>
 			<td>삭제</td>
@@ -17,7 +16,6 @@
 		<tr th:each="cart,no:${cartList}">
 			<td></td>
 			<td th:text="${cartBags[no.index].bagName}"></td>
-			<td></td>
 			<td>
 				<button type="button" 
 				th:onclick="|subAmount(${cartBags[no.index].bagPrice}, ${cart.cartId})|">-</button>
@@ -38,13 +36,19 @@
 			</td>
 		</tr>
 		<tr>
+			<td>배송비</td>
+			<td colspan="4">
+				<input type="text" th:value="${delivery}" id="delivery" readonly />
+			</td>
+		</tr>
+		<tr>
 			<td>전체 금액</td>
-			<td colspan="5">
+			<td colspan="4">
 				<input type="text" th:value="${total}" id="total" readonly />
 			</td>
 		</tr>
 		<tr>
-			<td colspan="6">
+			<td colspan="5">
 				<button type="button" onclick="pay()">구매</button>
 			</td>
 		</tr>
@@ -88,6 +92,7 @@
 			success : function(res){
 				$('#cartTotal'+cartId).val(res.sumPrice);
 				$('#total').val(res.total);
+				$('#delivery').val(res.delivery);
 			},
 			error : function(error){
 				console.log(error);
@@ -123,6 +128,7 @@
 			success : function(res){
 				$('#cartTotal'+cartId).val(res.sumPrice);
 				$('#total').val(res.total);
+				$('#delivery').val(res.delivery);
 			},
 			error : function(error){
 				console.log(error);
@@ -171,6 +177,7 @@
 						success : function(res){
 							$('#cartTotal'+cartId).val(res.sumPrice);
 							$('#total').val(res.total);
+							$('#delivery').val(res.delivery);
 						},
 						error : function(error){
 							console.log(error);

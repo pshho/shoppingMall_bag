@@ -2,23 +2,25 @@
 <div>
 	<table border="">
 		<tr>
-			<td colspan="5">
+			<td colspan="4">
 				<h3>주문 목록</h3>
 			</td>
 		</tr>
 		<tr>
 			<td>상품이미지</td>
 			<td>상품명</td>
-			<td>배송비</td>
 			<td>수량</td>
 			<td>합산 금액</td>
 		</tr>
 		<tr th:if="${cartList ne null}" th:each="cart,no:${cartList}">
 			<td></td>
 			<td th:text="${cartBags[no.index].bagName}"></td>
-			<td></td>
 			<td th:text="${cart.productsCount}"></td>
 			<td th:text="${cart.sumPrice}"></td>
+		</tr>
+		<tr>
+			<td>배송비</td>
+			<td colspan="3" th:text="${delivery}"></td>
 		</tr>
 	</table>
 </div>

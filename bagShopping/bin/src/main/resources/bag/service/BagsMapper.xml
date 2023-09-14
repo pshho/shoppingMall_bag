@@ -234,7 +234,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagOuterFabric},
 				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
 				#{bagStock},
-				#{bagComment}, sysdate(), #{bagImg1}, #{bagImg2},
+				#{bagComment}, str_to_date(#{bagsProductionDayStr},'%Y-%m-%d'), #{bagImg1}, #{bagImg2},
 				#{bagImg3}, #{bagImg4}, 0)
 			</when>
 			<when
@@ -259,7 +259,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagOuterFabric},
 				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
 				#{bagStock},
-				#{bagComment}, sysdate(), #{bagImg1}, #{bagImg2},
+				#{bagComment}, str_to_date(#{bagsProductionDayStr},'%Y-%m-%d'), #{bagImg1}, #{bagImg2},
 				#{bagImg3}, 0)
 			</when>
 			<when test="bagImg1 != null and bagImg2 != null">
@@ -284,7 +284,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagOuterFabric},
 				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
 				#{bagStock},
-				#{bagComment}, sysdate(), #{bagImg1}, #{bagImg2}, 0)
+				#{bagComment}, str_to_date(#{bagsProductionDayStr},'%Y-%m-%d'), #{bagImg1}, #{bagImg2}, 0)
 			</when>
 			<when test="bagImg1 != null">
 				insert into bags
@@ -310,7 +310,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagOuterFabric},
 				#{bagInnerFabric}, #{bagZipper}, #{bagBuckle},
 				#{bagStock},
-				#{bagComment}, sysdate(), #{bagImg1}, 0)
+				#{bagComment}, str_to_date(#{bagsProductionDayStr},'%Y-%m-%d'), #{bagImg1}, 0)
 			</when>
 			<otherwise>
 				insert into bags
@@ -327,7 +327,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagCapacity}, #{bagWeight}, #{bagOuterFabric},
 				#{bagInnerFabric},
 				#{bagZipper}, #{bagBuckle}, #{bagStock},
-				#{bagComment}, sysdate(), 0)
+				#{bagComment}, str_to_date(#{bagsProductionDayStr},'%Y-%m-%d'), 0)
 			</otherwise>
 		</choose>
 	</sql>
@@ -354,7 +354,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagInnerFabric}, bag_zipper = #{bagZipper}, bag_buckle =
 				#{bagBuckle}, bag_stock = #{bagStock},
 				bag_comment = #{bagComment},
-				bags_production_day = sysdate(),
+				bags_production_day = str_to_date(#{bagsProductionDayStr},'%Y-%m-%d'),
 				bag_img1 =
 				#{bagImg1}, bag_img2 =
 				#{bagImg2}, bag_img3 = #{bagImg3}, bag_img4 =
@@ -382,7 +382,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagInnerFabric}, bag_zipper = #{bagZipper}, bag_buckle =
 				#{bagBuckle}, bag_stock = #{bagStock},
 				bag_comment = #{bagComment},
-				bags_production_day = sysdate(),
+				bags_production_day = str_to_date(#{bagsProductionDayStr},'%Y-%m-%d'),
 				bag_img1 =
 				#{bagImg1}, bag_img2 =
 				#{bagImg2}, bag_img3 = #{bagImg3}
@@ -409,7 +409,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagInnerFabric}, bag_zipper = #{bagZipper}, bag_buckle =
 				#{bagBuckle}, bag_stock = #{bagStock},
 				bag_comment = #{bagComment},
-				bags_production_day = sysdate(),
+				bags_production_day = str_to_date(#{bagsProductionDayStr},'%Y-%m-%d'),
 				bag_img1 =
 				#{bagImg1}, bag_img2 =
 				#{bagImg2}
@@ -435,7 +435,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagInnerFabric}, bag_zipper = #{bagZipper}, bag_buckle =
 				#{bagBuckle}, bag_stock = #{bagStock},
 				bag_comment = #{bagComment},
-				bags_production_day = sysdate(),
+				bags_production_day = str_to_date(#{bagsProductionDayStr},'%Y-%m-%d'),
 				bag_img1 =
 				#{bagImg1}
 				where
@@ -460,7 +460,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				#{bagInnerFabric}, bag_zipper = #{bagZipper}, bag_buckle =
 				#{bagBuckle}, bag_stock = #{bagStock},
 				bag_comment = #{bagComment},
-				bags_production_day = sysdate()
+				bags_production_day = str_to_date(#{bagsProductionDayStr},'%Y-%m-%d')
 				where product_code
 				=
 				#{defaultProductCode}
