@@ -80,6 +80,12 @@ public class ShoppingController {
 		CartDTO cart = new CartDTO();
 		cartList = cartMapper.cartList(memberId);
 		cart.sumTotal(cartList);
+		if(cart.getSumTotal() < 50000) {
+			cart.setDeliveryFee(3000);
+			cart.setSumTotal(cart.getSumTotal()+cart.getDeliveryFee());
+		}
+		
+		mav.addObject("delivery", cart.getDeliveryFee());
 		mav.addObject("cartBags", bagMapper.cartBags(memberId));
 		mav.addObject("cartList", cartList);
 		mav.addObject("total", cart.getSumTotal());
@@ -96,11 +102,11 @@ public class ShoppingController {
 			@PathVariable int type,
 			@PathVariable int page,
 			@PathVariable String distinct) {
+		ModelAndView mav = new ModelAndView("shopping/templates");
 		for(BagsDTO bag : bagMapper.allProducts()) {
 			prbMapper.updateSells(bag.getSellsAmount(), bag.getProductCode());
 		}
 		
-		ModelAndView mav = new ModelAndView("shopping/templates");
 		ProductsBoardDTO prbDTO = new ProductsBoardDTO();
 		BagsDTO bagDTO = new BagsDTO();
 		if(shoppingSer.equals("shoppingList")) {
@@ -204,6 +210,7 @@ public class ShoppingController {
 		}else {
 			cartMapper.addCart(cart);
 		}
+		
 		msg.put("msg", "장바구니 추가");
 		msg.put("url", "/shopping/shoppingCart");
 		msg.put("cartCount", cartMapper.cartCount(memberId)+"");
@@ -219,6 +226,7 @@ public class ShoppingController {
 		cart.setProductsCount(cartAmount.get("cartAmount"));
 		cart.setCartId(cartAmount.get("cartId"));
 		cart.setSumPrice(cartAmount.get("price")*cartAmount.get("cartAmount"));
+		
 		cartMapper.changeCart(cart);
 		if(memberId != null) {
 			cartList = cartMapper.cartList(memberId);
@@ -226,9 +234,16 @@ public class ShoppingController {
 			cartList = cartMapper.cartList(nonMem);
 		}
 		cart.sumTotal(cartList);
+		
+		if(cart.getSumTotal() < 50000) {
+			cart.setDeliveryFee(3000);
+			cart.setSumTotal(cart.getSumTotal()+cart.getDeliveryFee());
+		}
+		
 		LinkedHashMap<String, Integer> calc = new LinkedHashMap<>(); 
 		calc.put("sumPrice", cart.getSumPrice());
 		calc.put("total", cart.getSumTotal());
+		calc.put("delivery", cart.getDeliveryFee());
 		return calc;
 	}
 	
