@@ -1,7 +1,6 @@
 package bag.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -14,6 +13,8 @@ public interface AddressMapper {
 	List<AddressDTO> getUserAddress(String memberId);
 	AddressDTO basicAddress(String id, int basicAddr);
 	AddressDTO selAddr(int addressId);
+	void chgBasicAddr(String id);
+	int selectBasic(AddressDTO adto);
 	void chgBasicAddr(AddressDTO adto);
 	
 	int deleteAddress(String memberId, String zipCode);

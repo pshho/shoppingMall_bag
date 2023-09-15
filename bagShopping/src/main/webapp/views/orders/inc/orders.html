@@ -42,14 +42,14 @@
 				<td th:text="${user.memberEmail}"></td>
 			</tr>
 		</th:block>
-		<th:block th:unless="${user ne null}">
+		<!-- <th:block th:unless="${user ne null}">
 			<tr>
 				<td th:text="${session.nonMemberName}"></td>
 			</tr>
 			<tr>
 				<td th:text="${session.nonMemberPhone}"></td>
 			</tr>
-		</th:block>
+		</th:block> -->
 	</table>
 </div>
 <div>
@@ -71,7 +71,7 @@
 					신규배송지
 				</label>
 			</td>
-			<td th:if="${user ne null}">
+			<td th:if="${addrList ne null}">
 				<button type="button" id="addrListOn">배송지 목록</button>
 			</td>
 		</tr>
@@ -140,18 +140,22 @@
 	var IMP = window.IMP;
 	IMP.init("imp12144628");
 	
-	const nonMem = [[${session.nonMemberId}]];
+	// const nonMem = [[${session.nonMemberId}]];
 	const user = [[${user}]];
 	const adr = [[${address}]];
 	if(user != null){
 		var userId = user.memberId;
 		var email = user.memberEmail;
-		var userName = adr.addrName;
-		var phone = adr.addressPhone;
-		var zipcode = adr.zipCode;
-		var address = adr.address;
-		var detailAddr = adr.detailAddress;
-	}else {
+		
+		if(adr != null){
+			var userName = adr.addrName;
+			var phone = adr.addressPhone;
+			var zipcode = adr.zipCode;
+			var address = adr.address;
+			var detailAddr = adr.detailAddress;
+		}
+	}
+	/* else {
 		var userId = nonMem;
 		var email = '';
 		var userName = [[${session.nonMemberName}]];
@@ -159,7 +163,7 @@
 		var zipcode = '';
 		var address = '';
 		var detailAddr = '';
-	}
+	} */
 	var addrList = [[${addrList}]];
 	var prod = [[${cartBags[0].bagName}]];
 	var prodSize = [[${#arrays.length(cartBags)}]];
@@ -169,7 +173,9 @@
 	var addrAdd = 0;
 	
 	$(document).ready(function(){
-		if(user == null){
+		if(addrList == null || adr == null){
+			userName = user.memberName;
+			phone = user.memberPhone;
 			$('#newAddr').prop('checked', true);
 			$('#origAddr').prop('disabled', true);
 			$('#addrName').empty();
@@ -180,7 +186,13 @@
 			let phone2 = null;
 			let phone3 = null;
 			
-			if(phone.length === 11){
+			if(phone.length === 13){
+				phone2 = phone.substring(4, 8);
+				phone3 = phone.substring(9, 13);
+			}else if(phone.length === 12){
+				phone2 = phone.substring(4, 7);
+				phone3 = phone.substring(8, 12);
+			}else if(phone.length === 11){
 				phone2 = phone.substring(3, 7);
 				phone3 = phone.substring(7, 11);
 			}else if(phone.length === 10){
@@ -207,6 +219,8 @@
 			htmlCode2 += '<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" /><br />';
 			htmlCode2 += '<input type="text" id="address" placeholder="도로명주소" readonly /><br />';
 			htmlCode2 += '<input type="text" id="detailAddress" placeholder="상세주소" /><br />';
+			htmlCode2 += '<td><label><input type="checkbox" id="basicAddr" value="1">기본배송지로 선택</label>' +
+			'<label><input type="checkbox" id="addrAdd" value="1">배송지 목록에 추가</label></td>';
 			$('#addrAddr').append(htmlCode2);
 			$('#btnAddr').empty();
 			$('#btnAddr').append('<td colspan="3"><button type="button" onclick="btnAddrChange()">입력</button></td>');
@@ -289,7 +303,7 @@
 			}
 		})
 		
-		if(nonMem == null){
+		if(addrList != null){
 			let table = '<table id="orderFrame" border=""><tr><td colspan="6"><h3>배송지 목록</h3></td></tr>' + 
 			'<tr><td>수령인</td><td>연락처</td><td>우편번호</td><td>주소</td><td>상세주소</td><td>배송지 선택</td></tr>';
 			addrList.forEach(function(item){
@@ -370,14 +384,20 @@
 	
 	function changeAddr(){
 		let phone1 = phone.substring(0, 3);
-		let phone2 = null;
-		let phone3 = null;
+		var phone2 = 0;
+		var phone3 = 0;
 		$('#newAddr').prop('checked', true);
 		$('#addrName').empty();
 		$('#addrName').append('<td>수령인</td>')
 		.append('<td colspan="2"><input type="text" id="addresses" value="'+userName+'" />')
 		
-		if(phone.length === 11){
+		if(phone.length === 13){
+			phone2 = phone.substring(4, 8);
+			phone3 = phone.substring(9, 13);
+		}else if(phone.length === 12){
+			phone2 = phone.substring(4, 7);
+			phone3 = phone.substring(8, 12);
+		}else if(phone.length === 11){
 			phone2 = phone.substring(3, 7);
 			phone3 = phone.substring(7, 11);
 		}else if(phone.length === 10){
@@ -465,6 +485,7 @@
 		let name = $('#addresses').val().trim();
 		let ph2 = $('#phone2').val().trim();
 		let ph3 = $('#phone3').val().trim();
+		let zip = $('#zipCode').val().trim();
 		let deAd = $('#detailAddress').val().trim();
 		const ptn = /^[가-힣]+$/;
 		const ptn2 = /^\d{3,4}$/;
@@ -481,6 +502,9 @@
 			return false;
 		}else if(!ptn3.test(ph3)){
 			alert('전화번호를 4자로 맞게 입력해주세요');
+			return false;
+		}else if(zip.length === 0){
+			alert('주소를 입력해주세요');
 			return false;
 		}else if(deAd.length === 0 || deAd.length > 50){
 			alert('상세주소를 1~50자내로 입력해주세요');
@@ -530,6 +554,7 @@
 			let name = $('#addresses').val().trim();
 			let ph2 = $('#phone2').val().trim();
 			let ph3 = $('#phone3').val().trim();
+			let zip = $('#zipCode').val().trim();
 			let deAd = $('#detailAddress').val().trim();
 			const ptn = /^[가-힣]+$/;
 			const ptn2 = /^\d{3,4}$/;
@@ -546,6 +571,9 @@
 				return false;
 			}else if(!ptn3.test(ph3)){
 				alert('전화번호를 4자로 맞게 입력해주세요');
+				return false;
+			}else if(zip.length === 0){
+				alert('주소를 입력해주세요');
 				return false;
 			}else if(deAd.length === 0 || deAd.length > 50){
 				alert('상세주소를 1~50자내로 입력해주세요');

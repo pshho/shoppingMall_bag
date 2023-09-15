@@ -3,6 +3,15 @@
 	<input type="hidden" name="memberId" th:value="${session.admin}" />
 	<table border="">
 		<tr>
+			<td>등록 상태</td>
+			<td>
+				<select th:field="*{productsBoardStatus}">
+					<option value="1">등록</option>
+					<option value="0">미등록</option>
+				</select>
+			</td>
+		</tr>
+		<tr>
 			<td width="150px">카테고리</td>
 			<td>
 				<select id="category">

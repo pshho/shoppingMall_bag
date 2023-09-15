@@ -35,12 +35,13 @@ public class CommonInterceptor implements HandlerInterceptor {
 			
 			if(session != null) {
 				String userId = (String)session.getAttribute("userId");
-				String nonMem = (String)session.getAttribute("nonMemberId");
+				// String nonMem = (String)session.getAttribute("nonMemberId");
 				if(userId != null) {
 					modelAndView.addObject("cartCount", cartMapper.cartCount(userId));
-				}else {
-					modelAndView.addObject("cartCount", cartMapper.cartCount(nonMem));
 				}
+				/* else {
+					modelAndView.addObject("cartCount", cartMapper.cartCount(nonMem));
+				} */
 			}
 		}
 	}

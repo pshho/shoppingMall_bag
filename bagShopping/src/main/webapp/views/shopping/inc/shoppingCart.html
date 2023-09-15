@@ -21,10 +21,9 @@
 				th:onclick="|subAmount(${cartBags[no.index].bagPrice}, ${cart.cartId})|">-</button>
 				<input type="text" th:value="${cart.productsCount}" th:id="|cartAmount${cart.cartId}|" />
 				<input type="hidden" th:value="${cartBags[no.index].bagPrice}" th:id="|pricecartAmount${cart.cartId}|" />
-				<input type="hidden" th:value="${cartBags[no.index].bagStock}" th:id="|stockcartAmount${cart.cartId}|" />
+				<!-- <input type="hidden" th:value="${cartBags[no.index].bagStock}" th:id="|stockcartAmount${cart.cartId}|" /> -->
 				<button type="button" 
 				th:onclick="|addAmount(
-					${cartBags[no.index].bagStock}, 
 					${cartBags[no.index].bagPrice},
 					${cart.cartId})|">+</button>
 			</td>
@@ -63,7 +62,7 @@
 	</th:block>
 </table>
 <script th:inline="javascript">
-	function addAmount(amount, price, cartId){
+	function addAmount(price, cartId){
 		let cartAmount = null;
 		if(!isNaN($('#cartAmount'+cartId).val())){
 			cartAmount = parseInt($('#cartAmount'+cartId).val()) + 1;
@@ -71,8 +70,8 @@
 			alert('숫자를 입력해주세요');
 			return false;
 		}
-		if(cartAmount > amount){
-			alert(amount+'개까지 선택할 수 있습니다');
+		if(cartAmount > 9999){
+			alert(9999+'개까지 선택할 수 있습니다');
 			return false;
 		}
 		
@@ -150,15 +149,15 @@
 						alert('숫자를 입력해주세요');
 						return false;
 					}
-					let stock = $('#stock'+item.id).val();
+					// let stock = $('#stock'+item.id).val();
 					let price = $('#price'+item.id).val();
 					let cartId = item.id.substring('cartAmount'.length, item.id.length);
 					
 					if(cartAmount < 1){
 						alert('상품은 1개 이상 선택해야 합니다');
 						return false;
-					}else if(cartAmount > stock){
-						alert(stock+'개까지 선택할 수 있습니다');
+					}else if(cartAmount > 9999){
+						alert(9999+'개까지 선택할 수 있습니다');
 						return false;
 					}
 					
