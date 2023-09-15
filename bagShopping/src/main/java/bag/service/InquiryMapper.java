@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Mapper;
 
 import bag.model.InquiryDTO;
+import bag.model.QuitMemberDTO;
 
 @Mapper
 public interface InquiryMapper {
@@ -24,4 +25,6 @@ public interface InquiryMapper {
 	
 	List<InquiryDTO> myInqList(Map<String, Object> map);
 	int myInqCnt(String id);
+	
+	void quitDelete(QuitMemberDTO qmDTO);
 }

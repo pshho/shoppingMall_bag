@@ -28,15 +28,15 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 				AND merchant_uid like CONCAT('%', #{keyword}, '%')
 			</when>
 			<when
-				test="searchType=='C'.toString() and keyword != null and keyword != '' ">
+				test="searchType=='PC'.toString() and keyword != null and keyword != '' ">
 				AND prod_code like CONCAT('%', #{keyword}, '%')
 			</when>
 			<when
 				test="searchType=='B'.toString() and keyword != null and keyword != '' ">
-				AND member_id like CONCAT('%', #{keyword}, '%')
+				AND buyer_name like CONCAT('%', #{keyword}, '%')
 			</when>
 			<when
-				test="searchType=='C'.toString() and keyword != null and keyword != '' ">
+				test="searchType=='CR'.toString() and keyword != null and keyword != '' ">
 				AND cancel_reason like CONCAT('%', #{keyword}, '%')
 			</when>
 		</choose>
@@ -49,7 +49,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 
 		</if>
 		<if test="dateEnd != null and dateEnd != ''">
-			and orders_reg_date &lt;
+			and orders_reg_date <![CDATA[<]]>
 			str_to_date(#{dateEnd},'%Y-%m-%d')+1
 
 		</if>
@@ -60,9 +60,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<include refid="searchSales" />
 		</trim>
-		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<include refid="searchDate" />
-		</trim>
 		order by order_id desc
 		limit #{start},#{limit}
 	</select>
@@ -72,9 +70,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<include refid="searchSales" />
 		</trim>
-		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<include refid="searchDate" />
-		</trim>
 	</select>
 
 	<select id="myPageOrdList" parameterType="map">

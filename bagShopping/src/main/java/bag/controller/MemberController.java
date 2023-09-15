@@ -19,6 +19,7 @@ import bag.model.InquiryDTO;
 import bag.model.MemberDTO;
 import bag.model.OrderDTO;
 import bag.model.PageData2;
+import bag.model.QuitMemberDTO;
 import bag.service.AddressMapper;
 import bag.service.BagsMapper;
 import bag.service.CartMapper;
@@ -202,6 +203,45 @@ public class MemberController {
 		return "member/inc/alert";
 	}
 	
+	@PostMapping("quitMemberReg")
+	String quitMemberReg(Model mm, MemberDTO mdto, HttpSession session) {
+		String msg = "아이디와 비밀번호를 확인해주세요.";
+		String goUrl = "quitMember";
+		
+		if(!session.getAttribute("userId").equals(mdto.getMemberId())) {
+			
+			mm.addAttribute("msg",msg);
+			mm.addAttribute("goUrl", goUrl);
+			return "member/inc/alert";
+		}
+		
+		QuitMemberDTO qmDTO = new QuitMemberDTO();
+		qmDTO.setMemberId(mdto.getMemberId());
+		if(ordMapper.myOrdCnt(mdto.getMemberId()) > 0) {
+			qmDTO.setOrderExist("Y");
+		}else {
+			qmDTO.setOrderExist("N");
+		}
+		
+		int deleteCheck = memMapper.deleteMember(mdto);
+		
+		if(deleteCheck > 0) {
+			msg = "그동안 아윌비백을 이용해주셔서 감사합니다.";
+			goUrl = "/";
+			System.out.println(qmDTO);
+			System.out.println(mdto);
+			memMapper.addQuitMember(qmDTO);
+			inqMapper.quitDelete(qmDTO);
+			session.invalidate();
+			mm.addAttribute("msg",msg);
+			mm.addAttribute("goUrl", goUrl);
+			return "member/inc/alert";
+		}
+		mm.addAttribute("msg",msg);
+		mm.addAttribute("goUrl", goUrl);
+		return "member/inc/alert";
+	}
+	
 	// 마이페이지
 	@PostMapping("myPage")
 	String myPage(HttpSession session, MemberDTO mdto, AddressDTO adto, Model mm) {
@@ -240,6 +280,94 @@ public class MemberController {
 		mm.addAttribute("memberService",templateUrl);
 		return "member/template";
 	}
+	
+	@GetMapping("addressManage")
+	String addressManage(HttpSession session, Model mm) {
+		String userId = (String)session.getAttribute("userId");
+		String templateUrl = "addressManage";
+		MemberDTO getUserProfile = memMapper.getUser(userId);
+		List<AddressDTO> getUserAddr = addrMapper.getUserAddress(userId);
+		mm.addAttribute("user", getUserProfile);
+		mm.addAttribute("address", getUserAddr);
+		mm.addAttribute("memberService",templateUrl);
+		return "member/template";
+	}
+	
+	@GetMapping("addAddress")
+	String addAddress(HttpSession session, Model mm) {
+		String userId = (String)session.getAttribute("userId");
+		String templateUrl = "addAddress";
+		MemberDTO getUserProfile = memMapper.getUser(userId);
+		
+		mm.addAttribute("user", getUserProfile);
+		mm.addAttribute("memberService",templateUrl);
+		return "member/template";
+	}
+	
+	@PostMapping("addAddressReg")
+	String addAddressReg(HttpSession session, Model mm, AddressDTO addrDTO) {
+		String msg = "주소록 추가 실패.";
+		String goUrl = "addAddress";
+		
+		addrDTO.setAddressPhone(addrDTO.getPhone1()+"-"+addrDTO.getPhone2()+"-"+addrDTO.getPhone3());
+		int check = addrMapper.insertAddress(addrDTO);
+		if(check > 0) {
+			msg = "주소록 추가 성공";
+			goUrl = "addressManage";
+			mm.addAttribute("msg", msg);
+			mm.addAttribute("goUrl", goUrl);
+			return "member/inc/alert";
+		}
+		mm.addAttribute("msg", msg);
+		mm.addAttribute("goUrl", goUrl);
+		return "member/inc/alert";
+	}
+	
+	@GetMapping("modifyAddress/{addressId}")
+	String modifyAddress(HttpSession session, Model mm, @PathVariable int addressId) {
+		String userId = (String)session.getAttribute("userId");
+		String templateUrl = "modifyAddress";
+		MemberDTO getUserProfile = memMapper.getUser(userId);
+		AddressDTO getUserAddrOne = addrMapper.getUserAddrOne(userId, addressId);
+		
+		mm.addAttribute("user", getUserProfile);
+		mm.addAttribute("addr",getUserAddrOne);
+		mm.addAttribute("memberService",templateUrl);
+		return "member/template";
+	}
+	
+	@PostMapping("modifyAddressReg/{addressId}")
+	String modifyAddressReg(HttpSession session, Model mm, AddressDTO addrDTO) {
+		String msg = "주소록 수정 실패.";
+		String goUrl = "modifyAddress/"+addrDTO.getAddressId();
+		
+		addrDTO.setAddressPhone(addrDTO.getPhone1()+"-"+addrDTO.getPhone2()+"-"+addrDTO.getPhone3());
+		System.out.println(addrDTO);
+		int check = addrMapper.updateAddr(addrDTO);
+		if(check > 0) {
+			msg = "주소록 수정 성공";
+			goUrl = "/member/addressManage";
+			mm.addAttribute("msg", msg);
+			mm.addAttribute("goUrl", goUrl);
+			return "member/inc/alert";
+		}
+		mm.addAttribute("addr",addrDTO);
+		mm.addAttribute("msg", msg);
+		mm.addAttribute("goUrl", goUrl);
+		return "member/inc/alert";
+	}
+	
+	@ResponseBody
+	@PostMapping("/deleteAddress")
+	int deleteAddress(HttpServletRequest request, HttpSession session) {
+		String memberId = (String) session.getAttribute("userId");	
+		String zipCode = request.getParameter("zipCode");
+		
+		int deleteCheck = addrMapper.deleteAddress(memberId, zipCode);
+
+		return deleteCheck;
+	}
+
 	
 	// 내 문의내역
 	@RequestMapping("myInquiry/{page}")
@@ -305,7 +433,6 @@ public class MemberController {
 			myBag.setAmount(Integer.parseInt(ord.getProdCount()));
 			myBag.setMerchantUid(ordDTO.getMerchantUid());
 			mm.addAttribute("myOrd",myBag);
-			System.out.println(myBag);
 		}
 		// 상품 끝
 		mm.addAttribute("orderInfo", ord);

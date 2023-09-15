@@ -5,21 +5,44 @@
 	<meta charset="UTF-8">
 	<title>회원 관리</title>
 	<script th:inline="javascript">
-		function memberList(member) {
-			if (!confirm('정말로 삭제하시겠습니까?')) {
+		function blackMemberBtn(member) {
+			if (!confirm('회원을 블랙리스트로 지정할까요?')) {
 				return false;
 			}
 			$.ajax({
-				url: "/admin/deleteMember/" + [[${pd.page}]],
+				url: "/admin/blackMember/" + [[${pd.page}]],
 				type: "post",
 				data: {memberId: member},
 				dataType: 'json',
 				success: function (result) {
-					if (result > 0) {
-						window.alert("삭제 되었습니다.")
+					if (result == 2) {
+						window.alert("블랙리스트 등록 되었습니다.")
 						window.location.href = '/admin/memberManage/' + [[${pd.page}]]
 					} else {
-						window.alert("삭제 실패.")
+						window.alert("블랙리스트 등록 실패.")
+					}
+				},
+				error: function () {
+					alert("요청 실패");
+				}
+			})
+		}
+		
+		function clearMemberBtn(member) {
+			if (!confirm('차단을 해제하시겠습니까?')) {
+				return false;
+			}
+			$.ajax({
+				url: "/admin/clearMember/" + [[${pd.page}]],
+				type: "post",
+				data: {memberId: member},
+				dataType: 'json',
+				success: function (result) {
+					if (result == 2) {
+						window.alert("차단 해제 되었습니다.")
+						window.location.href = '/admin/memberManage/' + [[${pd.page}]]
+					} else {
+						window.alert("차단 해제 실패.")
 					}
 				},
 				error: function () {
@@ -50,33 +73,39 @@
 			<td>email</td>
 			<td>전화번호</td>
 			<td>가입일</td>
+			<td>상태</td>
 			<td>관리</td>
 		</tr>
 		<tr th:each="member : ${memberList}">
-			<td th:text="${member.memberId}"></td>
-			<td th:text="${member.memberName}"></td>
-			<td th:text="${member.memberEmail}"></td>
-			<td th:text="${member.memberPhone}"></td>
-			<td th:text="${member.memberRegDateStr}"></td>
+			<td th:text="${member.memberId}"/>
+			<td th:text="${member.memberName}"/>
+			<td th:text="${member.memberEmail}"/>
+			<td th:text="${member.memberPhone}"/>
+			<td th:text="${member.memberRegDateStr}"/>
+			<td th:text="${member.memberStatus}"/>
 			<td>
-				<th:block th:if="${member.memberId} != admin">
-					<button id="deleteMember" th:memberParam="${member.memberId}"
-						th:onclick="memberList(this.getAttribute('memberParam'))" th:text="|삭제|" />
+				<th:block th:if="${member.memberId} != admin and ${member.memberStatus != '차단'}">
+					<button id="blackMember" th:memberParam="${member.memberId}"
+						th:onclick="blackMemberBtn(this.getAttribute('memberParam'))" th:text="|블랙리스트 등록|" />
+				</th:block>
+				<th:block th:unless="${member.memberStatus != '차단'}">
+					<button id="clearMember" th:memberParam="${member.memberId}"
+						th:onclick="clearMemberBtn(this.getAttribute('memberParam'))" th:text="|차단 해제|" />
 				</th:block>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="6" align="center">
+			<td colspan="7" align="center">
 				<th:block th:if="${pd.pageStart} > 1">
 					<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
 				</th:block>
 				<th:block th:if="${pd.pageEnd > 0}">
 				<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
 					<b th:if="${num} == ${pd.page}">
-						<a th:href="|${num}|" th:text="${num}" />
+						<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="${num}" />
 					</b>
 					<th:block th:unless="${num} == ${pd.page}">
-						<a th:href="|${num}|" th:text="${num}" />
+						<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="${num}" />
 					</th:block>
 				</th:block>
 				</th:block>

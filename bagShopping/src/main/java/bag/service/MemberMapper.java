@@ -5,8 +5,10 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import bag.model.BlackListDTO;
 import bag.model.MemberDTO;
 import bag.model.PageData2;
+import bag.model.QuitMemberDTO;
 
 @Mapper
 public interface MemberMapper {
@@ -25,9 +27,20 @@ public interface MemberMapper {
 	
 	MemberDTO getUser(String id);
 	
-	int deleteMember(String id);
-	
-	int cntMaxUser();
+	int cntMaxUser(PageData2 pd);
 	
 	int modifyUserPw(MemberDTO mdto);
+	
+	int deleteMember(MemberDTO mdto);
+	int addQuitMember(QuitMemberDTO qdto);
+	
+	int blackMember(String id);
+	int blackMemberUpdate(String id);
+	
+	int clearMember(String id);
+	int clearMemberUpdate(String id);
+	
+	List<QuitMemberDTO> quitMemberList(PageData2 pd);
+	int quitMemberCnt();
+	
 }
