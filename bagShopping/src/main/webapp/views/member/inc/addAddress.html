@@ -1,0 +1,31 @@
+<html xmlns="http://www.thymeleaf.org">
+<form action="addAddressReg" method="post">
+	<input type="hidden" name="addrName" th:value="${user.memberName}"/>
+	<input type="hidden" name="memberId" th:value="${user.memberId}"/>
+	<input type="hidden" name="basicAddr" value="0"/>
+	<table border="">
+		<tr>
+			<td>
+				<h3>배송지 추가</h3>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<input type="text" id="zipCode" name="zipCode" placeholder="우편번호" />
+				<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" /><br>
+				<input type="text" id="address" name="address" placeholder="도로명주소" /><br>
+				<input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" /><br>
+				연락처 : <select name="phone1" >
+					<option>010</option>
+					<option>011</option>
+					<option>016</option>
+					<option>017</option>
+					<option>019</option>
+				</select>
+				<input type="text" id="addressPhone" name="phone2" />
+				<input type="text" id="addressPhone" name="phone3" />
+				<input type="submit" value="저장" />
+			</td>
+		</tr>
+	</table>
+</form>

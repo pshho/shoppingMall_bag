@@ -56,4 +56,17 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 	<update id="chgBasicAddr" parameterType="aDTO">
 		update address set basic_addr = 0 <include refid="wh_memberId" />
 	</update>
+	<delete id="deleteAddress">
+		delete from address where member_id = #{memberId} and zip_code = #{zipCode}
+	</delete>
+	<select id="getUserAddrOne">
+		select * from address where member_id = #{memberId} and address_id = #{addressId}
+	</select>
+	<update id="updateAddr" >
+		update address set address = #{address}, zip_code = #{zipCode}, 
+		detail_address = #{detailAddress}, member_id = #{memberId}, address_phone = #{addressPhone}, 
+		addr_name = #{addrName}, basic_addr = #{basicAddr}
+		where address_id = #{addressId}
+		
+	</update>
 </mapper>

@@ -98,4 +98,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		</where>
 		order by gid desc, seq
 	</select>
+	<delete id="quitDelete">
+		delete from a using inquiry a join inquiry b on (a.gid = b.gid) where b.in_writer = #{memberId};
+	</delete>
 </mapper>
