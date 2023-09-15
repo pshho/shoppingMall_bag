@@ -89,6 +89,7 @@ public class InquiryController {
 			fud.fileDelete(dto.getFiles());
 		}
 		fMapper.boardFileDelete(fDTO);
+		inqMapper.replyDelete(id);
 		Map<String, String> msg = new HashMap<>();
 		msg.put("msg", "문의게시글 삭제");
 		msg.put("url", "/inquiry/inquiryList/1");
