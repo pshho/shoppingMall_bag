@@ -27,4 +27,6 @@ public interface InquiryMapper {
 	int myInqCnt(String id);
 	
 	void quitDelete(QuitMemberDTO qmDTO);
+	
+	void replyDelete(int gid);
 }

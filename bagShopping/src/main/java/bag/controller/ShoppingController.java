@@ -9,6 +9,7 @@ import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -84,11 +85,23 @@ public class ShoppingController {
 			cart.setSumTotal(cart.getSumTotal()+cart.getDeliveryFee());
 		}
 		
+		List<BagsDTO> bagsList = new ArrayList<>();
+		
+		for(ProductsBoardDTO prbs : prbMapper.allPrbList()) {
+			if(prbs.getProductsBoardStatus() == 0) {
+				for(BagsDTO bag : bagMapper.allProducts()) {
+					if(prbs.getProductCode() == bag.getProductCode()) {
+						bagsList.add(bag);
+					}
+				}
+			}
+		}
+		
 		mav.addObject("delivery", cart.getDeliveryFee());
 		mav.addObject("cartBags", bagMapper.cartBags(memberId));
 		mav.addObject("cartList", cartList);
 		mav.addObject("total", cart.getSumTotal());
-		mav.addObject("bagsList", bagMapper.allProducts());
+		mav.addObject("bagsList", bagsList);
 		return mav;
 	}
 	
@@ -352,4 +365,22 @@ public class ShoppingController {
 		session.setAttribute("nonMemberPhone", nonMem.getPhone());
 		return "shopping/inc/closePopUp";
 	} */
+	
+	@PostMapping("changePrb")
+	@ResponseBody
+	Map<String, Object> changePrb(
+			@RequestBody ProductsBoardDTO prbDTO
+			){
+		prbMapper.chgPrbStatus(prbDTO);
+		
+		Map<String, Object> msg = new HashMap<>();
+		msg.put("msg", "변경 완료");
+		return msg;
+	}
+	
+	@GetMapping("checkPrb")
+	@ResponseBody
+	List<ProductsBoardDTO> checkPrb(){
+		return prbMapper.allPrbList();
+	}
 }

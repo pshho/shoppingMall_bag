@@ -63,6 +63,13 @@
 </form>
 <script th:inline="javascript">
 	$(document).ready(function(){
+		const arrBags = [[${#arrays.length(bagsList)}]];
+		
+		if(arrBags == 0){
+			alert('모든 상품이 등록되었습니다');
+			location.href="/admin/goodsManage/1";
+		}
+		
 		let category = null;
 		let product = [[${bagsList}]];
 		if(category == null){
