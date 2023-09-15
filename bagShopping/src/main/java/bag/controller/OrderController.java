@@ -215,6 +215,11 @@ public class OrderController {
 			
 			return ResponseEntity.ok("결제 완료");
 		}else {
+			ordDTO.setCancelReason("잘못된 결제 요청");
+			ordDTO.setImpUid(ordDTO.getImp_uid());
+			ordDTO.setMerchantUid(ordDTO.getMerchant_uid());
+			ordDTO.setOrdersTotalPrice(total);
+			Map<String, Object> cancelRes = (Map<String, Object>) restPay.cancelPay(ordDTO);
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("결제 실패");
 		}
 	}
