@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import bag.model.BagsDTO;
 import bag.model.OrderDTO;
 import bag.model.PageData2;
-
+import bag.model.QuitMemberDTO;
 import bag.service.BagsMapper;
 import bag.service.BrandMapper;
 import bag.service.CategoriesMapper;
@@ -26,6 +26,7 @@ import bag.service.FileMapper;
 import bag.service.ImgSaveUtil;
 import bag.service.MemberMapper;
 import bag.service.OrdersMapper;
+import bag.service.ProductsBoardMapper;
 import bag.service.RestPayService;
 import bag.service.TypeMapper;
 import jakarta.annotation.Resource;
@@ -52,6 +53,8 @@ public class AdminController {
 	OrdersMapper ordMapper;
 	@Resource
 	ImgSaveUtil saveutil;
+	@Resource
+	ProductsBoardMapper prdMapper;
 
 	@Autowired
 	RestPayService restPay;
@@ -70,7 +73,7 @@ public class AdminController {
 	@GetMapping("memberManage/{page}")
 	String memberManage(Model mm, PageData2 pd) {
 		String adminUrl = "memberManage";
-		pd.calc(memMapper.cntMaxUser());
+		pd.calc(memMapper.cntMaxUser(pd));
 
 		mm.addAttribute("memberList", memMapper.memberList(pd));
 		mm.addAttribute("adminService", adminUrl);
@@ -78,15 +81,39 @@ public class AdminController {
 		return "admin/template";
 	}
 
-	@PostMapping("deleteMember/{page}")
+	@PostMapping("blackMember/{page}")
 	@ResponseBody
-	int deleteMember(HttpServletRequest request, PageData2 pd, Model mm) {
+	int blackMember(HttpServletRequest request, PageData2 pd, Model mm) {
 
 		String memberId = request.getParameter("memberId");
 
-		int deleteMember = memMapper.deleteMember(memberId);
+		int statusCheck = memMapper.blackMemberUpdate(memberId);
+		int addBlack = memMapper.blackMember(memberId);
 		mm.addAttribute("pd", pd);
-		return deleteMember;
+		return statusCheck+addBlack;
+	}
+	
+	@PostMapping("clearMember/{page}")
+	@ResponseBody
+	int clearMember(HttpServletRequest request, PageData2 pd, Model mm) {
+
+		String memberId = request.getParameter("memberId");
+
+		int statusCheck = memMapper.clearMemberUpdate(memberId);
+		int clearBlack = memMapper.clearMember(memberId);
+		
+		mm.addAttribute("pd", pd);
+		return statusCheck+clearBlack;
+	}
+	
+	@GetMapping("quitMemberManage/{page}")
+	String quitMemberManage(Model mm, PageData2 pd) {
+		
+		pd.calc(memMapper.quitMemberCnt());
+		mm.addAttribute("pd", pd);
+		mm.addAttribute("quitMember",memMapper.quitMemberList(pd));
+		mm.addAttribute("adminService", "quitMemberManage");
+		return "admin/template";
 	}
 
 	// 상품 관리
@@ -206,7 +233,16 @@ public class AdminController {
 		if (bDto.getBagImg4() != null) {
 			new File(path + "\\" + bDto.getBagImg4()).delete();
 		}
+		
 		int deleteGoods = bagsMapper.deleteGoods(productCode);
+		
+		if(deleteGoods > 0) {
+			int check = prdMapper.cntProduct(productCode);
+			if(check > 0) {
+				prdMapper.deleteBagProduct(productCode);
+			}
+			System.out.println(check);
+		}
 		mm.addAttribute("pd", pd);
 		return deleteGoods;
 	}

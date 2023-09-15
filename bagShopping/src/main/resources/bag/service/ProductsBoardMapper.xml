@@ -71,4 +71,12 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<update id="updateSells" parameterType="Integer">
 		update products_board set sells_amount = #{sells} where product_code = #{productCode}
 	</update>
+	
+	<select id="cntProduct">
+		select * from products_board where product_code = #{productCode}
+	</select>
+	
+	<delete id="deleteBagProduct">
+		delete from products_board where product_code = #{productCode}
+	</delete>
 </mapper>

@@ -44,6 +44,10 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		#{prodCode}
 		</foreach>
 	</select>
+	
+	<update id="cancelOrder" parameterType="ordDTO">
+		update bags set bag_stock = bag_stock + 1 where product_code = #{prodCode}
+	</update>
 
 	<select id="bagsList" resultType="bagDTO">
 		select bags.* from bags inner join products_board on

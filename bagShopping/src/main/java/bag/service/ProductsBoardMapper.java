@@ -18,4 +18,7 @@ public interface ProductsBoardMapper {
 	List<ProductsBoardDTO> searchList(String searchCont);
 	void updateReviewCount(int productsBoardId);
 	void updateSells(int sells, int productCode);
+	
+	int cntProduct(int productCode);
+	int deleteBagProduct(int productCode);
 }

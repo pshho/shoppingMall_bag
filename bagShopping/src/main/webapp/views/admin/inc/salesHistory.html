@@ -189,11 +189,21 @@
 				</th:block>
 				<th:block th:if="${pd.pageEnd > 0}">
 					<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
-						<b th:if="${num} == ${pd.page}">
-							<a th:href="|${num}|" th:text="${num}" />
-						</b>
-						<th:block th:unless="${num} == ${pd.page}">
-							<a th:href="|${num}|" th:text="${num}" />
+						<th:block th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<b th:if="${num} == ${pd.page}">
+								<a th:href="|${num}|" th:text="${num}" />
+							</b>
+							<th:block th:unless="${num} == ${pd.page}">
+								<a th:href="|${num}|" th:text="${num}" />
+							</th:block>
+						</th:block>
+						<th:block th:unless="(${pd.searchType == null} or ${pd.searchType == ''}) and (${pd.keyword == null} or ${pd.keyword == ''})">
+							<b th:if="${num} == ${pd.page}">
+								<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}&dateStart=${pd.dateStart}&dateEnd=${pd.dateEnd}|" th:text="${num}" />
+							</b>
+							<th:block th:unless="${num} == ${pd.page}">
+								<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}&dateStart=${pd.dateStart}&dateEnd=${pd.dateEnd}|" th:text="${num}" />
+							</th:block>
 						</th:block>
 					</th:block>
 				</th:block>
@@ -209,9 +219,9 @@
 				<select id="searchType" name="searchType">
 					<option value="S" selected>배송상태</option>
 					<option value="I">주문번호</option>
-					<option value="C">상품코드</option>
+					<option value="PC">상품코드</option>
 					<option value="B">구매자명</option>
-					<option value="C">취소사유</option>
+					<option value="CR">취소사유</option>
 				</select>
 
 				<input type="text" id="keyword">

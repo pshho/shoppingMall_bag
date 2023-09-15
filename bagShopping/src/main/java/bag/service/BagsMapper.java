@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import bag.model.BagsDTO;
+import bag.model.OrderDTO;
 import bag.model.PageData2;
 
 @Mapper
@@ -39,4 +40,6 @@ public interface BagsMapper {
 	
 	void updSells(BagsDTO bagDTO);
 	void updStock(BagsDTO bagDTO);
+	
+	void cancelOrder(OrderDTO ordDTO);
 }
