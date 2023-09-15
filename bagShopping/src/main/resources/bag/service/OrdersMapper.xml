@@ -107,5 +107,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		merchant_uid = #{merchant_uid}
 	</update>
 
-
+	<select id="chkOrder" resultType="ordDTO">
+		select * from orders where member_id = #{memberId} and order_status = #{orderStatus}
+	</select>
 </mapper>

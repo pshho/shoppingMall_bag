@@ -61,8 +61,11 @@ public class CommentsController {
 	}
 	
 	@PostMapping("shopping/shoppingDetail/{prbId}/comments/delete/{id}")
-	public Map<String, String> reDel(@PathVariable int id){
+	public Map<String, String> reDel(
+			@PathVariable int prbId,
+			@PathVariable int id){
 		comMapper.deleteComments(id);
+		prbMapper.subReviewCount(prbId);
 		Map<String, String> msg = new HashMap<>();
 		msg.put("msg", "리뷰 삭제");
 		return msg;

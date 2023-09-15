@@ -68,29 +68,32 @@ public class OrderController {
 		ModelAndView mav = new ModelAndView("orders/templates");
 		CartDTO cart = new CartDTO();
 		String memberId = (String)session.getAttribute("userId");
-		String nonMem = (String)session.getAttribute("nonMemberId");
+		// String nonMem = (String)session.getAttribute("nonMemberId");
 		if(memberId != null) {
 			cartList = cartMapper.cartList(memberId);
 			mav.addObject("cartBags", bagMapper.cartBags(memberId));
 			List<AddressDTO> addrList = addrMapper.addrList(memberId);
 			mav.addObject("user", memMapper.getUser(memberId));
-			mav.addObject("addrList", addrList);
 			mav.addObject("address", addrMapper.basicAddress(memberId, 1));
 			List<String> addrMsg = new ArrayList<>();
-			for(AddressDTO addr : addrList) {
-				if(addr.getAddressMsg() != null) {
-					if(addrMsg.size() == 0) {
-						addrMsg.add(addr.getAddressMsg());
-					}else if(!addrMsg.contains(addr.getAddressMsg())){
-						addrMsg.add(addr.getAddressMsg());
+			if(addrList.size() != 0) {
+				mav.addObject("addrList", addrList);
+				for(AddressDTO addr : addrList) {
+					if(addr.getAddressMsg() != null) {
+						if(addrMsg.size() == 0) {
+							addrMsg.add(addr.getAddressMsg());
+						}else if(!addrMsg.contains(addr.getAddressMsg())){
+							addrMsg.add(addr.getAddressMsg());
+						}
 					}
 				}
 			}
 			mav.addObject("addrMsg", addrMsg);
-		}else {
+		}
+		/* else {
 			cartList = cartMapper.cartList(nonMem);
 			mav.addObject("cartBags", bagMapper.cartBags(nonMem));
-		}
+		} */
 		cart.sumTotal(cartList);
 		
 		if(cart.getSumTotal() < 50000) {
@@ -114,8 +117,10 @@ public class OrderController {
 	@PostMapping("addrChg")
 	@ResponseBody
 	Object addrChg(@RequestBody AddressDTO addrDTO) {
-		if(addrDTO.getBasicAddr() == 1) {
-			addrMapper.chgBasicAddr(addrDTO);
+		if(addrDTO.getBasicAddr() == 1 && addrMapper.getUserAddress(addrDTO.getMemberId()).size() != 0) {
+			if(addrMapper.selectBasic(addrDTO) != 0) {
+				addrMapper.chgBasicAddr(addrDTO.getMemberId());
+			}
 		}
 		addrMapper.insertAddress(addrDTO);
 		return "주소 등록 및 변경";
@@ -143,23 +148,21 @@ public class OrderController {
 				bag.setSellsAmount(cartList.get(i).getProductsCount());
 				updStock.add(bag);
 				if(i==cartList.size()-1) {
-					if(bagMapper.productsBoardBag(cartList.get(i).getProductCode()).getBagStock() 
+					/* if(bagMapper.productsBoardBag(cartList.get(i).getProductCode()).getBagStock() 
 							< cartList.get(i).getProductsCount()) {
 						msg.put("msg", "재고 부족");
 						break;
-					}else {
-						prdCode += cartList.get(i).getProductCode();
-						prdCount += cartList.get(i).getProductsCount();
-					}
+					} */
+					prdCode += cartList.get(i).getProductCode();
+					prdCount += cartList.get(i).getProductsCount();
 				}else {
-					if(bagMapper.productsBoardBag(cartList.get(i).getProductCode()).getBagStock() 
+					/* if(bagMapper.productsBoardBag(cartList.get(i).getProductCode()).getBagStock() 
 							< cartList.get(i).getProductsCount()) {
 						msg.put("msg", "재고 부족");
 						break;
-					}else {
-						prdCode += cartList.get(i).getProductCode()+",";
-						prdCount += cartList.get(i).getProductsCount()+",";
-					}
+					} */
+					prdCode += cartList.get(i).getProductCode()+",";
+					prdCount += cartList.get(i).getProductsCount()+",";
 				}
 			}
 		}
@@ -190,23 +193,23 @@ public class OrderController {
 	Object orderConfirm(
 			HttpSession session,
 			@RequestBody OrderDTO ordDTO) {
-		String nonMem = (String)session.getAttribute("nonMemberId");
+		// String nonMem = (String)session.getAttribute("nonMemberId");
 		Map<Object, LinkedHashMap<Object, Object>> response = 
 				(Map<Object, LinkedHashMap<Object, Object>>) restPay.afterPay(ordDTO);
 		if(this.ordDTO.getOrdersTotalPrice() == (int)response.get("response").get("amount")) {
 			this.ordDTO.setImp_uid(ordDTO.getImp_uid());
 			for(BagsDTO bag : updStock) {
 				bagMapper.updSells(bag);
-				bagMapper.updStock(bag);
+				// bagMapper.updStock(bag);
 			}
 			cartMapper.allDelete(ordDTO.getMemberId());
 			this.ordDTO.setOrderStatus("결제 완료");
 			ordMapper.orderInsert(this.ordDTO);
-			if(nonMem != null) {
+			/* if(nonMem != null) {
 				session.removeAttribute("nonMemberId");
 				session.removeAttribute("nonMemberName");
 				session.removeAttribute("nonMemberPhone");
-			}
+			} */
 			
 			return ResponseEntity.ok("결제 완료");
 		}else {

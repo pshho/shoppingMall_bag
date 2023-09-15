@@ -13,5 +13,6 @@ public interface AddressMapper {
 	List<AddressDTO> getUserAddress(String memberId);
 	AddressDTO basicAddress(String id, int basicAddr);
 	AddressDTO selAddr(int addressId);
-	void chgBasicAddr(AddressDTO adto);
+	void chgBasicAddr(String id);
+	int selectBasic(AddressDTO adto);
 }
