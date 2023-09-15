@@ -13,7 +13,9 @@
 			<td>합산 금액</td>
 		</tr>
 		<tr th:if="${cartList ne null}" th:each="cart,no:${cartList}">
-			<td></td>
+			<td>
+				<img th:src="|/upFile/${cartBags[no.index].bagImg1}|" alt="상품 이미지" />
+			</td>
 			<td th:text="${cartBags[no.index].bagName}"></td>
 			<td th:text="${cart.productsCount}"></td>
 			<td th:text="${cart.sumPrice}"></td>

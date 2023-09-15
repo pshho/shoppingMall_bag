@@ -14,7 +14,9 @@
 			<td>삭제</td>
 		</tr>
 		<tr th:each="cart,no:${cartList}">
-			<td></td>
+			<td>
+				<img th:src="|/upFile/${cartBags[no.index].bagImg1}|" alt="상품 이미지" />
+			</td>
 			<td th:text="${cartBags[no.index].bagName}"></td>
 			<td>
 				<button type="button" 
