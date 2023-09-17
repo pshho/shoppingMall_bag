@@ -157,10 +157,13 @@
 		let val = $('#chgPrb'+productCode).val();
 		var productsBoardStatus = 0;
 		
-		if(val == '게시글 등록'){
+		if(val == '게시글 등록전'){
+			confirmWrite();
+			return false;
+		}else if(val == '게시글 등록'){
+			productsBoardStatus = 2;
+		}else if(val == '게시글 미등록'){
 			productsBoardStatus = 1;
-		}else{
-			productsBoardStatus = 0;
 		}
 		
 		const params = {
@@ -189,7 +192,15 @@
 		})
 	}
 	
+	function confirmWrite(){
+		if(confirm('상품소개글을 등록해주세요\n게시글 작성 페이지로 가시겠습니까?')){
+			location.href="/shopping/shoppingWrite";
+		}
+	}
+	
 	$(document).ready(function(){
+		const productsstatus = document.querySelectorAll('[id^="chgPrb"]');
+		
 		$.ajax({
 			url: '/shopping/checkPrb',
 			type: 'get',
@@ -197,10 +208,17 @@
 			contentType: 'application/json; charset=utf-8',
 			success: function(res){
 				res.forEach(function(item){
-					if(item.productsBoardStatus === 1){
+					if(item.productsBoardStatus === 2){
 						$('#chgPrb'+item.productCode).val('게시글 미등록');
-					}else {
+					}else if(item.productsBoardStatus === 1) {
 						$('#chgPrb'+item.productCode).val('게시글 등록');
+					}
+				})
+				
+				productsstatus.forEach(function(item){
+					var data = $(item).val();
+					if(data === ''){
+						$(item).val('게시글 등록전');
 					}
 				})
 			},

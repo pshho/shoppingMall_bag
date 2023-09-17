@@ -97,13 +97,10 @@ public class ShoppingController {
 		
 		List<BagsDTO> bagsList = new ArrayList<>();
 		
-		for(ProductsBoardDTO prbs : prbMapper.allPrbList()) {
-			if(prbs.getProductsBoardStatus() == 0) {
-				for(BagsDTO bag : bagMapper.allProducts()) {
-					if(prbs.getProductCode() == bag.getProductCode()) {
-						bagsList.add(bag);
-					}
-				}
+		for(BagsDTO bag : bagMapper.allProducts()) {
+			ProductsBoardDTO prb = prbMapper.chkPrbStatus(bag.getProductCode());
+			if(prb == null) {
+				bagsList.add(bag);
 			}
 		}
 		
@@ -141,7 +138,7 @@ public class ShoppingController {
 			prbDTO.setBrandId(brand);
 			prbDTO.setCategoriesId(category);
 			prbDTO.setTypeId(type);
-			prbDTO.setProductsBoardStatus(1);
+			prbDTO.setProductsBoardStatus(2);
 			
 			if(searchCont == null || searchCont.equals("null")) {
 				prbDTOs = prbMapper.productsBoardList(prbDTO);
