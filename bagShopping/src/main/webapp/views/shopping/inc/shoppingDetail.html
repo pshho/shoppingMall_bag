@@ -125,39 +125,36 @@
 				<td th:text="${bags.bagSizeD}"></td>
 			</tr>
 			</tr>
-
-			<th:block th:if="${bags.bagStock != 0}">
-				<tr>
-					<td th:text="${bags.bagName}"></td>
-					<td>
-						<button type="button" onclick="subAmount()">-</button>
-						<input type="text" th:value="${bags.amount}" id="bagsAmount" />
-						<button type="button" onclick="addAmount()">+</button>
-					</td>
-					<td>
-						<input type="text" th:value="${bags.totalPrice}" id="bagsTotal" readonly />
-					</td>
-				</tr>
-				<tr>
-					<td>총 상품금액</td>
-					<td colspan="2">
-						<input type="text" th:value="${bags.totalPrice}" id="bagsTotal" readonly />
-					</td>
-				</tr>
-				<tr>
-					<td colspan="3">
-						<th:block th:if="${member.memberStatus != '차단'}">
-							<button type="button" onclick="cartAdd()">장바구니</button>
-							<button type="button" onclick="goPay()">바로구매</button>
-						</th:block>
-						<th:block th:unless="${member.memberStatus != '차단'}">
-							<button type="button" onclick="blackList()">장바구니</button>
-							<button type="button" onclick="blackList()">바로구매</button>
-						</th:block>
-					</td>
-				</tr>
-			</th:block>
-			<th:block th:unless="${bags.bagStock != 0}">
+			<tr>
+				<td th:text="${bags.bagName}"></td>
+				<td>
+					<button type="button" onclick="subAmount()">-</button>
+					<input type="text" th:value="${bags.amount}" id="bagsAmount" />
+					<button type="button" onclick="addAmount()">+</button>
+				</td>
+				<td>
+					<input type="text" th:value="${bags.totalPrice}" id="bagsTotal" readonly />
+				</td>
+			</tr>
+			<tr>
+				<td>총 상품금액</td>
+				<td colspan="2">
+					<input type="text" th:value="${bags.totalPrice}" id="bagsTotal" readonly />
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<th:block th:if="${member ne null and member.memberStatus ne '차단'}">
+						<button type="button" onclick="cartAdd()">장바구니</button>
+						<button type="button" onclick="goPay()">바로구매</button>
+					</th:block>
+					<th:block th:unless="${member ne null and member.memberStatus ne '차단'}">
+						<button type="button" onclick="blackList()">장바구니</button>
+						<button type="button" onclick="blackList()">바로구매</button>
+					</th:block>
+				</td>
+			</tr>
+			<!-- <th:block th:unless="${bags.bagStock != 0}">
 				<tr>
 					<td colspan="3">품절</td>
 				</tr>
@@ -716,8 +713,4 @@
 			}
 		})
 	} */
-	
-	function topBtn(){
-		window.scrollTo(0, 0);
-	}
 </script>

@@ -1,11 +1,9 @@
 package bag.service;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import bag.model.BlackListDTO;
 import bag.model.MemberDTO;
 import bag.model.PageData2;
 import bag.model.QuitMemberDTO;
@@ -25,7 +23,7 @@ public interface MemberMapper {
 	
 	int idPwCheck(MemberDTO mdto);
 	
-	MemberDTO getUser(String id);
+	MemberDTO getUser(String memberId);
 	
 	int cntMaxUser(PageData2 pd);
 	
