@@ -12,7 +12,8 @@ import lombok.Data;
 @Data
 public class BagsDTO {
 	int productCode, categoriesId, typeId, brandId, bagPrice, bagSizeW, bagSizeH, bagSizeD,
-	bagCapacity, bagWeight, bagStock, productsBoardId, totalPrice, amount, sellsAmount, defaultProductCode;
+	bagCapacity, bagWeight, bagStock, productsBoardId, totalPrice, amount, sellsAmount, defaultProductCode,
+	productsBoardStatus;
 	
 	String bagName, bagOuterFabric, bagInnerFabric, bagZipper, bagBuckle, bagComment, merchantUid, 
 	categoriesName, typeName, brandName, bagImg1, bagImg2, bagImg3, bagImg4;

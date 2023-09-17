@@ -5,18 +5,17 @@ method="post" id="wri" th:object="${productsBoardDTO}">
 	<table border="">
 		<tr>
 			<td width="150px">카테고리</td>
-			<td>
-				<select id="category">
-					<option th:each="cate:${categoriesList}" 
-					th:value="${cate.categoriesId}" th:text="${cate.categoriesName}"></option>
-				</select>
+			<td th:each="cate:${categoriesList}" 
+			th:if="${cate.categoriesId eq productsBoard.categoriesId}"
+			th:text="${cate.categoriesName}">
 			</td>
 		</tr>
 		<tr>
+			<input type="hidden" th:value="${productsBoard.productCode}" name="productCode" />
 			<td>상품</td>
-			<td>
-				<select th:field="*{productCode}" id="product">
-				</select>
+			<td th:each="bag:${bagsList}"
+			th:if="${bag.productCode eq productsBoard.productCode}"
+			th:text="${bag.bagName}">
 			</td>
 		</tr>
 		<tr>
