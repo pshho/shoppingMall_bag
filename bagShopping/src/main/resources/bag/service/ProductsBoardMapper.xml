@@ -65,9 +65,9 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			b.brand_name like concat('%', #{searchCont}, '%') or
 			c.categories_name like concat('%', #{searchCont}, '%') or
 			pd.bag_name like concat('%', #{searchCont}, '%') or
-			intro like concat('%', #{searchCont}, '%') or contents like concat('%', #{searchCont}, '%'))
+			pb.intro like concat('%', #{searchCont}, '%') or pb.contents like concat('%', #{searchCont}, '%'))
 			<if test="productsBoardStatus!=0">
-				and products_board_status = #{productsBoardStatus}
+				and pb.products_board_status = #{productsBoardStatus}
 			</if>
 		</where>
 		order by products_board_id desc
