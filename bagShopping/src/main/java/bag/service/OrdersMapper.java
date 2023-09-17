@@ -26,6 +26,6 @@ public interface OrdersMapper {
 	
 	OrderDTO getOrder(String merchantUid);
 	
-	OrderDTO chkOrder(String memberId, String orderStatus);
+	List<OrderDTO> chkOrder(String memberId, String orderStatus);
 	
 }
