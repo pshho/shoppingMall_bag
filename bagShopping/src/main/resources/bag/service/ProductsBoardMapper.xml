@@ -100,4 +100,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<update id="chgPrbStatus" parameterType="prbDTO">
 		update products_board set products_board_status = #{productsBoardStatus} where product_code = #{productCode}
 	</update>
+	<select id="chkPrbStatus" resultType="prbDTO">
+		select * from products_board where product_code = #{productCode}
+	</select>
 </mapper>

@@ -59,6 +59,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			<if test="typeId!=0">
 				and products_board.type_id = #{typeId}
 			</if>
+			and products_board_status = 2
 		</where>
 		order by products_board_id desc
 	</select>

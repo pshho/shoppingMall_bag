@@ -25,4 +25,5 @@ public interface ProductsBoardMapper {
 	int cntProduct(int productCode);
 	int deleteBagProduct(int productCode);
 	void chgPrbStatus(ProductsBoardDTO prbDTO);
+	ProductsBoardDTO chkPrbStatus(int productCode);
 }
