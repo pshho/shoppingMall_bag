@@ -149,7 +149,7 @@ public class ShoppingController {
 			}else {
 				mav.addObject("sear", searchCont);
 				bagDTOs = new ArrayList<>();
-				prbDTOs = prbMapper.searchList(searchCont);
+				prbDTOs = prbMapper.searchList(searchCont, prbDTO.getProductsBoardStatus());
 				
 				for(ProductsBoardDTO prb : prbDTOs) {
 					for(BagsDTO bag : bagMapper.allProducts()) {
@@ -190,12 +190,14 @@ public class ShoppingController {
 			mav.addObject("bagsList", bagDTOs);
 			mav.addObject("productsBoardList", prbDTOs);
 		}else if(shoppingSer.equals("shoppingDetail")) {
-			OrderDTO ordDTO = ordMapper.chkOrder(memberId, "배송 완료");
-			if(ordDTO != null) {
-				String[] prdArr = ordDTO.getProdCode().split(",");
-				List<Integer> prdIds = prbMapper.prbIds(prdArr);
-				if(prdIds.contains(page)) {
-					mav.addObject("reviewPos", 1);
+			List<OrderDTO> ordDTOs = ordMapper.chkOrder(memberId, "배송 완료");
+			if(ordDTOs != null) {
+				for(OrderDTO oDTO : ordDTOs) {
+					String[] prdArr = oDTO.getProdCode().split(",");
+					List<Integer> prdIds = prbMapper.prbIds(prdArr);
+					if(prdIds.contains(page)) {
+						mav.addObject("reviewPos", 1);
+					}
 				}
 			}
 			

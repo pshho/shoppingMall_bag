@@ -64,6 +64,7 @@
 	</th:block>
 </table>
 <script th:inline="javascript">
+	const cartList = [[${#arrays.length(cartList)}]];
 	function addAmount(price, cartId){
 		let cartAmount = null;
 		if(!isNaN($('#cartAmount'+cartId).val())){
@@ -138,6 +139,11 @@
 	}
 	
 	$(document).ready(function(){
+		if(cartList === 0){
+			alert('상품을 추가해주세요');
+			location.href="/shopping/shoppingList/0/0/0/1/newest";
+		}
+		
 		const cart = document.querySelectorAll('input[id^="cartAmount"]');
 		let delay;
 		cart.forEach(function(item){
