@@ -144,11 +144,15 @@
 			</tr>
 			<tr>
 				<td colspan="3">
+					<th:block th:if="${member eq null}">
+						<button type="button" onclick="cartAdd()">장바구니</button>
+						<button type="button" onclick="goPay()">바로구매</button>
+					</th:block>
 					<th:block th:if="${member ne null and member.memberStatus ne '차단'}">
 						<button type="button" onclick="cartAdd()">장바구니</button>
 						<button type="button" onclick="goPay()">바로구매</button>
 					</th:block>
-					<th:block th:unless="${member ne null and member.memberStatus ne '차단'}">
+					<th:block th:if="${member ne null and member.memberStatus eq '차단'}">
 						<button type="button" onclick="blackList()">장바구니</button>
 						<button type="button" onclick="blackList()">바로구매</button>
 					</th:block>

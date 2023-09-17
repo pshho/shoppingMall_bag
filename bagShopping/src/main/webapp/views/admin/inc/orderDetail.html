@@ -68,6 +68,12 @@
 			<th:block th:if="|${info.payType == 'kakaopay.TC0ONETIME'}|">
 			<td th:text="|카카오페이|" />
 			</th:block>
+			<th:block th:if="|${info.payType == 'payco.AUTOPAY'}|">
+			<td th:text="|페이코|" />
+			</th:block>
+			<th:block th:if="|${info.payType == 'kcp.A52CY'}|">
+			<td th:text="|카드결제|" />
+			</th:block>
 		</tr>
 	</table>
 	</th:block>
