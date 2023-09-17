@@ -5,15 +5,15 @@
 <title></title>
 </head>
 <body>
-	<th:block th:replace="header/header" />
+	<th:block th:replace="~{|header/header|}" />
 	<h1>orders/view</h1>
 	<table>
 		<tr>
 			<td>
-				<th:block th:replace="|orders/inc/${ordersSer}|" />
+				<th:block th:replace="~{|orders/inc/${ordersSer}|}" />
 			</td>
 		</tr>
 	</table>
-	<th:block th:replace="footer/footer" />
+	<th:block th:replace="~{|footer/footer|}" />
 </body>
 </html>

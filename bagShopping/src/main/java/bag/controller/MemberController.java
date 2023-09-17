@@ -202,6 +202,43 @@ public class MemberController {
 		return "member/inc/alert";
 	}
 	
+	@ResponseBody
+	@PostMapping("findId")
+	String findId(HttpServletRequest request) {
+		MemberDTO mdto = memMapper.findId(request.getParameter("name"), request.getParameter("phone"));
+		String memberId = mdto.getMemberId();
+		System.out.println(memberId);
+		return memberId;
+	}
+	
+	@ResponseBody
+	@PostMapping("findPw")
+	String findPw(HttpServletRequest request) {
+		MemberDTO mdto = memMapper.findPw(request.getParameter("id"), request.getParameter("name"), request.getParameter("phone"));
+		String memberId = mdto.getMemberId();
+		System.out.println(memberId);
+		return memberId;
+	}
+	
+	@PostMapping("findPwReg")
+	String findPwReg(Model mm, MemberDTO mdto) {
+		String msg = "비밀번호 변경 실패";
+		String goUrl = "/member/findPw";
+		System.out.println(mdto);
+		int updateCheck = memMapper.findPwUpdate(mdto.getMemberId(), mdto.getMemberPw());
+		if(updateCheck > 0) {
+			msg = "비밀번호 변경 되었습니다";
+			goUrl = "/";
+			mm.addAttribute("msg",msg);
+			mm.addAttribute("goUrl", goUrl);
+			return "member/inc/alert";
+		}
+		
+		mm.addAttribute("msg",msg);
+		mm.addAttribute("goUrl", goUrl);
+		return "member/inc/alert";
+	}
+	
 	@PostMapping("quitMemberReg")
 	String quitMemberReg(Model mm, MemberDTO mdto, HttpSession session) {
 		String msg = "아이디와 비밀번호를 확인해주세요.";

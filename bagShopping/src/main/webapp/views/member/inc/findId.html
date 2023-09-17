@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>아이디 찾기</title>
+	<script>
+		function findId() {
+			var name = $('#memberName').val()
+			var phone1 = $('#phone1').val()
+			var phone2 = $('#phone2').val()
+			var phone3 = $('#phone3').val()
+			var phone = phone1 + "-" + phone2 + "-" + phone3
+			$.ajax({
+				url: "findId",
+				type: "post",
+				data: {name: name, phone: phone},
+				dataType: 'text',
+				success: function (data) {
+					console.log(data)
+					if (data) {
+						$('#find').hide()
+						$('#result').text("회원님의 ID는 " + data + " 입니다.")
+					} else {
+						alert("해당하는 ID가 없습니다.")
+					}
+				},
+				error: function () {
+					alert("요청 실패");
+				}
+			})
+		}
+
+	</script>
+</head>
+
+<body>
+	<h2>아이디 찾기</h2>
+	<div id="find" style="display:block">
+		이름 : <input type="text" id="memberName" /> <br />
+		전화번호 :
+		<select id="phone1">
+			<option>010</option>
+			<option>011</option>
+			<option>016</option>
+			<option>017</option>
+			<option>019</option>
+		</select>
+		<input type="text" id="phone2" />-<input type="text" id="phone3" /><br>
+		<button onclick="findId()">찾기</button>
+	</div>
+		<h2 id="result"></h2>
+		<a href="/member/signIn">뒤로</a>
+		
+</body>
+
+</html>

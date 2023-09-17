@@ -41,4 +41,7 @@ public interface MemberMapper {
 	List<QuitMemberDTO> quitMemberList(PageData2 pd);
 	int quitMemberCnt(PageData2 pd);
 	
+	MemberDTO findId(String memberName, String memberPhone);
+	MemberDTO findPw(String memberId, String memberName, String memberPhone);
+	int findPwUpdate(String memberId, String memberPw);
 }

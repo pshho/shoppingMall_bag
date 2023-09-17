@@ -75,6 +75,18 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 		values
 		(#{memberId}, sysdate(), #{orderExist})
 	</insert>
+	
+	<select id="findId">
+		select * from member where member_name = #{memberName} and member_phone = #{memberPhone}
+	</select>
+	
+	<select id="findPw">
+		select * from member where member_id = #{memberId} and member_name = #{memberName} and member_phone = #{memberPhone}
+	</select>
+	
+	<update id="findPwUpdate">
+		update member set member_pw = #{memberPw} where member_id = #{memberId}
+	</update>
 
 	<!-- 검색 조건문 -->
 	<sql id="searchMember">

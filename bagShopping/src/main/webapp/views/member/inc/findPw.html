@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>아이디 찾기</title>
+	<script>
+		function findPw() {
+			var id = $('#memberId').val()
+			var name = $('#memberName').val()
+			var phone1 = $('#phone1').val()
+			var phone2 = $('#phone2').val()
+			var phone3 = $('#phone3').val()
+			var phone = phone1 + "-" + phone2 + "-" + phone3
+			$.ajax({
+				url: "findPw",
+				type: "post",
+				data: {id: id, name: name, phone: phone},
+				dataType: 'text',
+				success: function (data) {
+					console.log(data)
+					if (data) {
+						alert('새 비밀번호로 변경해주세요')
+						$('#find').hide()
+						$('#newPw').show()
+						$('#id').val(data)
+					} else {
+						alert("비밀번호 찾기 실패")
+					}
+				},
+				error: function () {
+					alert("비밀번호 찾기 실패")
+				}
+			})
+			
+		}
+		
+		function findPwBtn(){
+			var pw = $('memberPw').val()
+			var pw2 = $('memberPw2').val()
+			
+			if(pw != pw2){
+				alert("비밀번호를 확인해주세요.")
+				return false;
+			}else{
+				newPw.submit()
+			}
+			
+		}
+
+	</script>
+</head>
+
+<body>
+	<h2>비밀번호 찾기</h2>
+	<div id="find" style="display:block">
+		아이디 : <input type="text" id="memberId" /> <br />
+		이름 : <input type="text" id="memberName" /> <br />
+		전화번호 :
+		<select id="phone1">
+			<option>010</option>
+			<option>011</option>
+			<option>016</option>
+			<option>017</option>
+			<option>019</option>
+		</select>
+		<input type="text" id="phone2" />-<input type="text" id="phone3" /><br>
+		<button onclick="findPw()">찾기</button>
+	</div>
+		
+	<form action="findPwReg" method="post" id="newPw" style="display: none;">
+		<input type="hidden" id="id" name="memberId"/>
+		새 비밀번호 : <input type="text" id="memberPw" name="memberPw"/> <br />
+		비밀번호 확인 : <input type="text" id="memberPw2" />
+		<input type="button" value="찾기" onclick="findPwBtn()"/>
+	</form>
+	<a href="/member/signIn">뒤로</a>
+</body>
+
+</html>
