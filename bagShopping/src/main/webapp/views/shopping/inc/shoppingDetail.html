@@ -1,7 +1,6 @@
 <html xmlns="http://www.thymeleaf.org">
-<h1 th:each="cate:${categoriesList}"
-th:if="${productsBoard.categoriesId eq cate.categoriesId}"
-th:text="${cate.categoriesName}"></h1>
+<h1 th:each="cate:${categoriesList}" th:if="${productsBoard.categoriesId eq cate.categoriesId}"
+	th:text="${cate.categoriesName}"></h1>
 <hr />
 <section class="shopDetail">
 	<!-- 상품 관련 정보 -->
@@ -17,8 +16,7 @@ th:text="${cate.categoriesName}"></h1>
 			</tr>
 			<tr>
 				<td>타입</td>
-				<td th:each="type:${typeList}" 
-				th:if="${bags.typeId eq type.typeId}" th:text="${type.typeName}"></td>
+				<td th:each="type:${typeList}" th:if="${bags.typeId eq type.typeId}" th:text="${type.typeName}"></td>
 			</tr>
 			<tr>
 				<td>사이즈</td>
@@ -57,8 +55,7 @@ th:text="${cate.categoriesName}"></h1>
 			</tr>
 			<tr>
 				<td colspan="2" class="replyTd">
-					<textarea cols="40" rows="5" id="content"
-					placeholder="리뷰를 남겨보세요"></textarea>
+					<textarea cols="40" rows="5" id="content" placeholder="리뷰를 남겨보세요"></textarea>
 					<input type="button" value="등록" onclick="saveComments()" />
 				</td>
 			</tr>
@@ -76,8 +73,7 @@ th:text="${cate.categoriesName}"></h1>
 	<div>
 		<table border="">
 			<tr>
-				<td colspan="3" th:each="brand:${brandList}"
-					th:if="${brand.brandId eq productsBoard.brandId}"
+				<td colspan="3" th:each="brand:${brandList}" th:if="${brand.brandId eq productsBoard.brandId}"
 					th:text="${brand.brandName}"></td>
 			</tr>
 			<tr>
@@ -100,21 +96,21 @@ th:text="${cate.categoriesName}"></h1>
 			</tr>
 			<tr>
 				<td rowspan="5">상품설명</td>
-				<tr>
-					<td colspan="2" th:text="${bags.bagComment}"></td>
-				</tr>
-				<tr>
-					<td>정면길이</td>
-					<td th:text="${bags.bagSizeW}"></td>
-				</tr>
-				<tr>
-					<td>높이</td>
-					<td th:text="${bags.bagSizeH}"></td>
-				</tr>
-				<tr>
-					<td>측면길이</td>
-					<td th:text="${bags.bagSizeD}"></td>
-				</tr>
+			<tr>
+				<td colspan="2" th:text="${bags.bagComment}"></td>
+			</tr>
+			<tr>
+				<td>정면길이</td>
+				<td th:text="${bags.bagSizeW}"></td>
+			</tr>
+			<tr>
+				<td>높이</td>
+				<td th:text="${bags.bagSizeH}"></td>
+			</tr>
+			<tr>
+				<td>측면길이</td>
+				<td th:text="${bags.bagSizeD}"></td>
+			</tr>
 			</tr>
 			<th:block th:if="${bags.bagStock != 0}">
 				<tr>
@@ -136,8 +132,14 @@ th:text="${cate.categoriesName}"></h1>
 				</tr>
 				<tr>
 					<td colspan="3">
-						<button type="button" onclick="cartAdd()">장바구니</button>
-						<button type="button" onclick="goPay()">바로구매</button>
+						<th:block th:if="${member.memberStatus != '차단'}">
+							<button type="button" onclick="cartAdd()">장바구니</button>
+							<button type="button" onclick="goPay()">바로구매</button>
+						</th:block>
+						<th:block th:unless="${member.memberStatus != '차단'}">
+							<button type="button" onclick="blackList()">장바구니</button>
+							<button type="button" onclick="blackList()">바로구매</button>
+						</th:block>
 					</td>
 				</tr>
 			</th:block>
@@ -149,9 +151,9 @@ th:text="${cate.categoriesName}"></h1>
 			<tr>
 				<td colspan="3">
 					<a th:if="${session.admin ne null}"
-					th:href="|/shopping/shoppingModify/${productsBoard.productsBoardId}|">수정</a>
-					<a th:if="${session.admin ne null}" href="#" 
-					th:onclick="|confirmDeletePrb(${productsBoard.productsBoardId})|">삭제</a>
+						th:href="|/shopping/shoppingModify/${productsBoard.productsBoardId}|">수정</a>
+					<a th:if="${session.admin ne null}" href="#"
+						th:onclick="|confirmDeletePrb(${productsBoard.productsBoardId})|">삭제</a>
 					<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/1/${distinct}|">뒤로</a>
 				</td>
 			</tr>
@@ -159,341 +161,346 @@ th:text="${cate.categoriesName}"></h1>
 	</div>
 </section>
 <script th:inline="javascript">
+	
+	function blackList(){
+		alert("차단된 회원입니다. 관리자에게 문의해주세요.")
+	}
+	
 	const user = [[${session.userId}]];
-	function addAmount(){
+	function addAmount() {
 		let bagsAmount = null;
-		if(!isNaN($('#bagsAmount').val())){
+		if (!isNaN($('#bagsAmount').val())) {
 			bagsAmount = parseInt($('#bagsAmount').val()) + 1;
-		}else {
+		} else {
 			alert('숫자를 입력해주세요');
 			return false;
 		}
 		let stock = [[${bags.bagStock}]];
-		if(bagsAmount > stock){
-			alert(stock+'개까지 선택할 수 있습니다');
+		if (bagsAmount > stock) {
+			alert(stock + '개까지 선택할 수 있습니다');
 			return false;
 		}
-		
+
 		$('#bagsAmount').val(bagsAmount);
 		const params = {
-			bagsAmount : bagsAmount
+			bagsAmount: bagsAmount
 		}
 		const bagsTotal = document.querySelectorAll('#bagsTotal');
-		
+
 		$.ajax({
-			url : '/shopping/shoppingDetail',
-			type : 'post',
-			contentType : 'application/json; charset=utf-8',
-			dataType : 'json',
-			data : JSON.stringify(params),
-			success : function(res){
-				bagsTotal.forEach(function(item){
+			url: '/shopping/shoppingDetail',
+			type: 'post',
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			data: JSON.stringify(params),
+			success: function (res) {
+				bagsTotal.forEach(function (item) {
 					item.value = res.totalPrice;
 				})
 			},
-			error : function(error){
+			error: function (error) {
 				console.log(error);
 			}
 		})
 	}
-	
-	function subAmount(){
+
+	function subAmount() {
 		let bagsAmount = null;
-		if(!isNaN($('#bagsAmount').val())){
+		if (!isNaN($('#bagsAmount').val())) {
 			bagsAmount = parseInt($('#bagsAmount').val()) - 1;
-		}else {
+		} else {
 			alert('숫자를 입력해주세요');
 			return false;
 		}
-		if(bagsAmount < 1){
+		if (bagsAmount < 1) {
 			alert('상품은 1개 이상 선택해야 합니다');
 			return false;
 		}
 		$('#bagsAmount').val(bagsAmount);
 		const params = {
-			bagsAmount : bagsAmount
+			bagsAmount: bagsAmount
 		}
 		const bagsTotal = document.querySelectorAll('#bagsTotal');
-		
+
 		$.ajax({
-			url : '/shopping/shoppingDetail',
-			type : 'post',
-			contentType : 'application/json; charset=utf-8',
-			dataType : 'json',
-			data : JSON.stringify(params),
-			success : function(res){
-				bagsTotal.forEach(function(item){
+			url: '/shopping/shoppingDetail',
+			type: 'post',
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			data: JSON.stringify(params),
+			success: function (res) {
+				bagsTotal.forEach(function (item) {
 					item.value = res.totalPrice;
 				})
 			},
-			error : function(error){
+			error: function (error) {
 				console.log(error);
 			}
 		})
 	}
-	
-	$(document).ready(function(){
+
+	$(document).ready(function () {
 		let delay;
-		$('#bagsAmount').keyup(function(event){
+		$('#bagsAmount').keyup(function (event) {
 			clearTimeout(delay);
-			delay = setTimeout(function(){
+			delay = setTimeout(function () {
 				let bagsAmount = null;
-				if(!isNaN($('#bagsAmount').val())){
+				if (!isNaN($('#bagsAmount').val())) {
 					bagsAmount = parseInt($('#bagsAmount').val());
-				}else {
+				} else {
 					alert('숫자를 입력해주세요');
 					return false;
 				}
 				let stock = [[${bags.bagStock}]];
-				
-				if(bagsAmount < 1){
+
+				if (bagsAmount < 1) {
 					alert('상품은 1개 이상 선택해야 합니다');
 					return false;
-				}else if(bagsAmount > stock){
-					alert(stock+'개까지 선택할 수 있습니다');
+				} else if (bagsAmount > stock) {
+					alert(stock + '개까지 선택할 수 있습니다');
 					return false;
 				}
-				
+
 				const params = {
-					bagsAmount : bagsAmount
+					bagsAmount: bagsAmount
 				}
 				const bagsTotal = document.querySelectorAll('#bagsTotal');
-				
+
 				$.ajax({
-					url : '/shopping/shoppingDetail',
-					type : 'post',
-					contentType : 'application/json; charset=utf-8',
-					dataType : 'json',
-					async : false,
-					data : JSON.stringify(params),
-					success : function(res){
-						bagsTotal.forEach(function(item){
+					url: '/shopping/shoppingDetail',
+					type: 'post',
+					contentType: 'application/json; charset=utf-8',
+					dataType: 'json',
+					async: false,
+					data: JSON.stringify(params),
+					success: function (res) {
+						bagsTotal.forEach(function (item) {
 							item.value = res.totalPrice;
 						})
 					},
-					error : function(error){
+					error: function (error) {
 						console.log(error);
 					}
 				})
 			}, 300);
 		})
-		
+
 		reload();
 	})
-	
-	function confirmation(msg, url, cartCount){
-		if(confirm(msg+'\n장바구니로 이동하시겠습니까?')){
-			location.href=url;
+
+	function confirmation(msg, url, cartCount) {
+		if (confirm(msg + '\n장바구니로 이동하시겠습니까?')) {
+			location.href = url;
 		}
-		$('#cartLink').text('장바구니('+cartCount+')');
+		$('#cartLink').text('장바구니(' + cartCount + ')');
 	}
-	
+
 	const nonMember = [[${session.nonMemberId}]];
 	var popup = '';
-	function cartAdd(){
+	function cartAdd() {
 		let bagsAmount = null;
-		if(!isNaN($('#bagsAmount').val())){
+		if (!isNaN($('#bagsAmount').val())) {
 			bagsAmount = parseInt($('#bagsAmount').val());
-		}else {
+		} else {
 			alert('숫자를 입력해주세요');
 			return false;
 		}
-		
-		if(user == null && nonMember == null){
+
+		if (user == null && nonMember == null) {
 			let popupLeft = (screen.width - 500) / 2;
 			let popupTop = (screen.height - 400) / 2;
-			popup = window.open('/shopping/shoppingNonMember', 
-			'비회원', 'width=500,height=400,left='+popupLeft+',top='+popupTop);
-		}else{
+			popup = window.open('/shopping/shoppingNonMember',
+				'비회원', 'width=500,height=400,left=' + popupLeft + ',top=' + popupTop);
+		} else {
 			const params = {
-				bagsAmount : bagsAmount
+				bagsAmount: bagsAmount
 			}
-			
+
 			$.ajax({
-				url : '/shopping/shoppingCart',
-				type : 'post',
-				contentType : 'application/json; charset=utf-8',
-				dataType : 'json',
-				async : false,
-				data : JSON.stringify(params),
-				success : function(res){
+				url: '/shopping/shoppingCart',
+				type: 'post',
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				data: JSON.stringify(params),
+				success: function (res) {
 					confirmation(res.msg, res.url, res.cartCount);
 				},
-				error : function(error){
+				error: function (error) {
 					console.log(error);
 				}
 			})
 		}
 	}
-	
-	function goPay(){
+
+	function goPay() {
 		let bagsAmount = null;
-		if(!isNaN($('#bagsAmount').val())){
+		if (!isNaN($('#bagsAmount').val())) {
 			bagsAmount = parseInt($('#bagsAmount').val());
-		}else {
+		} else {
 			alert('숫자를 입력해주세요');
 			return false;
 		}
-		
-		if(user == null && nonMember == null){
+
+		if (user == null && nonMember == null) {
 			let popupLeft = (screen.width - 500) / 2;
 			let popupTop = (screen.height - 400) / 2;
-			popup = window.open('/shopping/shoppingNonMember', 
-			'비회원', 'width=500,height=400,left='+popupLeft+',top='+popupTop);
-		}else {
+			popup = window.open('/shopping/shoppingNonMember',
+				'비회원', 'width=500,height=400,left=' + popupLeft + ',top=' + popupTop);
+		} else {
 			const params = {
-				bagsAmount : bagsAmount
+				bagsAmount: bagsAmount
 			}
-			
+
 			$.ajax({
-				url : '/shopping/shoppingCart',
-				type : 'post',
-				contentType : 'application/json; charset=utf-8',
-				dataType : 'json',
-				async : false,
-				data : JSON.stringify(params),
-				success : function(res){
-					location.href="/shopping/shoppingCart";
+				url: '/shopping/shoppingCart',
+				type: 'post',
+				contentType: 'application/json; charset=utf-8',
+				dataType: 'json',
+				async: false,
+				data: JSON.stringify(params),
+				success: function (res) {
+					location.href = "/shopping/shoppingCart";
 				},
-				error : function(error){
+				error: function (error) {
 					console.log(error);
 				}
 			})
 		}
 	}
-	
-	function reload(){
-		if(popup && popup.closed){
+
+	function reload() {
+		if (popup && popup.closed) {
 			location.reload();
-		}else {
+		} else {
 			setTimeout(reload, 300);
 		}
 	}
-	
+
 	const pid = [[${productsBoard.productsBoardId}]];
 	var reviewCount = [[${productsBoard.reviewCount}]];
 	let gpid = pid;
 	var writer = [[${session.userId}]];
-	if(writer === null){
+	if (writer === null) {
 		writer = [[${session.admin}]];
 	}
-	function saveComments(){
+	function saveComments() {
 		let content = $('#content').val().trim();
-		
-		if(content.length == 0 || content.length > 1000){
+
+		if (content.length == 0 || content.length > 1000) {
 			alert('리뷰는 1~1000자내로 입력해주세요');
 			return false;
 		}
-		
+
 		let params = {
 			content: content,
 			gpid: gpid,
 			comWriter: writer
 		};
-		
+
 		$.ajax({
-			url : '/shopping/shoppingDetail/'+pid+'/comments',
-			type : 'post',
-			contentType : 'application/json; charset=utf-8',
-			dataType : 'json',
-			data : JSON.stringify(params),
-			async : false,
-			success : function(res) {
+			url: '/shopping/shoppingDetail/' + pid + '/comments',
+			type: 'post',
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			data: JSON.stringify(params),
+			async: false,
+			success: function (res) {
 				reviewCount++;
 				alert(res.msg);
 				$('#content').val('');
 				listComments();
 			},
-			error : function (req, status, error) {
+			error: function (req, status, error) {
 				console.log(req);
 				console.log(status);
 				console.log(error);
 			}
 		})
 	}
-	
+
 	window.onload = () => {
 		listComments();
 	}
-	
-	function listComments(){
+
+	function listComments() {
 		$.ajax({
-			url : '/shopping/shoppingDetail/'+pid+'/comments',
-			type : 'get',
-			dataType : 'json',
-			async : false,
-			success : function (res) {
+			url: '/shopping/shoppingDetail/' + pid + '/comments',
+			type: 'get',
+			dataType: 'json',
+			async: false,
+			success: function (res) {
 				$('.comments').empty();
-				$('.comments').append('<h3>리뷰('+reviewCount+')</h3>');
+				$('.comments').append('<h3>리뷰(' + reviewCount + ')</h3>');
 				res.forEach((row, i) => {
-					if(res.length <= 0){
+					if (res.length <= 0) {
 						return;
 					}
-					
-					if(i>4){
-						for(j=0; j<row.lev; j++){
+
+					if (i > 4) {
+						for (j = 0; j < row.lev; j++) {
 							$('.comments')
-							.append('<div class="commsOn"></div>');
+								.append('<div class="commsOn"></div>');
 						}
 						$('.comments').append('<ul class="commentsOn"><li id="comm' + row.commentsId + '">' + '<span>작성자: ' + row.comWriter +
-						'</span><span>' + row.comRegDate2 + '</span><p>' + row.content + '<i>' +
-						'<input type="button" onclick="openReplyComments(' + row.commentsId + ')" value="답글" >' +
-						'<input type="button" onclick="openUpdateComments(' + row.commentsId + ')" value="수정" >' +
-						'<input type="button" onclick="confirmDelete(' + row.commentsId + ')" value="삭제" ></i></p></li></ul>');
-					}else {
-						for(j=0; j<row.lev; j++){
+							'</span><span>' + row.comRegDate2 + '</span><p>' + row.content + '<i>' +
+							'<input type="button" onclick="openReplyComments(' + row.commentsId + ')" value="답글" >' +
+							'<input type="button" onclick="openUpdateComments(' + row.commentsId + ')" value="수정" >' +
+							'<input type="button" onclick="confirmDelete(' + row.commentsId + ')" value="삭제" ></i></p></li></ul>');
+					} else {
+						for (j = 0; j < row.lev; j++) {
 							$('.comments')
-							.append('<div class="comm"></div>');
+								.append('<div class="comm"></div>');
 						}
 						$('.comments').append('<ul><li id="comm' + row.commentsId + '">' + '<span>작성자: ' + row.comWriter +
-						'</span><span>' + row.comRegDate2 + '</span><p>' + row.content + '<i>' +
-						'<input type="button" onclick="openReplyComments(' + row.commentsId + ')" value="답글" >' +
-						'<input type="button" onclick="openUpdateComments(' + row.commentsId + ')" value="수정" >' +
-						'<input type="button" onclick="confirmDelete(' + row.commentsId + ')" value="삭제" ></i></p></li></ul>');
+							'</span><span>' + row.comRegDate2 + '</span><p>' + row.content + '<i>' +
+							'<input type="button" onclick="openReplyComments(' + row.commentsId + ')" value="답글" >' +
+							'<input type="button" onclick="openUpdateComments(' + row.commentsId + ')" value="수정" >' +
+							'<input type="button" onclick="confirmDelete(' + row.commentsId + ')" value="삭제" ></i></p></li></ul>');
 					}
 				});
 				$('.onComments').css('display', 'block');
-				
+
 			},
-			error : function (req, status, error) {
+			error: function (req, status, error) {
 				console.log(req);
 				console.log(status);
 				console.log(error);
 			}
 		})
 	}
-	
+
 	function openUpdateComments(commentsId) {
 		$.ajax({
-			url : '/shopping/shoppingDetail/'+pid+'/comments/'+commentsId,
-			type : 'get',
-			dataType : 'json',
-			async : false,
-			success : function(res) {
-				$('#comm'+commentsId+'').html(
+			url: '/shopping/shoppingDetail/' + pid + '/comments/' + commentsId,
+			type: 'get',
+			dataType: 'json',
+			async: false,
+			success: function (res) {
+				$('#comm' + commentsId + '').html(
 					'<span>작성자: ' + res.comWriter + '</span><span>' + res.comRegDate2 +
 					'</span>' + '<textarea cols="20" rows="3" id="updateComments"' +
 					'placeholder="' + res.content + '"></textarea><input type="button"' +
-					'value="수정" onclick="updateComments(' + commentsId +')"><input type="button"' +
-					'value="취소" onclick="cancel(' + commentsId  + ')">'
+					'value="수정" onclick="updateComments(' + commentsId + ')"><input type="button"' +
+					'value="취소" onclick="cancel(' + commentsId + ')">'
 				);
 			},
-			error : function (req, status, error) {
+			error: function (req, status, error) {
 				console.log(req);
 				console.log(status);
 				console.log(error);
 			}
 		})
 	}
-	
-	function cancel(commentsId){
+
+	function cancel(commentsId) {
 		$.ajax({
-			url : '/shopping/shoppingDetail/'+pid+'/comments/'+commentsId,
-			type : 'get',
-			dataType : 'json',
-			async : false,
-			success : function(res) {
-				$('#comm'+commentsId+'').html(
+			url: '/shopping/shoppingDetail/' + pid + '/comments/' + commentsId,
+			type: 'get',
+			dataType: 'json',
+			async: false,
+			success: function (res) {
+				$('#comm' + commentsId + '').html(
 					'<span>작성자: ' + res.comWriter + '</span><span>' + res.comRegDate2 +
 					'</span><p>' + res.content + '<i>' +
 					'<input type="button" onclick="openReplyComments(' + res.commentsId + ')" value="답글" >' +
@@ -501,119 +508,121 @@ th:text="${cate.categoriesName}"></h1>
 					'<input type="button" onclick="confirmDelete(' + res.commentsId + ')" value="삭제" ></i></p>'
 				);
 			},
-			error : function (req, status, error) {
+			error: function (req, status, error) {
 				console.log(req);
 				console.log(status);
 				console.log(error);
 			}
 		})
 	}
-	
+
 	function updateComments(commentsId) {
 		let content = $('#updateComments').val().trim();
-		
-		if(content.length == 0 || content.length > 1000){
+
+		if (content.length == 0 || content.length > 1000) {
 			alert('리뷰는 1~1000자내로 입력해주세요');
 			return false;
 		}
-		
+
 		let params = {
-			content : content
+			content: content
 		}
-		
+
 		$.ajax({
-			url : '/shopping/shoppingDetail/'+pid+'/comments/'+commentsId,
-			type : 'post',
-			contentType : 'application/json; charset=utf-8',
-			dataType : 'json',
-			data : JSON.stringify(params),
-			async : false,
-			success : function(res) {
+			url: '/shopping/shoppingDetail/' + pid + '/comments/' + commentsId,
+			type: 'post',
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			data: JSON.stringify(params),
+			async: false,
+			success: function (res) {
 				// console.log(response);
 				alert(res.msg);
 				listComments();
 			},
-			error : function (req, status, error) {
+			error: function (req, status, error) {
 				console.log(req);
 				console.log(status);
 				console.log(error);
 			}
 		})
 	}
-	
-	function confirmDelete(commentsId){
-		if(confirm('정말 삭제하시겠습니까?')){
+
+	function confirmDelete(commentsId) {
+		if (confirm('정말 삭제하시겠습니까?')) {
 			deleteComments(commentsId);
 		}
 	}
-	
-	function deleteComments(commentsId){
+
+	function deleteComments(commentsId) {
 		let params = {
-			commentsId : commentsId
+			commentsId: commentsId
 		}
-		
+
 		$.ajax({
-			url : '/shopping/shoppingDetail/'+pid+'/comments/delete/'+commentsId,
-			type : 'post',
-			dataType : 'json',
-			data : JSON.stringify(params),
-			async : false,
-			success : function(res) {
+			url: '/shopping/shoppingDetail/' + pid + '/comments/delete/' + commentsId,
+			type: 'post',
+			dataType: 'json',
+			data: JSON.stringify(params),
+			async: false,
+			success: function (res) {
 				alert(res.msg);
 				listComments();
 			},
-			error : function (req, status, error) {
+			error: function (req, status, error) {
 				console.log(req);
 				console.log(status);
 				console.log(error);
 			}
 		})
 	}
-	
+
 	function clickComments() {
 		$('.onComments').css('display', 'none');
 		$('.commentsOn').css('display', 'block');
-		$('.comments > .commsOn').css({'display': 'block',
-			'float': 'left', 'height': '100px', 'margin-right': '55px'});
+		$('.comments > .commsOn').css({
+			'display': 'block',
+			'float': 'left', 'height': '100px', 'margin-right': '55px'
+		});
 	}
-	
+
 	function openReplyComments(commentsId) {
 		$.ajax({
-			url : '/shopping/shoppingDetail/'+pid+'/comments/reply/'+commentsId,
-			type : 'get',
-			dataType : 'json',
-			async : false,
-			success : function(res) {
-			$('#comm'+commentsId+'').html(
-			'<span>작성자: ' + res.comWriter +
-			'</span><span>' + res.comRegDate2 + '</span><p>' + res.content + '<i>' +
-			'<input type="button" onclick="openReplyComments(' + res.commentsId + ')" value="답글" >' +
-			'<input type="button" onclick="openUpdateComments(' + res.commentsId + ')" value="수정" >' +
-			'<input type="button" onclick="confirmDelete(' + res.commentsId + ')" value="삭제" ></i></p>' +
-			'<p><textarea cols="20" rows="3" id="replyComments"' +
-			'placeholder="답글을 다세요"></textarea><input type="button"' +
-			'value="등록" onclick="replyComments(' + commentsId + ', ' + res.seq + ', ' + res.lev + ')">' + 
-			'<input type="button" value="취소" onclick="cancel(' + commentsId + ')"></p>');
+			url: '/shopping/shoppingDetail/' + pid + '/comments/reply/' + commentsId,
+			type: 'get',
+			dataType: 'json',
+			async: false,
+			success: function (res) {
+				$('#comm' + commentsId + '').html(
+					'<span>작성자: ' + res.comWriter +
+					'</span><span>' + res.comRegDate2 + '</span><p>' + res.content + '<i>' +
+					'<input type="button" onclick="openReplyComments(' + res.commentsId + ')" value="답글" >' +
+					'<input type="button" onclick="openUpdateComments(' + res.commentsId + ')" value="수정" >' +
+					'<input type="button" onclick="confirmDelete(' + res.commentsId + ')" value="삭제" ></i></p>' +
+					'<p><textarea cols="20" rows="3" id="replyComments"' +
+					'placeholder="답글을 다세요"></textarea><input type="button"' +
+					'value="등록" onclick="replyComments(' + commentsId + ', ' + res.seq + ', ' + res.lev + ')">' +
+					'<input type="button" value="취소" onclick="cancel(' + commentsId + ')"></p>');
 			},
-			error : function (req, status, error) {
+			error: function (req, status, error) {
 				console.log(req);
 				console.log(status);
 				console.log(error);
 			}
 		})
 	}
-	
-	function replyComments(commentsId, seq, lev){
+
+	function replyComments(commentsId, seq, lev) {
 		let content = $('#replyComments').val().trim();
-		
-		if(content.length == 0 || content.length > 1000){
+
+		if (content.length == 0 || content.length > 1000) {
 			alert('답글은 1~1000자내로 입력해주세요');
 			return false;
 		}
-		
+
 		var lev = lev + 1;
 		var seq = seq;
-		
+
 		let params = {
 			content: content,
 			gpid: gpid,
@@ -621,20 +630,20 @@ th:text="${cate.categoriesName}"></h1>
 			lev: lev,
 			seq: seq
 		};
-		
+
 		$.ajax({
-			url : '/shopping/shoppingDetail/'+pid+'/comments/reply/'+commentsId,
-			type : 'post',
-			contentType : 'application/json; charset=utf-8',
-			dataType : 'json',
-			data : JSON.stringify(params),
-			async : false,
-			success : function(res) {
+			url: '/shopping/shoppingDetail/' + pid + '/comments/reply/' + commentsId,
+			type: 'post',
+			contentType: 'application/json; charset=utf-8',
+			dataType: 'json',
+			data: JSON.stringify(params),
+			async: false,
+			success: function (res) {
 				reviewCount++;
 				alert(res.msg);
 				listComments();
 			},
-			error : function (req, status, error) {
+			error: function (req, status, error) {
 				console.log(req);
 				console.log(status);
 				console.log(error);

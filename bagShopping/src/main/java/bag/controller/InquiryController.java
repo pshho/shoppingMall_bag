@@ -20,6 +20,8 @@ import bag.model.InquiryDTO;
 import bag.model.PageData;
 import bag.service.FileMapper;
 import bag.service.InquiryMapper;
+import bag.service.MemberMapper;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("inquiry")

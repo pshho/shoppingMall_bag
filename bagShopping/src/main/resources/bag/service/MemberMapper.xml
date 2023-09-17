@@ -130,12 +130,21 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 	</update>
 
 	<select id="quitMemberList" parameterType="PageData2">
-		select * from
-		quit_member limit #{start}, #{limit}
+		select * from quit_member 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="searchType=='I'.toString() and keyword != null and keyword != '' ">
+				AND member_id like CONCAT('%', #{keyword}, '%')
+			</if>
+		</trim>
+		limit #{start}, #{limit}
 	</select>
 	
 	<select id="quitMemberCnt">
-		select count(*) from
-		quit_member;
+		select count(*) from quit_member
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="searchType=='I'.toString() and keyword != null and keyword != '' ">
+				AND member_id like CONCAT('%', #{keyword}, '%')
+			</if>
+		</trim>
 	</select>
 </mapper>

@@ -41,6 +41,6 @@ public interface MemberMapper {
 	int clearMemberUpdate(String id);
 	
 	List<QuitMemberDTO> quitMemberList(PageData2 pd);
-	int quitMemberCnt();
+	int quitMemberCnt(PageData2 pd);
 	
 }

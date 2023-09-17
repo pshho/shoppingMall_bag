@@ -109,7 +109,7 @@ public class AdminController {
 	@GetMapping("quitMemberManage/{page}")
 	String quitMemberManage(Model mm, PageData2 pd) {
 		
-		pd.calc(memMapper.quitMemberCnt());
+		pd.calc(memMapper.quitMemberCnt(pd));
 		mm.addAttribute("pd", pd);
 		mm.addAttribute("quitMember",memMapper.quitMemberList(pd));
 		mm.addAttribute("adminService", "quitMemberManage");

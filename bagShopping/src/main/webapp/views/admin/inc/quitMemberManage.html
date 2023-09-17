@@ -6,7 +6,6 @@
 	<title>탈퇴 회원 관리</title>
 	<script th:inline="javascript">
 		$(document).on('click', '#btnSearch', function (e) {
-			console.log("눌렀어")
 			e.preventDefault();
 			var url = "/admin/quitMemberManage/1";
 			url = url + "?searchType=" + $('#searchType').val();
@@ -25,13 +24,13 @@
 			<td>ID</td>
 			<td>탈퇴일</td>
 			<td>구매내역 유무</td>
-			<td>관리</td>
+			
 		</tr>
 		<tr th:each="quit : ${quitMember}">
 			<td th:text="${quit.memberId}"/>
-			<td th:text="${quit.memberQuitDate}"/>
+			<td th:text="${quit.memberQuitDateStr}"/>
 			<td th:text="${quit.orderExist}"/>
-			<td><input type="button" value="복구?" /></td>
+			
 		</tr>
 		<tr>
 			<td colspan="7" align="center">
@@ -64,7 +63,6 @@
 					<option value="I" selected>ID</option>
 					
 				</select>
-
 				<input type="text" id="keyword">
 				<input type="submit" id="btnSearch" value="검색">
 				<a href="/admin/memberManage/1">검색 초기화</a>

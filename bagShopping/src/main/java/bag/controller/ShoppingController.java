@@ -32,6 +32,7 @@ import bag.model.SellsDistinct;
 import bag.service.BagsMapper;
 import bag.service.CartMapper;
 import bag.service.FileMapper;
+import bag.service.MemberMapper;
 import bag.service.ProductsBoardMapper;
 import jakarta.servlet.http.HttpSession;
 
@@ -46,6 +47,9 @@ public class ShoppingController {
 	
 	@Autowired
 	CartMapper cartMapper;
+	
+	@Autowired
+	MemberMapper memMapper;
 	
 	@Autowired
 	FileMapper fMapper;
@@ -64,6 +68,13 @@ public class ShoppingController {
 	List<BagsDTO> bagDTOs;
 	
 	int total = 0;
+	
+	@ModelAttribute("member")
+	Object user(HttpSession session) {
+		String user = (String) session.getAttribute("userId");
+		
+		return memMapper.getUser(user);
+	}
 	
 	@ModelAttribute("pd")
 	Object pd() {
