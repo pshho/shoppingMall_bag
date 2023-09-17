@@ -61,7 +61,7 @@
 			<td>안감</td>
 			<td>지퍼</td>
 			<td>버클</td>
-			<td>재고</td>
+		
 			<td>상품설명</td>
 			<td colspan="3" align="center">관리</td>
 		</tr>
@@ -88,7 +88,7 @@
 				<td th:text="${bag.bagInnerFabric}" />
 				<td th:text="${bag.bagZipper}" />
 				<td th:text="${bag.bagBuckle}" />
-				<td th:text="${bag.bagStock}" />
+				
 				<td th:text="${bag.bagComment}" />
 				<td><a th:href="|/admin/modifyGoods/${bag.productCode}/${pd.page}|">수정</a></td>
 				<td><button id="deleteMember" th:goodsParam="${bag.productCode}"
