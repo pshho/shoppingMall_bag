@@ -15,12 +15,13 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 	</insert>
 
 	<select id="memberList" parameterType="PageData2">
-		select * from member 
+		select * from member
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<if test="searchType=='Id' and keyword != null and keyword != '' ">
 				AND member_id like CONCAT('%', #{keyword}, '%')
 			</if>
-			<if test="searchType=='Name' and keyword != null and keyword != '' ">
+			<if
+				test="searchType=='Name' and keyword != null and keyword != '' ">
 				AND member_name like CONCAT('%', #{keyword}, '%')
 			</if>
 		</trim>
@@ -33,7 +34,8 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 			<if test="searchType=='Id' and keyword != null and keyword != '' ">
 				AND member_id like CONCAT('%', #{keyword}, '%')
 			</if>
-			<if test="searchType=='Name' and keyword != null and keyword != '' ">
+			<if
+				test="searchType=='Name' and keyword != null and keyword != '' ">
 				AND member_name like CONCAT('%', #{keyword}, '%')
 			</if>
 		</trim>
@@ -62,10 +64,17 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 		from member where member_id = #{memberId}
 	</select>
 
-	<delete id="deleteMember" parameterType="String">
+	<delete id="deleteMember" parameterType="mDTO">
 		delete from member where
-		member_id = #{memberId}
+		member_id = #{memberId} and member_pw = #{memberPw}
 	</delete>
+
+	<insert id="addQuitMember" parameterType="qmDTO">
+		insert into quit_member
+		(member_id, member_quit_date, order_exist)
+		values
+		(#{memberId}, sysdate(), #{orderExist})
+	</insert>
 
 	<!-- 검색 조건문 -->
 	<sql id="searchMember">
@@ -89,11 +98,53 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 	</sql>
 
 	<select id="pwCheck" parameterType="String" resultType="Integer">
-		select count(*) from member where member_id = #{memberId} and member_pw = #{memberPw}
+		select
+		count(*) from member where member_id = #{memberId} and member_pw =
+		#{memberPw}
 	</select>
 
 	<update id="modifyUserPw" parameterType="mDTO">
-		update member set member_pw = #{modifyPw} where member_id = #{memberId}
+		update member set
+		member_pw = #{modifyPw} where member_id = #{memberId}
 	</update>
 
+	<insert id="blackMember">
+		insert into black_list (member_id,
+		black_list_reg_date)
+		values
+		(#{memberId}, sysdate())
+	</insert>
+
+	<update id="blackMemberUpdate">
+		update member set member_status = "차단" where
+		member_id = #{memberId}
+	</update>
+	
+	<insert id="clearMember">
+		delete from black_list where member_id = #{memberId}
+	</insert>
+
+	<update id="clearMemberUpdate">
+		update member set member_status = null where
+		member_id = #{memberId}
+	</update>
+
+	<select id="quitMemberList" parameterType="PageData2">
+		select * from quit_member 
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="searchType=='I'.toString() and keyword != null and keyword != '' ">
+				AND member_id like CONCAT('%', #{keyword}, '%')
+			</if>
+		</trim>
+		limit #{start}, #{limit}
+	</select>
+	
+	<select id="quitMemberCnt">
+		select count(*) from quit_member
+		<trim prefix="WHERE" prefixOverrides="AND|OR">
+			<if test="searchType=='I'.toString() and keyword != null and keyword != '' ">
+				AND member_id like CONCAT('%', #{keyword}, '%')
+			</if>
+		</trim>
+	</select>
 </mapper>

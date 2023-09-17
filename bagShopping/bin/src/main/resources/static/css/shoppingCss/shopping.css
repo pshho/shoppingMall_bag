@@ -19,3 +19,12 @@
 	height: 100px;
 	margin-right: 55px;
 }
+.topBtn {
+	position: fixed;
+	bottom: 20px;
+	right: 20px;
+}
+.topBtn > button[type=button]{
+	width: 100px;
+	height: 70px;
+}
