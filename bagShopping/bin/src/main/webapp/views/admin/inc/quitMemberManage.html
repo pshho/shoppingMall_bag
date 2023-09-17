@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>탈퇴 회원 관리</title>
+	<script th:inline="javascript">
+		$(document).on('click', '#btnSearch', function (e) {
+			e.preventDefault();
+			var url = "/admin/quitMemberManage/1";
+			url = url + "?searchType=" + $('#searchType').val();
+			url = url + "&keyword=" + $('#keyword').val();
+			console.log(url);
+			location.href = url;
+		});	
+	</script>
+</head>
+
+<body>
+	<h2>회원 관리</h2>
+	<a href="/admin/adminMain">뒤로</a>
+	<table border="">
+		<tr>
+			<td>ID</td>
+			<td>탈퇴일</td>
+			<td>구매내역 유무</td>
+			
+		</tr>
+		<tr th:each="quit : ${quitMember}">
+			<td th:text="${quit.memberId}"/>
+			<td th:text="${quit.memberQuitDateStr}"/>
+			<td th:text="${quit.orderExist}"/>
+			
+		</tr>
+		<tr>
+			<td colspan="7" align="center">
+				<th:block th:if="${pd.pageStart} > 1">
+					<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
+				</th:block>
+				<th:block th:if="${pd.pageEnd > 0}">
+				<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
+					<b th:if="${num} == ${pd.page}">
+						<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="${num}" />
+					</b>
+					<th:block th:unless="${num} == ${pd.page}">
+						<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="${num}" />
+					</th:block>
+				</th:block>
+				</th:block>
+				<th:block th:if="${pd.pageEnd == 0}">
+					<b>
+						<a th:href="|1?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="1" />
+					</b>
+				</th:block>
+				<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
+					<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
+				</th:block>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="6">
+				<select id="searchType" name="searchType">
+					<option value="I" selected>ID</option>
+					
+				</select>
+				<input type="text" id="keyword">
+				<input type="submit" id="btnSearch" value="검색">
+				<a href="/admin/memberManage/1">검색 초기화</a>
+			</td>
+		</tr>
+	</table>
+</body>
+
+</html>

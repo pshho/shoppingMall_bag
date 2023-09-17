@@ -4,6 +4,12 @@
 <head>
 	<meta charset="UTF-8">
 	<title>상품 수정</title>
+	<style>
+		img{
+			width: 100px;
+			height: 100px;
+		}
+	</style>
 	<script th:inline="javascript">
 		var productCode = [[${modifyBag.productCode}]]
 		function fileDel1() {
@@ -191,10 +197,6 @@
 				<td><input type="text" name="bagBuckle" th:value="${modifyBag.bagBuckle}" /></td>
 			</tr>
 			<tr>
-				<td>재고</td>
-				<td><input type="text" name="bagStock" th:value="${modifyBag.bagStock}" /></td>
-			</tr>
-			<tr>
 				<td>상품 설명</td>
 				<td><textarea name="bagComment" cols="30" rows="10" th:text="${modifyBag.bagComment}"></textarea></td>
 			</tr>
@@ -203,6 +205,7 @@
 				<td th:if="${modifyBag.bagImg1 == null or modifyBag.bagImg1 == ''}"><input type="file" name="Img1" />
 				</td>
 				<td th:unless="${modifyBag.bagImg1 == null or modifyBag.bagImg1 == ''}" id="Img1">
+					<img th:src="|/upFile/${modifyBag.bagImg1}|">
 					[[${modifyBag.bagImg1}]]<input type="hidden" id="bagImg1" name="bagImg1"
 						th:value="${modifyBag.bagImg1}" /><input type="button" value="파일삭제" onclick="fileDel1()" /></td>
 			</tr>
@@ -211,6 +214,7 @@
 				<td th:if="${modifyBag.bagImg2 == null or modifyBag.bagImg2 == ''}"><input type="file" name="Img2" />
 				</td>
 				<td th:unless="${modifyBag.bagImg2 == null or modifyBag.bagImg2 == ''}" id="Img2">
+					<img th:src="|/upFile/${modifyBag.bagImg2}|">
 					[[${modifyBag.bagImg2}]]<input type="hidden" id="bagImg2" name="bagImg2"
 						th:value="${modifyBag.bagImg2}" /><input type="button" value="파일삭제" onclick="fileDel2()" /></td>
 			</tr>
@@ -219,6 +223,7 @@
 				<td th:if="${modifyBag.bagImg3 == null or modifyBag.bagImg3 == ''}"><input type="file" name="Img3" />
 				</td>
 				<td th:unless="${modifyBag.bagImg3 == null or modifyBag.bagImg3 == ''}" id="Img3">
+					<img th:src="|/upFile/${modifyBag.bagImg3}|">
 					[[${modifyBag.bagImg3}]]<input type="hidden" id="bagImg3" name="bagImg3"
 						th:value="${modifyBag.bagImg3}" /><input type="button" value="파일삭제" onclick="fileDel3()" /></td>
 			</tr>
@@ -227,6 +232,7 @@
 				<td th:if="${modifyBag.bagImg4 == null or modifyBag.bagImg4 == ''}"><input type="file" name="Img4" />
 				</td>
 				<td th:unless="${modifyBag.bagImg4 == null or modifyBag.bagImg4 == ''}" id="Img4">
+					<img th:src="|/upFile/${modifyBag.bagImg4}|">
 					[[${modifyBag.bagImg4}]]<input type="hidden" id="bagImg4" name="bagImg4"
 						th:value="${modifyBag.bagImg4}" /><input type="button" value="파일삭제" onclick="fileDel4()" /></td>
 			</tr>

@@ -33,8 +33,12 @@
 			<td th:text="${my.memberRegDateStr}"></td>
 		</tr>
 		</th:block>
-		<th:block th:each="addr : ${address}">
-		<tr >
+		<tr th:if="${#lists.isEmpty(address)}">
+			<td>주소</td>
+			<td>등록된 기본 주소가 없습니다!</td>
+		</tr>
+		<th:block th:each="addr, addrStat : ${address}" th:if="${addr.basicAddr == 1}">
+		<tr>
 			<td>우편번호</td>
 			<td th:text="${addr.zipCode}"></td>
 		</tr>
@@ -45,10 +49,11 @@
 		<tr>
 			<td>상세주소</td>
 			<td th:text="${addr.detailAddress}"></td>
-		</tr>
-		</th:block>
-		
+		</tr>	
 	</table>
 	<a th:href="|/member/modifyPw|">비밀번호 수정</a>
+	<a href="addressManage">주소록 관리</a>
+	<a href="quitMember">회원 탈퇴</a>
+	
 </body>
 </html>

@@ -4,9 +4,9 @@
 <meta charset="UTF-8">
 <title>마이페이지 - 내 주문내역</title>
 <script>
-	function orderCancel() {
+	function orderCancel(data) {
 			if (confirm("결제를 취소 하시겠습니까?")) {
-				location.href = "/orders/payCancel"
+				location.href = "/orders/orderCancel/"+data
 			}
 		}
 		
@@ -63,7 +63,9 @@
 			</th:block>
 			<td th:if="${order.orderStatus == '배송 준비'}"></td>
 			<td th:if="${order.orderStatus == '배송 중'}"></td>
-			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="구매 취소" onclick="orderCancel()"/></td>
+			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="구매 취소" 
+			th:orderParam="${order.merchantUid}"
+					th:onclick="orderCancel(this.getAttribute('orderParam'))"/></td>
 			<td th:if="${order.orderStatus == '결제 취소'}" th:text="${order.cancelReason}"></td>
 		</tr>
 		<tr>

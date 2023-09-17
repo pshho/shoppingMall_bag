@@ -1,0 +1,82 @@
+<html xmlns="http://www.thymeleaf.org">
+<script th:inline="javascript">
+
+	function deleteAddrBtn(data) {
+		if (!confirm('해당 주소를 삭제할까요?')) {
+			return false;
+		}
+		$.ajax({
+			url: "/member/deleteAddress",
+			type: "post",
+			data: {zipCode: data},
+			dataType: 'json',
+			success: function (result) {
+				if (result > 0) {
+					window.alert("주소 삭제 되었습니다.")
+					window.location.href = '/member/addressManage'
+				} else {
+					window.alert("주소 삭제 실패.")
+				}
+			},
+			error: function () {
+				alert("요청 실패");
+			}
+		})
+	}
+
+	function setBasicAddrBtn(data) {
+		if (!confirm('기본 주소로 설정할까요?')) {
+			return false;
+		}
+		$.ajax({
+			url: "/member/setBasicAddr",
+			type: "post",
+			data: {zipCode: data},
+			dataType: 'json',
+			success: function (result) {
+				if (result > 0) {
+					window.alert("기본 주소 변경 되었습니다.")
+					window.location.href = '/member/addressManage'
+				} else {
+					window.alert("주소 변경 실패.")
+				}
+			},
+			error: function () {
+				alert("요청 실패");
+			}
+		})
+	}
+</script>
+<div>
+	<a th:href="|/member/myProfile|">내 정보</a>
+	<a th:href="|/member/myOrder/1|">주문내역</a>
+	<a th:href="|/member/myInquiry/1|">문의내역</a>
+	<table border="">
+		<tr>
+			<td colspan="6">
+				<h3>배송지 정보</h3>
+			</td>
+		</tr>
+		<tr>
+			<td>우편번호</td>
+			<td>주소</td>
+			<td>상세주소</td>
+			<td>연락처</td>
+			<td>관리</td>
+		</tr>
+		<tr th:each="addr : ${address}">
+			<td th:text="${addr.zipCode}" />
+			<td th:text="${addr.address}" />
+			<td th:text="${addr.detailAddress}" />
+			<td th:text="${addr.addressPhone}" />
+			<td><a th:href="|/member/modifyAddress/${addr.addressId}|">수정</a>
+				<button id="deleteAddr" th:addrParam="${addr.zipCode}"
+					th:onclick="deleteAddrBtn(this.getAttribute('addrParam'))" th:text="|삭제|" />
+				<button id="setBasicAddr" th:if="${addr.basicAddr == 0}" th:addrParam="${addr.zipCode}"
+					th:onclick="setBasicAddrBtn(this.getAttribute('addrParam'))" th:text="|기본 주소로 설정|" />
+			</td>
+
+		</tr>
+	</table>
+	<a href="addAddress">배송지 추가</a>
+</div>
