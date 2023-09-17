@@ -20,4 +20,8 @@ public interface AddressMapper {
 	int deleteAddress(String memberId, String zipCode);
 	AddressDTO getUserAddrOne(String memberId, int addressId);
 	int updateAddr(AddressDTO addrDTO);
+	
+	int setBasicAddr0(String memberId);
+	int setBasicAddr1(String memberId, String zipCode);
+	
 }

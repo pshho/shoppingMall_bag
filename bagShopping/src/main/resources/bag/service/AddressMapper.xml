@@ -6,23 +6,35 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 <mapper namespace="bag.service.AddressMapper">
 
 	<insert id="insertAddress" parameterType="aDTO">
-		insert into address (address, zip_code, detail_address, member_id, address_phone, addr_name, basic_addr
+		insert into address (address, zip_code, detail_address, member_id,
+		address_phone, addr_name, basic_addr
 		<if test="addressMsg!=null">
-			 , address_msg
+			, address_msg
 		</if>
 		)
 		values
-		(#{address}, #{zipCode}, #{detailAddress}, #{memberId}, #{addressPhone}, #{addrName}, #{basicAddr}
+		(#{address}, #{zipCode}, #{detailAddress}, #{memberId},
+		#{addressPhone}, #{addrName}, #{basicAddr}
 		<if test="addressMsg!=null">
-			 , #{addressMsg}
+			, #{addressMsg}
 		</if>
 		)
 	</insert>
 
-	<select id="getUserAddress" parameterType="String" resultType="aDTO">
+	<select id="getUserAddress" parameterType="String"
+		resultType="aDTO">
 		select * from address where member_id = #{memberId}
 	</select>
-	
+
+	<update id="setBasicAddr0">
+		update address set basic_addr = 0 where basic_addr = 1 and member_id=#{memberId}
+	</update>
+
+	<update id="setBasicAddr1">
+		update address set basic_addr = 1 where
+		member_id=#{memberId} and zip_code = #{zipCode}
+	</update>
+
 	<sql id="wh_memberId">
 		<where>
 			<if test="id!=null">
@@ -30,7 +42,7 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</sql>
-	
+
 	<select id="basicAddress" resultType="aDTO">
 		select * from address
 		<where>
@@ -43,7 +55,8 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 		</where>
 	</select>
 	<select id="addrList" resultType="aDTO">
-		select * from address <include refid="wh_memberId" />
+		select * from address
+		<include refid="wh_memberId" />
 	</select>
 	<select id="selAddr" resultType="aDTO">
 		select * from address
@@ -53,23 +66,27 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 			</if>
 		</where>
 	</select>
+
 	<update id="chgBasicAddr" parameterType="String">
 		update address set basic_addr = 0 <include refid="wh_memberId" />
-	</update>
 	
 	<select id="selectBasic" resultType="Integer">
 		select count(*) from address where member_id = #{memberId} and basic_addr = #{basicAddr}
 	</select>
 	
 	<delete id="deleteAddress">
-		delete from address where member_id = #{memberId} and zip_code = #{zipCode}
+		delete from address where member_id = #{memberId} and
+		zip_code = #{zipCode}
 	</delete>
 	<select id="getUserAddrOne">
-		select * from address where member_id = #{memberId} and address_id = #{addressId}
+		select * from address where member_id = #{memberId}
+		and address_id = #{addressId}
 	</select>
-	<update id="updateAddr" >
-		update address set address = #{address}, zip_code = #{zipCode}, 
-		detail_address = #{detailAddress}, member_id = #{memberId}, address_phone = #{addressPhone}, 
+	<update id="updateAddr">
+		update address set address = #{address},
+		zip_code = #{zipCode},
+		detail_address = #{detailAddress}, member_id = #{memberId}, address_phone =
+		#{addressPhone},
 		addr_name = #{addrName}, basic_addr = #{basicAddr}
 		where address_id = #{addressId}
 	</update>

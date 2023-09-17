@@ -228,10 +228,8 @@ public class MemberController {
 		if(deleteCheck > 0) {
 			msg = "그동안 아윌비백을 이용해주셔서 감사합니다.";
 			goUrl = "/";
-			System.out.println(qmDTO);
-			System.out.println(mdto);
 			memMapper.addQuitMember(qmDTO);
-			inqMapper.quitDelete(qmDTO);
+			//inqMapper.quitDelete(qmDTO); 자신의 글과 admin 의 댓글 삭제
 			session.invalidate();
 			mm.addAttribute("msg",msg);
 			mm.addAttribute("goUrl", goUrl);
@@ -308,8 +306,20 @@ public class MemberController {
 	String addAddressReg(HttpSession session, Model mm, AddressDTO addrDTO) {
 		String msg = "주소록 추가 실패.";
 		String goUrl = "addAddress";
-		
+		String userId = (String)session.getAttribute("userId");
 		addrDTO.setAddressPhone(addrDTO.getPhone1()+"-"+addrDTO.getPhone2()+"-"+addrDTO.getPhone3());
+		
+		List<AddressDTO> getUserAddr = addrMapper.getUserAddress(userId);
+		if(getUserAddr.size() == 5) {
+			msg = "주소는 최대 5개까지 등록 가능합니다";
+			goUrl = "addressManage";
+			mm.addAttribute("msg", msg);
+			mm.addAttribute("goUrl", goUrl);
+			return "member/inc/alert";
+		}
+		if(getUserAddr.isEmpty()) {
+			addrDTO.setBasicAddr(1);
+		}
 		int check = addrMapper.insertAddress(addrDTO);
 		if(check > 0) {
 			msg = "주소록 추가 성공";
@@ -340,7 +350,11 @@ public class MemberController {
 	String modifyAddressReg(HttpSession session, Model mm, AddressDTO addrDTO) {
 		String msg = "주소록 수정 실패.";
 		String goUrl = "modifyAddress/"+addrDTO.getAddressId();
-		
+		String userId = (String)session.getAttribute("userId");
+		List<AddressDTO> getUserAddr = addrMapper.getUserAddress(userId);
+		if(getUserAddr.size() <= 1) {
+			addrDTO.setBasicAddr(1);
+		}
 		addrDTO.setAddressPhone(addrDTO.getPhone1()+"-"+addrDTO.getPhone2()+"-"+addrDTO.getPhone3());
 		System.out.println(addrDTO);
 		int check = addrMapper.updateAddr(addrDTO);
@@ -367,7 +381,19 @@ public class MemberController {
 
 		return deleteCheck;
 	}
+	
 
+	@ResponseBody
+	@PostMapping("/setBasicAddr")
+	int setBasicAddr(HttpServletRequest request, HttpSession session) {
+		String memberId = (String) session.getAttribute("userId");	
+		String zipCode = request.getParameter("zipCode");
+		
+		addrMapper.setBasicAddr0(memberId);
+		int setCheck = addrMapper.setBasicAddr1(memberId, zipCode);
+		
+		return setCheck;
+	}
 	
 	// 내 문의내역
 	@RequestMapping("myInquiry/{page}")
