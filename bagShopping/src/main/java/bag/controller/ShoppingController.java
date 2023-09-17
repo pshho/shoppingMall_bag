@@ -1,7 +1,5 @@
 package bag.controller;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -11,6 +9,7 @@ import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,7 +23,7 @@ import bag.model.BagsDTO;
 import bag.model.CartDTO;
 import bag.model.FileDTO;
 import bag.model.FileUploadDownload;
-import bag.model.NonMember;
+import bag.model.OrderDTO;
 import bag.model.PageData;
 import bag.model.ProductsBoardDTO;
 import bag.model.ReviewDistinct;
@@ -33,6 +32,7 @@ import bag.service.BagsMapper;
 import bag.service.CartMapper;
 import bag.service.FileMapper;
 import bag.service.MemberMapper;
+import bag.service.OrdersMapper;
 import bag.service.ProductsBoardMapper;
 import jakarta.servlet.http.HttpSession;
 
@@ -50,7 +50,10 @@ public class ShoppingController {
 	
 	@Autowired
 	MemberMapper memMapper;
-	
+  
+  @Autowired
+	OrdersMapper ordMapper;
+  
 	@Autowired
 	FileMapper fMapper;
 	
@@ -61,12 +64,9 @@ public class ShoppingController {
 	FileUploadDownload fud;
 	
 	BagsDTO bags = null;
-	
 	List<CartDTO> cartList = null;
-	
 	List<ProductsBoardDTO> prbDTOs;
 	List<BagsDTO> bagDTOs;
-	
 	int total = 0;
 	
 	@ModelAttribute("member")
@@ -96,16 +96,29 @@ public class ShoppingController {
 			cart.setSumTotal(cart.getSumTotal()+cart.getDeliveryFee());
 		}
 		
+		List<BagsDTO> bagsList = new ArrayList<>();
+		
+		for(ProductsBoardDTO prbs : prbMapper.allPrbList()) {
+			if(prbs.getProductsBoardStatus() == 0) {
+				for(BagsDTO bag : bagMapper.allProducts()) {
+					if(prbs.getProductCode() == bag.getProductCode()) {
+						bagsList.add(bag);
+					}
+				}
+			}
+		}
+		
 		mav.addObject("delivery", cart.getDeliveryFee());
 		mav.addObject("cartBags", bagMapper.cartBags(memberId));
 		mav.addObject("cartList", cartList);
 		mav.addObject("total", cart.getSumTotal());
-		mav.addObject("bagsList", bagMapper.allProducts());
+		mav.addObject("bagsList", bagsList);
 		return mav;
 	}
 	
 	@RequestMapping("{shoppingSer}/{brand}/{category}/{type}/{page}/{distinct}")
 	ModelAndView goShopping(
+			HttpSession session,
 			@RequestParam(required = false) String searchCont,
 			@PathVariable String shoppingSer,
 			@PathVariable int brand,
@@ -114,6 +127,7 @@ public class ShoppingController {
 			@PathVariable int page,
 			@PathVariable String distinct) {
 		ModelAndView mav = new ModelAndView("shopping/templates");
+		String memberId = (String)session.getAttribute("userId");
 		for(BagsDTO bag : bagMapper.allProducts()) {
 			prbMapper.updateSells(bag.getSellsAmount(), bag.getProductCode());
 		}
@@ -128,6 +142,7 @@ public class ShoppingController {
 			prbDTO.setBrandId(brand);
 			prbDTO.setCategoriesId(category);
 			prbDTO.setTypeId(type);
+			prbDTO.setProductsBoardStatus(1);
 			
 			if(searchCont == null || searchCont.equals("null")) {
 				prbDTOs = prbMapper.productsBoardList(prbDTO);
@@ -176,6 +191,15 @@ public class ShoppingController {
 			mav.addObject("bagsList", bagDTOs);
 			mav.addObject("productsBoardList", prbDTOs);
 		}else if(shoppingSer.equals("shoppingDetail")) {
+			OrderDTO ordDTO = ordMapper.chkOrder(memberId, "배송 완료");
+			if(ordDTO != null) {
+				String[] prdArr = ordDTO.getProdCode().split(",");
+				List<Integer> prdIds = prbMapper.prbIds(prdArr);
+				if(prdIds.contains(page)) {
+					mav.addObject("reviewPos", 1);
+				}
+			}
+			
 			prbDTO.setProductsBoardId(page);
 			bagDTO.setProductsBoardId(page);
 			bags = bagMapper.bags(bagDTO);
@@ -199,16 +223,17 @@ public class ShoppingController {
 	Map<String, String> cart(HttpSession session, @RequestBody Map<String, Integer> bagsAmount) {
 		Map<String, String> msg = new HashMap<>();
 		String memberId = (String)session.getAttribute("userId");
-		String nonMem = (String)session.getAttribute("nonMemberId");
+		// String nonMem = (String)session.getAttribute("nonMemberId");
 		CartDTO cart = new CartDTO();
 		int length = 0;
 		if(memberId != null) {
 			length = cartMapper.cartList(memberId).size();
 			cart.setMemberId(memberId);
-		}else {
+		}
+		/* else {
 			length = cartMapper.cartList(nonMem).size();
 			cart.setMemberId(nonMem);
-		}
+		} */
 		cart.setProductsCount(bagsAmount.get("bagsAmount"));
 		cart.setProductCode(bags.getProductCode());
 		cart.setSumPrice(bagsAmount.get("bagsAmount")*bags.getBagPrice());
@@ -232,7 +257,7 @@ public class ShoppingController {
 	@ResponseBody
 	Object shoppingCartUpd(HttpSession session, @RequestBody Map<String, Integer> cartAmount) {
 		String memberId = (String)session.getAttribute("userId");
-		String nonMem = (String)session.getAttribute("nonMemberId");
+		// String nonMem = (String)session.getAttribute("nonMemberId");
 		CartDTO cart = new CartDTO();
 		cart.setProductsCount(cartAmount.get("cartAmount"));
 		cart.setCartId(cartAmount.get("cartId"));
@@ -241,9 +266,10 @@ public class ShoppingController {
 		cartMapper.changeCart(cart);
 		if(memberId != null) {
 			cartList = cartMapper.cartList(memberId);
-		}else {
-			cartList = cartMapper.cartList(nonMem);
 		}
+		/* else {
+			cartList = cartMapper.cartList(nonMem);
+		} */
 		cart.sumTotal(cartList);
 		
 		if(cart.getSumTotal() < 50000) {
@@ -336,7 +362,7 @@ public class ShoppingController {
 		return "shopping/inc/alert";
 	}
 	
-	@PostMapping("shoppingNonMember")
+	/* @PostMapping("shoppingNonMember")
 	String shoppingNonMember(HttpSession session, NonMember nonMem) {
 		LocalDateTime date = LocalDateTime.now();
 		DateTimeFormatter formatMonth = DateTimeFormatter.ofPattern("MM");
@@ -349,5 +375,23 @@ public class ShoppingController {
 		session.setAttribute("nonMemberName", nonMem.getNonMemberName());
 		session.setAttribute("nonMemberPhone", nonMem.getPhone());
 		return "shopping/inc/closePopUp";
+	} */
+	
+	@PostMapping("changePrb")
+	@ResponseBody
+	Map<String, Object> changePrb(
+			@RequestBody ProductsBoardDTO prbDTO
+			){
+		prbMapper.chgPrbStatus(prbDTO);
+		
+		Map<String, Object> msg = new HashMap<>();
+		msg.put("msg", "변경 완료");
+		return msg;
+	}
+	
+	@GetMapping("checkPrb")
+	@ResponseBody
+	List<ProductsBoardDTO> checkPrb(){
+		return prbMapper.allPrbList();
 	}
 }

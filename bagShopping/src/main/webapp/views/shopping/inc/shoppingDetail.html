@@ -7,7 +7,20 @@
 	<div>
 		<table border="">
 			<tr>
-				<td colspan="2">사진 들어갈 곳</td>
+				<td colspan="2">
+					<div>
+						<img th:src="|/upFile/${bags.bagImg1}|" alt="상품 사진" />
+					</div>
+					<div>
+						<img th:src="|/upFile/${bags.bagImg2}|" alt="상품 사진" />
+					</div>
+					<div>
+						<img th:src="|/upFile/${bags.bagImg3}|" alt="상품 사진" />
+					</div>
+					<div>
+						<img th:src="|/upFile/${bags.bagImg4}|" alt="상품 사진" />
+					</div>
+				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
@@ -53,7 +66,7 @@
 			<tr>
 				<td colspan="2" th:text="${productsBoard.guide}"></td>
 			</tr>
-			<tr>
+			<tr th:if="${reviewPos eq 1}">
 				<td colspan="2" class="replyTd">
 					<textarea cols="40" rows="5" id="content" placeholder="리뷰를 남겨보세요"></textarea>
 					<input type="button" value="등록" onclick="saveComments()" />
@@ -112,6 +125,7 @@
 				<td th:text="${bags.bagSizeD}"></td>
 			</tr>
 			</tr>
+
 			<th:block th:if="${bags.bagStock != 0}">
 				<tr>
 					<td th:text="${bags.bagName}"></td>
@@ -147,7 +161,7 @@
 				<tr>
 					<td colspan="3">품절</td>
 				</tr>
-			</th:block>
+			</th:block> -->
 			<tr>
 				<td colspan="3">
 					<a th:if="${session.admin ne null}"
@@ -160,6 +174,9 @@
 		</table>
 	</div>
 </section>
+<div class="topBtn">
+	<button type="button" onclick="topBtn()">TOP</button>
+</div>
 <script th:inline="javascript">
 	
 	function blackList(){
@@ -175,9 +192,11 @@
 			alert('숫자를 입력해주세요');
 			return false;
 		}
-		let stock = [[${bags.bagStock}]];
-		if (bagsAmount > stock) {
-			alert(stock + '개까지 선택할 수 있습니다');
+
+		// let stock = [[${bags.bagStock}]];
+		if(bagsAmount > 9999){
+			alert(9999+'개까지 선택할 수 있습니다');
+
 			return false;
 		}
 
@@ -251,13 +270,15 @@
 					alert('숫자를 입력해주세요');
 					return false;
 				}
-				let stock = [[${bags.bagStock}]];
 
-				if (bagsAmount < 1) {
+				// let stock = [[${bags.bagStock}]];
+				
+				if(bagsAmount < 1){
 					alert('상품은 1개 이상 선택해야 합니다');
 					return false;
-				} else if (bagsAmount > stock) {
-					alert(stock + '개까지 선택할 수 있습니다');
+				}else if(bagsAmount > 9999){
+					alert(9999+'개까지 선택할 수 있습니다');
+
 					return false;
 				}
 
@@ -295,9 +316,10 @@
 		$('#cartLink').text('장바구니(' + cartCount + ')');
 	}
 
-	const nonMember = [[${session.nonMemberId}]];
-	var popup = '';
-	function cartAdd() {
+	// const nonMember = [[${session.nonMemberId}]];
+	// var popup = '';
+	function cartAdd(){
+
 		let bagsAmount = null;
 		if (!isNaN($('#bagsAmount').val())) {
 			bagsAmount = parseInt($('#bagsAmount').val());
@@ -306,12 +328,16 @@
 			return false;
 		}
 
-		if (user == null && nonMember == null) {
-			let popupLeft = (screen.width - 500) / 2;
+		
+		if(user == null){
+			/* let popupLeft = (screen.width - 500) / 2;
 			let popupTop = (screen.height - 400) / 2;
-			popup = window.open('/shopping/shoppingNonMember',
-				'비회원', 'width=500,height=400,left=' + popupLeft + ',top=' + popupTop);
-		} else {
+			popup = window.open('/shopping/shoppingNonMember', 
+			'비회원', 'width=500,height=400,left='+popupLeft+',top='+popupTop);*/
+			alert('회원가입을 해주세요');
+			location.href="/member/signUp";
+		}else{
+
 			const params = {
 				bagsAmount: bagsAmount
 			}
@@ -342,12 +368,16 @@
 			return false;
 		}
 
-		if (user == null && nonMember == null) {
-			let popupLeft = (screen.width - 500) / 2;
+		
+		if(user == null){
+			/* let popupLeft = (screen.width - 500) / 2;
 			let popupTop = (screen.height - 400) / 2;
-			popup = window.open('/shopping/shoppingNonMember',
-				'비회원', 'width=500,height=400,left=' + popupLeft + ',top=' + popupTop);
-		} else {
+			popup = window.open('/shopping/shoppingNonMember', 
+			'비회원', 'width=500,height=400,left='+popupLeft+',top='+popupTop); */
+			alert('회원가입을 해주세요');
+			location.href="/member/signUp";
+		}else {
+
 			const params = {
 				bagsAmount: bagsAmount
 			}
@@ -369,13 +399,17 @@
 		}
 	}
 
-	function reload() {
-		if (popup && popup.closed) {
+	
+	/* function reload(){
+		if(popup && popup.closed){
+
 			location.reload();
 		} else {
 			setTimeout(reload, 300);
 		}
-	}
+
+	}*/
+	
 
 	const pid = [[${productsBoard.productsBoardId}]];
 	var reviewCount = [[${productsBoard.reviewCount}]];
@@ -437,26 +471,47 @@
 						return;
 					}
 
-					if (i > 4) {
-						for (j = 0; j < row.lev; j++) {
+					
+					if(i>4){
+						var updBtn = '';
+						for(j=0; j<row.lev; j++){
+
 							$('.comments')
 								.append('<div class="commsOn"></div>');
 						}
-						$('.comments').append('<ul class="commentsOn"><li id="comm' + row.commentsId + '">' + '<span>작성자: ' + row.comWriter +
-							'</span><span>' + row.comRegDate2 + '</span><p>' + row.content + '<i>' +
-							'<input type="button" onclick="openReplyComments(' + row.commentsId + ')" value="답글" >' +
-							'<input type="button" onclick="openUpdateComments(' + row.commentsId + ')" value="수정" >' +
-							'<input type="button" onclick="confirmDelete(' + row.commentsId + ')" value="삭제" ></i></p></li></ul>');
-					} else {
-						for (j = 0; j < row.lev; j++) {
+
+						updBtn += '<ul class="commentsOn"><li id="comm' + row.commentsId  + '">';
+						updBtn += '<span>작성자: ' + row.comWriter + '</span><span>' + row.comRegDate2 + '</span>';
+						updBtn += '<p>' + row.content + '<i>';
+						// updBtn += '<input type="button" onclick="openReplyComments(' + row.commentsId + ')" value="답글" >';
+						
+						if(row.comWriter === user || writer == 'admin'){
+							updBtn += '<input type="button" onclick="openUpdateComments(' + row.commentsId + ')" value="수정" >';
+							updBtn += '<input type="button" onclick="confirmDelete(' + row.commentsId + ')" value="삭제" >';
+						}
+						updBtn += '</i></p></li></ul>';
+						$('.comments').append(updBtn);
+					}else {
+						var updBtn = '';
+						for(j=0; j<row.lev; j++){
+
 							$('.comments')
 								.append('<div class="comm"></div>');
 						}
-						$('.comments').append('<ul><li id="comm' + row.commentsId + '">' + '<span>작성자: ' + row.comWriter +
-							'</span><span>' + row.comRegDate2 + '</span><p>' + row.content + '<i>' +
-							'<input type="button" onclick="openReplyComments(' + row.commentsId + ')" value="답글" >' +
-							'<input type="button" onclick="openUpdateComments(' + row.commentsId + ')" value="수정" >' +
-							'<input type="button" onclick="confirmDelete(' + row.commentsId + ')" value="삭제" ></i></p></li></ul>');
+
+						updBtn += '<ul><li id="comm' + row.commentsId + '">';
+						updBtn += '<span>작성자: ' + row.comWriter + '</span><span>' + row.comRegDate2 + '</span>';
+						updBtn += '<p>' + row.content + '<i>';
+						// updBtn += '<input type="button" onclick="openReplyComments(' + row.commentsId + ')" value="답글" >';
+						
+						if(row.comWriter === user || writer == 'admin'){
+							updBtn += '<input type="button" onclick="openUpdateComments(' + row.commentsId + ')" value="수정" >';
+							updBtn += '<input type="button" onclick="confirmDelete(' + row.commentsId + ')" value="삭제" >';
+						}
+						updBtn += '</i></p></li></ul>';
+						
+						$('.comments').append(updBtn);
+
 					}
 				});
 				$('.onComments').css('display', 'block');
@@ -495,18 +550,22 @@
 
 	function cancel(commentsId) {
 		$.ajax({
-			url: '/shopping/shoppingDetail/' + pid + '/comments/' + commentsId,
-			type: 'get',
-			dataType: 'json',
-			async: false,
-			success: function (res) {
-				$('#comm' + commentsId + '').html(
-					'<span>작성자: ' + res.comWriter + '</span><span>' + res.comRegDate2 +
-					'</span><p>' + res.content + '<i>' +
-					'<input type="button" onclick="openReplyComments(' + res.commentsId + ')" value="답글" >' +
-					'<input type="button" onclick="openUpdateComments(' + res.commentsId + ')" value="수정" >' +
-					'<input type="button" onclick="confirmDelete(' + res.commentsId + ')" value="삭제" ></i></p>'
-				);
+
+			url : '/shopping/shoppingDetail/'+pid+'/comments/'+commentsId,
+			type : 'get',
+			dataType : 'json',
+			async : false,
+			success : function(res) {
+				var textHtml = '';
+				textHtml += '<span>작성자: ' + res.comWriter + '</span><span>' + res.comRegDate2 + '</span>';
+				textHtml += '<p>' + res.content + '<i>';
+				// textHtml += '<input type="button" onclick="openReplyComments(' + res.commentsId + ')" value="답글" >';
+				textHtml += '<input type="button" onclick="openUpdateComments(' + res.commentsId + ')" value="수정" >';
+				textHtml += '<input type="button" onclick="confirmDelete(' + res.commentsId + ')" value="삭제" >'
+				textHtml += '</i></p>';
+				
+				$('#comm'+commentsId+'').html(textHtml);
+
 			},
 			error: function (req, status, error) {
 				console.log(req);
@@ -560,12 +619,15 @@
 		}
 
 		$.ajax({
-			url: '/shopping/shoppingDetail/' + pid + '/comments/delete/' + commentsId,
-			type: 'post',
-			dataType: 'json',
-			data: JSON.stringify(params),
-			async: false,
-			success: function (res) {
+
+			url : '/shopping/shoppingDetail/'+pid+'/comments/delete/'+commentsId,
+			type : 'post',
+			dataType : 'json',
+			data : JSON.stringify(params),
+			async : false,
+			success : function(res) {
+				reviewCount--;
+
 				alert(res.msg);
 				listComments();
 			},
@@ -586,7 +648,9 @@
 		});
 	}
 
-	function openReplyComments(commentsId) {
+	
+	/* function openReplyComments(commentsId) {
+
 		$.ajax({
 			url: '/shopping/shoppingDetail/' + pid + '/comments/reply/' + commentsId,
 			type: 'get',
@@ -610,9 +674,11 @@
 				console.log(error);
 			}
 		})
-	}
 
-	function replyComments(commentsId, seq, lev) {
+	} */
+	
+	/* function replyComments(commentsId, seq, lev){
+
 		let content = $('#replyComments').val().trim();
 
 		if (content.length == 0 || content.length > 1000) {
@@ -649,5 +715,9 @@
 				console.log(error);
 			}
 		})
+	} */
+	
+	function topBtn(){
+		window.scrollTo(0, 0);
 	}
 </script>

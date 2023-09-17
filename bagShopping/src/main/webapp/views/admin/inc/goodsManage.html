@@ -63,7 +63,7 @@
 			<td>버클</td>
 			<td>재고</td>
 			<td>상품설명</td>
-			<td colspan="2" align="center">관리</td>
+			<td colspan="3" align="center">관리</td>
 		</tr>
 		<th:block th:if="${pd.pageEnd > 0}">
 			<tr th:each="bag : ${bags}">
@@ -93,6 +93,10 @@
 				<td><a th:href="|/admin/modifyGoods/${bag.productCode}/${pd.page}|">수정</a></td>
 				<td><button id="deleteMember" th:goodsParam="${bag.productCode}"
 						th:onclick="deleteGoods(this.getAttribute('goodsParam'))" th:text="|삭제|" /></input></td>
+				<td>
+					<input type="button" th:id="|chgPrb${bag.productCode}|" 
+					th:onclick="|chgPrb(${bag.productCode})|" />
+				</td>
 			</tr>
 		</th:block>
 		<th:block th:if="${pd.pageEnd == 0}">
@@ -101,7 +105,7 @@
 			</tr>
 		</th:block>
 		<tr>
-			<td colspan="19" align="center">
+			<td colspan="20" align="center">
 				<th:block th:if="${pd.pageStart} > 1">
 					<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
 				</th:block>
@@ -126,7 +130,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="19">
+			<td colspan="20">
 
 				<select id="searchType" name="searchType">
 					<option value="Code" selected>상품코드</option>
@@ -148,3 +152,61 @@
 </body>
 
 </html>
+<script>
+	function chgPrb(productCode){
+		let val = $('#chgPrb'+productCode).val();
+		var productsBoardStatus = 0;
+		
+		if(val == '게시글 등록'){
+			productsBoardStatus = 1;
+		}else{
+			productsBoardStatus = 0;
+		}
+		
+		const params = {
+			productCode: productCode,
+			productsBoardStatus: productsBoardStatus
+		}
+		
+		$.ajax({
+			url: '/shopping/changePrb',
+			type: 'post',
+			dataType: 'json',
+			contentType: 'application/json; charset=utf-8',
+			data: JSON.stringify(params),
+			success: function(res){
+				alert(res.msg);
+				
+				if(val == '게시글 등록'){
+					$('#chgPrb'+productCode).val('게시글 미등록');
+				}else if(val == '게시글 미등록'){
+					$('#chgPrb'+productCode).val('게시글 등록');
+				}
+			},
+			error: function(error){
+				console.log(error);
+			}
+		})
+	}
+	
+	$(document).ready(function(){
+		$.ajax({
+			url: '/shopping/checkPrb',
+			type: 'get',
+			dataType: 'json',
+			contentType: 'application/json; charset=utf-8',
+			success: function(res){
+				res.forEach(function(item){
+					if(item.productsBoardStatus === 1){
+						$('#chgPrb'+item.productCode).val('게시글 미등록');
+					}else {
+						$('#chgPrb'+item.productCode).val('게시글 등록');
+					}
+				})
+			},
+			error: function(error){
+				console.log(error);
+			}
+		})
+	})
+</script>

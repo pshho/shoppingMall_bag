@@ -24,7 +24,20 @@
 		th:if="${num &lt; ((4*no)+4)+(4*(4*(pd.pageStart-1))) and num &gt;= (4*no)+(4*(4*(pd.pageStart-1)))}">
 			<ul>
 				<a th:href="|/shopping/shoppingDetail/${brand}/${category}/${type}/${productsBoardList[num].productsBoardId}/${distinct}|">
-					<li>사진들어갈자리</li>
+					<li>
+						<div>
+							<img th:src="|/upFile/${bagsList[num].bagImg1}|" alt="상품 사진" />
+						</div>
+						<div>
+							<img th:src="|/upFile/${bagsList[num].bagImg2}|" alt="상품 사진" />
+						</div>
+						<div>
+							<img th:src="|/upFile/${bagsList[num].bagImg3}|" alt="상품 사진" />
+						</div>
+						<div>
+							<img th:src="|/upFile/${bagsList[num].bagImg4}|" alt="상품 사진" />
+						</div>
+					</li>
 					<li th:each="brand:${brandList}"
 					th:if="${brand.brandId eq productsBoardList[num].brandId}"
 					th:text="${brand.brandName}"></li>
