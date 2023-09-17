@@ -23,16 +23,25 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	
 	@Resource
 	OrderInterceptor orderInterceptor;
+	
+	@Resource
+	AdminInterceptor adminInterceptor;
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		
 		registry.addInterceptor(loginInterceptor)
-		.addPathPatterns("/member/my**");
+		.addPathPatterns("/member/**")
+		.addPathPatterns("/member/**/**")
+		.excludePathPatterns("/member/sign**");
 		
 		registry.addInterceptor(commonInterceptor);
 		
 		registry.addInterceptor(orderInterceptor)
 		.addPathPatterns("/orders/orders");
+		
+		registry.addInterceptor(adminInterceptor)
+		.addPathPatterns("/admin/**")
+		.addPathPatterns("/admin/**/**");
 	}
 }

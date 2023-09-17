@@ -10,24 +10,25 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
 @Service
-public class LoginInterceptor implements HandlerInterceptor {
+public class AdminInterceptor implements HandlerInterceptor {
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 		
-		System.out.println("login-inter진입");
+		System.out.println("admin-inter진입");
 		HttpSession session = request.getSession(false);
 		
-		if(session == null || session.getAttribute("userId") == null) {
-			System.out.println("비 로그인 요청");
+		if(session == null || session.getAttribute("admin") == null) {
+			System.out.println("비 관리자 요청");
 			
 			response.setContentType("text/html; charset=utf-8");
 			
 			PrintWriter out = response.getWriter();
 			
-			out.print("<script>alert('로그인 해주세요.');</script>");
-			out.print("<script>location.href='/member/signIn';</script>");
+			out.print("<script>alert('관리자만 접근 가능 합니다.');</script>");
+			out.print("<script>location.href='/';</script>");
+
 			out.flush();
 
 			out.close();
