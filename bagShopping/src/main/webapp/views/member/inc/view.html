@@ -5,9 +5,9 @@
 	<title>member</title>
 </head>
 <body>
-	<th:block th:replace="header/header" />
-	<th:block th:replace="|member/inc/${memberService}|"/>
-	<th:block th:replace="footer/footer" />
+	<th:block th:replace="~{|header/header|}" />
+	<th:block th:replace="~{|member/inc/${memberService}|}"/>
+	<th:block th:replace="~{|footer/footer|}" />
 </body>
 
 </html>

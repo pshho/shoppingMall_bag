@@ -11,13 +11,13 @@
 					<div>
 						<img th:src="|/upFile/${bags.bagImg1}|" alt="상품 사진" />
 					</div>
-					<div>
+					<div th:if="${bags.bagImg2}">
 						<img th:src="|/upFile/${bags.bagImg2}|" alt="상품 사진" />
 					</div>
-					<div>
+					<div th:if="${bags.bagImg3}">
 						<img th:src="|/upFile/${bags.bagImg3}|" alt="상품 사진" />
 					</div>
-					<div>
+					<div th:if="${bags.bagImg4}">
 						<img th:src="|/upFile/${bags.bagImg4}|" alt="상품 사진" />
 					</div>
 				</td>
