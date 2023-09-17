@@ -28,15 +28,6 @@
 						<div>
 							<img th:src="|/upFile/${bagsList[num].bagImg1}|" alt="상품 사진" />
 						</div>
-						<div>
-							<img th:src="|/upFile/${bagsList[num].bagImg2}|" alt="상품 사진" />
-						</div>
-						<div>
-							<img th:src="|/upFile/${bagsList[num].bagImg3}|" alt="상품 사진" />
-						</div>
-						<div>
-							<img th:src="|/upFile/${bagsList[num].bagImg4}|" alt="상품 사진" />
-						</div>
 					</li>
 					<li th:each="brand:${brandList}"
 					th:if="${brand.brandId eq productsBoardList[num].brandId}"
