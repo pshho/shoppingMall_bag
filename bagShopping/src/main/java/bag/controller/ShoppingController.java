@@ -51,7 +51,7 @@ public class ShoppingController {
 	@Autowired
 	MemberMapper memMapper;
   
-  @Autowired
+	@Autowired
 	OrdersMapper ordMapper;
   
 	@Autowired
@@ -72,7 +72,6 @@ public class ShoppingController {
 	@ModelAttribute("member")
 	Object user(HttpSession session) {
 		String user = (String) session.getAttribute("userId");
-		
 		return memMapper.getUser(user);
 	}
 	
