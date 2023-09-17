@@ -135,6 +135,7 @@ public class ShoppingController {
 			bagDTO.setBrandId(brand);
 			bagDTO.setCategoriesId(category);
 			bagDTO.setTypeId(type);
+			bagDTO.setProductsBoardStatus(2);
 			prbDTO.setBrandId(brand);
 			prbDTO.setCategoriesId(category);
 			prbDTO.setTypeId(type);
