@@ -28,5 +28,6 @@ public interface InquiryMapper {
 	
 	void quitDelete(QuitMemberDTO qmDTO);
 	
-	void replyDelete(int gid);
+	void replyDelete(int gid, int seq);
+	List<Integer> levChk(int gid);
 }
