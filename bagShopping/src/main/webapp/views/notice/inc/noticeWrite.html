@@ -1,6 +1,11 @@
 <html xmlns="http://www.thymeleaf.org">
 <form action="/notice/noticeWrite/1" method="post" id="wri" th:object="${noticeDTO}">
-	<table border="">
+	<table class="noticeWrite">
+		<tr>
+			<td colspan="4">
+				<h1>공지사항 작성</h1>
+			</td>
+		</tr>
 		<tr>
 			<td width="150px">제목</td>
 			<td>
@@ -16,13 +21,12 @@
 		<tr>
 			<td>내용</td>
 			<td colspan="3">
-				<div contenteditable="true" id="wriCon"
-				style="width: 500px; height: 600px;"></div>
+				<div contenteditable="true" id="wriCon"></div>
 				<textarea th:field="*{nContent}" id="cont"></textarea>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="4">
+			<td align="center" colspan="4">
 				<input type="submit" value="등록" />
 				<input type="button" value="취소" onclick="confirmCancel()" />
 			</td>

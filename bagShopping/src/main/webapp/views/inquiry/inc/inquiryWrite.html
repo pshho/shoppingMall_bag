@@ -1,6 +1,11 @@
 <html xmlns="http://www.thymeleaf.org">
 <form action="/inquiry/inquiryWrite/1" method="post" id="wri" th:object="${inquiryDTO}">
-	<table border="">
+	<table class="inquiryWrite">
+		<tr>
+			<td colspan="4">
+				<h1>문의게시글 작성</h1>
+			</td>
+		</tr>
 		<tr>
 			<td width="150px">제목</td>
 			<td>
@@ -16,8 +21,7 @@
 		<tr>
 			<td>내용</td>
 			<td colspan="3">
-				<div contenteditable="true" id="wriCon"
-				style="width: 500px; height: 600px;" th:utext="${rf}"></div>
+				<div contenteditable="true" id="wriCon" th:utext="${rf}"></div>
 				<textarea th:field="*{inContent}" id="cont"></textarea>
 			</td>
 		</tr>
@@ -26,7 +30,7 @@
 			<td><input type="password" th:field="*{inquiryPw}" id="pw" /></td>
 		</tr>
 		<tr>
-			<td colspan="4">
+			<td align="center" colspan="4">
 				<input type="submit" value="등록" />
 				<input type="button" value="취소" onclick="confirmCancel()" />
 			</td>

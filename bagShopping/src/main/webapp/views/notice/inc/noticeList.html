@@ -1,5 +1,5 @@
 <html xmlns="http://www.thymeleaf.org">
-<table border="">
+<table class="noticeList">
 	<tr>
 		<td colspan="5">
 			<h1>공지사항</h1>
@@ -38,17 +38,13 @@
 	</tr>
 	<form action="/notice/noticeList/1" id="searForm">
 		<tr>
-			<td colspan="2">
+			<td colspan="4">
 				<select name="searchCate">
 					<option value="전체">전체</option>
 					<option value="제목">제목</option>
 					<option value="내용">내용</option>
 				</select>
-			</td>
-			<td>
 				<input type="text" name="searchCont" id="searchCont" />
-			</td>
-			<td colspan="2">
 				<input type="submit" value="검색" />
 			</td>
 		</tr>
