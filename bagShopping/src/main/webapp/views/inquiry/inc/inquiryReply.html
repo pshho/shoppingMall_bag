@@ -1,5 +1,6 @@
 <html xmlns="http://www.thymeleaf.org">
 <form th:action="|/inquiry/inquiryReply/${inquiryDetail.inquiryId}|" method="post" id="wri" th:object="${inquiryDTO}">
+	<input type="hidden" name="gid" th:value="${inquiryDetail.gid}" />
 	<input type="hidden" name="seq" th:value="${inquiryDetail.seq}" />
 	<input type="hidden" name="lev" th:value="${inquiryDetail.lev}" />
 	<table border="">

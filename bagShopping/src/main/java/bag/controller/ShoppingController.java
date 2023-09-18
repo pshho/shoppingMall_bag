@@ -63,7 +63,7 @@ public class ShoppingController {
 	@Autowired
 	FileUploadDownload fud;
 	
-	BagsDTO bags = null;
+	BagsDTO bags;
 	List<CartDTO> cartList = null;
 	List<ProductsBoardDTO> prbDTOs;
 	List<BagsDTO> bagDTOs;

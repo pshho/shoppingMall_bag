@@ -102,6 +102,17 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		delete from a using inquiry a join inquiry b on (a.gid = b.gid) where b.in_writer = #{memberId};
 	</delete>
 	<delete id="replyDelete" parameterType="Integer">
-		delete from inquiry where gid = #{gid}
+		delete from inquiry
+		<where>
+			<if test="gid!=0">
+				gid = #{gid}
+			</if>
+			<if test="seq!=0">
+				and seq > #{seq}
+			</if>
+		</where>
 	</delete>
+	<select id="levChk" resultType="Integer">
+		select lev from inquiry where gid = #{gid}
+	</select>
 </mapper>

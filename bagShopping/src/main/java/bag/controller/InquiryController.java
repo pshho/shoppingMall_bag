@@ -18,10 +18,9 @@ import bag.model.FileDTO;
 import bag.model.FileUploadDownload;
 import bag.model.InquiryDTO;
 import bag.model.PageData;
+import bag.model.Refund;
 import bag.service.FileMapper;
 import bag.service.InquiryMapper;
-import bag.service.MemberMapper;
-import jakarta.servlet.http.HttpSession;
 
 @Controller
 @RequestMapping("inquiry")
@@ -86,12 +85,13 @@ public class InquiryController {
 			@PathVariable int id){
 		FileDTO fDTO = new FileDTO();
 		fDTO.setInquiryId(id);
+		InquiryDTO inq = inqMapper.inqDetail(id);
 		inqMapper.deleteInquiry(id);
 		for(FileDTO dto : fMapper.boardDelete(fDTO)) {
 			fud.fileDelete(dto.getFiles());
 		}
 		fMapper.boardFileDelete(fDTO);
-		inqMapper.replyDelete(id);
+		inqMapper.replyDelete(inq.getGid(), inq.getSeq());
 		Map<String, String> msg = new HashMap<>();
 		msg.put("msg", "문의게시글 삭제");
 		msg.put("url", "/inquiry/inquiryList/1");
@@ -102,7 +102,6 @@ public class InquiryController {
 	String inquiryReply(
 			@PathVariable int id,
 			InquiryDTO inDTO) {
-		inDTO.setGid(id);
 		inqMapper.updateSeq(inDTO);
 		inDTO.setSeq(inDTO.getSeq()+1);
 		inDTO.setLev(inDTO.getLev()+1);
@@ -137,7 +136,8 @@ public class InquiryController {
 	}
 	
 	@RequestMapping("{inquirySer}/{id}")
-	String goInquiry(Model md,
+	String goInquiry(
+			Model md,
 			@RequestParam(required = false) String searchCate,
 			@RequestParam(required = false) String searchCont,
 			@PathVariable String inquirySer, @PathVariable int id,
@@ -149,6 +149,12 @@ public class InquiryController {
 		}
 		pd.setTotalPage(inquiryList.size());
 		pd.setPageStart(id);
+		
+		if(inqMapper.levChk(id).contains(1)) {
+			md.addAttribute("posModi", 1);
+		}
+		
+		md.addAttribute("rf", new Refund().getRefund());
 		md.addAttribute("searC", searchCate);
 		md.addAttribute("sear", searchCont);
 		md.addAttribute("inquiryList", inquiryList);
