@@ -1,5 +1,5 @@
 <html xmlns="http://www.thymeleaf.org">
-<table border="">
+<table class="inquiryDetail">
 	<tbody>
 		<tr>
 			<td colspan="5">
@@ -13,17 +13,18 @@
 		<tr>
 			<td>작성자</td>
 			<td th:text="${inquiryDetail.inWriter}"></td>
-			<td>작성일</td>
-			<td th:text="${inquiryDetail.inquiryRegDate2}"></td>
+			<td>
+				작성일
+				[[${inquiryDetail.inquiryRegDate2}]]
+			</td>
 		</tr>
 		<tr>
-			<td>내용</td>
-			<td colspan="3">
+			<td colspan="4" class="contDetail">
 				<div class="inqDet" th:utext="${inquiryDetail.inContent}"></div>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="4">
+			<td align="right" colspan="4">
 				<a th:if="${session.admin ne null}" th:href="|/inquiry/inquiryReply/${inquiryDetail.inquiryId}|">답글</a>
 				<th:block th:if="${session.admin eq null}">
 					<th:block th:if="${session.userId eq inquiryDetail.inWriter}">

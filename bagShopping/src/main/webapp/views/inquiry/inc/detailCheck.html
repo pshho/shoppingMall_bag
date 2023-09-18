@@ -1,6 +1,6 @@
 <html xmlns="http://www.thymeleaf.org">
 <form th:action="|/inquiry/check/${inquiryDetail.inquiryId}|" method="post" th:object="${inquiryDTO}">
-	<table border="">
+	<table class="detailCheck">
 		<tr>
 			<td colspan="2">
 				<h1>비밀번호 확인</h1>
@@ -13,7 +13,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="2">
+			<td align="center" colspan="2">
 				<input type="submit" value="입력" />
 			</td>
 		</tr>

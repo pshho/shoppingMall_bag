@@ -1,5 +1,5 @@
 <html xmlns="http://www.thymeleaf.org">
-<table border="">
+<table class="noticeDetail">
 	<tbody>
 		<tr>
 			<td colspan="5">
@@ -13,17 +13,18 @@
 		<tr>
 			<td>작성자</td>
 			<td th:text="${noticeDetail.nWriter}"></td>
-			<td>작성일</td>
-			<td th:text="${noticeDetail.noticeRegDate2}"></td>
+			<td>
+				작성일
+				[[${noticeDetail.noticeRegDate2}]]
+			</td>
 		</tr>
 		<tr>
-			<td>내용</td>
-			<td colspan="3">
+			<td colspan="4" class="contDetail">
 				<div class="notDet" th:utext="${noticeDetail.nContent}"></div>
 			</td>
 		</tr>
 		<tr>
-			<td colspan="4">
+			<td align="right" colspan="4">
 				<a th:if="${session.admin ne null}" th:href="|/notice/noticeModify/${noticeDetail.noticeId}|">수정</a>
 				<a th:if="${session.admin ne null}" href="#" th:onclick="|confirmDelete(${noticeDetail.noticeId})|">삭제</a>
 				<a href="/notice/noticeList/1">뒤로</a>

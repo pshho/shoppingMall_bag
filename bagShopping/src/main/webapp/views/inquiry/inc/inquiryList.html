@@ -1,5 +1,5 @@
 <html xmlns="http://www.thymeleaf.org">
-<table border="">
+<table class="inquiryList">
 	<tr>
 		<td colspan="5">
 			<h1>문의게시판</h1>
@@ -47,24 +47,20 @@
 	</tr>
 	<form th:if="${session.admin ne null}" action="/inquiry/inquiryList/1" id="searForm">
 		<tr>
-			<td colspan="2">
+			<td align="center" colspan="4">
 				<select name="searchCate">
 					<option value="전체">전체</option>
 					<option value="작성자">작성자</option>
 					<option value="제목">제목</option>
 					<option value="내용">내용</option>
 				</select>
-			</td>
-			<td>
 				<input type="text" name="searchCont" id="searchCont" />
-			</td>
-			<td colspan="2">
 				<input type="submit" value="검색" />
 			</td>
 		</tr>
 	</form>
 	<tr th:if="${session.userId ne null}">
-		<td colspan="5">
+		<td align="right" colspan="5">
 			<a href="/inquiry/inquiryWrite/1">글작성</a>
 		</td>
 	</tr>

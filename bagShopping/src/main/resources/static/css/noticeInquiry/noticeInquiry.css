@@ -1,0 +1,148 @@
+@charset "UTF-8";
+.noticeBody, .inquiryBody {
+	width: 100%;
+	height: 700px;
+}
+.noticeList, .inquiryList, .noticeDetail, .inquiryDetail,
+.noticeWrite, .inquiryWrite, .noticeModify, .inquiryModify,
+.inquiryReply, .detailCheck {
+	width: 800px;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+.noticeList tr td, .inquiryList tr td,
+.noticeDetail tr td, .inquiryDetail tr td,
+.noticeWrite tr td, .inquiryWrite tr td,
+.noticeModify tr td, .inquiryModify tr td,
+.inquiryReply tr td, .detailCheck tr td {
+	padding: 5px 10px;
+	border-bottom: 1px solid black;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+}
+.noticeList tr:not(:first-of-type):not(:last-of-type) td:not(:nth-of-type(2)),
+.inquiryList tr:not(:first-of-type):not(:last-of-type) td:not(:nth-of-type(2)){
+	text-align: center;
+}
+.noticeList tr:nth-of-type(2) td,
+.inquiryList tr:nth-of-type(2) td{
+	font-weight: bold;
+}
+.noticeDetail tr:nth-of-type(2) td:first-of-type,
+.inquiryDetail tr:nth-of-type(2) td:first-of-type{
+	width: 80px;
+}
+.noticeDetail tr:nth-of-type(3) td:last-of-type,
+.inquiryDetail tr:nth-of-type(3) td:last-of-type {
+	text-align: right;
+}
+.noticeList tr td:nth-of-type(2),
+.inquiryList tr td:nth-of-type(2){
+	font-size: 14px;
+}
+.noticeList tr:nth-last-of-type(2) td select,
+.inquiryList tr:nth-last-of-type(2) td select,
+.inquiryList tr:last-of-type td select {
+	border-radius: 5px;
+	padding: 2px 7px;
+	font-size: 13px;
+}
+.noticeList tr:nth-last-of-type(2) td input[type=text],
+.inquiryList tr:nth-last-of-type(2) td input[type=text],
+.inquiryList tr:last-of-type td input[type=text] {
+	width: 250px;
+	height: 18px;
+	margin: 3px 7px;
+	border-radius: 5px;
+	padding-left: 5px;
+}
+.noticeList tr:nth-last-of-type(2) td input[type=submit],
+.inquiryList tr:nth-last-of-type(2) td input[type=submit],
+.inquiryList tr:last-of-type td input[type=submit] {
+	font-size: 10px;
+	padding: 5px 10px;
+	background-color: rgb(158, 192, 226);
+	color: white;
+	border: 0;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.noticeWrite tr td input[type=text],
+.inquiryWrite tr td input[type=text],
+.inquiryWrite tr td input[type=password],
+.noticeModify tr td input[type=text],
+.inquiryModify tr td input[type=text],
+.inquiryModify tr td input[type=password],
+.inquiryReply tr td input[type=text],
+.inquiryReply tr td input[type=password],
+.detailCheck tr td input[type=password]{
+	display: block;
+	width: 600px;
+	margin: 0 auto;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding-left: 5px;
+}
+#wriCon{
+	display: block;
+	width: 585px;
+	height: 600px;
+	margin: 0 auto;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 5px 10px;
+	overflow: auto;
+}
+#wriCon span img {
+	display: block;
+	margin: 0 auto;
+	width: 400px;
+}
+.noticeWrite tr:nth-of-type(3) td input[type=text],
+.inquiryWrite tr:nth-of-type(3) td input[type=text],
+.noticeModify tr:nth-of-type(3) td input[type=text],
+.inquiryModify tr:nth-of-type(3) td input[type=text],
+.inquiryReply tr:nth-of-type(3) td input[type=text]{
+	border: 0;
+}
+.noticeWrite tr:last-of-type td input,
+.inquiryWrite tr:last-of-type td input,
+.noticeModify tr:last-of-type td input,
+.inquiryModify tr:last-of-type td input,
+.inquiryReply tr:last-of-type td input,
+.detailCheck tr:last-of-type td input{
+	border: 0;
+	border-radius: 5px;
+	background-color: rgb(217, 228, 249);
+	color: black;
+	padding: 5px 15px;
+	margin: 0 5px;
+	cursor: pointer;
+}
+.noticeList a,
+.inquiryList a,
+.noticeDetail a,
+.inquiryDetail a{
+	text-decoration: none;
+	color: black;
+	padding: 5px;
+}
+.noticeList a:hover,
+.inquiryList a:hover,
+.noticeDetail a:hover,
+.inquiryDetail a:hover {
+	text-decoration: underline;
+}
+.contDetail {
+	width: 800px;
+}
+.notDet img,
+.inqDet img{
+	display: block;
+	width: 500px;
+	margin: 0 auto;
+}
+#cont {
+	display: none;
+}
