@@ -47,6 +47,10 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 		count(member_id) from member where member_id = #{memberId}
 	</select>
 
+	<select id="quitMemberCheck">
+		select count(member_id) from quit_member where member_id = #{memberId}
+	</select>
+
 	<select id="phoneCheck" parameterType="String"
 		resultType="Integer">
 		select count(member_phone) from member where member_phone =

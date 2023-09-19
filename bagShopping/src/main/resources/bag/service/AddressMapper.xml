@@ -29,10 +29,14 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 	<update id="setBasicAddr0">
 		update address set basic_addr = 0 where basic_addr = 1 and member_id=#{memberId}
 	</update>
+	
+	<update id="setAllBasicAddr1">
+		update address set basic_addr = 1 where basic_addr = 0 and member_id=#{memberId}
+	</update>
 
 	<update id="setBasicAddr1">
 		update address set basic_addr = 1 where
-		member_id=#{memberId} and zip_code = #{zipCode}
+		member_id=#{memberId} and address_id = #{addressId}
 	</update>
 
 	<sql id="wh_memberId">
@@ -76,7 +80,7 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 	
 	<delete id="deleteAddress">
 		delete from address where member_id = #{memberId} and
-		zip_code = #{zipCode}
+		address_id = #{addressId}
 	</delete>
 	<select id="getUserAddrOne">
 		select * from address where member_id = #{memberId}

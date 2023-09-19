@@ -19,6 +19,9 @@ public interface ProductsBoardMapper {
 	void updateReviewCount(int productsBoardId);
 	void subReviewCount(int productsBoardId);
 	void updateSells(int sells, int productCode);
+	
+	ProductsBoardDTO getProducts(int productCode);
+	int updateProductAndBag(ProductsBoardDTO prbDTO);
 
 	List<Integer> prbIds(String... prdCodes);
 	

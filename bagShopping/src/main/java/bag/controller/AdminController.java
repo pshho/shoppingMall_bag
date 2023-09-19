@@ -1,6 +1,7 @@
 package bag.controller;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import bag.model.BagsDTO;
 import bag.model.OrderDTO;
 import bag.model.PageData2;
+import bag.model.ProductsBoardDTO;
 import bag.service.BagsMapper;
 import bag.service.BrandMapper;
 import bag.service.CategoriesMapper;
@@ -87,9 +89,9 @@ public class AdminController {
 		int statusCheck = memMapper.blackMemberUpdate(memberId);
 		int addBlack = memMapper.blackMember(memberId);
 		mm.addAttribute("pd", pd);
-		return statusCheck+addBlack;
+		return statusCheck + addBlack;
 	}
-	
+
 	@PostMapping("clearMember/{page}")
 	@ResponseBody
 	int clearMember(HttpServletRequest request, PageData2 pd, Model mm) {
@@ -98,17 +100,17 @@ public class AdminController {
 
 		int statusCheck = memMapper.clearMemberUpdate(memberId);
 		int clearBlack = memMapper.clearMember(memberId);
-		
+
 		mm.addAttribute("pd", pd);
-		return statusCheck+clearBlack;
+		return statusCheck + clearBlack;
 	}
-	
+
 	@GetMapping("quitMemberManage/{page}")
 	String quitMemberManage(Model mm, PageData2 pd) {
-		
+
 		pd.calc(memMapper.quitMemberCnt(pd));
 		mm.addAttribute("pd", pd);
-		mm.addAttribute("quitMember",memMapper.quitMemberList(pd));
+		mm.addAttribute("quitMember", memMapper.quitMemberList(pd));
 		mm.addAttribute("adminService", "quitMemberManage");
 		return "admin/template";
 	}
@@ -125,6 +127,20 @@ public class AdminController {
 		mm.addAttribute("brands", brandMapper.brandList());
 		mm.addAttribute("categories", cateMapper.categoriesList());
 		mm.addAttribute("types", typeMapper.typeList());
+		mm.addAttribute("adminService", adminUrl);
+		return "admin/template";
+	}
+	
+	@GetMapping("goodsDetail/{productCode}/{page}")
+	String goodsDetail(Model mm, PageData2 pd, @PathVariable int productCode) {
+
+		String adminUrl = "goodsDetail";
+		
+		mm.addAttribute("bag", bagsMapper.detailBag(productCode));
+		mm.addAttribute("brands", brandMapper.brandList());
+		mm.addAttribute("categories", cateMapper.categoriesList());
+		mm.addAttribute("types", typeMapper.typeList());
+		mm.addAttribute("pd", pd);
 		mm.addAttribute("adminService", adminUrl);
 		return "admin/template";
 	}
@@ -200,14 +216,45 @@ public class AdminController {
 
 		int cnt = bagsMapper.modifyBag(bdto);
 		if (cnt > 0) {
-			msg = "상품 수정 성공";
-			goUrl = "/admin/goodsManage/" + pd.page;
+			if (prdMapper.cntProduct(productCode) > 0) {
+				ProductsBoardDTO prd = prdMapper.getProducts(productCode);
+
+				prd.setProductCode(bdto.getProductCode());
+				prd.setCategoriesId(bdto.getCategoriesId());
+				prd.setTypeId(bdto.getTypeId());
+				prd.setBrandId(bdto.getBrandId());
+				prd.setDefaultProductCode(bdto.getDefaultProductCode());
+				prd.setProductsBoardStatus(1);
+				int updateCheck = prdMapper.updateProductAndBag(prd);
+
+				if(updateCheck > 0) {
+					msg = "상품과 관련된 글이 있습니다. 수정 해 주세요.";
+					goUrl = "/admin/goodsManage/" + pd.page;
+				}else {
+					msg = "상품 수정 성공";
+					goUrl = "/admin/goodsManage/" + pd.page;
+				}
+
+			}
 		}
 		mm.addAttribute("goUrl", goUrl);
 		mm.addAttribute("msg", msg);
 		mm.addAttribute("pd", pd);
 		return "admin/inc/alert";
 	}
+	
+	@PostMapping("modifyBoard")
+	@ResponseBody
+	int modifyBoard(HttpServletRequest request) {
+
+		int productCode = Integer.parseInt(request.getParameter("productCode"));
+		prdMapper.getProducts(productCode);
+		if(prdMapper.getProducts(productCode).getProductsBoardId() > 0) {
+			return prdMapper.getProducts(productCode).getProductsBoardId();
+		}
+		return 0;
+	}
+	
 
 	@PostMapping("deleteGoods/{page}")
 	@ResponseBody
@@ -218,9 +265,9 @@ public class AdminController {
 
 		// 삭제될 상품 가져와서 남아있는 이미지 삭제
 		BagsDTO bDto = bagsMapper.detailBag(productCode);
-		if (bDto.getBagImg1() != null) {
-			new File(path + "\\" + bDto.getBagImg1()).delete();
-		}
+		//if (bDto.getBagImg1() != null) {
+		//	new File(path + "\\" + bDto.getBagImg1()).delete();
+		//}
 		if (bDto.getBagImg2() != null) {
 			new File(path + "\\" + bDto.getBagImg2()).delete();
 		}
@@ -230,15 +277,14 @@ public class AdminController {
 		if (bDto.getBagImg4() != null) {
 			new File(path + "\\" + bDto.getBagImg4()).delete();
 		}
-		
+
 		int deleteGoods = bagsMapper.deleteGoods(productCode);
-		
-		if(deleteGoods > 0) {
+
+		if (deleteGoods > 0) {
 			int check = prdMapper.cntProduct(productCode);
-			if(check > 0) {
+			if (check > 0) {
 				prdMapper.deleteBagProduct(productCode);
 			}
-			System.out.println(check);
 		}
 		mm.addAttribute("pd", pd);
 		return deleteGoods;
@@ -304,37 +350,45 @@ public class AdminController {
 		String adminUrl = "salesHistory";
 
 		pd.calc(ordMapper.orderCnt(pd));
+		
+		mm.addAttribute("monthSales", ordMapper.monthSales());
+		mm.addAttribute("yearSales", ordMapper.yearSales());
 		mm.addAttribute("orderList", ordMapper.orderList(pd));
 		mm.addAttribute("adminService", adminUrl);
 		mm.addAttribute("pd", pd);
 		return "admin/template";
 	}
-	
+
 	@RequestMapping("salesHistory/{page}/{merchantUid}")
-	String salesHistoryDetail(HttpSession session, Model mm, PageData2 pd, OrderDTO ordDTO) {	
+	String salesHistoryDetail(HttpSession session, Model mm, PageData2 pd, OrderDTO ordDTO) {
 		String templateUrl = "orderDetail";
 		// 상품 정보
 		OrderDTO ord = ordMapper.getOrder(ordDTO.getMerchantUid());
 		System.out.println(ord);
 		// 상품이 여러개면
-		if(ord.getProdCode().indexOf(",") > 0) {
-			String [] prod = ord.getProdCode().split(",");
-			List<BagsDTO> myBagList = bagsMapper.getOrderBags(prod);
-			for(int i = 0; i<myBagList.size(); i++) {
-				myBagList.get(i).setAmount(Integer.parseInt(ord.getProdCount().split(",")[i]));
-				myBagList.get(i).setMerchantUid(ordDTO.getMerchantUid());
+		if (ord.getProdCode().indexOf(",") > 0) {
+			String[] prod = ord.getProdCode().split(",");
+			String[] amount = ord.getProdCount().split(",");
+			List<BagsDTO> myBagList = new ArrayList<>();
+			for (int i = 0; i < prod.length; i++) {
+				BagsDTO bag = new BagsDTO();
+				bag.setProductCode(Integer.parseInt(prod[i]));
+				bag.setAmount(Integer.parseInt(amount[i]));
+				bag.setMerchantUid(ord.getMerchantUid());
+				myBagList.add(bag);
 			}
-			mm.addAttribute("myOrd",myBagList);
-		}else {
-			BagsDTO myBag = bagsMapper.detailBag(Integer.parseInt(ord.getProdCode()));
-			myBag.setAmount(Integer.parseInt(ord.getProdCount()));
-			myBag.setMerchantUid(ordDTO.getMerchantUid());
-			mm.addAttribute("myOrd",myBag);
+			mm.addAttribute("myOrd", myBagList);
+		} else {
+			BagsDTO bag = new BagsDTO();
+			bag.setProductCode(Integer.parseInt(ord.getProdCode()));
+			bag.setAmount(Integer.parseInt(ord.getProdCount()));
+			bag.setMerchantUid(ord.getMerchantUid());
+			mm.addAttribute("myOrd", bag);
 		}
 		// 상품 끝
 		mm.addAttribute("orderInfo", ord);
 		mm.addAttribute("adminService", templateUrl);
-		mm.addAttribute("pd",pd);
+		mm.addAttribute("pd", pd);
 		return "admin/template";
 	}
 

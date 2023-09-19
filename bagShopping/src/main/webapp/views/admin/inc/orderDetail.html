@@ -17,16 +17,14 @@
 	<table border="">
 		<tr>
 			<td>이미지</td>
-			<td>상품정보</td>
+			<td>상품코드</td>
 			<td>수량</td>
-			<td>금액</td>
 			<td>주문번호</td>
 		</tr>
 		<tr th:each="order : ${myOrd}">
-			<td><img th:src="|/upFile/${order.bagImg1}|"></td>
-			<td th:text="${order.bagComment}"/>
+			<td><img th:src="|/upFile/${order.productCode}_img1.png|"></td>
+			<td th:text="${order.productCode}"/>
 			<td th:text="${order.amount}"/>
-			<td th:text="${order.totalPrice}"/>
 			<td th:text="${order.merchantUid}"/>
 		</tr>
 	</table>
