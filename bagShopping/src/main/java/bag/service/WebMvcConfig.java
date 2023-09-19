@@ -33,10 +33,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		registry.addInterceptor(loginInterceptor)
 		.addPathPatterns("/member/**")
 		.addPathPatterns("/member/**/**")
-		.excludePathPatterns("/member/sign**")
+		.excludePathPatterns("/member/signUp")
+		.excludePathPatterns("/member/signIn")
 		.excludePathPatterns("/member/findId")
 		.excludePathPatterns("/member/findPw")
-		.excludePathPatterns("/member/findPwReg");
+		.excludePathPatterns("/member/findPwReg")
+		.excludePathPatterns("/member/idCheck")
+		.excludePathPatterns("/member/pwCheck")
+		.excludePathPatterns("/member/sendSMS")
+		.excludePathPatterns("/member/logOut");
 		
 		registry.addInterceptor(commonInterceptor);
 		

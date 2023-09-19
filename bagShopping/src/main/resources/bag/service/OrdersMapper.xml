@@ -5,14 +5,20 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 <mapper namespace="bag.service.OrdersMapper">
 	<insert id="orderInsert" parameterType="ordDTO">
 		insert into orders
-		(orders_total_price, delivery_fee, order_status, merchant_uid, pay_type, member_id,
-		imp_uid, prod_code, prod_count, prd_name, buyer_name,
+		(orders_total_price, delivery_fee, order_status, merchant_uid,
+		pay_type, member_id,
+		imp_uid, prod_code, prod_count, prd_name,
+		buyer_name,
 		buyer_email,
-		buyer_tel, buyer_addr, buyer_postcode, address_msg, orders_reg_date)
+		buyer_tel, buyer_addr, buyer_postcode,
+		address_msg, orders_reg_date)
 		values
-		(#{ordersTotalPrice}, #{deliveryFee}, #{orderStatus}, #{merchant_uid},
-		#{payType}, #{memberId}, #{imp_uid}, #{prodCode}, #{prodCount},
-		#{prdName}, #{buyerName}, #{buyerEmail}, #{buyerTel}, #{buyerAddr},
+		(#{ordersTotalPrice},
+		#{deliveryFee}, #{orderStatus}, #{merchant_uid},
+		#{payType},
+		#{memberId}, #{imp_uid}, #{prodCode}, #{prodCount},
+		#{prdName},
+		#{buyerName}, #{buyerEmail}, #{buyerTel}, #{buyerAddr},
 		#{buyerPostcode},
 		#{addressMsg}, #{ordersRegDate})
 	</insert>
@@ -43,16 +49,28 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	</sql>
 
 	<sql id="searchDate">
-		<if test="dateStart != null and dateStart != ''">
-			and orders_reg_date >= str_to_date(#{dateStart},
-			'%Y-%m-%d')
-
-		</if>
-		<if test="dateEnd != null and dateEnd != ''">
-			and orders_reg_date <![CDATA[<]]>
-			str_to_date(#{dateEnd},'%Y-%m-%d')+1
-
-		</if>
+		<choose>
+			<when test="keyword != null and keyword != ''">
+				<if test="dateStart != null and dateStart != ''">
+					and orders_reg_date >=
+					str_to_date(#{dateStart},'%Y-%m-%d')
+				</if>
+				<if test="dateEnd != null and dateEnd != ''">
+					and orders_reg_date <![CDATA[<]]>
+					str_to_date(#{dateEnd},'%Y-%m-%d')+1
+				</if>
+			</when>
+			<otherwise>
+				<if test="dateStart != null and dateStart != ''">
+					where orders_reg_date >=
+					str_to_date(#{dateStart},'%Y-%m-%d')
+				</if>
+				<if test="dateEnd == null and dateEnd == ''">
+					and orders_reg_date <![CDATA[<]]>
+					str_to_date(#{dateEnd},'%Y-%m-%d')+1
+				</if>
+			</otherwise>
+		</choose>
 	</sql>
 
 	<select id="orderList" parameterType="PageData2">
@@ -60,7 +78,9 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<include refid="searchSales" />
 		</trim>
-			<include refid="searchDate" />
+
+		<include refid="searchDate" />
+
 		order by order_id desc
 		limit #{start},#{limit}
 	</select>
@@ -70,7 +90,9 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		<trim prefix="WHERE" prefixOverrides="AND|OR">
 			<include refid="searchSales" />
 		</trim>
-			<include refid="searchDate" />
+
+		<include refid="searchDate" />
+
 	</select>
 
 	<select id="myPageOrdList" parameterType="map">
@@ -103,7 +125,28 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		merchant_uid = #{merchant_uid}
 	</update>
 
+	<select id="monthSales">
+		SELECT SUBSTR(A.orders_reg_date,1,7) MM,
+		SUM(A.orders_total_price) AS SALES
+		FROM orders A where order_status = '배송 완료'
+		GROUP
+		BY 1
+		ORDER
+		BY 1;
+	</select>
+
+	<select id="yearSales">
+		SELECT SUBSTR(A.orders_reg_date,1,4) YY,
+		SUM(A.orders_total_price) AS SALES
+		FROM orders A where order_status = '배송 완료'
+		GROUP
+		BY 1
+		ORDER
+		BY 1;
+	</select>
+
 	<select id="chkOrder" resultType="ordDTO">
-		select * from orders where member_id = #{memberId} and order_status = #{orderStatus}
+		select * from orders where
+		member_id = #{memberId} and order_status = #{orderStatus}
 	</select>
 </mapper>

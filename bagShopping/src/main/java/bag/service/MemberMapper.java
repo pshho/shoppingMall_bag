@@ -16,6 +16,7 @@ public interface MemberMapper {
 	int insertMember(MemberDTO mdto);
 	
 	int idCheck(String memberId);
+	int quitMemberCheck(String memberId);
 	
 	int pwCheck(String memberId, String memberPw);
 	

@@ -38,6 +38,11 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<select id="productsBoard" resultType="prbDTO">
 		select * from products_board <include refid="wh_prbBoardId" />
 	</select>
+	
+	<select id="getProducts" resultType="prbDTO">
+		select * from products_board where product_code = #{productCode}
+	</select>
+	
 	<select id="maxPrbId" resultType="Integer">
 		select max(products_board_id) from products_board
 	</select>
@@ -53,6 +58,12 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		update products_board set categories_id = #{categoriesId}, type_id = #{typeId}, brand_id = #{brandId},
 		intro = #{intro}, contents = #{contents}, address_info = #{addressInfo}, guide = #{guide}, product_code = #{productCode}
 		<include refid="wh_prbBoardId" />
+	</update>
+	
+	<update id="updateProductAndBag" parameterType="prbDTO">
+		update products_board set categories_id = #{categoriesId}, type_id = #{typeId}, 
+		brand_id = #{brandId}, product_code = #{productCode}, products_board_status = #{productsBoardStatus}
+		where product_code = #{defaultProductCode}
 	</update>
 	<select id="searchList" resultType="prbDTO">
 		select pb.* from products_board as pb

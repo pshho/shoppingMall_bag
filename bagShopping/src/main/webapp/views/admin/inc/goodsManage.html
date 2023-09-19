@@ -43,7 +43,7 @@
 <body>
 	<h2>상품 관리</h2>
 	<a href="/admin/adminMain">뒤로</a>
-	
+
 	<table border="">
 		<tr>
 			<td>상품코드</td>
@@ -52,17 +52,6 @@
 			<td>브랜드</td>
 			<td>상품명</td>
 			<td>가격</td>
-			<td>너비</td>
-			<td>높이</td>
-			<td>깊이</td>
-			<td>용량</td>
-			<td>무게</td>
-			<td>겉감</td>
-			<td>안감</td>
-			<td>지퍼</td>
-			<td>버클</td>
-		
-			<td>상품설명</td>
 			<td colspan="3" align="center">관리</td>
 		</tr>
 		<th:block th:if="${pd.pageEnd > 0}">
@@ -77,25 +66,17 @@
 				<th:block th:each="brand : ${brands}" th:if="${brand.brandId == bag.brandId}">
 					<td th:text="${brand.brandName}" />
 				</th:block>
-				<td th:text="${bag.bagName}" />
+				<td><a th:href="|/admin/goodsDetail/${bag.productCode}/${pd.page}|">[[${bag.bagName}]]</a></td>
 				<td th:text="${bag.bagPrice}" />
-				<td th:text="${bag.bagSizeW}" />
-				<td th:text="${bag.bagSizeH}" />
-				<td th:text="${bag.bagSizeD}" />
-				<td th:text="${bag.bagCapacity}" />
-				<td th:text="${bag.bagWeight}" />
-				<td th:text="${bag.bagOuterFabric}" />
-				<td th:text="${bag.bagInnerFabric}" />
-				<td th:text="${bag.bagZipper}" />
-				<td th:text="${bag.bagBuckle}" />
-				
-				<td th:text="${bag.bagComment}" />
+
 				<td><a th:href="|/admin/modifyGoods/${bag.productCode}/${pd.page}|">수정</a></td>
 				<td><button id="deleteMember" th:goodsParam="${bag.productCode}"
 						th:onclick="deleteGoods(this.getAttribute('goodsParam'))" th:text="|삭제|" /></input></td>
 				<td>
-					<input type="button" th:id="|chgPrb${bag.productCode}|" 
-					th:onclick="|chgPrb(${bag.productCode})|" />
+					<input type="button" th:id="|chgPrb${bag.productCode}|" th:onclick="|chgPrb(${bag.productCode})|" />
+					<button th:bagParam="${bag.productCode}" th:onclick="modifyBoardBtn(this.getAttribute('bagParam'))"
+						th:text="|게시글 수정|" />
+
 				</td>
 			</tr>
 		</th:block>
@@ -118,15 +99,15 @@
 							<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="${num}" />
 						</th:block>
 					</th:block>
-				
-				<th:block th:if="${pd.pageEnd == 0}">
-					<b>
-						<a th:href="|1?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="1" />
-					</b>
-				</th:block>
-				<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
-					<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
-				</th:block>
+
+					<th:block th:if="${pd.pageEnd == 0}">
+						<b>
+							<a th:href="|1?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="1" />
+						</b>
+					</th:block>
+					<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
+						<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
+					</th:block>
 			</td>
 		</tr>
 		<tr>
@@ -139,7 +120,6 @@
 					<option value="Brand">브랜드</option>
 					<option value="Name">상품명</option>
 					<option value="Price">가격</option>
-					<option value="Comment">상품설명</option>
 				</select>
 
 				<input type="text" id="keyword">
@@ -153,76 +133,98 @@
 
 </html>
 <script>
-	function chgPrb(productCode){
-		let val = $('#chgPrb'+productCode).val();
+	function modifyBoardBtn(data) {
+		$.ajax({
+			url: "/admin/modifyBoard",
+			type: "post",
+			data: {productCode: data},
+			dataType: 'json',
+			success: function (result) {
+				if (result > 0) {
+					if (confirm('게시글 수정 페이지로 가시겠습니까?')) {
+						location.href = "/shopping/shoppingModify/"+result;
+					}
+				} else {
+					alert("작성된 글이 없습니다. 글을 먼저 등록해 주세요.")
+				}
+			},
+			error: function () {
+				alert("작성된 글이 없습니다. 글을 먼저 등록해 주세요.")
+			}
+		})
+	}
+
+	function chgPrb(productCode) {
+		let val = $('#chgPrb' + productCode).val();
 		var productsBoardStatus = 0;
-		
-		if(val == '게시글 등록전'){
+
+		if (val == '게시글 등록전') {
 			confirmWrite();
 			return false;
-		}else if(val == '게시글 등록'){
+		} else if (val == '게시글 등록') {
 			productsBoardStatus = 2;
-		}else if(val == '게시글 미등록'){
+		} else if (val == '게시글 미등록') {
 			productsBoardStatus = 1;
 		}
-		
+
 		const params = {
 			productCode: productCode,
 			productsBoardStatus: productsBoardStatus
 		}
-		
+
 		$.ajax({
 			url: '/shopping/changePrb',
 			type: 'post',
 			dataType: 'json',
 			contentType: 'application/json; charset=utf-8',
 			data: JSON.stringify(params),
-			success: function(res){
+			success: function (res) {
 				alert(res.msg);
-				
-				if(val == '게시글 등록'){
-					$('#chgPrb'+productCode).val('게시글 미등록');
-				}else if(val == '게시글 미등록'){
-					$('#chgPrb'+productCode).val('게시글 등록');
+
+				if (val == '게시글 등록') {
+					$('#chgPrb' + productCode).val('게시글 미등록');
+				} else if (val == '게시글 미등록') {
+					$('#chgPrb' + productCode).val('게시글 등록');
 				}
 			},
-			error: function(error){
+			error: function (error) {
 				console.log(error);
 			}
 		})
 	}
-	
-	function confirmWrite(){
-		if(confirm('상품소개글을 등록해주세요\n게시글 작성 페이지로 가시겠습니까?')){
-			location.href="/shopping/shoppingWrite";
+
+	function confirmWrite() {
+		if (confirm('상품소개글을 등록해주세요\n게시글 작성 페이지로 가시겠습니까?')) {
+			location.href = "/shopping/shoppingWrite";
 		}
 	}
-	
-	$(document).ready(function(){
+
+
+	$(document).ready(function () {
 		const productsstatus = document.querySelectorAll('[id^="chgPrb"]');
-		
+
 		$.ajax({
 			url: '/shopping/checkPrb',
 			type: 'get',
 			dataType: 'json',
 			contentType: 'application/json; charset=utf-8',
-			success: function(res){
-				res.forEach(function(item){
-					if(item.productsBoardStatus === 2){
-						$('#chgPrb'+item.productCode).val('게시글 미등록');
-					}else if(item.productsBoardStatus === 1) {
-						$('#chgPrb'+item.productCode).val('게시글 등록');
+			success: function (res) {
+				res.forEach(function (item) {
+					if (item.productsBoardStatus === 2) {
+						$('#chgPrb' + item.productCode).val('게시글 미등록');
+					} else if (item.productsBoardStatus === 1) {
+						$('#chgPrb' + item.productCode).val('게시글 등록');
 					}
 				})
-				
-				productsstatus.forEach(function(item){
+
+				productsstatus.forEach(function (item) {
 					var data = $(item).val();
-					if(data === ''){
+					if (data === '') {
 						$(item).val('게시글 등록전');
 					}
 				})
 			},
-			error: function(error){
+			error: function (error) {
 				console.log(error);
 			}
 		})

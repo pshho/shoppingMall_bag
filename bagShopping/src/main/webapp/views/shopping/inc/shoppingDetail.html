@@ -8,16 +8,16 @@
 		<table border="">
 			<tr>
 				<td colspan="2">
-					<div>
+					<div th:if="${bags.bagImg1 != null and bags.bagImg1 != ''}">
 						<img th:src="|/upFile/${bags.bagImg1}|" alt="상품 사진" />
 					</div>
-					<div th:if="${bags.bagImg2}">
+					<div th:if="${bags.bagImg2 != null and bags.bagImg2 != ''}">
 						<img th:src="|/upFile/${bags.bagImg2}|" alt="상품 사진" />
 					</div>
-					<div th:if="${bags.bagImg3}">
+					<div th:if="${bags.bagImg3 != null and bags.bagImg3 != ''}">
 						<img th:src="|/upFile/${bags.bagImg3}|" alt="상품 사진" />
 					</div>
-					<div th:if="${bags.bagImg4}">
+					<div th:if="${bags.bagImg4 != null and bags.bagImg4 != ''}">
 						<img th:src="|/upFile/${bags.bagImg4}|" alt="상품 사진" />
 					</div>
 				</td>
@@ -335,8 +335,8 @@
 			let popupTop = (screen.height - 400) / 2;
 			popup = window.open('/shopping/shoppingNonMember', 
 			'비회원', 'width=500,height=400,left='+popupLeft+',top='+popupTop);*/
-			alert('회원가입을 해주세요');
-			location.href="/member/signUp";
+			alert('로그인 해주세요');
+			location.href="/member/signIn";
 		}else{
 
 			const params = {
@@ -375,8 +375,8 @@
 			let popupTop = (screen.height - 400) / 2;
 			popup = window.open('/shopping/shoppingNonMember', 
 			'비회원', 'width=500,height=400,left='+popupLeft+',top='+popupTop); */
-			alert('회원가입을 해주세요');
-			location.href="/member/signUp";
+			alert('로그인 해주세요');
+			location.href="/member/signIn";
 		}else {
 
 			const params = {

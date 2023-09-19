@@ -8,14 +8,15 @@
 		$.ajax({
 			url: "/member/deleteAddress",
 			type: "post",
-			data: {zipCode: data},
+			data: {addressId: data},
 			dataType: 'json',
 			success: function (result) {
-				if (result > 0) {
-					window.alert("주소 삭제 되었습니다.")
-					window.location.href = '/member/addressManage'
+				if (result == true) {
+					alert("주소 삭제 되었습니다.")
+					location.href = '/member/addressManage'
 				} else {
-					window.alert("주소 삭제 실패.")
+					alert("기본 주소 1개는 존재해야 합니다.")
+					location.href = '/member/addressManage'
 				}
 			},
 			error: function () {
@@ -31,7 +32,7 @@
 		$.ajax({
 			url: "/member/setBasicAddr",
 			type: "post",
-			data: {zipCode: data},
+			data: {addressId: data},
 			dataType: 'json',
 			success: function (result) {
 				if (result > 0) {
@@ -39,6 +40,24 @@
 					window.location.href = '/member/addressManage'
 				} else {
 					window.alert("주소 변경 실패.")
+				}
+			},
+			error: function () {
+				alert("요청 실패");
+			}
+		})
+	}
+	
+	function addAddress(){
+		$.ajax({
+			url: "/member/checkAddr",
+			type: "post",
+			success: function (result) {
+				if (result >= 5) {
+					window.alert("주소는 5개까지만 추가가 가능합니다!")
+					window.location.href = '/member/addressManage'
+				}else{
+					window.location.href='/member/addAddress'
 				}
 			},
 			error: function () {
@@ -54,7 +73,7 @@
 	<table border="">
 		<tr>
 			<td colspan="6">
-				<h3>배송지 정보</h3>
+				<h3>배송지 정보(배송지는 최대 5개까지 관리 가능합니다.)</h3>
 			</td>
 		</tr>
 		<tr>
@@ -70,13 +89,13 @@
 			<td th:text="${addr.detailAddress}" />
 			<td th:text="${addr.addressPhone}" />
 			<td><a th:href="|/member/modifyAddress/${addr.addressId}|">수정</a>
-				<button id="deleteAddr" th:addrParam="${addr.zipCode}"
+				<button id="deleteAddr" th:addrParam="${addr.addressId}"
 					th:onclick="deleteAddrBtn(this.getAttribute('addrParam'))" th:text="|삭제|" />
-				<button id="setBasicAddr" th:if="${addr.basicAddr == 0}" th:addrParam="${addr.zipCode}"
+				<button id="setBasicAddr" th:if="${addr.basicAddr == 0}" th:addrParam="${addr.addressId}"
 					th:onclick="setBasicAddrBtn(this.getAttribute('addrParam'))" th:text="|기본 주소로 설정|" />
 			</td>
 
 		</tr>
 	</table>
-	<a href="addAddress">배송지 추가</a>
+	<button onclick="addAddress()">배송지 추가</button>
 </div>

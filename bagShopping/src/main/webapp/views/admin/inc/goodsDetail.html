@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+
+<body>
+	<table border="">
+		<tr>
+			<td>상품코드</td>
+			<td th:text="${bag.productCode}" />
+		</tr>
+		<tr >
+			<td>카테고리</td>
+			<th:block th:each="category : ${categories}">
+			<td th:if="${category.categoriesId == bag.categoriesId}" th:text="${category.categoriesName}"/>
+			</th:block>
+		</tr>
+		<tr >
+			<td>타입</td>
+			<th:block th:each="type : ${types}">
+			<td th:if="${type.typeId == bag.typeId}" th:text="${type.typeName}"/>
+			</th:block>
+		</tr>
+		<tr >
+			<td>브랜드명</td>
+			<th:block th:each="brand : ${brands}">
+			<td th:if="${brand.brandId == bag.brandId}" th:text="${brand.brandName}"/>
+			</th:block>
+		</tr>
+		<tr>
+			<td>상품명</td>
+			<td th:text="${bag.bagName}" />
+		</tr>
+		<tr>
+			<td>가격</td>
+			<td th:text="${bag.bagPrice}" />
+		</tr>
+		<tr>
+			<td>너비</td>
+			<td th:text="${bag.bagSizeW}" />
+		</tr>
+		<tr>
+			<td>높이</td>
+			<td th:text="${bag.bagSizeH}" />
+		</tr>
+		<tr>
+			<td>깊이</td>
+			<td th:text="${bag.bagSizeD}" />
+		</tr>
+		<tr>
+			<td>용량</td>
+			<td th:text="${bag.bagCapacity}" />
+		</tr>
+		<tr>
+			<td>무게</td>
+			<td th:text="${bag.bagWeight}" />
+		</tr>
+		<tr>
+			<td>겉감</td>
+			<td th:text="${bag.bagOuterFabric}" />
+		</tr>
+		<tr>
+			<td>안감</td>
+			<td th:text="${bag.bagInnerFabric}" />
+		</tr>
+		<tr>
+			<td>지퍼</td>
+			<td th:text="${bag.bagZipper}" />
+		</tr>
+		<tr>
+			<td>버클</td>
+			<td th:text="${bag.bagBuckle}" />
+		</tr>
+		<tr>
+			<td>상품 설명</td>
+			<td th:text="${bag.bagComment}" />
+		</tr>
+		<tr>
+			<td>이미지1</td>
+			<td th:if="${bag.bagImg1 == null or bag.bagImg1 == ''}">
+			</td>
+			<td th:unless="${bag.bagImg1 == null or bag.bagImg1 == ''}" id="Img1">
+				<img th:src="|/upFile/${bag.bagImg1}|">
+				[[${bag.bagImg1}]]
+			</td>
+		</tr>
+		<tr>
+			<td>이미지2</td>
+			<td th:if="${bag.bagImg2 == null or bag.bagImg2 == ''}">
+			</td>
+			<td th:unless="${bag.bagImg2 == null or bag.bagImg2 == ''}" id="Img2">
+				<img th:src="|/upFile/${bag.bagImg2}|">
+				[[${bag.bagImg2}]]
+			</td>
+		</tr>
+		<tr>
+			<td>이미지3</td>
+			<td th:if="${bag.bagImg3 == null or bag.bagImg3 == ''}">
+			</td>
+			<td th:unless="${bag.bagImg3 == null or bag.bagImg3 == ''}" id="Img3">
+				<img th:src="|/upFile/${bag.bagImg3}|">
+				[[${bag.bagImg3}]]
+			</td>
+		</tr>
+		<tr>
+			<td>이미지4</td>
+			<td th:if="${bag.bagImg4 == null or bag.bagImg4 == ''}">
+			</td>
+			<td th:unless="${bag.bagImg4 == null or bag.bagImg4 == ''}" id="Img4">
+				<img th:src="|/upFile/${bag.bagImg4}|">
+				[[${bag.bagImg4}]]
+			</td>
+		</tr>
+		<tr>
+			<td>상품제조월</td>
+			<td th:text="${bag.bagsProductionDay}" />
+		</tr>
+		<tr>
+			<td colspan="2">
+				<a th:href="|/admin/goodsManage/${pd.page}|">뒤로</a>
+			</td>
+		</tr>
+	</table>
+</body>
+
+</html>

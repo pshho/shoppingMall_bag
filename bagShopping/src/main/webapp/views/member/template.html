@@ -105,7 +105,7 @@
 				var phone1 = $("#phone1 option:selected").val();
 				var phone2 = $("#phone2").val();
 				var phone3 = $("#phone3").val();
-				var phone = phone1 + phone2 + phone3;
+				var phone = phone1 + "-" + phone2 + "-" + phone3;
 				console.log(phone);
 				$.ajax({
 					type: "POST",

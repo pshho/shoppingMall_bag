@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import bag.model.OrderDTO;
 import bag.model.PageData2;
+import bag.model.TotalOrderDTO;
 
 @Mapper
 public interface OrdersMapper {
@@ -27,5 +28,8 @@ public interface OrdersMapper {
 	OrderDTO getOrder(String merchantUid);
 	
 	List<OrderDTO> chkOrder(String memberId, String orderStatus);
+	
+	List<TotalOrderDTO> monthSales();
+	List<TotalOrderDTO> yearSales();
 	
 }

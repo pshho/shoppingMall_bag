@@ -17,11 +17,12 @@ public interface AddressMapper {
 	int selectBasic(AddressDTO adto);
 	void chgBasicAddr(AddressDTO adto);
 	
-	int deleteAddress(String memberId, String zipCode);
+	int deleteAddress(String memberId, String addressId);
 	AddressDTO getUserAddrOne(String memberId, int addressId);
 	int updateAddr(AddressDTO addrDTO);
 	
 	int setBasicAddr0(String memberId);
-	int setBasicAddr1(String memberId, String zipCode);
+	void setAllBasicAddr1(String memberId);
+	int setBasicAddr1(String memberId, String addressId);
 	
 }
