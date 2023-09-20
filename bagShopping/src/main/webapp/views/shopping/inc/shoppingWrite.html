@@ -12,15 +12,6 @@
 			</td>
 		</tr>
 		<tr>
-			<td width="150px">카테고리</td>
-			<td>
-				<select id="category">
-					<option th:each="cate:${categoriesList}" 
-					th:value="${cate.categoriesId}" th:text="${cate.categoriesName}"></option>
-				</select>
-			</td>
-		</tr>
-		<tr>
 			<td>상품</td>
 			<td>
 				<select th:field="*{productCode}" id="product">
