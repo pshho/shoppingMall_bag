@@ -167,7 +167,16 @@
 		var detailAddr = '';
 	} */
 	var addrList = [[${addrList}]];
-	var prod = [[${cartBags[0].bagName}]];
+	var prods = [[${cartBags}]];
+	var prod = '';
+	prods.forEach(function(item, index){
+		if(index == prods.length - 1){
+			prod += item.bagName;
+		}else{
+			prod += item.bagName + ',';
+		}
+	})
+	
 	var prodSize = [[${#arrays.length(cartBags)}]];
 	var phones = ['010', '011', '016', '017', '019'];
 	const total = $('#total').text();
@@ -230,7 +239,7 @@
 			if(prodSize === 1){
 				$('#prodName').append('<td colspan="3">'+prod+'</td>');
 			}else {
-				$('#prodName').append('<td colspan="3">'+prod+
+				$('#prodName').append('<td colspan="3">'+prod.substring(0, prod.indexOf(','))+
 					' 외 '+(prodSize-1)+'건</td>');
 			}
 		}
@@ -249,7 +258,7 @@
 			if(prodSize === 1){
 				$('#prodName').append('<td colspan="3">'+prod+'</td>');
 			}else {
-				$('#prodName').append('<td colspan="3">'+prod+
+				$('#prodName').append('<td colspan="3">'+prod.substring(0, prod.indexOf(','))+
 					' 외 '+(prodSize-1)+'건</td>');
 			}
 		}
@@ -268,7 +277,7 @@
 			if(prodSize === 1){
 				$('#prodName').append('<td colspan="3">'+prod+'</td>');
 			}else {
-				$('#prodName').append('<td colspan="3">'+prod+
+				$('#prodName').append('<td colspan="3">'+prod.substring(0, prod.indexOf(','))+
 					' 외 '+(prodSize-1)+'건</td>');
 			}
 		})
@@ -300,7 +309,7 @@
 			if(prodSize === 1){
 				$('#prodName').append('<td colspan="3">'+prod+'</td>');
 			}else {
-				$('#prodName').append('<td colspan="3">'+prod+
+				$('#prodName').append('<td colspan="3">'+prod.substring(0, prod.indexOf(','))+
 					' 외 '+(prodSize-1)+'건</td>');
 			}
 		})
@@ -434,7 +443,7 @@
 		if(prodSize === 1){
 			$('#prodName').append('<td colspan="3">'+prod+'</td>');
 		}else {
-			$('#prodName').append('<td colspan="3">'+prod+
+			$('#prodName').append('<td colspan="3">'+prod.substring(0, prod.indexOf(','))+
 				' 외 '+(prodSize-1)+'건</td>');
 		}
 	}
@@ -471,7 +480,7 @@
 				if(prodSize === 1){
 					$('#prodName').append('<td colspan="3">'+prod+'</td>');
 				}else {
-					$('#prodName').append('<td colspan="3">'+prod+
+					$('#prodName').append('<td colspan="3">'+prod.substring(0, prod.indexOf(','))+
 						' 외 '+(prodSize-1)+'건</td>');
 				}
 			},
@@ -545,7 +554,7 @@
 		if(prodSize === 1){
 			$('#prodName').append('<td colspan="3">'+prod+'</td>');
 		}else {
-			$('#prodName').append('<td colspan="3">'+prod+
+			$('#prodName').append('<td colspan="3">'+prod.substring(0, prod.indexOf(','))+
 				' 외 '+(prodSize-1)+'건</td>');
 		}
 	}
@@ -636,19 +645,11 @@
 			return false;
 		}
 		
-		var prdName = '';
-		
-		if(prodSize != 0){
-			prdName = prod + '외 ' + (prodSize-1) + '건';
-		}else {
-			prdName = prod;
-		}
-		
 		const params = {
 			ordersTotalPrice: total,
 			payType: type,
 			memberId: userId,
-			prdName: prdName,
+			prdName: prod,
 			buyerName: userName,
 			buyerEmail: email,
 			buyerTel: phone,
