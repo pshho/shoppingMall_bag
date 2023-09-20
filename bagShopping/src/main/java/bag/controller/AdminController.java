@@ -18,6 +18,7 @@ import bag.model.BagsDTO;
 import bag.model.OrderDTO;
 import bag.model.PageData2;
 import bag.model.ProductsBoardDTO;
+import bag.model.TotalOrderDTO;
 import bag.service.BagsMapper;
 import bag.service.BrandMapper;
 import bag.service.CategoriesMapper;
@@ -359,6 +360,18 @@ public class AdminController {
 		return "admin/template";
 	}
 
+	@RequestMapping("getMonthData")
+	public @ResponseBody List<TotalOrderDTO> getMonthData() throws Exception {
+		
+		return ordMapper.monthSales();
+	}
+	
+	@RequestMapping("getYearData")
+	public @ResponseBody List<TotalOrderDTO> getYearData() throws Exception {
+		
+		return ordMapper.yearSales();
+	}
+	
 	@RequestMapping("salesHistory/{page}/{merchantUid}")
 	String salesHistoryDetail(HttpSession session, Model mm, PageData2 pd, OrderDTO ordDTO) {
 		String templateUrl = "orderDetail";
@@ -369,12 +382,14 @@ public class AdminController {
 		if (ord.getProdCode().indexOf(",") > 0) {
 			String[] prod = ord.getProdCode().split(",");
 			String[] amount = ord.getProdCount().split(",");
+			String[] name = ord.getPrdName().split(",");
 			List<BagsDTO> myBagList = new ArrayList<>();
 			for (int i = 0; i < prod.length; i++) {
 				BagsDTO bag = new BagsDTO();
 				bag.setProductCode(Integer.parseInt(prod[i]));
 				bag.setAmount(Integer.parseInt(amount[i]));
 				bag.setMerchantUid(ord.getMerchantUid());
+				bag.setBagName(name[i]);
 				myBagList.add(bag);
 			}
 			mm.addAttribute("myOrd", myBagList);
@@ -382,6 +397,7 @@ public class AdminController {
 			BagsDTO bag = new BagsDTO();
 			bag.setProductCode(Integer.parseInt(ord.getProdCode()));
 			bag.setAmount(Integer.parseInt(ord.getProdCount()));
+			bag.setBagName(ord.getPrdName());
 			bag.setMerchantUid(ord.getMerchantUid());
 			mm.addAttribute("myOrd", bag);
 		}

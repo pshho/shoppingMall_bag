@@ -518,12 +518,14 @@ public class MemberController {
 		if (ord.getProdCode().indexOf(",") > 0) {
 			String[] prod = ord.getProdCode().split(",");
 			String[] amount = ord.getProdCount().split(",");
+			String[] name = ord.getPrdName().split(",");
 			List<BagsDTO> myBagList = new ArrayList<>();
 			for (int i = 0; i < prod.length; i++) {
 				BagsDTO bag = new BagsDTO();
 				bag.setProductCode(Integer.parseInt(prod[i]));
 				bag.setAmount(Integer.parseInt(amount[i]));
 				bag.setMerchantUid(ord.getMerchantUid());
+				bag.setBagName(name[i]);
 				myBagList.add(bag);
 			}
 			mm.addAttribute("myOrd", myBagList);
@@ -531,6 +533,7 @@ public class MemberController {
 			BagsDTO bag = new BagsDTO();
 			bag.setProductCode(Integer.parseInt(ord.getProdCode()));
 			bag.setAmount(Integer.parseInt(ord.getProdCount()));
+			bag.setBagName(ord.getPrdName());
 			bag.setMerchantUid(ord.getMerchantUid());
 			mm.addAttribute("myOrd", bag);
 		}
