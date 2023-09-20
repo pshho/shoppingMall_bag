@@ -1,59 +1,69 @@
 <html xmlns="http://www.thymeleaf.org">
-<h1>header</h1>
-
-<div>
-	<ul>
-		<li>
-			<a href="/shopping/shoppingList/0/0/0/1/newest">상품 전체보기</a>
-		</li>
-	</ul>
-</div>
-<div>
-	<h3>브랜드</h3>
-	<ul>
-		<li th:each="brand:${brandList}">
-			<a th:href="|/shopping/shoppingList/${brand.brandId}/0/0/1/newest|" th:text="${brand.brandName}"></a>
-		</li>
-	</ul>
-</div>
-<div th:each="cate:${categoriesList}">
-	<h3 th:text="${cate.categoriesName}"></h3>
-	<ul>
-
-		<li th:each="type:${typeList}" th:if="${type.categoriesId eq cate.categoriesId}">
-			<a th:href="|/shopping/shoppingList/0/${cate.categoriesId}/${type.typeId}/1/newest|"
-				th:text="${type.typeName}"></a>
-
-		</li>
-	</ul>
-</div>
-<div>
-	<ul>
-		<li>
-			<a id="cartLink" href="/shopping/shoppingCart" th:if="${cartCount != null and cartCount != 0}"
-				th:text="|장바구니(${cartCount})|"></a>
-			<a id="cartLink" href="/shopping/shoppingCart" th:unless="${cartCount != null and cartCount != 0}">장바구니</a>
-		</li>
-	</ul>
-</div>
-<a href="/">홈으로</a>
-
-<!--member-->
-<th:block th:if="${session.userId == null}">
-	<a href="/member/signUp">회원가입</a>
-	<a href="/member/signIn">로그인</a>
-</th:block>
-
-<th:block th:if="${session.userId != null}">
-	<a href="/member/logOut">[[${session.userId}]]님 로그아웃</a>
-	<a href="/member/myPage">마이페이지</a>
-</th:block>
-<!--member-->
-
-<a href="/notice/noticeList/1">공지사항</a>
-<a href="/inquiry/inquiryList/1">문의게시판</a>
-
-<th:block th:if="${session.admin != null}">
-	<a href="/admin/adminMain">관리자페이지 돌아가기</a>
-</th:block>
+<header class="header">
+	<div>
+		<a href="/">
+			<h1>IWILLBAG</h1>
+		</a>
+	</div>
+	<div>
+		<a href="/shopping/shoppingList/0/0/0/1/newest">모든 상품</a>
+	</div>
+	<div>
+		<h4>브랜드</h4>
+		<ul>
+			<li th:each="brand:${brandList}">
+				<a th:href="|/shopping/shoppingList/${brand.brandId}/0/0/1/newest|" th:text="${brand.brandName}"></a>
+			</li>
+		</ul>
+	</div>
+	<div th:each="cate:${categoriesList}">
+		<h4 th:text="${cate.categoriesName}"></h4>
+		<ul>
+	
+			<li th:each="type:${typeList}" th:if="${type.categoriesId eq cate.categoriesId}">
+				<a th:href="|/shopping/shoppingList/0/${cate.categoriesId}/${type.typeId}/1/newest|"
+					th:text="${type.typeName}"></a>
+	
+			</li>
+		</ul>
+	</div>
+	<div>
+		<a id="cartLink" href="/shopping/shoppingCart" th:if="${cartCount != null and cartCount != 0}"
+			th:text="|장바구니(${cartCount})|"></a>
+		<a id="cartLink" href="/shopping/shoppingCart" th:unless="${cartCount != null and cartCount != 0}">장바구니</a>
+	</div>
+	<div>
+		<h4>고객서비스</h4>
+		<ul>
+			<li>
+				<a href="/notice/noticeList/1">공지사항</a>
+			</li>
+			<li>
+				<a href="/inquiry/inquiryList/1">문의게시판</a>
+			</li>
+		</ul>
+	</div>
+	
+	<!--member-->
+	<th:block th:if="${session.userId == null}">
+		<div>
+			<a href="/member/signUp">회원가입</a>
+			<a href="/member/signIn">로그인</a>
+		</div>
+	</th:block>
+	
+	<th:block th:if="${session.userId != null}">
+		<div>
+			<a href="/member/logOut">[[${session.userId}]]님 로그아웃</a>
+			<a href="/member/myPage">마이페이지</a>
+		</div>
+	</th:block>
+	<!--member-->
+	
+	<th:block th:if="${session.admin != null}">
+		<div>
+			<a href="/admin/adminMain">관리자페이지 돌아가기</a>
+		</div>
+	</th:block>
+</header>
 <hr />
