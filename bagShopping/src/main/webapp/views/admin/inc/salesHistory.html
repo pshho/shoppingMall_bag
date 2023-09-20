@@ -4,6 +4,114 @@
 <head>
 	<meta charset="UTF-8">
 	<title>판매 관리</title>
+	<style>
+		.parent {
+			width: 500px;
+			height: 250px;
+		}
+	</style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+	<script>
+		$(document).ready(function () {
+			getGraph();
+			getGraph2();
+		});
+
+		function getGraph() {
+			let timeList = [];
+			let posList = [];
+
+			$.ajax({
+				url: "/admin/getMonthData",
+				type: "get",
+				data: {},
+				dataType: "json",
+				success: function (data) {
+					// console.log(data[0].pos_count);
+					// 그래프로 나타낼 자료 리스트에 담기
+					console.log(data)
+					for (let i = 0; i < data.length; i++) {
+						timeList.push(data[i].mm);
+						posList.push(data[i].sales);
+					}
+					// console.log(timeList);
+					// console.log(posList);  	
+					// 그래프
+					new Chart(document.getElementById("line-chart"), {
+						type: 'line',
+						data: {
+							labels: timeList, // X축 
+							datasets: [{
+								data: posList, // 값
+								label: "매출액(단위: 원)",
+								borderColor: "#3e95cd",
+								fill: false
+							}
+							]
+						},
+						options: {
+							title: {
+								display: true,
+								text: ''
+							}
+						}
+					}); //그래프
+				},
+				error: function () {
+					alert("실패");
+				}
+
+			}) // ajax	  
+		} // getGraph
+
+		function getGraph2() {
+			let timeList = [];
+			let posList = [];
+
+			$.ajax({
+				url: "/admin/getYearData",
+				type: "get",
+				data: {},
+				dataType: "json",
+				success: function (data) {
+					// console.log(data[0].pos_count);
+					// 그래프로 나타낼 자료 리스트에 담기
+					console.log(data)
+					for (let i = 0; i < data.length; i++) {
+						timeList.push(data[i].yy);
+						posList.push(data[i].sales);
+					}
+					// console.log(timeList);
+					// console.log(posList);  	
+					// 그래프
+					new Chart(document.getElementById("line-chart2"), {
+						type: 'line',
+						data: {
+							labels: timeList, // X축 
+							datasets: [{
+								data: posList, // 값
+								label: "매출액(단위: 원)",
+								borderColor: "#3e95cd",
+								fill: false
+							}
+							]
+						},
+						options: {
+							title: {
+								display: true,
+								text: ''
+							}
+						}
+					}); //그래프
+				},
+				error: function () {
+					alert("실패");
+				}
+
+			}) // ajax	  
+		} // getGraph
+	</script>
 	<script>
 		function orderCancel(data) {
 			if (confirm("결제를 취소 하시겠습니까?")) {
@@ -198,7 +306,7 @@
 						th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
 						<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
 					</th:block>
-					
+
 					<th:block
 						th:unless="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
 						<a th:href="|${pd.pageStart-1}?searchType=${pd.searchType}&keyword=${pd.keyword}&dateStart=${pd.dateStart}&dateEnd=${pd.dateEnd}|"
@@ -217,7 +325,7 @@
 							</th:block>
 						</th:block>
 
-						
+
 
 						<th:block
 							th:unless="(${pd.searchType == null} or ${pd.searchType == ''}) and (${pd.keyword == null} or ${pd.keyword == ''}) and ${pd.dateStart == null} and ${pd.dateEnd == null}">
@@ -238,7 +346,7 @@
 						th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
 						<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
 					</th:block>
-					
+
 					<th:block
 						th:unless="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
 						<a th:href="|${pd.pageEnd+1}?searchType=${pd.searchType}&keyword=${pd.keyword}&dateStart=${pd.dateStart}&dateEnd=${pd.dateEnd}|"
@@ -268,22 +376,29 @@
 			</td>
 		</tr>
 	</table>
-	<hr/>
+	<hr />
 	<table>
 		월별 판매액
 		<tr th:each="month : ${monthSales}">
-			<td th:text="${month.MM}"/>
-			<td th:text="${month.SALES}"/>
+			<td th:text="${month.MM}" />
+			<td th:text="${month.SALES}" />
 		</tr>
 	</table>
-	<hr/>
+	<div class="parent">
+		<canvas id="line-chart"></canvas>
+	</div>
+	<hr />
 	<table>
 		년도별 판매액
 		<tr th:each="year : ${yearSales}">
-			<td th:text="${year.YY}"/>
-			<td th:text="${year.SALES}"/>
+			<td th:text="${year.YY}" />
+			<td th:text="${year.SALES}" />
 		</tr>
+
 	</table>
+	<div class="parent">
+		<canvas id="line-chart2"></canvas>
+	</div>
 </body>
 
 </html>
