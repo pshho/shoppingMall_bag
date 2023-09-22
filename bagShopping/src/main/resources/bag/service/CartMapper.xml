@@ -13,13 +13,25 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<select id="cartList" resultType="cartDTO">
 		select * from cart <include refid="wh_memberId" />
 	</select>
+	<select id="payCartList" resultType="cartDTO">
+		select * from cart
+		<where>
+			<if test="memberId!=null">
+				member_id = #{memberId}
+			</if>
+			<if test="payStatus!=0">
+				and pay_status = #{payStatus}
+			</if>
+		</where>
+	</select>
 	<insert id="addCart" parameterType="cartDTO">
-		insert into cart(member_id, product_code, products_count, sum_price)
+		insert into cart(member_id, product_code, products_count, sum_price, pay_status)
 		values
-		(#{memberId}, #{productCode}, #{productsCount}, #{sumPrice})
+		(#{memberId}, #{productCode}, #{productsCount}, #{sumPrice}, #{payStatus})
 	</insert>
 	<update id="updCart" parameterType="cartDTO">
-		update cart set products_count = products_count + #{productsCount}, sum_price = sum_price + #{sumPrice}
+		update cart set products_count = products_count + #{productsCount}, sum_price = sum_price + #{sumPrice},
+		pay_status = #{payStatus}
 		<where>
 			<if test="productCode!=0">
 				product_code = #{productCode}
@@ -51,4 +63,18 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<delete id="allDelete">
 		delete from cart <include refid="wh_memberId" />
 	</delete>
+	<update id="orderSelect" parameterType="cartDTO">
+		update cart set pay_status = #{payStatus}
+		<where>
+			<if test="memberId!=null">
+				member_id = #{memberId}
+			</if>
+			<if test="productCode!=0">
+				and product_code = #{productCode}
+			</if>
+		</where>
+	</update>
+	<update id="selectInit" parameterType="String">
+		update cart set pay_status = 0 <include refid="wh_memberId" />
+	</update>
 </mapper>

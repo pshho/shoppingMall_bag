@@ -180,7 +180,10 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		bags.product_code
 		<where>
 			<if test="memberId!=null">
-				member_id = #{memberId}
+				cart.member_id = #{memberId}
+			</if>
+			<if test="payStatus!=0">
+				and cart.pay_status = #{payStatus}
 			</if>
 		</where>
 	</select>

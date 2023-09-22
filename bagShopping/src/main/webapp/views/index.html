@@ -5,13 +5,74 @@
 <title>Index</title>
 <link rel="stylesheet" href="/css/indexCss/index.css" />
 <link rel="stylesheet" href="/css/indexCss/header.css" />
+<script src="https://code.jquery.com/jquery-3.7.1.js"
+integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+crossorigin="anonymous"></script>
 </head>
 <body>
 	<th:block th:replace="header/header" />
-	<h1>Index</h1>
-	<h2>메인페이지 디자인</h2>
+	<section class="main">
+		<h2>메인페이지 디자인</h2>
+	</section>
 	
 	
 	<th:block th:replace="footer/footer" />
+	<script>
+		$(document).ready(function(){
+			$('#searForm').submit(function(e){
+				e.preventDefault();
+				
+				const search = $('#searchCont').val().trim();
+				
+				if(search.length == 0 || search.length > 30){
+					alert('검색 내용은 1~30글자 내로 해주세요');
+					return false;
+				}else {
+					$('#searForm').get(0).submit();
+				}
+			})
+			
+			$.ajax({
+				url : '/shopping/shopList',
+				type : 'get',
+				contentType: 'application/json; charset=utf-8',
+				dataType : 'json',
+				success : function(res) {
+					res.forEach(function(item){
+						$('#searchDrop').append('<div class="searData">'+item.bagName+'</div>')
+					})
+				},
+				error : function (req, status, error) {
+					console.log(req);
+					console.log(status);
+					console.log(error);
+				}
+			})
+			
+			$('#searchCont').on('input', function(){
+				let list = document.getElementById('searchDrop');
+				let data = list.querySelectorAll('div');
+				
+				data.forEach(function(item){
+					if(item.innerText.includes($('#searchCont').val())){
+						item.style.display = "block";
+					}else {
+						item.style.display = "none";
+					}
+				});
+			})
+			
+			$('#searchDrop').on('click', 'div', function(){
+				$('#searchCont').val($(this).text());
+				$('.searData').css('display', 'none');
+			})
+			
+			$('body').on('click', function(e){
+				if(!$(e.target).closest('#searchDrop').length > 0){
+					$('.searData').css('display', 'none');
+				}
+			})
+		})
+	</script>
 </body>
 </html>

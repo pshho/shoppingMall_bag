@@ -11,7 +11,7 @@ import lombok.Data;
 @Data
 public class ProductsBoardDTO {
 	int productsBoardId, typeId, productCode, brandId, categoriesId, reviewCount, sellsAmount, productsBoardStatus, defaultProductCode;
-	String intro, contents, addressInfo, guide, memberId;
+	String intro, contents, addressInfo, guide, memberId, searchCont;
 	Date productsBoardRegDate;
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd (E) HH:mm");
 	

@@ -1,30 +1,48 @@
 <html xmlns="http://www.thymeleaf.org">
-<h1 th:each="cate:${categoriesList}" th:if="${productsBoard.categoriesId eq cate.categoriesId}"
-	th:text="${cate.categoriesName}"></h1>
-<hr />
 <section class="shopDetail">
 	<!-- 상품 관련 정보 -->
 	<div>
-		<table border="">
+		<table class="shoppingDetail1">
 			<tr>
-				<td colspan="2">
-					<div th:if="${bags.bagImg1 != null and bags.bagImg1 != ''}">
-						<img th:src="|/upFile/${bags.bagImg1}|" alt="상품 사진" />
-					</div>
-					<div th:if="${bags.bagImg2 != null and bags.bagImg2 != ''}">
-						<img th:src="|/upFile/${bags.bagImg2}|" alt="상품 사진" />
-					</div>
-					<div th:if="${bags.bagImg3 != null and bags.bagImg3 != ''}">
-						<img th:src="|/upFile/${bags.bagImg3}|" alt="상품 사진" />
-					</div>
-					<div th:if="${bags.bagImg4 != null and bags.bagImg4 != ''}">
-						<img th:src="|/upFile/${bags.bagImg4}|" alt="상품 사진" />
-					</div>
+				<td colspan="2" th:each="cate:${categoriesList}" th:if="${productsBoard.categoriesId eq cate.categoriesId}">
+					<h1 th:text="${cate.categoriesName}"></h1>
 				</td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<div th:utext="${productsBoard.contents}"></div>
+					<section>
+						<div>
+							<div th:if="${bags.bagImg1 != null and bags.bagImg1 != ''}"
+							onclick="imgsChange(this)">
+								<img th:src="|/upFile/${bags.bagImg1}|" alt="상품 사진" />
+							</div>
+							<div th:if="${bags.bagImg2 != null and bags.bagImg2 != ''}"
+							onclick="imgsChange(this)">
+								<img th:src="|/upFile/${bags.bagImg2}|" alt="상품 사진" />
+							</div>
+							<div th:if="${bags.bagImg3 != null and bags.bagImg3 != ''}" 
+							onclick="imgsChange(this)">
+								<img th:src="|/upFile/${bags.bagImg3}|" alt="상품 사진" />
+							</div>
+							<div th:if="${bags.bagImg4 != null and bags.bagImg4 != ''}"
+							onclick="imgsChange(this)">
+								<img th:src="|/upFile/${bags.bagImg4}|" alt="상품 사진" />
+							</div>
+						</div>
+						<div>
+							<img id="mainImg" th:src="|/upFile/${bags.bagImg1}|" alt="상품 사진" />
+						</div>
+					</section>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<div id="prdContents" th:utext="${productsBoard.contents}"></div>
+					<div id="onContents">
+						<div id="subOnContents">
+							<p>이어서 보시려면 클릭해주세요 ∨</p>
+						</div>
+					</div>
 				</td>
 			</tr>
 			<tr>
@@ -33,15 +51,15 @@
 			</tr>
 			<tr>
 				<td>사이즈</td>
-				<td th:text="|${bags.bagSizeW}/${bags.bagSizeH}/${bags.bagSizeD}|"></td>
+				<td th:text="|${bags.bagSizeW}(W)*${bags.bagSizeH}(H)*${bags.bagSizeD}(D)(mm)|"></td>
 			</tr>
 			<tr>
 				<td>용량</td>
-				<td th:text="${bags.bagCapacity}"></td>
+				<td th:text="|${bags.bagCapacity}L|"></td>
 			</tr>
 			<tr>
 				<td>무게</td>
-				<td th:text="${bags.bagWeight}"></td>
+				<td th:text="|${bags.bagWeight}g|"></td>
 			</tr>
 			<tr>
 				<td>겉감</td>
@@ -63,10 +81,12 @@
 				<td>제조연월</td>
 				<td th:text="${bags.bagsProductionDay2}"></td>
 			</tr>
-			<tr>
-				<td colspan="2" th:text="${productsBoard.guide}"></td>
+			<tr id="insertReview">
+				<td colspan="2">
+					<textarea cols="50" rows="15" th:text="${productsBoard.guide}" readonly></textarea>
+				</td>
 			</tr>
-			<tr th:if="${reviewPos eq 1}">
+			<tr th:if="${reviewPos eq 1}" id="reviewArea">
 				<td colspan="2" class="replyTd">
 					<textarea cols="40" rows="5" id="content" placeholder="리뷰를 남겨보세요"></textarea>
 					<input type="button" value="등록" onclick="saveComments()" />
@@ -84,7 +104,7 @@
 	</div>
 	<!-- 배송, 결제 관련 정보 -->
 	<div>
-		<table border="">
+		<table class="shoppingDetail2">
 			<tr>
 				<td colspan="3" th:each="brand:${brandList}" th:if="${brand.brandId eq productsBoard.brandId}"
 					th:text="${brand.brandName}"></td>
@@ -93,7 +113,7 @@
 				<td colspan="3" th:text="${bags.bagName}"></td>
 			</tr>
 			<tr>
-				<td colspan="3" th:text="${bags.bagPrice}"></td>
+				<td colspan="3" th:text="|금액 ${#numbers.formatInteger(bags.bagPrice, 0, 'COMMA')}|"></td>
 			</tr>
 			<tr>
 				<td>상품코드</td>
@@ -101,49 +121,44 @@
 			</tr>
 			<tr>
 				<td>배송정보</td>
-				<td colspan="2" th:text="${productsBoard.addressInfo}"></td>
-			</tr>
-			<tr>
-				<td>결제관련정보</td>
-				<td colspan="2">결제관련정보</td>
+				<td colspan="2">
+					<textarea cols="50" rows="15" th:text="${productsBoard.addressInfo}" readonly></textarea>
+				</td>
 			</tr>
 			<tr>
 				<td rowspan="5">상품설명</td>
-			<tr>
-				<td colspan="2" th:text="${bags.bagComment}"></td>
+				<tr>
+					<td colspan="2" th:text="${bags.bagComment}"></td>
+				</tr>
+				<tr>
+					<td>정면길이</td>
+					<td th:text="|${bags.bagSizeW}mm|"></td>
+				</tr>
+				<tr>
+					<td>높이</td>
+					<td th:text="|${bags.bagSizeH}mm|"></td>
+				</tr>
+				<tr>
+					<td>측면길이</td>
+					<td th:text="|${bags.bagSizeD}mm|"></td>
+				</tr>
 			</tr>
 			<tr>
-				<td>정면길이</td>
-				<td th:text="${bags.bagSizeW}"></td>
-			</tr>
-			<tr>
-				<td>높이</td>
-				<td th:text="${bags.bagSizeH}"></td>
-			</tr>
-			<tr>
-				<td>측면길이</td>
-				<td th:text="${bags.bagSizeD}"></td>
-			</tr>
-			</tr>
-			<tr>
-				<td th:text="${bags.bagName}"></td>
-				<td>
+				<td colspan="3" align="center">
 					<button type="button" onclick="subAmount()">-</button>
 					<input type="text" th:value="${bags.amount}" id="bagsAmount" />
 					<button type="button" onclick="addAmount()">+</button>
-				</td>
-				<td>
-					<input type="text" th:value="${bags.totalPrice}" id="bagsTotal" readonly />
+					<input type="text" th:value="${#numbers.formatInteger(bags.totalPrice, 0, 'COMMA')}" id="bagsTotal" readonly />
 				</td>
 			</tr>
 			<tr>
 				<td>총 상품금액</td>
 				<td colspan="2">
-					<input type="text" th:value="${bags.totalPrice}" id="bagsTotal" readonly />
+					<input type="text" th:value="${#numbers.formatInteger(bags.totalPrice, 0, 'COMMA')}" id="bagsTotal" readonly />
 				</td>
 			</tr>
 			<tr>
-				<td colspan="3">
+				<td align="center" colspan="3">
 					<th:block th:if="${member eq null}">
 						<button type="button" onclick="cartAdd()">장바구니</button>
 						<button type="button" onclick="goPay()">바로구매</button>
@@ -164,7 +179,7 @@
 				</tr>
 			</th:block> -->
 			<tr>
-				<td colspan="3">
+				<td align="right" colspan="3">
 					<a th:if="${session.admin ne null}"
 						th:href="|/shopping/shoppingModify/${productsBoard.productsBoardId}|">수정</a>
 					<a th:if="${session.admin ne null}" href="#"
@@ -215,7 +230,7 @@
 			data: JSON.stringify(params),
 			success: function (res) {
 				bagsTotal.forEach(function (item) {
-					item.value = res.totalPrice;
+					item.value = res.totalPrice.toLocaleString();
 				})
 			},
 			error: function (error) {
@@ -250,7 +265,7 @@
 			data: JSON.stringify(params),
 			success: function (res) {
 				bagsTotal.forEach(function (item) {
-					item.value = res.totalPrice;
+					item.value = res.totalPrice.toLocaleString();
 				})
 			},
 			error: function (error) {
@@ -297,7 +312,7 @@
 					data: JSON.stringify(params),
 					success: function (res) {
 						bagsTotal.forEach(function (item) {
-							item.value = res.totalPrice;
+							item.value = res.totalPrice.toLocaleString();
 						})
 					},
 					error: function (error) {
@@ -307,7 +322,12 @@
 			}, 300);
 		})
 
-		reload();
+		// reload();
+		
+		$('#subOnContents').click(function(){
+			$('#onContents').hide();
+			$('#prdContents').css({overflow: 'auto', height: '100%'});
+		})
 	})
 
 	function confirmation(msg, url, cartCount) {
@@ -340,7 +360,8 @@
 		}else{
 
 			const params = {
-				bagsAmount: bagsAmount
+				bagsAmount: bagsAmount,
+				payStatus: 0
 			}
 
 			$.ajax({
@@ -380,7 +401,8 @@
 		}else {
 
 			const params = {
-				bagsAmount: bagsAmount
+				bagsAmount: bagsAmount,
+				payStatus: 1
 			}
 
 			$.ajax({
@@ -391,7 +413,8 @@
 				async: false,
 				data: JSON.stringify(params),
 				success: function (res) {
-					location.href = "/shopping/shoppingCart";
+					$('#cartLink').text('장바구니(' + res.cartCount + ')');
+					location.href = "/orders/orders";
 				},
 				error: function (error) {
 					console.log(error);
@@ -411,7 +434,10 @@
 
 	}*/
 	
-
+	var area = '<tr th:if="${reviewPos eq 1}" id="reviewArea">';
+	area += '<td colspan="2" class="replyTd">';
+	area += '<textarea cols="40" rows="5" id="content" placeholder="리뷰를 남겨보세요"></textarea>';
+	area += '<input type="button" value="등록" onclick="saveComments()" /></td></tr>';
 	const pid = [[${productsBoard.productsBoardId}]];
 	var reviewCount = [[${productsBoard.reviewCount}]];
 	let gpid = pid;
@@ -444,6 +470,8 @@
 				reviewCount++;
 				alert(res.msg);
 				$('#content').val('');
+				area = $('#reviewArea').detach();
+				$('#reviewArea').remove();
 				listComments();
 			},
 			error: function (req, status, error) {
@@ -536,9 +564,9 @@
 				$('#comm' + commentsId + '').html(
 					'<span>작성자: ' + res.comWriter + '</span><span>' + res.comRegDate2 +
 					'</span>' + '<textarea cols="20" rows="3" id="updateComments"' +
-					'placeholder="' + res.content + '"></textarea><input type="button"' +
+					'placeholder="' + res.content + '"></textarea><div class="btnReview"><input type="button"' +
 					'value="수정" onclick="updateComments(' + commentsId + ')"><input type="button"' +
-					'value="취소" onclick="cancel(' + commentsId + ')">'
+					'value="취소" onclick="cancel(' + commentsId + ')"></div>'
 				);
 			},
 			error: function (req, status, error) {
@@ -611,6 +639,7 @@
 	function confirmDelete(commentsId) {
 		if (confirm('정말 삭제하시겠습니까?')) {
 			deleteComments(commentsId);
+			$('#insertReview').after(area);
 		}
 	}
 
@@ -648,7 +677,10 @@
 			'float': 'left', 'height': '100px', 'margin-right': '55px'
 		});
 	}
-
+	
+	function imgsChange(e){
+		$('#mainImg').attr('src', $(e).find('img').attr('src'));
+	}
 	
 	/* function openReplyComments(commentsId) {
 
