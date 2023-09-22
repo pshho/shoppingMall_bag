@@ -76,7 +76,21 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 			b.brand_name like concat('%', #{searchCont}, '%') or
 			c.categories_name like concat('%', #{searchCont}, '%') or
 			pd.bag_name like concat('%', #{searchCont}, '%') or
+			pd.bag_outer_fabric like concat('%', #{searchCont}, '%') or
+			pd.bag_inner_fabric like concat('%', #{searchCont}, '%') or
+			pd.bag_zipper like concat('%', #{searchCont}, '%') or
+			pd.bag_buckle like concat('%', #{searchCont}, '%') or
+			pd.bag_comment like concat('%', #{searchCont}, '%') or
 			pb.intro like concat('%', #{searchCont}, '%') or pb.contents like concat('%', #{searchCont}, '%'))
+			<if test="brandId!=0">
+				and pb.brand_id = #{brandId}
+			</if>
+			<if test="categoriesId!=0">
+				and pb.categories_id = #{categoriesId}
+			</if>
+			<if test="typeId!=0">
+				and pb.type_id = #{typeId}
+			</if>
 			<if test="productsBoardStatus!=0">
 				and pb.products_board_status = #{productsBoardStatus}
 			</if>

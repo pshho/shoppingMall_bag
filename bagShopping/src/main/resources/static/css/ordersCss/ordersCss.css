@@ -1,20 +1,170 @@
 @charset "UTF-8";
+.order {
+	width: 1200px;
+	height: 700px;
+	margin: 0 auto;
+}
+.order div {
+	margin: 15px auto;
+}
+.orders {
+	width: 1000px;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+.orderPay {
+	width: 750px;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+.orderPay tr:not(:first-of-type) td {
+	padding: 10px 0;
+}
+.orderPay tr:nth-of-type(2) td {
+	text-align: center;
+	font-size: 15px;
+}
+.orderPay tr:last-of-type td,
+.orderPay tr:nth-last-of-type(2) td {
+	text-align: right;
+}
+.orderPay tr:nth-last-of-type(2) td {
+	padding-top: 50px;
+}
+.orderPay tr:last-of-type td input[type=button] {
+	width: 80px;
+	height: 30px;
+	border: 0;
+	border-radius: 10px;
+	background-color: coral;
+	color: white;
+	cursor: pointer;
+}
+.orderPay tr:nth-last-of-type(2) td:last-of-type {
+	width: 130px;
+	font-weight: bold;
+}
+.orders tr td, .orderBuyerInfo tr td,
+.orderAddressInfo tr td, #orderFrame tr td {
+	padding: 5px 10px;
+	border-bottom: 1px solid black;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+}
+.orders tr:not(:first-of-type):not(:last-of-type) td {
+	text-align: center;
+}
+.orders img {
+	width: 150px;
+	height: 170px;
+}
+.order section {
+	display: flex;
+	width: 1000px;
+	margin: 0 auto;
+}
+.orderBuyerInfo {
+	width: 230px;
+	border-collapse: collapse;
+	font-size: 14px;
+}
+.orderAddressInfo {
+	width: 700px;
+	border-collapse: collapse;
+}
+.orderAddressInfo tr:not(:first-of-type){
+	font-size: 14px;
+}
+.orderAddressInfo tr:nth-of-type(2) td:first-of-type {
+	width: 90px;
+}
+.orderAddressInfo tr:nth-of-type(2) td:last-of-type button[type=button] {
+	width: 100px;
+	height: 25px;
+	border: 0;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.orderAddressInfo tr td input[type=button]{
+	border: 0;
+	border-radius: 10px;
+	padding: 4px 10px;
+	cursor: pointer;
+}
+.orderAddressInfo tr:not(:nth-of-type(2)) td button[type=button]{
+	padding: 4px 10px;
+	border: 0;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.orderAddressInfo tr:nth-of-type(2) td:last-of-type {
+	text-align: right;
+}
 .shipInfo {
-	height: 50px;
+	height: 22px;
 	position: relative;
 }
 #shipReq {
-	width: 98%;
+	width: 75%;
 	position: absolute;
-	top: 0;
+	top: 5px;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding-left: 5px;
 }
 #shipSel {
 	display: none;
 	position: absolute;
-	top: 22px;
-	left: 0;
+	top: 25px;
+	left: 12px;
 	overflow: hidden;
+	border: 1px solid black;
+	border-radius: 8px;
 }
+#btnAddr {
+	text-align: right;
+}
+#addrName td input[type=text],
+#addrAddr td input[type=text] {
+	border: 1px solid black;
+	border-radius: 5px;
+}
+#addrName td input[type=text] {
+	width: 100px;
+	padding-left: 5px;
+}
+#addrAddr td input[type=text]:first-of-type {
+	width: 70px;
+	margin-right: 5px;
+	padding: 4px 5px;
+	margin-bottom: 5px;
+}
+#addrAddr td input[type=text]:not(:first-of-type) {
+	width: 280px;
+	padding: 4px 5px;
+	margin-bottom: 5px;
+}
+#addrAddr td:last-of-type {
+	font-size: 12px;
+}
+#addrAddr td:last-of-type label:first-of-type {
+	margin-right: 7px;
+}
+#addrAddr td:last-of-type label input[type=checkbox] {
+	height: 11px;
+}
+#addrPhone td input[type=text] {
+	border: 1px solid black;
+	border-radius: 5px;
+	padding-left: 5px;
+	width: 50px;
+}
+#addrPhone td select {
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
 #orderFrame {
 	display: none;
 	position: fixed;
@@ -22,7 +172,36 @@
 	left: 50%;
 	z-index: 10;
 	transform: translate(-50%, -50%);
-	background: #eee;
+	background: white;
 	overflow: auto;
-	height: 700px;
+	height: 500px;
+	border-collapse: collapse;
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+#orderFrame tr td {
+	text-align: center;
+}
+#orderFrame tr td:first-of-type {
+	width: 50px;
+}
+#orderFrame tr td:nth-of-type(2) {
+	width: 120px;
+}
+#orderFrame tr td:nth-of-type(3) {
+	width: 65px;
+}
+#orderFrame tr td:last-of-type {
+	width: 90px;
+}
+#orderFrame tr td:last-of-type input[type=button] {
+	padding: 4px 10px;
+	border: 0;
+	border-radius: 10px;
+	background-color: cadetblue;
+	color: white;
+	cursor: pointer;
+}
+#orderFrame tr td:nth-last-of-type(2) {
+	width: 65px;
 }

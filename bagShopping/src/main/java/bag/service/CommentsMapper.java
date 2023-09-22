@@ -16,4 +16,5 @@ public interface CommentsMapper {
 	void deleteComments(int id);
 	void insertReComments(CommentsDTO comDTO);
 	void updateComSeq(CommentsDTO comDTO);
+	int chkReview(CommentsDTO comDTO);
 }

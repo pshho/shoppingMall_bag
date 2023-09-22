@@ -7,6 +7,18 @@
 			</td>
 		</tr>
 		<tr>
+			<td align="center" colspan="4">
+				<label for="nonPubs">
+					<input type="radio" id="nonPubs" name="publicStatus" value="0" />
+					비공개
+				</label>
+				<label for="pubs">
+					<input type="radio" id="pubs" name="publicStatus" value="1" />
+					공개
+				</label>
+			</td>
+		</tr>
+		<tr>
 			<td width="150px">제목</td>
 			<td>
 				<input type="text" th:field="*{inTitle}" id="title" />
@@ -25,10 +37,10 @@
 				<textarea th:field="*{inContent}" id="cont"></textarea>
 			</td>
 		</tr>
-		<tr>
+		<!--<tr>
 			<td>비밀번호</td>
 			<td><input type="password" th:field="*{inquiryPw}" id="pw" /></td>
-		</tr>
+		</tr>-->
 		<tr>
 			<td align="center" colspan="4">
 				<input type="submit" value="등록" />
@@ -137,20 +149,22 @@
 			let regPtn = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[~!@#$%^&*_-])(?!.*\s)(?!.*[가-힣ㄱ-ㅎ])/;
 			let title = $('#title').val().trim();
 			let content = $('#wriCon').text().trim();
-			let pw = $('#pw').val().trim();
+			// let pw = $('#pw').val().trim();
 			if(title.length === 0 || title.length > 50){
 				alert('제목은 1~50글자까지 가능합니다');
 				return false;
 			}else if(content.length === 0 || content.length > 5000){
 				alert('내용은 1~5000글자까지 가능합니다');
 				return false;
-			}else if(pw.length === 0 || pw.length > 15){
+			}
+			/* else if(pw.length === 0 || pw.length > 15){
 				alert('비밀번호는 1~15자로 가능합니다');
 				return false;
 			}else if(!regPtn.test(pw)){
 				alert('비밀번호는 영문+숫자+특수문자로 가능합니다');
 				return false;
-			}else {
+			} */
+			else {
 				$('#cont').val(dropDiv.innerHTML);
 			    $('#wri').get(0).submit();
 			}

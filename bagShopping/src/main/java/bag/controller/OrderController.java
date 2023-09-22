@@ -72,8 +72,8 @@ public class OrderController {
 		String memberId = (String)session.getAttribute("userId");
 		// String nonMem = (String)session.getAttribute("nonMemberId");
 		if(memberId != null) {
-			cartList = cartMapper.cartList(memberId);
-			mav.addObject("cartBags", bagMapper.cartBags(memberId));
+			cartList = cartMapper.payCartList(memberId, 1);
+			mav.addObject("cartBags", bagMapper.cartBags(memberId, 1));
 			List<AddressDTO> addrList = addrMapper.addrList(memberId);
 			mav.addObject("user", memMapper.getUser(memberId));
 			mav.addObject("address", addrMapper.basicAddress(memberId, 1));
@@ -256,5 +256,4 @@ public class OrderController {
 		}
 		return mav;
 	}
-
 }

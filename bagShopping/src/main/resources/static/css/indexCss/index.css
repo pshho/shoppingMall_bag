@@ -1,4 +1,5 @@
 @charset "UTF-8";
-* {
-	background-color: burlywood;
+.main {
+	width: 1200px;
+	margin: 0 auto;
 }

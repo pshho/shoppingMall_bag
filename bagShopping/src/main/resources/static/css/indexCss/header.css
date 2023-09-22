@@ -1,18 +1,41 @@
 @charset "UTF-8";
-.header{
-	width: 100%;
+/* header */
+.header:not(:first-of-type){
+	width: 1200px;
 	display: flex;
+	margin: 0 auto;
+	align-items: center;
+}
+.header:first-of-type{
+	width: 1200px;
+	margin: 0 auto;
+	text-align: right;
+}
+.search{
+	width: 1200px;
+	height: 150px;
+	margin: 0 auto;
+	justify-content: center;
+	text-align: center;
+	background-color: rgb(0, 64, 128);
 }
 .header div {
 	flex: 1;
 }
+.header div:first-of-type{
+	flex: 1.5;
+}
+.header div ul {
+	padding: 0;
+}
 .header div ul li {
 	display: none;
+	padding: 8px 0;
 }
 .header div:hover ul li {
 	display: block;
 }
-.header div h4:hover {
+.header div:not(:first-of-type) a:hover {
 	text-decoration: underline;
 	cursor: pointer;
 }
@@ -20,6 +43,124 @@
 	text-decoration: none;
 	color: black;
 }
-.header div:not(:first-of-type) a:hover{
+.header:first-of-type a {
+	display: inline-block;
+	background-color: rgb(186, 181, 251);
+	border-radius: 10px;
+	padding: 6px 13px;
+	color: white;
+}
+.header div h4 {
+	font-weight: normal;
+}
+.header:not(:first-of-type) div h4:hover{
+	text-decoration: underline;
+	cursor: pointer;
+}
+.header:not(:first-of-type){
+	position: relative;
+}
+.header:not(:first-of-type) div:nth-of-type(3) ul,
+.header:not(:first-of-type) div:nth-of-type(4) ul,
+.header:not(:first-of-type) div:last-of-type ul {
+	width: 100%;
+	position: absolute;
+	top: 40px;
+	left: 0;
+	z-index: 10;
+	background-color: white;
+}
+.header:not(:first-of-type) div:nth-of-type(3) ul li,
+.header:not(:first-of-type) div:nth-of-type(4) ul li,
+.header:not(:first-of-type) div:last-of-type ul li {
+	height: 35px;
+	font-size: 14px;
+}
+.header:not(:first-of-type) div:nth-of-type(3) ul li a,
+.header:not(:first-of-type) div:nth-of-type(4) ul li a,
+.header:not(:first-of-type) div:last-of-type ul li a {
+	display: block;
+	width: 50%;
+	height: 100%;
+	margin: 30px auto;
+}
+.search table {
+	width: 800px;
+	margin: 15px auto;
+}
+.search table tr td {
+	padding: 45px 0;
+}
+.search table tr td input[type=text]{
+	width: 600px;
+	height: 50px;
+	border: 1px solid black;
+	border-radius: 20px;
+	padding-left: 10px;
+	margin-right: 20px;
+	font-size: 20px;
+}
+.search table tr td input[type=submit]{
+	width: 70px;
+	height: 50px;
+	border: 0;
+	border-radius: 20px;
+	background-color: #C0C0C0;
+	color: black;
+	font-size: 20px;
+	cursor: pointer;
+}
+#searchDrop {
+	text-align: left;
+}
+#searchDrop div {
+	border-bottom: 1px solid #ccc;
+	font-size: 12px;
+	width: 570px;
+	padding: 10px;
+	margin-top: 5px;
+	margin-left: 50px;
+	background-color: #eee;
+	border-radius: 20px;
+	z-index: 20;
+	display: none;
+	cursor: pointer;
+}
+
+/* footer */
+footer {
+	width: 1200px;
+	margin: 0 auto;
+}
+footer:first-of-type{
+	border-top: 1px solid black;
+	margin-top: 20px;
+}
+footer ul {
+	width: 600px;
+	margin: 10px auto;
+	display: flex;
+	justify-content: space-evenly;
+	padding: 0;
+}
+footer ul li {
+	font-size: 11px;
+	list-style: none;
+}
+footer div p {
+	width: 600px;
+	margin: 0 auto;
+	font-size: 13px;
+	padding: 7px 0;
+	text-align: center;
+}
+footer div p:first-of-type{
+	margin-top: 10px;
+}
+footer a {
+	text-decoration: none;
+	color: black;
+}
+footer a:hover {
 	text-decoration: underline;
 }

@@ -32,6 +32,7 @@ public class CommonInterceptor implements HandlerInterceptor {
 			modelAndView.addObject("brandList", bMapper.brandList());
 			modelAndView.addObject("categoriesList", catMapper.categoriesList());
 			modelAndView.addObject("typeList", typeMapper.typeList());
+			modelAndView.addObject("url", request.getRequestURI());
 			
 			if(session != null) {
 				String userId = (String)session.getAttribute("userId");

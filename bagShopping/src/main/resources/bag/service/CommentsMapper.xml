@@ -37,4 +37,15 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<update id="updateComSeq" parameterType="comDTO">
 		update comments set seq = seq + 1 where gid = #{gid} and seq &gt; #{seq}
 	</update>
+	<select id="chkReview" resultType="Integer">
+		select count(*) from comments
+		<where>
+			<if test="gpid!=0">
+				gpid = #{gpid}
+			</if>
+			<if test="comWriter!=null">
+				and com_writer = #{comWriter}
+			</if>
+		</where>
+	</select>
 </mapper>

@@ -1,9 +1,322 @@
 @charset "UTF-8";
+.shopping {
+	width: 1200px;
+	height: 700px;
+	margin: 0 auto;
+}
+.shoppingCart {
+	width: 1000px;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+.shoppingList {
+	width: 100%;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+.shoppingWrite, .shoppingModify {
+	width: 800px;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+.shoppingDetail1 {
+	width: 650px;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+.shoppingDetail2 {
+	width: 500px;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+.shoppingCart tr td, .shoppingList tr td,
+.shoppingDetail1 tr td, .shoppingDetail2 
+tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
+.shoppingWrite tr td, .shoppingModify tr td {
+	padding: 5px 10px;
+	border-bottom: 1px solid black;
+	border-top: 0;
+	border-right: 0;
+	border-left: 0;
+}
+.shoppingCart tr:not(:first-of-type){
+	text-align: center;
+}
+.shoppingCart tr:last-of-type td button[type=button]{
+	width: 70px;
+	height: 30px;
+	border-radius: 10px;
+	border: 0;
+	background-color: #ccc;
+	color: black;
+	cursor: pointer;
+}
+.shoppingCart tr:nth-last-of-type(2) td:first-of-type {
+	width: 80px;
+	text-align: left;
+}
+.shoppingCart tr:nth-of-type(2) td:last-of-type{
+	width: 45px;
+}
+.shoppingCart tr:nth-last-of-type(3) td:first-of-type {
+	text-align: left;
+}
+.shoppingCart tr:not(:last-of-type) td:last-of-type button[type=button]{
+	width: 40px;
+	height: 30px;
+	font-size: 12px;
+	border: 0;
+	border-radius: 10px;
+	cursor: pointer;
+	background-color: cadetblue;
+	color: white;
+}
+.shoppingCart img {
+	width: 170px;
+	height: 180px;
+}
+.shoppingCart tr td:not(:nth-of-type(4)) input[type=text],
+.shoppingDetail2 tr:nth-last-of-type(3) td input[type=text]{
+	border: 0;
+}
+.shoppingCart tr td:nth-of-type(4) input[type=text],
+.shoppingDetail2 tr:nth-last-of-type(4) td:first-of-type input[type=text]{
+	width: 50px;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+.shoppingCart tr td:nth-of-type(4) button[type=button],
+.shoppingDetail2 tr:nth-last-of-type(4) td button[type=button]{
+	border: 1px solid black;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.shoppingCart tr td:nth-of-type(5) input[type=text]{
+	width: 100px;
+	text-align: center;
+}
+.shoppingCart input[type=checkbox]{
+	width: 30px;
+	height: 18px;
+}
+.shoppingList tr:nth-of-type(2) td input[type=text]{
+	width: 400px;
+	height: 30px;
+	margin: 3px 7px;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding-left: 5px;
+}
+.shoppingList tr:nth-of-type(2) td input[type=submit] {
+	font-size: 10px;
+	width: 50px;
+	height: 34px;
+	padding: 5px 10px;
+	background-color: rgb(158, 192, 226);
+	color: white;
+	border: 0;
+	border-radius: 5px;
+	cursor: pointer;
+}
+.shoppingList tr:nth-of-type(3) td {
+	text-align: right;
+}
+.shoppingList img {
+	width: 250px;
+	height: 270px;
+}
+.shoppingList ul {
+	padding: 0;
+}
+.shoppingList ul li {
+	list-style: none;
+	margin: 10px auto;
+	font-size: 12px;
+}
+.shoppingList ul li:first-of-type{
+	text-align: center;
+}
+.shoppingList ul li:not(:first-of-type){
+	padding-left: 15px;
+}
+.shoppingList ul li:nth-of-type(2){
+	font-size: 14px;
+	font-weight: bold;
+}
+.shoppingList ul li:nth-last-of-type(2){
+	font-size: 15px;
+	font-weight: bold;
+}
+.shoppingList ul li:last-of-type{
+	font-size: 11px;
+}
+.shoppingList a, .shoppingDetail2 a{
+	text-decoration: none;
+	color: black;
+	padding: 5px;
+}
+.shoppingList a:hover, .shoppingDetail2 a:hover {
+	text-decoration: underline;
+}
 .shopDetail {
+	margin-top: 70px;
 	display: flex;
+	justify-content: space-between;
 }
 #cont {
 	display: none;
+}
+.shoppingDetail1 tr:first-of-type td h1 {
+	font-size: 2rem;
+	margin-block-start: 0.67rem;
+	margin-block-end: 0.67rem;
+}
+.shoppingDetail1 tr:not(:nth-of-type(2)) td img {
+	width: 600px;
+}
+.shoppingDetail1 tr:nth-of-type(2) td section {
+	display: flex;
+	justify-content: center;
+}
+.shoppingDetail1 tr:nth-of-type(2) td section div {
+	margin: 0 7px;
+}
+.shoppingDetail1 tr:nth-of-type(2) td img:not(#mainImg) {
+	width: 100px;
+	height: 100px;
+	cursor: pointer;
+}
+.shoppingDetail1 tr:nth-of-type(2) td img:not(#mainImg):hover {
+	transform: scale(1.1);
+	box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+.shoppingDetail1 tr:not(:nth-of-type(3)):not(:last-of-type) td {
+	font-size: 13px;
+}
+.shoppingDetail1 tr:nth-last-of-type(3) td:first-of-type {
+	width: 100px;
+}
+#mainImg {
+	width: 350px;
+	height: 410px;
+}
+.shoppingDetail2 tr:first-of-type td,
+.shoppingDetail2 tr:nth-of-type(3) td {
+	font-weight: bold;
+}
+.shoppingDetail2 tr:nth-of-type(2) td {
+	font-size: 14px;
+	padding-left: 5px;
+}
+.shoppingDetail2 tr:nth-of-type(3) td {
+	padding: 10px 0;
+}
+.shoppingDetail2 tr:nth-of-type(4) td {
+	font-size: 12px;
+}
+.shoppingDetail2 tr:nth-of-type(5) td,
+.shoppingDetail2 tr:nth-of-type(6) td,
+.shoppingDetail2 tr:nth-of-type(7) td,
+.shoppingDetail2 tr:nth-of-type(8) td,
+.shoppingDetail2 tr:nth-of-type(9) td,
+.shoppingDetail2 tr:nth-of-type(10) td {
+	font-size: 13px;
+}
+.shoppingDetail2 tr:nth-of-type(8) td:first-of-type{
+	width: 90px;
+}
+.shoppingDetail2 tr:nth-of-type(5) td:first-of-type {
+	width: 100px;
+}
+.shoppingDetail2 tr:nth-last-of-type(4) td input[type=text]:last-of-type{
+	width: 100px;
+	margin-left: 20px;
+	border: 0;
+}
+.shoppingDetail2 tr:nth-last-of-type(2) td button[type=button]{
+	width: 80px;
+	height: 30px;
+	border: 0;
+	border-radius: 20px;
+	cursor: pointer;
+	background-color: #ccc;
+	margin: 0 5px;
+}
+.shoppingDetail1 tr:nth-of-type(3) td {
+	position: relative;
+}
+#prdContents {
+	height: 1000px;
+	overflow: hidden;
+}
+#onContents {
+	position: absolute;
+	bottom: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	height: 100px;
+	width: 100%;
+	background: rgba(255, 255, 255, 0.4);
+	backdrop-filter: blur(2px);
+	-webkit-backdrop-filter: blur(2px);
+}
+#subOnContents {
+	text-align: center;
+	cursor: pointer;
+	background-color: white;
+	border-radius: 10px;
+	width: 80%;
+	height: 50%;
+	margin: 30px auto;
+}
+#subOnContents p {
+	line-height: 50px;
+}
+.comments ul {
+	padding-left: 10px;
+	height: 130px;
+}
+.comments ul li {
+	list-style: none;
+}
+.comments ul li span {
+	font-size: 13px;
+}
+.comments ul li span:last-of-type {
+	float: right;
+}
+.shoppingDetail1 tr:nth-last-of-type(2) td {
+	text-align: center;
+}
+.shoppingDetail1 tr td textarea {
+	display: block;
+	width: 500px;
+	margin: 10px auto;
+	resize: none;
+	border: 1px solid black;
+	border-radius: 10px;
+	padding: 7px;
+}
+.btnReview {
+	display: block;
+	text-align: center;
+}
+.shoppingDetail1 tr td input[type=button] {
+	width: 50px;
+	height: 30px;
+	margin: 5px;
+	border: 0;
+	border-radius: 10px;
+	cursor: pointer;
+}
+.comments ul li p {
+	padding-left: 10px;
+	font-size: 14px;
+}
+.comments ul li p i {
+	display: block;
+	text-align: right;
 }
 .commentsOn,
 .comments > .commsOn {
@@ -12,6 +325,7 @@
 .onComments {
 	display: block;
 	height: 50px;
+	cursor: pointer;
 }
 .comments > .comm {
 	display: block;
@@ -19,12 +333,71 @@
 	height: 100px;
 	margin-right: 55px;
 }
+.shoppingDetail2 tr td textarea,
+.shoppingDetail1 tr:not(#reviewArea) td textarea:not(#updateComments){
+	border: 0;
+	resize: none;
+}
+.shoppingDetail1 tr:not(#reviewArea) td textarea:not(#updateComments) {
+	width: 600px;
+	height: 400px;
+}
 .topBtn {
 	position: fixed;
-	bottom: 20px;
-	right: 20px;
+	bottom: 50px;
+	right: 50px;
 }
 .topBtn > button[type=button]{
-	width: 100px;
-	height: 70px;
+	width: 70px;
+	height: 50px;
+	border: 0;
+	border-radius: 40px;
+	cursor: pointer;
+	background-color: rgb(0, 64, 128);
+	color: white;
+}
+#wriCon{
+	display: block;
+	width: 585px;
+	height: 600px;
+	margin: 0 auto;
+	border: 1px solid black;
+	border-radius: 5px;
+	padding: 5px 10px;
+	overflow: auto;
+}
+#wriCon span img {
+	display: block;
+	margin: 0 auto;
+	width: 400px;
+}
+.shoppingWrite tr:nth-of-type(4) td:last-of-type,
+.shoppingWrite tr:nth-last-of-type(2) td:last-of-type,
+.shoppingWrite tr:nth-last-of-type(3) td:last-of-type {
+	text-align: center;
+}
+.shoppingWrite tr td select {
+	margin-left: 32px;
+	border: 1px solid black;
+	border-radius: 10px;
+}
+.shoppingWrite tr td textarea,
+.shoppingModify tr td textarea {
+	width: 595px;
+	resize: none;
+	border: 1px solid black;
+	border-radius: 10px;
+	padding: 5px;
+}
+.shoppingWrite tr:last-of-type td input[type=submit],
+.shoppingWrite tr:last-of-type td input[type=button],
+.shoppingModify tr:last-of-type td input[type=submit],
+.shoppingModify tr:last-of-type td input[type=button]{
+	font-size: 10px;
+	padding: 5px 10px;
+	background-color: rgb(158, 192, 226);
+	color: white;
+	border: 0;
+	border-radius: 5px;
+	cursor: pointer;
 }

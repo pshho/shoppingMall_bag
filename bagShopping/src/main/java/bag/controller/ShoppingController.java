@@ -21,6 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import bag.model.BagsDTO;
 import bag.model.CartDTO;
+import bag.model.CommentsDTO;
 import bag.model.FileDTO;
 import bag.model.FileUploadDownload;
 import bag.model.OrderDTO;
@@ -30,6 +31,7 @@ import bag.model.ReviewDistinct;
 import bag.model.SellsDistinct;
 import bag.service.BagsMapper;
 import bag.service.CartMapper;
+import bag.service.CommentsMapper;
 import bag.service.FileMapper;
 import bag.service.MemberMapper;
 import bag.service.OrdersMapper;
@@ -56,6 +58,9 @@ public class ShoppingController {
   
 	@Autowired
 	FileMapper fMapper;
+	
+	@Autowired
+	CommentsMapper comMapper;
 	
 	@Autowired
 	PageData pd;
@@ -88,6 +93,7 @@ public class ShoppingController {
 		ModelAndView mav = new ModelAndView("shopping/templates");
 		String memberId = (String)session.getAttribute("userId");
 		CartDTO cart = new CartDTO();
+		cartMapper.selectInit(memberId);
 		cartList = cartMapper.cartList(memberId);
 		cart.sumTotal(cartList);
 		if(cart.getSumTotal() < 50000) {
@@ -105,7 +111,7 @@ public class ShoppingController {
 		}
 		
 		mav.addObject("delivery", cart.getDeliveryFee());
-		mav.addObject("cartBags", bagMapper.cartBags(memberId));
+		mav.addObject("cartBags", bagMapper.cartBags(memberId, 0));
 		mav.addObject("cartList", cartList);
 		mav.addObject("total", cart.getSumTotal());
 		mav.addObject("bagsList", bagsList);
@@ -147,7 +153,16 @@ public class ShoppingController {
 			}else {
 				mav.addObject("sear", searchCont);
 				bagDTOs = new ArrayList<>();
-				prbDTOs = prbMapper.searchList(searchCont, prbDTO.getProductsBoardStatus());
+				prbDTOs = new ArrayList<>();
+				String[] search = searchCont.split("[/ ,#&\\-+*~or]+");
+				for(String se : search) {
+					prbDTO.setSearchCont(se);
+					for(ProductsBoardDTO prb : prbMapper.searchList(prbDTO)) {
+						if(!prbDTOs.contains(prb)) {
+							prbDTOs.add(prb);
+						}
+					}
+				}
 				
 				for(ProductsBoardDTO prb : prbDTOs) {
 					for(BagsDTO bag : bagMapper.allProducts()) {
@@ -189,11 +204,15 @@ public class ShoppingController {
 			mav.addObject("productsBoardList", prbDTOs);
 		}else if(shoppingSer.equals("shoppingDetail")) {
 			List<OrderDTO> ordDTOs = ordMapper.chkOrder(memberId, "배송 완료");
+			CommentsDTO comDTO = new CommentsDTO();
+			comDTO.setComWriter(memberId);
+			comDTO.setGpid(page);
 			if(ordDTOs != null) {
 				for(OrderDTO oDTO : ordDTOs) {
 					String[] prdArr = oDTO.getProdCode().split(",");
 					List<Integer> prdIds = prbMapper.prbIds(prdArr);
-					if(prdIds.contains(page)) {
+					int chkReview = comMapper.chkReview(comDTO);
+					if(prdIds.contains(page) && chkReview == 0) {
 						mav.addObject("reviewPos", 1);
 					}
 				}
@@ -236,6 +255,7 @@ public class ShoppingController {
 		cart.setProductsCount(bagsAmount.get("bagsAmount"));
 		cart.setProductCode(bags.getProductCode());
 		cart.setSumPrice(bagsAmount.get("bagsAmount")*bags.getBagPrice());
+		cart.setPayStatus(bagsAmount.get("payStatus"));
 		
 		if(length > 0) {
 			int res = cartMapper.updCart(cart);
@@ -392,5 +412,18 @@ public class ShoppingController {
 	@ResponseBody
 	List<ProductsBoardDTO> checkPrb(){
 		return prbMapper.allPrbList();
+	}
+	
+	@PostMapping("orderSelect")
+	@ResponseBody
+	Object orderSelect(@RequestBody CartDTO cart) {
+		cartMapper.orderSelect(cart);
+		return "선택";
+	}
+	
+	@GetMapping("shopList")
+	@ResponseBody
+	Object shopList() {
+		return bagMapper.allProducts();
 	}
 }
