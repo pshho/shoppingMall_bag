@@ -31,5 +31,5 @@ public interface OrdersMapper {
 	
 	List<TotalOrderDTO> monthSales();
 	List<TotalOrderDTO> yearSales();
-	
+	List<TotalOrderDTO> perDaySales(String dateStart, String dateEnd);
 }

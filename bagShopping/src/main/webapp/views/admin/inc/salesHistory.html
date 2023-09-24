@@ -12,7 +12,7 @@
 	</style>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
 
-	<script>
+	<script th:inline="javascript">
 		$(document).ready(function () {
 			getGraph();
 			getGraph2();
@@ -111,6 +111,8 @@
 
 			}) // ajax	  
 		} // getGraph
+		
+	
 	</script>
 	<script>
 		function orderCancel(data) {
@@ -220,185 +222,555 @@
 		$(document).on('click', '#btnSearch', function (e) {
 			console.log("누름")
 			e.preventDefault();
-			var url = "/admin/salesHistory/1";
-			url = url + "?searchType=" + $('#searchType').val();
+			var url = "/admin/salesHistory/1?pageType=ALL";
+			url = url + "&searchType=" + $('#searchType').val();
 			url = url + "&keyword=" + $('#keyword').val();
 			url = url + "&dateStart=" + $('#dateStart').val();
 			url = url + "&dateEnd=" + $('#dateEnd').val();
 
 			console.log(url);
 			location.href = url;
-		});	
+		});
+		
+		$(document).on('click', '#btnPerDaySearch', function (e) {
+			console.log("누름")
+			e.preventDefault();			
+			
+			var dateStart = $('#dateStart').val();
+			var dateEnd = $('#dateEnd').val();
+			
+			let timeList = [];
+			let posList = [];
+
+			$.ajax({
+				url: "/admin/getPerDayData",
+				type: "get",
+				data: {dateStart: dateStart, dateEnd: dateEnd},
+				dataType: "json",
+				success: function (data) {
+					// console.log(data[0].pos_count);
+					// 그래프로 나타낼 자료 리스트에 담기
+					console.log(data)
+					var sum=0;
+					for (let i = 0; i < data.length; i++) {
+						timeList.push(data[i].dd);
+						posList.push(data[i].sales);
+						sum += parseInt(data[i].sales);
+					}
+					console.log(sum)
+					$('#sumSearch').text("총 "+sum+" 원");
+					// console.log(timeList);
+					// console.log(posList);  	
+					// 그래프
+					new Chart(document.getElementById("line-chart3"), {
+						type: 'line',
+						data: {
+							labels: timeList, // X축 
+							datasets: [{
+								data: posList, // 값
+								label: "매출액(단위: 원)",
+								borderColor: "#3e95cd",
+								fill: false
+							}
+							]
+						},
+						options: {
+							title: {
+								display: true,
+								text: ''
+							}
+						}
+					}); //그래프
+				},
+				error: function () {
+					alert("실패");
+				}
+
+			}) // ajax	  
+			
+		});
+
+		function shipChange(selected, uid) {
+			console.log(uid)
+			if (confirm(selected + "(으)로 상태를 변경 하시겠습니까?")) {
+				$.ajax({
+					url: "/admin/shipChange",
+					type: "post",
+					data: {status: selected, uid: uid},
+					dataType: 'json',
+					success: function (result) {
+						if (result > 0) {
+							alert("배송정보 변경 완료")
+							location.href = "/admin/salesHistory/" + [[${pd.page}]]
+						}
+					},
+					error: function () {
+						alert("요청 실패");
+					}
+				})
+			} else {
+				alert('취소 하셨습니다.')
+			}
+
+		}
 	</script>
 </head>
 
 <body>
-
 	<h2>판매 관리</h2>
 	<a href="/admin/adminMain">뒤로</a>
-	<table border="">
-		<tr>
-			<td>배송상태</td>
-			<td>주문번호</td>
-			<td>상품코드</td>
-			<td>상품갯수</td>
-			<td>총가격</td>
-			<td>구매자명</td>
-			<td>주소</td>
-			<td>전화번호</td>
-			<td>이메일</td>
-			<td>주문일자</td>
-			<td>결제 관리</td>
-			<td colspan="2">배송 관리</td>
-			<td>취소 사유</td>
-		</tr>
-		<tr th:each="order : ${orderList}">
-			<td th:text="${order.orderStatus}" id="status" />
-			<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
-			<td th:text="${order.prodCode}" />
-			<td th:text="${order.prodCount}" />
-			<td th:text="${order.ordersTotalPrice}" />
-			<td th:text="${order.buyerName}" />
-			<td th:text="${order.buyerAddr}" />
-			<td th:text="${order.buyerTel}" />
-			<td th:text="${order.buyerEmail}" />
-			<td th:text="${order.ordersRegDateStr}" />
+	<a href="/admin/salesHistory/1?searchType=S&keyword=결제%20완료&limit=15&pageType=PC">결제 완료 목록</a>
+	<a href="/admin/salesHistory/1?searchType=S&keyword=배송%20준비&limit=15&pageType=SP">배송 준비 목록</a>
+	<a href="/admin/salesHistory/1?searchType=S&keyword=배송%20중&limit=15&pageType=SI">배송 중 목록</a>
 
-			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
-					th:orderParam="${order.merchantUid}" th:onclick="orderCancel(this.getAttribute('orderParam'))" />
-			</td>
-			<td th:unless="${order.orderStatus == '결제 완료'}"></td>
-			<th:block th:if="${order.orderStatus == '결제 완료'}">
-				<td><input type="button" value="배송 준비" th:orderParam="${order.merchantUid}"
-						th:onclick="shipReady(this.getAttribute('orderParam'))" /></td>
-				<td></td>
-				<td></td>
-			</th:block>
-			<th:block th:if="${order.orderStatus == '배송 준비'}">
-				<td><input type="button" value="배송 중" th:orderParam="${order.merchantUid}"
-						th:onclick="shipIng(this.getAttribute('orderParam'))" /></td>
-				<td><input type="button" value="배송 완료" th:orderParam="${order.merchantUid}"
-						th:onclick="shipEnd(this.getAttribute('orderParam'))" /></td>
-				<td></td>
-			</th:block>
-			<th:block th:if="${order.orderStatus == '배송 중'}">
-				<td><input type="button" value="배송 준비" th:orderParam="${order.merchantUid}"
-						th:onclick="shipReady(this.getAttribute('orderParam'))" /></td>
-				<td><input type="button" value="배송 완료" th:orderParam="${order.merchantUid}"
-						th:onclick="shipEnd(this.getAttribute('orderParam'))" /></td>
-				<td></td>
-			</th:block>
-			<th:block th:if="${order.orderStatus == '결제 취소'} and ${order.cancelReason}">
-				<td></td>
-				<td></td>
-				<td th:text="${order.cancelReason}"></td>
-			</th:block>
-			<th:block th:if="${order.orderStatus == '배송 완료'}">
-				<td></td>
-				<td></td>
-				<td></td>
-			</th:block>
-		</tr>
-		<tr>
-			<td colspan="15" align="center">
-				<th:block th:if="${pd.pageStart} > 1">
-					<th:block
-						th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
-						<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
-					</th:block>
+	<a href="/admin/salesHistory/1?pageType=ALL">전체 목록</a>
+	<a href="/admin/salesHistory/1?pageType=PD">기간별 매출</a>
+	<a href="/admin/salesHistory/1?pageType=MS">월별 매출</a>
+	<a href="/admin/salesHistory/1?pageType=YS">년도별 매출</a>
 
-					<th:block
-						th:unless="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
-						<a th:href="|${pd.pageStart-1}?searchType=${pd.searchType}&keyword=${pd.keyword}&dateStart=${pd.dateStart}&dateEnd=${pd.dateEnd}|"
-							th:text="[이전]" />
-					</th:block>
-				</th:block>
-				<th:block th:if="${pd.pageEnd > 0}">
-					<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
-						<th:block th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}
-							and ${pd.dateStart == null} and ${pd.dateEnd == null} ">
-							<b th:if="${num} == ${pd.page}">
-								<a th:href="|${num}|" th:text="${num}" />
-							</b>
-							<th:block th:unless="${num} == ${pd.page}">
-								<a th:href="|${num}|" th:text="${num}" />
-							</th:block>
+	<th:block th:if="${pd.pageType == 'PC'}">
+		<table border="">
+			<tr>
+				<td>배송상태</td>
+				<td>주문번호</td>
+				
+				<td>구매자 ID</td>
+				<td>구매자명</td>
+				<td>주소</td>
+				<td>전화번호</td>
+				<td>주문일자</td>
+				<td>결제 관리</td>
+				<td>배송 관리</td>
+				<td>취소 사유</td>
+			</tr>
+			<tr th:each="order : ${orderList}">
+				<td th:text="${order.orderStatus}" id="status" />
+				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
+				
+				<td th:text="${order.memberId}" />
+				<td th:text="${order.buyerName}" />
+				<td th:text="${order.buyerAddr}" />
+				<td th:text="${order.buyerTel}" />
+				<td th:text="${order.ordersRegDateStr}" />
+				<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
+						th:orderParam="${order.merchantUid}"
+						th:onclick="orderCancel(this.getAttribute('orderParam'))" />
+				</td>
+				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
+				<td>
+					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]])">
+						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
+						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
+						<option th:selected="${order.orderStatus == '배송 중'}">배송 중</option>
+						<option th:selected="${order.orderStatus == '배송 완료'}">배송 완료</option>
+					</select>
+				</td>
+				<td th:text="${order.cancelReason}" />
+			</tr>
+			<tr>
+				<td colspan="15" align="center">
+					<th:block th:if="${pd.pageStart} > 1">
+						<th:block
+							th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
 						</th:block>
-
-
 
 						<th:block
-							th:unless="(${pd.searchType == null} or ${pd.searchType == ''}) and (${pd.keyword == null} or ${pd.keyword == ''}) and ${pd.dateStart == null} and ${pd.dateEnd == null}">
-							<b th:if="${num} == ${pd.page}">
-								<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}&dateStart=${pd.dateStart}&dateEnd=${pd.dateEnd}|"
-									th:text="${num}" />
-							</b>
-							<th:block th:unless="${num} == ${pd.page}">
-								<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}&dateStart=${pd.dateStart}&dateEnd=${pd.dateEnd}|"
-									th:text="${num}" />
+							th:unless="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageStart-1}?searchType=${pd.searchType}&keyword=결제%20완료&limit=15&pageType=PC|"
+								th:text="[이전]" />
+						</th:block>
+					</th:block>
+					<th:block th:if="${pd.pageEnd > 0}">
+						<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
+							<th:block th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}
+							and ${pd.dateStart == null} and ${pd.dateEnd == null} ">
+								<b th:if="${num} == ${pd.page}">
+									<a th:href="|${num}|" th:text="${num}" />
+								</b>
+								<th:block th:unless="${num} == ${pd.page}">
+									<a th:href="|${num}|" th:text="${num}" />
+								</th:block>
+							</th:block>
+							<th:block
+								th:unless="(${pd.searchType == null} or ${pd.searchType == ''}) and (${pd.keyword == null} or ${pd.keyword == ''}) and ${pd.dateStart == null} and ${pd.dateEnd == null}">
+								<b th:if="${num} == ${pd.page}">
+									<a th:href="|${num}?searchType=${pd.searchType}&keyword=결제%20완료&limit=15&pageType=PC|"
+										th:text="${num}" />
+								</b>
+								<th:block th:unless="${num} == ${pd.page}">
+									<a th:href="|${num}?searchType=${pd.searchType}&keyword=결제%20완료&limit=15&pageType=PC|"
+										th:text="${num}" />
+								</th:block>
 							</th:block>
 						</th:block>
 					</th:block>
-				</th:block>
-				<th:block th:if="${pd.pageEnd == 0}"><a th:href="1">1</a></th:block>
-				<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
-					<th:block
-						th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
-						<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
+					<th:block th:if="${pd.pageEnd == 0}"><a th:href="1">1</a></th:block>
+					<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
+						<th:block
+							th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
+						</th:block>
+
+						<th:block
+							th:unless="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageEnd+1}?searchType=${pd.searchType}&keyword=결제%20완료&limit=15&pageType=PC|"
+								th:text="[다음]" />
+						</th:block>
 					</th:block>
+				</td>
+			</tr>
+		</table>
+	</th:block>
 
-					<th:block
-						th:unless="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
-						<a th:href="|${pd.pageEnd+1}?searchType=${pd.searchType}&keyword=${pd.keyword}&dateStart=${pd.dateStart}&dateEnd=${pd.dateEnd}|"
-							th:text="[다음]" />
+	<th:block th:if="${pd.pageType == 'SP'}">
+		<table border="">
+			<tr>
+				<td>배송상태</td>
+				<td>주문번호</td>
+				
+				<td>구매자 ID</td>
+				<td>구매자명</td>
+				<td>주소</td>
+				<td>전화번호</td>
+				<td>주문일자</td>
+				<td>결제 관리</td>
+				<td>배송 관리</td>
+				<td>취소 사유</td>
+			</tr>
+			<tr th:each="order : ${orderList}">
+				<td th:text="${order.orderStatus}" id="status" />
+				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
+			
+				<td th:text="${order.memberId}" />
+				<td th:text="${order.buyerName}" />
+				<td th:text="${order.buyerAddr}" />
+				<td th:text="${order.buyerTel}" />
+				<td th:text="${order.ordersRegDateStr}" />
+				<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
+						th:orderParam="${order.merchantUid}"
+						th:onclick="orderCancel(this.getAttribute('orderParam'))" />
+				</td>
+				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
+				<td>
+					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]])">
+						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
+						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
+						<option th:selected="${order.orderStatus == '배송 중'}">배송 중</option>
+						<option th:selected="${order.orderStatus == '배송 완료'}">배송 완료</option>
+					</select>
+				</td>
+				<td th:text="${order.cancelReason}" />
+			</tr>
+			<tr>
+				<td colspan="15" align="center">
+					<th:block th:if="${pd.pageStart} > 1">
+						<th:block
+							th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
+						</th:block>
+
+						<th:block
+							th:unless="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageStart-1}?searchType=${pd.searchType}&keyword=배송%20준비&limit=15&pageType=SP|"
+								th:text="[이전]" />
+						</th:block>
 					</th:block>
-				</th:block>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="15">
+					<th:block th:if="${pd.pageEnd > 0}">
+						<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
+							<th:block th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}
+							and ${pd.dateStart == null} and ${pd.dateEnd == null} ">
+								<b th:if="${num} == ${pd.page}">
+									<a th:href="|${num}|" th:text="${num}" />
+								</b>
+								<th:block th:unless="${num} == ${pd.page}">
+									<a th:href="|${num}|" th:text="${num}" />
+								</th:block>
+							</th:block>
+							<th:block
+								th:unless="(${pd.searchType == null} or ${pd.searchType == ''}) and (${pd.keyword == null} or ${pd.keyword == ''}) and ${pd.dateStart == null} and ${pd.dateEnd == null}">
+								<b th:if="${num} == ${pd.page}">
+									<a th:href="|${num}?searchType=${pd.searchType}&keyword=배송%20준비&limit=15&pageType=SP|"
+										th:text="${num}" />
+								</b>
+								<th:block th:unless="${num} == ${pd.page}">
+									<a th:href="|${num}?searchType=${pd.searchType}&keyword=배송%20준비&limit=15&pageType=SP|"
+										th:text="${num}" />
+								</th:block>
+							</th:block>
+						</th:block>
+					</th:block>
+					<th:block th:if="${pd.pageEnd == 0}"><a th:href="1">1</a></th:block>
+					<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
+						<th:block
+							th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
+						</th:block>
 
-				<select id="searchType" name="searchType">
-					<option value="" selected>---</option>
-					<option value="S">배송상태</option>
-					<option value="I">주문번호</option>
-					<option value="PC">상품코드</option>
-					<option value="B">구매자명</option>
-					<option value="CR">취소사유</option>
-				</select>
+						<th:block
+							th:unless="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageEnd+1}?searchType=${pd.searchType}&keyword=배송%20준비&limit=15&pageType=SP|"
+								th:text="[다음]" />
+						</th:block>
+					</th:block>
+				</td>
+			</tr>
+		</table>
+	</th:block>
 
-				<input type="text" id="keyword">
-				<input type="date" value="start" id="dateStart">
-				~
-				<input type="date" value="end" id="dateEnd">
-				<input type="submit" id="btnSearch" value="검색">
-				<a href="/admin/salesHistory/1">검색 초기화</a>
-			</td>
-		</tr>
-	</table>
+	<th:block th:if="${pd.pageType == 'SI'}">
+		<table border="">
+			<tr>
+				<td>배송상태</td>
+				<td>주문번호</td>
+				
+				<td>구매자 ID</td>
+				<td>구매자명</td>
+				<td>주소</td>
+				<td>전화번호</td>
+				<td>주문일자</td>
+				<td>결제 관리</td>
+				<td>배송 관리</td>
+				<td>취소 사유</td>
+			</tr>
+			<tr th:each="order : ${orderList}">
+				<td th:text="${order.orderStatus}" id="status" />
+				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
+				
+				<td th:text="${order.memberId}" />
+				<td th:text="${order.buyerName}" />
+				<td th:text="${order.buyerAddr}" />
+				<td th:text="${order.buyerTel}" />
+				<td th:text="${order.ordersRegDateStr}" />
+				<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
+						th:orderParam="${order.merchantUid}"
+						th:onclick="orderCancel(this.getAttribute('orderParam'))" />
+				</td>
+				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
+				<td>
+					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]])">
+						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
+						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
+						<option th:selected="${order.orderStatus == '배송 중'}">배송 중</option>
+						<option th:selected="${order.orderStatus == '배송 완료'}">배송 완료</option>
+					</select>
+				</td>
+				<td th:text="${order.cancelReason}" />
+			</tr>
+			<tr>
+				<td colspan="15" align="center">
+					<th:block th:if="${pd.pageStart} > 1">
+						<th:block
+							th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
+						</th:block>
+
+						<th:block
+							th:unless="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageStart-1}?searchType=${pd.searchType}&keyword=배송%20중&limit=15&pageType=SI|"
+								th:text="[이전]" />
+						</th:block>
+					</th:block>
+					<th:block th:if="${pd.pageEnd > 0}">
+						<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
+							<th:block th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}
+							and ${pd.dateStart == null} and ${pd.dateEnd == null} ">
+								<b th:if="${num} == ${pd.page}">
+									<a th:href="|${num}|" th:text="${num}" />
+								</b>
+								<th:block th:unless="${num} == ${pd.page}">
+									<a th:href="|${num}|" th:text="${num}" />
+								</th:block>
+							</th:block>
+							<th:block
+								th:unless="(${pd.searchType == null} or ${pd.searchType == ''}) and (${pd.keyword == null} or ${pd.keyword == ''}) and ${pd.dateStart == null} and ${pd.dateEnd == null}">
+								<b th:if="${num} == ${pd.page}">
+									<a th:href="|${num}?searchType=${pd.searchType}&keyword=배송%20중&limit=15&pageType=SI|"
+										th:text="${num}" />
+								</b>
+								<th:block th:unless="${num} == ${pd.page}">
+									<a th:href="|${num}?searchType=${pd.searchType}&keyword=배송%20중&limit=15&pageType=SI|"
+										th:text="${num}" />
+								</th:block>
+							</th:block>
+						</th:block>
+					</th:block>
+					<th:block th:if="${pd.pageEnd == 0}"><a th:href="1">1</a></th:block>
+					<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
+						<th:block
+							th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
+						</th:block>
+
+						<th:block
+							th:unless="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageEnd+1}?searchType=${pd.searchType}&keyword=배송%20중&limit=15&pageType=SI|"
+								th:text="[다음]" />
+						</th:block>
+					</th:block>
+				</td>
+			</tr>
+		</table>
+
+	</th:block>
+
+	<th:block th:if="${pd.pageType == 'ALL'}">
+		<table border="">
+			<tr>
+				<td>배송상태</td>
+				<td>주문번호</td>
+				
+				<td>구매자 ID</td>
+				<td>구매자명</td>
+				<td>주소</td>
+				<td>전화번호</td>
+				<td>주문일자</td>
+				<td>결제 관리</td>
+				<td>배송 관리</td>
+				<td>취소 사유</td>
+			</tr>
+			<tr th:each="order : ${orderList}">
+				<td th:text="${order.orderStatus}" id="status" />
+				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
+				
+				<td th:text="${order.memberId}" />
+				<td th:text="${order.buyerName}" />
+				<td th:text="${order.buyerAddr}" />
+				<td th:text="${order.buyerTel}" />
+				<td th:text="${order.ordersRegDateStr}" />
+				<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
+						th:orderParam="${order.merchantUid}"
+						th:onclick="orderCancel(this.getAttribute('orderParam'))" />
+				</td>
+				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
+				<td>
+					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]])">
+						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
+						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
+						<option th:selected="${order.orderStatus == '배송 중'}">배송 중</option>
+						<option th:selected="${order.orderStatus == '배송 완료'}">배송 완료</option>
+					</select>
+				</td>
+				<td th:text="${order.cancelReason}" />
+			</tr>
+			<tr>
+				<td colspan="15" align="center">
+					<th:block th:if="${pd.pageStart} > 1">
+						<th:block
+							th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageStart-1}?pageType=ALL|" th:text="[이전]" />
+						</th:block>
+
+						<th:block
+							th:unless="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageStart-1}?searchType=${pd.searchType}&keyword=${pd.keyword}&dateStart=${pd.dateStart}&dateEnd=${pd.dateEnd}&pageType=ALL|"
+								th:text="[이전]" />
+						</th:block>
+					</th:block>
+					<th:block th:if="${pd.pageEnd > 0}">
+						<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
+							<th:block th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}
+							and ${pd.dateStart == null} and ${pd.dateEnd == null} ">
+								<b th:if="${num} == ${pd.page}">
+									<a th:href="|${num}?pageType=ALL|" th:text="${num}" />
+								</b>
+								<th:block th:unless="${num} == ${pd.page}">
+									<a th:href="|${num}?pageType=ALL|" th:text="${num}" />
+								</th:block>
+							</th:block>
+
+
+
+							<th:block
+								th:unless="(${pd.searchType == null} or ${pd.searchType == ''}) and (${pd.keyword == null} or ${pd.keyword == ''}) and ${pd.dateStart == null} and ${pd.dateEnd == null}">
+								<b th:if="${num} == ${pd.page}">
+									<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}&dateStart=${pd.dateStart}&dateEnd=${pd.dateEnd}&pageType=ALL|"
+										th:text="${num}" />
+								</b>
+								<th:block th:unless="${num} == ${pd.page}">
+									<a th:href="|${num}?searchType=${pd.searchType}&keyword=${pd.keyword}&dateStart=${pd.dateStart}&dateEnd=${pd.dateEnd}&pageType=ALL|"
+										th:text="${num}" />
+								</th:block>
+							</th:block>
+						</th:block>
+					</th:block>
+					<th:block th:if="${pd.pageEnd == 0}"><a th:href="1">1</a></th:block>
+					<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
+						<th:block
+							th:if="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageEnd+1}?pageType=ALL|" th:text="[다음]" />
+						</th:block>
+
+						<th:block
+							th:unless="${pd.searchType == null} or ${pd.searchType == ''} and ${pd.keyword == null} or ${pd.keyword == ''}">
+							<a th:href="|${pd.pageEnd+1}?searchType=${pd.searchType}&keyword=${pd.keyword}&dateStart=${pd.dateStart}&dateEnd=${pd.dateEnd}&pageType=ALL|"
+								th:text="[다음]" />
+						</th:block>
+					</th:block>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="15">
+
+					<select id="searchType" name="searchType">
+						<option value="" selected>---</option>
+						<option value="S">배송상태</option>
+						<option value="I">주문번호</option>
+						<option value="PC">상품코드</option>
+						<option value="B">구매자명</option>
+						<option value="CR">취소사유</option>
+					</select>
+
+					<input type="text" id="keyword">
+					<input type="date" value="start" id="dateStart">
+					~
+					<input type="date" value="end" id="dateEnd">
+					<input type="submit" id="btnSearch" value="검색">
+					<a href="/admin/salesHistory/1">검색 초기화</a>
+				</td>
+			</tr>
+		</table>
+	</th:block>
+	<th:block th:if="${pd.pageType=='PD'}">
+		<br/>
+		<hr/>
+			기간별 판매액
+			<input type="date" value="start" id="dateStart">
+			~
+			<input type="date" value="end" id="dateEnd">
+			<input type="submit" id="btnPerDaySearch" value="검색">
+			<br/>
+			<span id="sumSearch"></span>
+		<div class="parent">
+			<canvas id="line-chart3"></canvas>
+		</div>
+	</th:block>
 	<hr />
-	<table>
-		월별 판매액
-		<tr th:each="month : ${monthSales}">
-			<td th:text="${month.MM}" />
-			<td th:text="${month.SALES}" />
-		</tr>
-	</table>
-	<div class="parent">
-		<canvas id="line-chart"></canvas>
-	</div>
-	<hr />
-	<table>
-		년도별 판매액
-		<tr th:each="year : ${yearSales}">
-			<td th:text="${year.YY}" />
-			<td th:text="${year.SALES}" />
-		</tr>
+	<th:block th:if="${pd.pageType=='MS'}">
+		<table>
+			월별 판매액
+			<tr th:each="month : ${monthSales}">
+				<td th:text="${month.MM}" />
+				<td th:text="${month.SALES}" />
+			</tr>
+		</table>
+		<div class="parent">
+			<canvas id="line-chart"></canvas>
+		</div>
+	</th:block>
+	<th:block th:if="${pd.pageType=='YS'}">
+		<table>
+			년도별 판매액
+			<tr th:each="year : ${yearSales}">
+				<td th:text="${year.YY}" />
+				<td th:text="${year.SALES}" />
+			</tr>
 
-	</table>
-	<div class="parent">
-		<canvas id="line-chart2"></canvas>
-	</div>
+		</table>
+		<div class="parent">
+			<canvas id="line-chart2"></canvas>
+		</div>
+	</th:block>
 </body>
 
 </html>

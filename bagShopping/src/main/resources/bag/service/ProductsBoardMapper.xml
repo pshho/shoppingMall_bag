@@ -35,6 +35,11 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		</where>
 	</sql>
 	
+	<select id="getProductWritten">
+		select products_board_id from products_board where product_code = #{productCode}
+	</select>
+	
+	
 	<select id="productsBoard" resultType="prbDTO">
 		select * from products_board <include refid="wh_prbBoardId" />
 	</select>

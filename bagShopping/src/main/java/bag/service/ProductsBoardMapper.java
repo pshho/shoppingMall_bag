@@ -21,6 +21,7 @@ public interface ProductsBoardMapper {
 	void updateSells(int sells, int productCode);
 	
 	ProductsBoardDTO getProducts(int productCode);
+	int getProductWritten(int productCode);
 	int updateProductAndBag(ProductsBoardDTO prbDTO);
 
 	List<Integer> prbIds(String... prdCodes);

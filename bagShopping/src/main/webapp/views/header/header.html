@@ -45,14 +45,14 @@
 	</div>
 	
 	<!--member-->
-	<th:block th:if="${session.userId == null}">
+	<th:block th:if="${session.userId == null and session.userId ne admin}">
 		<div>
 			<a href="/member/signUp">회원가입</a>
 			<a href="/member/signIn">로그인</a>
 		</div>
 	</th:block>
 	
-	<th:block th:if="${session.userId != null}">
+	<th:block th:if="${session.userId != null and session.userId ne admin}">
 		<div>
 			<a href="/member/logOut">[[${session.userId}]]님 로그아웃</a>
 			<a href="/member/myPage">마이페이지</a>
