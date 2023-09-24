@@ -77,6 +77,9 @@ PUBLIC "-//mybatis.org/DTD Mapper3.0//EN"
 	<select id="selectBasic" resultType="Integer">
 		select count(*) from address where member_id = #{memberId} and basic_addr = #{basicAddr}
 	</select>
+	<select id="cntBasic">
+		select count(basic_addr) from address where basic_addr = 1 and member_id = #{memberId}
+	</select>
 	
 	<delete id="deleteAddress">
 		delete from address where member_id = #{memberId} and

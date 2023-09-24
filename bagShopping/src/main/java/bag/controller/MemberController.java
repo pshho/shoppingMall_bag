@@ -19,6 +19,7 @@ import bag.model.InquiryDTO;
 import bag.model.MemberDTO;
 import bag.model.OrderDTO;
 import bag.model.PageData2;
+import bag.model.ProductsBoardDTO;
 import bag.model.QuitMemberDTO;
 import bag.service.AddressMapper;
 import bag.service.BagsMapper;
@@ -26,6 +27,7 @@ import bag.service.CartMapper;
 import bag.service.InquiryMapper;
 import bag.service.MemberMapper;
 import bag.service.OrdersMapper;
+import bag.service.ProductsBoardMapper;
 import jakarta.annotation.Resource;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
@@ -50,6 +52,8 @@ public class MemberController {
 	CartMapper cartMapper;
 	@Resource
 	OrdersMapper ordMapper;
+	@Resource
+	ProductsBoardMapper prdMapper;
 
 	final DefaultMessageService messageService;
 
@@ -338,7 +342,9 @@ public class MemberController {
 		String templateUrl = "addressManage";
 		MemberDTO getUserProfile = memMapper.getUser(userId);
 		List<AddressDTO> getUserAddr = addrMapper.getUserAddress(userId);
-
+		if(addrMapper.cntBasic(userId) == 0) {
+			getUserAddr.get(0).setBasicAddr(1);
+		}
 		mm.addAttribute("user", getUserProfile);
 		mm.addAttribute("address", getUserAddr);
 		mm.addAttribute("memberService", templateUrl);
@@ -374,13 +380,7 @@ public class MemberController {
 		addrDTO.setAddressPhone(addrDTO.getPhone1() + "-" + addrDTO.getPhone2() + "-" + addrDTO.getPhone3());
 
 		List<AddressDTO> getUserAddr = addrMapper.getUserAddress(userId);
-		if (getUserAddr.size() == 5) {
-			msg = "주소는 최대 5개까지 등록 가능합니다";
-			goUrl = "addressManage";
-			mm.addAttribute("msg", msg);
-			mm.addAttribute("goUrl", goUrl);
-			return "member/inc/alert";
-		}
+		
 		if (getUserAddr.isEmpty()) {
 			addrDTO.setBasicAddr(1);
 		}
@@ -464,6 +464,14 @@ public class MemberController {
 		return setCheck;
 	}
 
+	@ResponseBody
+	@PostMapping("/review")
+	int review(HttpServletRequest request) {
+		int prodCode = Integer.parseInt(request.getParameter("productCode"));
+
+		return prdMapper.getProductWritten(prodCode)	;
+	}
+	
 	// 내 문의내역
 	@RequestMapping("myInquiry/{page}")
 	String myInquiry(HttpSession session, Model mm, PageData2 pd) {

@@ -372,6 +372,13 @@ public class AdminController {
 		return ordMapper.yearSales();
 	}
 	
+	@RequestMapping("getPerDayData")
+	public @ResponseBody List<TotalOrderDTO> getPerDayData(HttpServletRequest request) throws Exception {
+	
+		return ordMapper.perDaySales(request.getParameter("dateStart"),request.getParameter("dateEnd"));
+	}
+	
+	
 	@RequestMapping("salesHistory/{page}/{merchantUid}")
 	String salesHistoryDetail(HttpSession session, Model mm, PageData2 pd, OrderDTO ordDTO) {
 		String templateUrl = "orderDetail";
@@ -427,36 +434,37 @@ public class AdminController {
 		return (int) response.get("code");
 	}
 
-	@ResponseBody
-	@PostMapping("/shipReady")
-	int shipReady(HttpServletRequest request, OrderDTO ordDTO) {
-		String merchant_uid = request.getParameter("data");
-		ordDTO.setMerchant_uid(merchant_uid);
-		ordDTO.setOrderStatus("배송 준비");
-		int ordCheck = ordMapper.shipChange(ordDTO);
-		System.out.println(merchant_uid);
-		return ordCheck;
-	}
+	/*
+	 * @ResponseBody
+	 * 
+	 * @PostMapping("/shipReady") int shipReady(HttpServletRequest request, OrderDTO
+	 * ordDTO) { String merchant_uid = request.getParameter("data");
+	 * ordDTO.setMerchant_uid(merchant_uid); ordDTO.setOrderStatus("배송 준비"); int
+	 * ordCheck = ordMapper.shipChange(ordDTO); System.out.println(merchant_uid);
+	 * return ordCheck; }
+	 */
+
+	/*
+	 * @ResponseBody
+	 * 
+	 * @PostMapping("/shipIng") int shipIng(HttpServletRequest request, OrderDTO
+	 * ordDTO) { String merchant_uid = request.getParameter("data");
+	 * ordDTO.setMerchant_uid(merchant_uid); ordDTO.setOrderStatus("배송 중"); int
+	 * ordCheck = ordMapper.shipChange(ordDTO); System.out.println(merchant_uid);
+	 * return ordCheck; }
+	 */
 
 	@ResponseBody
-	@PostMapping("/shipIng")
-	int shipIng(HttpServletRequest request, OrderDTO ordDTO) {
-		String merchant_uid = request.getParameter("data");
-		ordDTO.setMerchant_uid(merchant_uid);
-		ordDTO.setOrderStatus("배송 중");
-		int ordCheck = ordMapper.shipChange(ordDTO);
-		System.out.println(merchant_uid);
-		return ordCheck;
-	}
-
-	@ResponseBody
-	@PostMapping("/shipEnd")
+	@PostMapping("/shipChange")
 	int shipEnd(HttpServletRequest request, OrderDTO ordDTO) {
-		String merchant_uid = request.getParameter("data");
-		ordDTO.setMerchant_uid(merchant_uid);
-		ordDTO.setOrderStatus("배송 완료");
-		int ordCheck = ordMapper.shipChange(ordDTO);
+		String status = request.getParameter("status");
+		String merchant_uid = request.getParameter("uid");
+		System.out.println(status);
 		System.out.println(merchant_uid);
+		ordDTO.setMerchant_uid(merchant_uid);
+		ordDTO.setOrderStatus(status);
+		int ordCheck = ordMapper.shipChange(ordDTO);
+		
 		return ordCheck;
 	}
 

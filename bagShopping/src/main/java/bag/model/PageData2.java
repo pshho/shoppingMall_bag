@@ -9,10 +9,10 @@ import lombok.Data;
 public class PageData2 {
 
 	public int page;
-	public int limit = 5;
+	public int limit = 10;
 	public int pageLimit = 5;
 	public int start, pageStart, pageEnd, total, pageTotal;
-	public String searchType;
+	public String searchType, pageType;
 	public String keyword;
 	public String dateStart, dateEnd;
 

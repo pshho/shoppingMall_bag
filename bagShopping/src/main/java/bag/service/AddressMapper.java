@@ -25,4 +25,5 @@ public interface AddressMapper {
 	void setAllBasicAddr1(String memberId);
 	int setBasicAddr1(String memberId, String addressId);
 	
+	int cntBasic(String memberId);
 }

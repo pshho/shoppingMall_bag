@@ -81,7 +81,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 
 		<include refid="searchDate" />
 
-		order by order_id desc
+		order by orders_reg_date desc
 		limit #{start},#{limit}
 	</select>
 
@@ -114,6 +114,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		select * from orders where
 		merchant_uid = #{merchantUid}
 	</select>
+	
 	<update id="shipChange" parameterType="ordDTO">
 		update orders set
 		order_status = #{orderStatus} where merchant_uid = #{merchant_uid}
@@ -139,6 +140,18 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		SELECT SUBSTR(A.orders_reg_date,1,4) YY,
 		SUM(A.orders_total_price) AS SALES
 		FROM orders A where order_status = '배송 완료'
+		GROUP
+		BY 1
+		ORDER
+		BY 1;
+	</select>
+	
+	<select id="perDaySales">
+		SELECT SUBSTR(A.orders_reg_date,1,10) DD,
+		SUM(A.orders_total_price) AS SALES
+		FROM orders A where order_status = '배송 완료'
+		and orders_reg_date >= str_to_date(#{dateStart},'%Y-%m-%d')
+		and orders_reg_date <![CDATA[<]]> str_to_date(#{dateEnd},'%Y-%m-%d')+1
 		GROUP
 		BY 1
 		ORDER

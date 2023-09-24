@@ -65,6 +65,7 @@
 			}
 		})
 	}
+	
 </script>
 <div>
 	<a th:href="|/member/myProfile|">내 정보</a>
@@ -73,10 +74,11 @@
 	<table border="">
 		<tr>
 			<td colspan="6">
-				<h3>배송지 정보(배송지는 최대 5개까지 관리 가능합니다.)</h3>
+				<h3>배송지 정보</h3>
 			</td>
 		</tr>
 		<tr>
+			<td>상태</td>
 			<td>우편번호</td>
 			<td>주소</td>
 			<td>상세주소</td>
@@ -84,6 +86,8 @@
 			<td>관리</td>
 		</tr>
 		<tr th:each="addr : ${address}">
+			<td th:if="${addr.basicAddr == 1}" th:text="기본주소"/>
+			<td th:unless="${addr.basicAddr == 1}"/>
 			<td th:text="${addr.zipCode}" />
 			<td th:text="${addr.address}" />
 			<td th:text="${addr.detailAddress}" />
@@ -97,5 +101,5 @@
 
 		</tr>
 	</table>
-	<button onclick="addAddress()">배송지 추가</button>
+	<a href="/member/addAddress">배송지 추가</a>
 </div>

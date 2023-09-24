@@ -6,5 +6,6 @@ import lombok.Data;
 public class TotalOrderDTO {
 	String MM;
 	String YY;
+	String DD;
 	int SALES;
 }
