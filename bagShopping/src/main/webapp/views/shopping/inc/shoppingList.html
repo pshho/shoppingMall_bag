@@ -1,21 +1,31 @@
 <html xmlns="http://www.thymeleaf.org">
-<table border="">
+<table class="shoppingList">
 	<tr>
 		<td colspan="4">
 			<h1>상품목록</h1>
 		</td>
 	</tr>
+	<form th:action="|/shopping/shoppingList/${brand}/${category}/${type}/1/${distinct}|" id="searForm">
+		<tr align="center">
+			<td colspan="4">
+				<input type="text" name="searchCont" id="searchCont" placeholder="상품을 검색해보세요" />
+				<input type="submit" value="검색" />
+			</td>
+		</tr>
+	</form>
 	<tr>
-		<td>
-			<a id="newest"
+		<td colspan="4">
+			<a th:if="${distinct ne null and distinct eq 'newest'}" id="newest" style="color: brown;"
 			th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${page}/newest?searchCont=${sear}|">최신순</a>
-		</td>
-		<td>
-			<a id="review"
+			<a th:unless="${distinct ne null and distinct eq 'newest'}" id="newest"
+			th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${page}/newest?searchCont=${sear}|">최신순</a>
+			<a th:if="${distinct ne null and distinct eq 'review'}" id="review" style="color: brown;"
 			th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${page}/review?searchCont=${sear}|">리뷰순</a>
-		</td>
-		<td colspan="2">
-			<a id="sells"
+			<a th:unless="${distinct ne null and distinct eq 'review'}" id="review"
+			th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${page}/review?searchCont=${sear}|">리뷰순</a>
+			<a th:if="${distinct ne null and distinct eq 'sells'}" id="sells" style="color: brown;"
+			th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${page}/sells?searchCont=${sear}|">판매순</a>
+			<a th:unless="${distinct ne null and distinct eq 'sells'}" id="sells"
 			th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${page}/sells?searchCont=${sear}|">판매순</a>
 		</td>
 	</tr>
@@ -33,17 +43,17 @@
 					th:if="${brand.brandId eq productsBoardList[num].brandId}"
 					th:text="${brand.brandName}"></li>
 					<li th:text="${bagsList[num].bagName}"></li>
-					<li th:text="${bagsList[num].bagPrice}"></li>
+					<li th:text="${#numbers.formatInteger(bagsList[num].bagPrice, 0, 'COMMA')}"></li>
 					<li th:text="${productsBoardList[num].intro}"></li>
 				</a>
 			</ul>
 		</td>
 	</tr>
 	<tr th:unless="${#arrays.length(productsBoardList) ne 0}">
-		<td colspan="4">검색된 게시글이 없습니다</td>
+		<td align="center" colspan="4">검색된 게시글이 없습니다</td>
 	</tr>
 	<tr>
-		<td colspan="4">
+		<td align="center" colspan="4">
 			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/1/${distinct}?searchCont=${sear}|"><<</a>
 			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pd.pageLJump}/${distinct}?searchCont=${sear}|"><</a>
 			<a th:each="pageNum:${#numbers.sequence(
@@ -56,18 +66,8 @@
 			<a th:href="|/shopping/shoppingList/${brand}/${category}/${type}/${pd.endPage}/${distinct}?searchCont=${sear}|">>></a>
 		</td>
 	</tr>
-	<form th:action="|/shopping/shoppingList/${brand}/${category}/${type}/${page}/${distinct}|" id="searForm">
-		<tr>
-			<td colspan="3">
-				<input type="text" name="searchCont" id="searchCont" />
-			</td>
-			<td>
-				<input type="submit" value="검색" />
-			</td>
-		</tr>
-	</form>
 	<tr>
-		<td colspan="4" th:if="${session.admin ne null}">
+		<td align="right" colspan="4" th:if="${session.admin ne null}">
 			<a href="/shopping/shoppingWrite">글작성</a>
 		</td>
 	</tr>

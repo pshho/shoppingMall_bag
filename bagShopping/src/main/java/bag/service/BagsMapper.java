@@ -19,7 +19,7 @@ public interface BagsMapper {
 	List<BagsDTO> allProducts();
 
 	BagsDTO bags(BagsDTO bagDTO);
-	List<BagsDTO> cartBags(String memberId);
+	List<BagsDTO> cartBags(String memberId, int payStatus);
 	BagsDTO productsBoardBag(int productCode);
 	void insertBag(BagsDTO bagDTO);
 	BagsDTO detailBag(int productCode);

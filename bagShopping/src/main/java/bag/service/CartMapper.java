@@ -15,4 +15,7 @@ public interface CartMapper {
 	void changeCart(CartDTO cart);
 	void deleteCart(int cartId);
 	void allDelete(String memberId);
+	void orderSelect(CartDTO cart);
+	void selectInit(String memberId);
+	List<CartDTO> payCartList(String memberId, int payStatus);
 }

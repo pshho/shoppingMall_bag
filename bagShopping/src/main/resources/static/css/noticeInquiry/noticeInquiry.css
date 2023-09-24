@@ -1,7 +1,8 @@
 @charset "UTF-8";
 .noticeBody, .inquiryBody {
-	width: 100%;
+	width: 1200px;
 	height: 700px;
+	margin: 0 auto;
 }
 .noticeList, .inquiryList, .noticeDetail, .inquiryDetail,
 .noticeWrite, .inquiryWrite, .noticeModify, .inquiryModify,
@@ -99,11 +100,14 @@
 	margin: 0 auto;
 	width: 400px;
 }
+.inquiryWrite tr td label{
+	margin: 5px 10px;
+}
 .noticeWrite tr:nth-of-type(3) td input[type=text],
-.inquiryWrite tr:nth-of-type(3) td input[type=text],
+.inquiryWrite tr:nth-of-type(4) td input[type=text],
 .noticeModify tr:nth-of-type(3) td input[type=text],
 .inquiryModify tr:nth-of-type(3) td input[type=text],
-.inquiryReply tr:nth-of-type(3) td input[type=text]{
+.inquiryReply tr:nth-of-type(4) td input[type=text]{
 	border: 0;
 }
 .noticeWrite tr:last-of-type td input,

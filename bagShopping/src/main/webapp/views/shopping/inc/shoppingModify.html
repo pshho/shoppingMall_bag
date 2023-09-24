@@ -2,7 +2,12 @@
 <form th:action="|/shopping/shoppingModify/${productsBoard.productsBoardId}|" 
 method="post" id="wri" th:object="${productsBoardDTO}">
 	<input type="hidden" name="memberId" th:value="${session.admin}" />
-	<table border="">
+	<table class="shoppingModify">
+		<tr>
+			<td colspan="2">
+				<h1>상품게시글 수정</h1>
+			</td>
+		</tr>
 		<tr>
 			<td width="150px">카테고리</td>
 			<td th:each="cate:${categoriesList}" 
@@ -28,8 +33,7 @@ method="post" id="wri" th:object="${productsBoardDTO}">
 			<td>상세소개</td>
 			<td colspan="3">
 				<div contenteditable="true" id="wriCon"
-				th:utext="${productsBoard.contents}"
-				style="width: 500px; height: 600px;"></div>
+				th:utext="${productsBoard.contents}"></div>
 				<textarea th:field="*{contents}" id="cont"></textarea>
 			</td>
 		</tr>
@@ -46,7 +50,7 @@ method="post" id="wri" th:object="${productsBoardDTO}">
 			</td>
 		</tr>
 		<tr>
-			<td colspan="4">
+			<td align="center" colspan="4">
 				<input type="submit" value="등록" />
 				<input type="button" value="취소" onclick="confirmCancel()" />
 			</td>

@@ -10,8 +10,8 @@ import lombok.Data;
 @Alias("inDTO")
 @Data
 public class InquiryDTO {
-	int inquiryId, seq, lev, gid;
-	String inTitle, inWriter, inContent, inquiryPw;
+	int inquiryId, seq, lev, gid, publicStatus;
+	String inTitle, inWriter, inContent, inquiryPw, reWriter;
 	Date inquiryRegDate;
 	SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd (E) HH:mm");
 	

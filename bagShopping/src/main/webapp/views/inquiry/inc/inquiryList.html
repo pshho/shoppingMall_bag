@@ -20,10 +20,24 @@
 			<th:block th:if="${inquiryList[num].lev ne 0}"
 				th:each="re:${#numbers.sequence(1, inquiryList[num].lev)}">
 				<span>└</span></th:block>
-			<a th:if="${session.admin}" 
-			th:href="|/inquiry/inquiryDetail/${inquiryList[num].inquiryId}|" th:text="${inquiryList[num].inTitle}"></a>
-			<a th:unless="${session.admin}"
-			th:href="|/inquiry/detailCheck/${inquiryList[num].inquiryId}|" th:text="|비밀글입니다|"></a>
+			<th:block th:if="${inquiryList[num].publicStatus eq 1 or session.admin ne null}">
+				<a th:href="|/inquiry/inquiryDetail/${inquiryList[num].inquiryId}|" 
+				th:text="${inquiryList[num].inTitle}"></a>
+			</th:block>
+			<th:block th:unless="${inquiryList[num].publicStatus eq 1 or session.admin ne null}">
+				<th:block th:if="${inquiryList[num].inWriter ne 'admin'}">
+					<a th:if="${inquiryList[num].inWriter eq session.userId}" 
+					th:href="|/inquiry/inquiryDetail/${inquiryList[num].inquiryId}|">비밀글입니다</a>
+					<a th:unless="${inquiryList[num].inWriter eq session.userId}" 
+					onclick="notAccess()" href="">비밀글입니다</a>
+				</th:block>
+				<th:block th:unless="${inquiryList[num].inWriter ne 'admin'}">
+					<a th:if="${session.userId eq inquiryList[num].reWriter}"
+					th:href="|/inquiry/inquiryDetail/${inquiryList[num].inquiryId}|">비밀글입니다</a>
+					<a th:unless="${session.userId eq inquiryList[num].reWriter}"
+					href="" onclick="notAccess()">비밀글입니다</a>
+				</th:block>
+			</th:block>
 		</td>
 		<td th:text="${inquiryList[num].inWriter}"></td>
 		<td th:text="${inquiryList[num].inquiryRegDate2}"></td>
@@ -45,7 +59,7 @@
 			<a th:href="|/inquiry/inquiryList/${pd.endPage}?searchCate=${searC}&searchCont=${sear}|">>></a>
 		</td>
 	</tr>
-	<form th:if="${session.admin ne null}" action="/inquiry/inquiryList/1" id="searForm">
+	<form action="/inquiry/inquiryList/1" id="searForm">
 		<tr>
 			<td align="center" colspan="4">
 				<select name="searchCate">
@@ -80,4 +94,8 @@
 			}
 		})
 	})
+	
+	function notAccess(){
+		alert('접근할 수 없습니다');
+	}
 </script>

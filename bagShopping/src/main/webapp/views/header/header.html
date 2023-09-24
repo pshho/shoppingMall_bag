@@ -1,5 +1,29 @@
 <html xmlns="http://www.thymeleaf.org">
 <header class="header">
+	<div></div>
+	<!--member-->
+	<th:block th:if="${session.userId == null and session.admin eq null}">
+		<div>
+			<a href="/member/signUp">회원가입</a>
+			<a href="/member/signIn">로그인</a>
+		</div>
+	</th:block>
+	
+	<th:block th:if="${session.userId != null and session.admin eq null}">
+		<div>
+			<a href="/member/logOut">[[${session.userId}]]님 로그아웃</a>
+			<a href="/member/myPage">마이페이지</a>
+		</div>
+	</th:block>
+	<!--member-->
+	
+	<th:block th:if="${session.admin != null}">
+		<div>
+			<a href="/admin/adminMain">관리자페이지 돌아가기</a>
+		</div>
+	</th:block>
+</header>
+<header class="header">
 	<div>
 		<a href="/">
 			<h1>IWILLBAG</h1>
@@ -14,17 +38,17 @@
 			<li th:each="brand:${brandList}">
 				<a th:href="|/shopping/shoppingList/${brand.brandId}/0/0/1/newest|" th:text="${brand.brandName}"></a>
 			</li>
+			<li><a href=""></a></li>
 		</ul>
 	</div>
 	<div th:each="cate:${categoriesList}">
 		<h4 th:text="${cate.categoriesName}"></h4>
 		<ul>
-	
 			<li th:each="type:${typeList}" th:if="${type.categoriesId eq cate.categoriesId}">
 				<a th:href="|/shopping/shoppingList/0/${cate.categoriesId}/${type.typeId}/1/newest|"
 					th:text="${type.typeName}"></a>
-	
 			</li>
+			<li><a href=""></a></li>
 		</ul>
 	</div>
 	<div>
@@ -41,8 +65,11 @@
 			<li>
 				<a href="/inquiry/inquiryList/1">문의게시판</a>
 			</li>
+			<li><a href=""></a></li>
+			<li><a href=""></a></li>
 		</ul>
 	</div>
+
 	
 	<!--member-->
 	<th:block th:if="${session.userId == null and session.userId ne admin}">
@@ -65,5 +92,18 @@
 			<a href="/admin/adminMain">관리자페이지 돌아가기</a>
 		</div>
 	</th:block>
+
 </header>
-<hr />
+<header class="search" th:if="${url eq '/'}">
+	<table>
+		<form action="/shopping/shoppingList/0/0/0/1/newest" id="searForm">
+			<tr>
+				<td>
+					<input type="text" name="searchCont" id="searchCont" />
+					<input type="submit" value="검색" />
+					<div id="searchDrop"></div>
+				</td>
+			</tr>
+		</form>
+	</table>
+</header>
