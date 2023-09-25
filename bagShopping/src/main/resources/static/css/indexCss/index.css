@@ -1,5 +1,56 @@
 @charset "UTF-8";
 .main {
 	width: 1200px;
+	height: 1000px;
 	margin: 0 auto;
+	overflow: hidden;
+	position: relative;
+}
+.mainProduct {
+	position: absolute;
+	left: 150px;
+	transform: translateX(-75px);
+	border-collapse: collapse;
+}
+.mainProduct tr td{
+	border-bottom: 1px solid black;
+}
+.mainProduct tr td ul li {
+	list-style: none;
+}
+.mainProduct tr td ul li:nth-of-type(2) {
+	font-size: 18px;
+	font-weight: bold;
+}
+.mainProduct tr td ul li:nth-of-type(3){
+	width: 300px;
+}
+.mainProduct tr td ul li:last-of-type{
+	font-weight: bold;
+	font-size: 17px;
+}
+.mainProduct tr td:nth-of-type(n+4){
+	visibility: hidden;
+	border-bottom: none;
+}
+.mainProduct button[type=button] {
+	background-color: transparent;
+	border: 0;
+	cursor: pointer;
+}
+.mainProduct tr:last-of-type td img,
+.mainProduct tr:nth-last-of-type(4) td img {
+	width: 50px;
+	height: 50px;
+}
+.mainProduct tr:not(:last-of-type, :nth-last-of-type(4)) td img {
+	width: 200px;
+	height: 220px;
+}
+.mainProduct a {
+	text-decoration: none;
+	color: black;
+}
+.mainProduct tr:not(:last-of-type, :nth-last-of-type(4)) td a:hover {
+	text-decoration: underline;
 }

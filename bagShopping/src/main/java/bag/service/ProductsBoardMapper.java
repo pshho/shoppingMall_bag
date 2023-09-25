@@ -10,6 +10,7 @@ import bag.model.ProductsBoardDTO;
 public interface ProductsBoardMapper {
 	List<ProductsBoardDTO> productsBoardList(ProductsBoardDTO prbDTO);
 	List<ProductsBoardDTO> allPrbList();
+	List<ProductsBoardDTO> newPrb();
 	ProductsBoardDTO productsBoard(ProductsBoardDTO prbDTO);
 	void writeProduct(ProductsBoardDTO prbDTO);
 	int maxPrbId();
