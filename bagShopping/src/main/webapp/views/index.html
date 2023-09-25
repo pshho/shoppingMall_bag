@@ -12,12 +12,86 @@ crossorigin="anonymous"></script>
 <body>
 	<th:block th:replace="header/header" />
 	<section class="main">
-		<h2>메인페이지 디자인</h2>
+		<table class="mainProduct">
+			<tr>
+				<td colspan="3">
+					<h1>인기 상품</h1>
+				</td>
+			</tr>
+			<tr id="popularPrb">
+				<td th:each="prb,no:${prbList}" 
+				th:if="${no.index lt 10}">
+					<a th:href="|/shopping/shoppingDetail/0/0/0/${prb.productsBoardId}/newest|">
+						<ul>
+							<li>
+								<img th:src="|/upFile/${bagList[no.index].bagImg1}|" alt="상품 사진" />
+							</li>
+							<li th:each="brand:${brandList}" 
+							th:if="${brand.brandId eq bagList[no.index].brandId}"
+							th:text="${brand.brandName}"></li>
+							<li th:text="${bagList[no.index].bagName}"></li>
+							<li th:text="${#numbers.formatInteger(bagList[no.index].bagPrice, 0, 'COMMA')}"></li>
+						</ul>
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" align="center">
+					<button type="button" onclick="leftSide(0)">
+						<img src="/upFile/left.png" alt="화살표" />
+					</button>
+					<a href="/">
+						<img src="/upFile/square.png" alt="직사각형" />
+					</a>
+					<button type="button" onclick="rightSide(0)">
+						<img src="/upFile/right.png" alt="화살표" />
+					</button>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3">
+					<h1>신상품</h1>
+				</td>
+			</tr>
+			<tr id="newPrb">
+				<td th:each="prb,no:${prbListNew}" 
+				th:if="${no.index lt 10}">
+					<a th:href="|/shopping/shoppingDetail/0/0/0/${prb.productsBoardId}/newest|">
+						<ul>
+							<li>
+								<img th:src="|/upFile/${bagListNew[no.index].bagImg1}|" alt="상품 사진" />
+							</li>
+							<li th:each="brand:${brandList}" 
+							th:if="${brand.brandId eq bagListNew[no.index].brandId}"
+							th:text="${brand.brandName}"></li>
+							<li th:text="${bagListNew[no.index].bagName}"></li>
+							<li th:text="${#numbers.formatInteger(bagListNew[no.index].bagPrice, 0, 'COMMA')}"></li>
+						</ul>
+					</a>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="3" align="center">
+					<button type="button" onclick="leftSide(1)">
+						<img src="/upFile/left.png" alt="화살표" />
+					</button>
+					<a href="/">
+						<img src="/upFile/square.png" alt="직사각형" />
+					</a>
+					<button type="button" onclick="rightSide(1)">
+						<img src="/upFile/right.png" alt="화살표" />
+					</button>
+				</td>
+			</tr>
+		</table>
 	</section>
 	
 	
 	<th:block th:replace="footer/footer" />
 	<script>
+		var num1 = 0;
+		var num2 = 0;
+		
 		$(document).ready(function(){
 			$('#searForm').submit(function(e){
 				e.preventDefault();
@@ -72,7 +146,75 @@ crossorigin="anonymous"></script>
 					$('.searData').css('display', 'none');
 				}
 			})
+			
+			const setInterLeftPop = setInterval(function(){
+				if(num1 === 7) {
+					$('#popularPrb').css({transform: 'translateX(0)',
+					transition: 'transform 0.3s ease'});
+					for(i=7; i>0; i--){
+						$('#popularPrb td:nth-of-type('+(i+3)+')').css('visibility', 'hidden');
+						$('#popularPrb td:nth-of-type('+i+')').css('visibility', 'visible');
+					}
+					num1 = 0;
+				}else {
+					leftSide(0);
+				}
+			}, 2000);
+			
+			const setInterLeftNew = setInterval(function(){
+				if(num2 === 7) {
+					$('#newPrb').css({transform: 'translateX(0)',
+					transition: 'transform 0.3s ease'});
+					for(i=7; i>0; i--){
+						$('#newPrb td:nth-of-type('+(i+3)+')').css('visibility', 'hidden');
+						$('#newPrb td:nth-of-type('+i+')').css('visibility', 'visible');
+					}
+					num2 = 0;
+				}else {
+					leftSide(1);
+				}
+			}, 3000);
 		})
+		
+		function leftSide(no){
+			if(no === 0){
+				if(num1 < 7){
+					num1++;
+					$('#popularPrb').css({transform: 'translateX('+(-340*num1)+'px)',
+					transition: 'transform 0.3s ease'});
+					$('#popularPrb td:nth-of-type('+(num1+3)+')').css('visibility', 'visible');
+					$('#popularPrb td:nth-of-type('+num1+')').css('visibility', 'hidden');
+				}
+			}else if(no === 1){
+				if(num2 < 7){
+					num2++;
+					$('#newPrb').css({transform: 'translateX('+(-340*num2)+'px)',
+					transition: 'transform 0.3s ease'});
+					$('#newPrb td:nth-of-type('+(num2+3)+')').css('visibility', 'visible');
+					$('#newPrb td:nth-of-type('+num2+')').css('visibility', 'hidden');
+				}
+			}
+		}
+		
+		function rightSide(no){
+			if(no === 0){
+				if(num1 >= 1){
+					$('#popularPrb').css({transform: 'translateX('+((-340*num1)+340)+'px)',
+					transition: 'transform 0.3s ease'});
+					$('#popularPrb td:nth-of-type('+(num1+3)+')').css('visibility', 'hidden');
+					$('#popularPrb td:nth-of-type('+num1+')').css('visibility', 'visible');
+					num1--;
+				}
+			}else if(no === 1){
+				if(num2 >= 1){
+					$('#newPrb').css({transform: 'translateX('+((-340*num2)+340)+'px)',
+					transition: 'transform 0.3s ease'});
+					$('#newPrb td:nth-of-type('+(num2+3)+')').css('visibility', 'hidden');
+					$('#newPrb td:nth-of-type('+num2+')').css('visibility', 'visible');
+					num2--;
+				}
+			}
+		}
 	</script>
 </body>
 </html>
