@@ -1,7 +1,7 @@
 @charset "UTF-8";
 .main {
 	width: 1200px;
-	height: 1000px;
+	height: 900px;
 	margin: 0 auto;
 	overflow: hidden;
 	position: relative;
@@ -38,12 +38,12 @@
 	border: 0;
 	cursor: pointer;
 }
-.mainProduct tr:last-of-type td img,
+/* .mainProduct tr:last-of-type td img,
 .mainProduct tr:nth-last-of-type(4) td img {
 	width: 50px;
 	height: 50px;
-}
-.mainProduct tr:not(:last-of-type, :nth-last-of-type(4)) td img {
+} */
+.mainProduct tr td img {
 	width: 200px;
 	height: 220px;
 }
