@@ -4,6 +4,107 @@
 	width: 1200px;
 	margin: 20px auto;
 }
+
+/*회원가입*/
+.member {
+	width: 800px;
+	/* border: 1px solid #000; */
+	margin: 100px auto;
+	/*중앙 정렬*/
+	padding: 30px;
+	border: 1px solid #222;
+	margin-bottom: 50px;
+	background-color: #f5f6f7;
+	height: 1000px;
+}
+
+.member h3{
+	text-align: center;
+	margin: 20px 0px 30px 0px;
+}
+
+.member form {
+	margin-left: 180px;
+	
+}
+
+.member .field {
+	margin: 5px 0;
+	/*상하로 좀 띄워주기*/
+}
+
+.member label {
+	/* border: 1px solid #000; */
+	display: block;
+	/*수직 정렬하기 */
+	margin-bottom: 5px;
+}
+
+.member .field input[type='text'] {
+	font-size: 1em;
+	width: 330px;
+	height: 45px;
+	border: 1px solid #222;
+	border-radius: 5px;
+}
+
+.member #emailDomain {
+	font-size: 1em;
+	
+	border: 1px solid #222;
+	border-radius: 5px;
+	padding: 10px;
+	width: 150px;
+}
+
+.member #phone1 {
+	font-size: 1em;
+	border: 1px solid #222;
+	border-radius: 5px;
+	padding: 10px;
+	width: 100px;
+}
+
+.member form .tel #phone2,
+.member form .tel #phone3 {
+	font-size: 1em;
+	margin-bottom: 10px;
+	border: 1px solid #222;
+	border-radius: 5px;
+	height: 45px;
+	width: 150px;
+}
+
+.member .field #zipCode, .member .field #address{
+	margin-bottom: 5px;
+}
+
+.member input[type='button']{
+	border: 1px solid #222;
+	border-radius: 5px;
+	height: 45px;
+}
+
+.member .btnBox{
+	width: 400px;
+	display: flex;
+	flex-direction: row;
+	flex: 1;
+}
+
+.member .btnBox button{
+	width: 170px;
+	height: 100%;
+	margin-top: 30px;
+}
+
+.member .btnBox a{
+	width: 170px;
+	height: 100%;
+	margin-top: 30px;
+	margin-left: 20px;
+}
+
 /*로그인*/
 .login-form {
 	width: 300px;
@@ -38,15 +139,108 @@
 	text-align: center;
 	font-size: 12px;
 }
+
 /*로그인 끝*/
 
 /*아이디 찾기*/
 #find {
-	width: 300px;
+	width: 500px;
 	border: 0;
 	border-radius: 5px;
 	background-color: #EEEFF1;
 	padding: 20px;
 	margin: 100px auto;
 }
+
+#find span {
+	margin-left: 20px;
+}
+
+#find b {
+	margin-left: 20px;
+}
+
+#find #memberName {
+	font-size: 1em;
+	width: 330px;
+	margin-left: 32px;
+	margin-bottom: 30px;
+	margin-top: 30px;
+	border: none;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+#find #memberId {
+	font-size: 1em;
+	width: 330px;
+	margin-left: 15px;
+	margin-top: 30px;
+	border: none;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+#find select {
+	font-size: 1em;
+	margin-bottom: 30px;
+	border: none;
+	border-radius: 5px;
+	padding: 10px;
+	width: 100px;
+}
+
+#find #phone2,
+#find #phone3 {
+	font-size: 1em;
+	margin-bottom: 10px;
+	border: none;
+	border-radius: 5px;
+	padding: 10px;
+	width: 100px;
+}
+
+#find #bottom {
+	margin: 0px auto;
+	font-size: 20px;
+	width: 80%;
+	display: none;
+}
+
+#find #bottom #result {
+	text-align: center;
+	margin: 100px auto;
+}
+
+#pwCheckBox {
+	width: 500px;
+	border: 0;
+	border-radius: 5px;
+	background-color: #EEEFF1;
+	padding: 20px;
+	margin: 100px auto;
+	display: none;
+}
+
+#pwCheckBox #memberPw {
+	font-size: 1em;
+	width: 330px;
+	margin-left: 32px;
+	margin-bottom: 30px;
+	margin-top: 30px;
+	border: none;
+	border-radius: 5px;
+	padding: 10px;
+}
+
+#pwCheckBox #memberPw2 {
+	font-size: 1em;
+	width: 330px;
+	margin-left: 15px;
+	margin-bottom: 30px;
+	border: none;
+	border-radius: 5px;
+	padding: 10px;
+}
+
 /*아이디 찾기 끝*/

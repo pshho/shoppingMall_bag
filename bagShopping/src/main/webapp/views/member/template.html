@@ -142,6 +142,77 @@
 		})
 
 		function signUp() {
+			var id = $('#id').val();
+			var pw = $('#pw').val();
+			var pw2 = $('#pw2').val();
+			var name = $('#name').val();
+			var email = $('#email').val();
+			var phone1 = $('#phone1').val();
+			var phone2 = $('#phone2').val();
+			var phone3 = $('#phone3').val();
+			var zipCode = $('#zipCode').val();
+
+			var idReg = /^[a-zA-Z0-9]+$/;
+			var nameReg = /^[가-힣]+$/;
+			var phoneReg = /^[0-9]+$/;
+			if (id == '') {
+				alert('아이디를 입력해 주세요.')
+				$('#memberId').focus
+				return false;
+			}
+			if (!idReg.test(id)) {
+				alert('아이디는 영문 숫자 조합으로 입력해주세요.')
+				$('#id').focus
+				return false;
+			}
+			if (pw == '') {
+				alert('비밀번호를 입력해주세요.');
+				return false;
+			}
+			if (pw2 == '') {
+				alert('비밀번호 확인란을 입력해주세요.');
+				return false;
+			}
+			if (pw != pw2) {
+				alert("비밀번호와 비밀번호 확인이 같지 않습니다.");
+				return false;
+			}
+			if (name == '') {
+				alert("이름을 입력해 주세요.")
+				$('#name').focus
+				return false;
+			}
+			if (!nameReg.test(name)) {
+				alert("이름은 한글만 입력 해주세요.")
+				$('#name').focus
+				return false;
+			}
+			if (email == '') {
+				alert("이메일을 입력해 주세요.")
+				$('#name').focus
+				return false;
+			}
+			if (!idReg.test(email)) {
+				alert('이메일은 영문 숫자 조합으로 입력해주세요.')
+				$('#email').focus
+				return false;
+			}
+			
+			if (phone2 == '' || phone3 == '') {
+				alert("전화번호를 입력해 주세요.")
+				$('#phone2').focus
+				return false;
+			}
+			if (!phoneReg.test(phone2) || !phoneReg.test(phone3)) {
+				alert("전화번호는 숫자만 입력해 주세요.")
+				$('#phone2').focus
+				return false;
+			}
+			if (zipCode == '') {
+				alert("주소를 입력해 주세요.")
+				$('#zipCode').focus
+				return false;
+			}
 			if ($("#idCheckBox").html() == "중복된 아이디 입니다.") {
 				alert('아이디 중복 확인을 해 주세요.')
 				return false;
@@ -153,7 +224,7 @@
 
 			$("#signUpForm").submit()
 		}
-		
+
 		function inquiryDelete(inquiryId) {
 			$.ajax({
 				url: '/inquiry/inquiryDelete/' + inquiryId,
@@ -177,6 +248,8 @@
 				inquiryDelete(inquiryId);
 			}
 		}
+
+
 	</script>
 </head>
 

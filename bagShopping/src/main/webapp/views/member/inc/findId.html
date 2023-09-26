@@ -11,6 +11,29 @@
 			var phone2 = $('#phone2').val()
 			var phone3 = $('#phone3').val()
 			var phone = phone1 + "-" + phone2 + "-" + phone3
+			var nameReg = /^[가-힣]+$/;
+			var phoneReg = /^[0-9]+$/;
+			if(name == ''){
+				alert("이름을 입력해 주세요.")
+				$('#memberName').focus
+				return false;
+			}
+			if(!nameReg.test(name)){
+				alert("이름은 한글만 입력 해주세요.")
+				$('#memberName').focus
+				return false;
+			}
+			if(phone2 == '' || phone3 == ''){
+				alert("전화번호를 입력해 주세요.")
+				$('#phone2').focus
+				return false;
+			}
+			if(!phoneReg.test(phone2) || !phoneReg.test(phone3)){
+				alert("전화번호는 숫자만 입력해 주세요.")
+				$('#phone2').focus
+				return false;
+			}
+			
 			$.ajax({
 				url: "findId",
 				type: "post",
@@ -19,7 +42,8 @@
 				success: function (data) {
 					console.log(data)
 					if (data) {
-						$('#find').hide()
+						$('#top').hide()
+						$('#bottom').show()
 						$('#result').text("회원님의 ID는 " + data + " 입니다.")
 					} else {
 						alert("해당하는 ID가 없습니다.")
@@ -38,21 +62,22 @@
 
 	<div class="body">
 		<div id="find">
-			이름 : <input type="text" class="text" id="memberName" /> <br />
-			전화번호 :
-			<select id="phone1">
-				<option>010</option>
-				<option>011</option>
-				<option>016</option>
-				<option>017</option>
-				<option>019</option>
-			</select>
-			<input type="text" id="phone2" class="text" />-<input type="text" id="phone3" /><br>
-			<button onclick="findId()" class="submit-btn">찾기</button>
-		</div>
-
-		<div id="findId">
-			<h2 id="result"></h2>
+			<div id="top">
+				<span>이름 </span><input type="text" id="memberName" /> <br />
+				<span>전화번호 </span>
+				<select id="phone1">
+					<option>010</option>
+					<option>011</option>
+					<option>016</option>
+					<option>017</option>
+					<option>019</option>
+				</select>
+				- <input type="text" id="phone2" /> - <input type="text" id="phone3" /><br>
+				<button type="button" onclick="findId()" class="submit-btn">찾기</button>
+			</div>
+			<div id="bottom">
+				<p id="result"></p>
+			</div>
 		</div>
 	</div>
 </body>

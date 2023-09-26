@@ -12,6 +12,40 @@
 			var phone2 = $('#phone2').val()
 			var phone3 = $('#phone3').val()
 			var phone = phone1 + "-" + phone2 + "-" + phone3
+			var idReg = /^[a-zA-Z0-9]+$/;
+			var nameReg = /^[가-힣]+$/;
+			var phoneReg = /^[0-9]+$/;
+			if(id == ''){
+				alert('아이디를 입력해 주세요.')
+				$('#memberId').focus
+				return false;
+			}
+			if(!idReg.test(id)){
+				alert('아이디는 영문 숫자 조합으로 입력해주세요.')
+				$('#memberId').focus
+				return false;
+			}
+			if(name == ''){
+				alert("이름을 입력해 주세요.")
+				$('#memberName').focus
+				return false;
+			}
+			if(!nameReg.test(name)){
+				alert("이름은 한글만 입력 해주세요.")
+				$('#memberName').focus
+				return false;
+			}
+			if(phone2 == '' || phone3 == ''){
+				alert("전화번호를 입력해 주세요.")
+				$('#phone2').focus
+				return false;
+			}
+			if(!phoneReg.test(phone2) || !phoneReg.test(phone3)){
+				alert("전화번호는 숫자만 입력해 주세요.")
+				$('#phone2').focus
+				return false;
+			}
+			
 			$.ajax({
 				url: "findPw",
 				type: "post",
@@ -22,30 +56,37 @@
 					if (data) {
 						alert('새 비밀번호로 변경해주세요')
 						$('#find').hide()
-						$('#newPw').show()
+						$('#pwCheckBox').show()
 						$('#id').val(data)
 					} else {
-						alert("비밀번호 찾기 실패")
+						alert("해당하는 회원이 없습니다!")
 					}
 				},
 				error: function () {
-					alert("비밀번호 찾기 실패")
+					alert("해당하는 회원이 없습니다!")
 				}
 			})
 
 		}
 
 		function findPwBtn() {
-			var pw = $('memberPw').val()
-			var pw2 = $('memberPw2').val()
-
-			if (pw != pw2) {
-				alert("비밀번호를 확인해주세요.")
+			var pw = $('#memberPw').val()
+			var pw2 = $('#memberPw2').val()
+			console.log(pw)
+			console.log(pw2)
+			if(pw == ''){
+				alert('비밀번호를 입력해주세요.');
 				return false;
-			} else {
-				newPw.submit()
 			}
-
+			if(pw2 == ''){
+				alert('비밀번호 확인란을 입력해주세요.');
+				return false;
+			}
+			if (pw != pw2) {
+				alert("비밀번호와 비밀번호 확인이 같지 않습니다.");
+				return false;
+			}
+			$('#newPw').submit()
 		}
 
 	</script>
@@ -55,9 +96,9 @@
 	<div>
 		<div id="find">
 			<b>본인 확인을 통해 비밀번호를 재설정 하실 수 있습니다.</b><br />
-			아이디 : <input type="text" id="memberId" /> <br />
-			이름 : <input type="text" id="memberName" /> <br />
-			전화번호 :
+			<span>아이디 </span><input type="text" id="memberId" /> <br />
+			<span>이름 </span><input type="text" id="memberName" /> <br />
+			<span>전화번호 </span>
 			<select id="phone1">
 				<option>010</option>
 				<option>011</option>
@@ -65,16 +106,17 @@
 				<option>017</option>
 				<option>019</option>
 			</select>
-			<input type="text" id="phone2" />-<input type="text" id="phone3" /><br>
-			<button onclick="findPw()">찾기</button>
+			- <input type="text" id="phone2" /> - <input type="text" id="phone3" /><br>
+			<button type="button" onclick="findPw()" class="submit-btn">찾기</button>
 		</div>
-
-		<form action="findPwReg" method="post" id="newPw" style="display: none;">
-			<input type="hidden" id="id" name="memberId" />
-			새 비밀번호 : <input type="text" id="memberPw" name="memberPw" /> <br />
-			비밀번호 확인 : <input type="text" id="memberPw2" />
-			<input type="button" value="찾기" onclick="findPwBtn()" />
-		</form>
+		<div id="pwCheckBox">
+			<form action="findPwReg" method="post" id="newPw">
+				<input type="hidden" id="id" name="memberId" />
+				<span>새 비밀번호 </span><input type="password" id="memberPw" name="memberPw" /> <br />
+				<span>비밀번호 확인 </span><input type="password" id="memberPw2" /><br/>
+				<button type="button" onclick="findPwBtn()" class="submit-btn">찾기</button>
+			</form>
+		</div>
 	</div>
 </body>
 
