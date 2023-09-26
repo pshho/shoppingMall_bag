@@ -1,14 +1,178 @@
 <!DOCTYPE html>
 <html xmlns="http://www.thymeleaf.org">
+
 <head>
 	<meta charset="UTF-8">
 	<title>admin</title>
 </head>
+
 <body>
-	<h2>관리자 패널</h2>
-	<hr />
-	<th:block th:replace="~{|admin/inc/${adminService}|}"/>
-	<th:block th:replace="~{|footer/footer|}" />
+	<div class="body">
+		<!-- Main Sidebar Container -->
+		<aside class="main-sidebar sidebar-dark-primary elevation-4">
+			<!-- Brand Logo -->
+			<a href="/admin/adminMain" class="brand-link">
+				<span class="brand-text font-weight-light">관리자 페이지</span>
+			</a>
+
+			<!-- Sidebar -->
+			<div class="sidebar">
+				<!-- Sidebar Menu -->
+				<nav class="mt-2">
+					<ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+						<!-- Add icons to the links using the .nav-icon class
+             with font-awesome or any other icon font library -->
+						<li class="nav-item">
+							<th:block th:if="${adminService == 'memberManage'}">
+								<a th:href="|/admin/memberManage/1|" class="nav-link active">
+							</th:block>
+							<th:block th:unless="${adminService == 'memberManage'}">
+								<a th:href="|/admin/memberManage/1|" class="nav-link">
+							</th:block>
+							<i class="nav-icon fas fa-th"></i>
+							<p>
+								회원 관리
+							</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<th:block th:if="${adminService == 'quitMemberManage'}">
+								<a th:href="|/admin/quitMemberManage/1|" class="nav-link active">
+							</th:block>
+							<th:block th:unless="${adminService == 'quitMemberManage'}">
+								<a th:href="|/admin/quitMemberManage/1|" class="nav-link">
+							</th:block>
+
+							<i class="nav-icon fas fa-th"></i>
+							<p>
+								탈퇴 회원 목록
+							</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<th:block th:if="${adminService == 'goodsManage'}">
+								<a th:href="|/admin/goodsManage/1|" class="nav-link active">
+							</th:block>
+							<th:block th:unless="${adminService == 'goodsManage'}">
+								<a th:href="|/admin/goodsManage/1|" class="nav-link">
+							</th:block>
+							<i class="nav-icon fas fa-th"></i>
+							<p>
+								상품 관리
+							</p>
+							</a>
+						</li>
+						<th:block th:if="${adminService == 'salesHistory'}">
+							<li class="nav-item menu-open">
+								<a th:href="|/admin/salesHistory/1|" class="nav-link active">
+						</th:block>
+						<th:block th:unless="${adminService == 'salesHistory'}">
+							<li class="nav-item menu-close">
+								<a th:href="|/admin/salesHistory/1|" class="nav-link">
+						</th:block>
+						<i class="nav-icon fas fa-tachometer-alt"></i>
+						<p>
+							주문 내역
+							<i class="right fas fa-angle-left"></i>
+						</p>
+						</a>
+						<ul class="nav nav-treeview">
+							<li class="nav-item">
+								<th:block th:if="${pd.pageType == 'PC'}">
+									<a href="/admin/salesHistory/1?searchType=S&keyword=결제%20완료&limit=15&pageType=PC"
+										class="nav-link active">
+								</th:block>
+								<th:block th:unless="${pd.pageType == 'PC'}">
+									<a href="/admin/salesHistory/1?searchType=S&keyword=결제%20완료&limit=15&pageType=PC"
+										class="nav-link ">
+								</th:block>
+								<i class="far fa-circle nav-icon"></i>
+								<p>결제 완료 목록</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<th:block th:if="${pd.pageType == 'SP'}">
+									<a href="/admin/salesHistory/1?searchType=S&keyword=배송%20준비&limit=15&pageType=SP"
+										class="nav-link active">
+								</th:block>
+								<th:block th:unless="${pd.pageType == 'SP'}">
+									<a href="/admin/salesHistory/1?searchType=S&keyword=배송%20준비&limit=15&pageType=SP"
+										class="nav-link ">
+								</th:block>
+								<i class="far fa-circle nav-icon"></i>
+								<p>배송 준비 목록</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<th:block th:if="${pd.pageType == 'SI'}">
+									<a href="/admin/salesHistory/1?searchType=S&keyword=배송%20중&limit=15&pageType=SI"
+										class="nav-link active">
+								</th:block>
+								<th:block th:unless="${pd.pageType == 'SI'}">
+									<a href="/admin/salesHistory/1?searchType=S&keyword=배송%20중&limit=15&pageType=SI"
+										class="nav-link ">
+								</th:block>
+
+								<i class="far fa-circle nav-icon"></i>
+								<p>배송 중 목록</p>
+								</a>
+							</li>
+							<li class="nav-item">
+								<th:block th:if="${pd.pageType == 'ALL'}">
+									<a href="/admin/salesHistory/1?pageType=ALL" class="nav-link active">
+								</th:block>
+								<th:block th:unless="${pd.pageType == 'ALL'}">
+									<a href="/admin/salesHistory/1?pageType=ALL" class="nav-link">
+								</th:block>
+
+								<i class="far fa-circle nav-icon"></i>
+								<p>전체 목록</p>
+								</a>
+							</li>
+						</ul>
+						</li>
+						<li class="nav-item">
+							<a href="/notice/noticeList/1" class="nav-link">
+								<i class="nav-icon fas fa-th"></i>
+								<p>
+									공지사항 게시판
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/inquiry/inquiryList/1" class="nav-link">
+								<i class="nav-icon fas fa-th"></i>
+								<p>
+									문의 게시판
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/shopping/shoppingList/0/0/0/1/newest" class="nav-link">
+								<i class="nav-icon fas fa-th"></i>
+								<p>
+									상품 게시판
+								</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a th:href="|/member/logOut|" class="nav-link">
+								<i class="nav-icon fas fa-th"></i>
+								<p>
+									로그아웃
+								</p>
+							</a>
+						</li>
+					</ul>
+				</nav>
+				<!-- /.sidebar-menu -->
+			</div>
+			<!-- /.sidebar -->
+		</aside>
+		<div id="contents">
+			<th:block th:replace="~{|admin/inc/${adminService}|}" />
+		</div>
+	</div>
 </body>
 
 </html>

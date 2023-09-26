@@ -65,7 +65,7 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 					where orders_reg_date >=
 					str_to_date(#{dateStart},'%Y-%m-%d')
 				</if>
-				<if test="dateEnd == null and dateEnd == ''">
+				<if test="dateEnd != null and dateEnd != ''">
 					and orders_reg_date <![CDATA[<]]>
 					str_to_date(#{dateEnd},'%Y-%m-%d')+1
 				</if>
@@ -161,5 +161,15 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<select id="chkOrder" resultType="ordDTO">
 		select * from orders where
 		member_id = #{memberId} and order_status = #{orderStatus}
+	</select>
+	
+	<select id="payCnt">
+		select count(*) from orders where order_status = '결제 완료'
+	</select>
+	<select id="shipReadyCnt">
+		select count(*) from orders where order_status = '배송 준비'
+	</select>
+	<select id="shipIngCnt">
+		select count(*) from orders where order_status = '배송 중'
 	</select>
 </mapper>

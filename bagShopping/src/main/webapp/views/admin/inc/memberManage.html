@@ -64,8 +64,6 @@
 </head>
 
 <body>
-	<h2>회원 관리</h2>
-	<a href="/admin/adminMain">뒤로</a>
 	<table border="">
 		<tr>
 			<td>ID</td>
@@ -86,11 +84,11 @@
 			<td>
 				<th:block th:if="${member.memberId} != admin and ${member.memberStatus != '차단'}">
 					<button id="blackMember" th:memberParam="${member.memberId}"
-						th:onclick="blackMemberBtn(this.getAttribute('memberParam'))" th:text="|블랙리스트 등록|" />
+						th:onclick="blackMemberBtn(this.getAttribute('memberParam'))" th:text="|블랙리스트 등록|" class="btn btn-block btn-outline-danger btn-sm"/>
 				</th:block>
 				<th:block th:unless="${member.memberStatus != '차단'}">
 					<button id="clearMember" th:memberParam="${member.memberId}"
-						th:onclick="clearMemberBtn(this.getAttribute('memberParam'))" th:text="|차단 해제|" />
+						th:onclick="clearMemberBtn(this.getAttribute('memberParam'))" th:text="|차단 해제|" class="btn btn-block btn-outline-success btn-sm" />
 				</th:block>
 			</td>
 		</tr>
@@ -120,7 +118,7 @@
 			</td>
 		</tr>
 		<tr>
-			<td colspan="6">
+			<td colspan="7">
 				<select id="searchType" name="searchType">
 					<option value="Id" selected>ID</option>
 					<option value="Name">이름</option>
@@ -128,7 +126,6 @@
 
 				<input type="text" id="keyword">
 				<input type="submit" id="btnSearch" value="검색">
-				<a href="/admin/memberManage/1">검색 초기화</a>
 			</td>
 		</tr>
 	</table>

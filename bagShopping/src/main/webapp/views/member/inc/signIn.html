@@ -1,16 +1,25 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<meta charset="UTF-8">
-<title>로그인 페이지</title>
+	<meta charset="UTF-8">
+	<title>로그인 페이지</title>
 </head>
+
 <body>
-	<form action="signIn" method="post">
-		아이디 : <input type="text" name="memberId" /> <br />
-		비밀번호 : <input type="password" name="memberPw" />
-		<input type="submit" value="로그인"/>
-	</form>
-	<a href="findId">아이디 찾기</a>
-	<a href="findPw">비밀번호 찾기</a>
+	<div class="body">
+		<div class="login-form">
+			<form action="signIn" method="post">
+				<input type="text" name="memberId" class="text" placeholder="아이디" />
+				<input type="password" name="memberPw" class="text" placeholder="비밀번호" />
+				<input type="submit" class="submit-btn" value="로그인" />
+			</form>
+			<div class="link">
+				<a href="findId">아이디 찾기</a>
+				<a href="findPw">비밀번호 찾기</a>
+			</div>
+		</div>
+	</div>
 </body>
+
 </html>

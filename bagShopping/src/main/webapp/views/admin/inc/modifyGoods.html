@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<title>상품 수정</title>
 	<style>
-		img{
+		img {
 			width: 100px;
 			height: 100px;
 		}
@@ -105,7 +105,7 @@
 				}
 			})
 		}
-
+		
 	</script>
 </head>
 
@@ -115,7 +115,10 @@
 		<table border="">
 			<tr>
 				<td>상품코드</td>
-				<td><input type="text" name="productCode" th:value="${modifyBag.productCode}" /></td>
+				<td><input type="text" name="productCode" th:value="${modifyBag.productCode}" />
+					<button type="button" onclick="productCodeChkBtn()">상품코드 중복체크</button>
+					<input type="hidden" id="codeChk" />
+				</td>
 			</tr>
 			<tr>
 				<td>카테고리</td>
@@ -207,7 +210,8 @@
 				<td th:unless="${modifyBag.bagImg1 == null or modifyBag.bagImg1 == ''}" id="Img1">
 					<img th:src="|/upFile/${modifyBag.bagImg1}|">
 					[[${modifyBag.bagImg1}]]<input type="hidden" id="bagImg1" name="bagImg1"
-						th:value="${modifyBag.bagImg1}" /><input type="button" value="파일삭제" onclick="fileDel1()" /></td>
+						th:value="${modifyBag.bagImg1}" /><input type="button" value="파일삭제" onclick="fileDel1()" />
+				</td>
 			</tr>
 			<tr>
 				<td>이미지2</td>
@@ -216,7 +220,8 @@
 				<td th:unless="${modifyBag.bagImg2 == null or modifyBag.bagImg2 == ''}" id="Img2">
 					<img th:src="|/upFile/${modifyBag.bagImg2}|">
 					[[${modifyBag.bagImg2}]]<input type="hidden" id="bagImg2" name="bagImg2"
-						th:value="${modifyBag.bagImg2}" /><input type="button" value="파일삭제" onclick="fileDel2()" /></td>
+						th:value="${modifyBag.bagImg2}" /><input type="button" value="파일삭제" onclick="fileDel2()" />
+				</td>
 			</tr>
 			<tr>
 				<td>이미지3</td>
@@ -225,7 +230,8 @@
 				<td th:unless="${modifyBag.bagImg3 == null or modifyBag.bagImg3 == ''}" id="Img3">
 					<img th:src="|/upFile/${modifyBag.bagImg3}|">
 					[[${modifyBag.bagImg3}]]<input type="hidden" id="bagImg3" name="bagImg3"
-						th:value="${modifyBag.bagImg3}" /><input type="button" value="파일삭제" onclick="fileDel3()" /></td>
+						th:value="${modifyBag.bagImg3}" /><input type="button" value="파일삭제" onclick="fileDel3()" />
+				</td>
 			</tr>
 			<tr>
 				<td>이미지4</td>
@@ -234,20 +240,141 @@
 				<td th:unless="${modifyBag.bagImg4 == null or modifyBag.bagImg4 == ''}" id="Img4">
 					<img th:src="|/upFile/${modifyBag.bagImg4}|">
 					[[${modifyBag.bagImg4}]]<input type="hidden" id="bagImg4" name="bagImg4"
-						th:value="${modifyBag.bagImg4}" /><input type="button" value="파일삭제" onclick="fileDel4()" /></td>
+						th:value="${modifyBag.bagImg4}" /><input type="button" value="파일삭제" onclick="fileDel4()" />
+				</td>
 			</tr>
 			<tr>
 				<td>상품제조월</td>
-				<td><input type="text" name="bagsProductionDayStr" th:value="${modifyBag.bagsProductionDay}"/></td>
+				<td><input type="text" name="bagsProductionDayStr" th:value="${modifyBag.bagsProductionDay}" /></td>
 			</tr>
 			<tr>
 				<td colspan="2">
-					<input type="submit" value="등록" />
-					<a th:href="|/admin/goodsManage/${pd.page}|">뒤로</a>
+					<input type="button" onclick="modifyGoodsBtn()" value="등록" />
+					<a th:href="|/admin/goodsManage/${pd.page}|">취소</a>
 				</td>
 			</tr>
 		</table>
 	</form>
+	<script th:inline="javascript">
+		
+		var productCode = $('input[name=productCode]')
+		var bagName = $('input[name=bagName]')
+		var bagPrice = $('input[name=bagPrice]')
+		var bagName = $('input[name=bagName]')
+		var bagSizeW = $('input[name=bagSizeW]')
+		var bagSizeH = $('input[name=bagSizeH]')
+		var bagSizeD = $('input[name=bagSizeD]')
+		var bagCapacity = $('input[name=bagCapacity]')
+		var bagWeight = $('input[name=bagWeight]')
+		var codeChk = $('#codeChk')
+
+		var bagsProductionDayStr = $('input[name=bagsProductionDayStr]')
+		var reg = /^[0-9]+$/;
+		var regex = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
+		var date = new Date();
+
+		var form = $('form[name=modiForm]')
+
+		function productCodeChkBtn() {
+			
+			$.ajax({
+				url: "/admin/productCodeChk",
+				type: "post",
+				data: {productCode: productCode.val()},
+				dataType: 'json',
+				success: function (result) {
+					if (result > 0) {
+						alert("이미 존재하는 상품코드 입니다.")
+						codeChk.val('대기')
+					} else {
+						alert("사용 가능한 상품코드 입니다.")
+						codeChk.val('완료')
+					}
+					console.log(codeChk.val())
+				},
+
+			})
+
+		}
+
+		function modifyGoodsBtn() {
+
+			if (productCode.val() == "") {
+				alert("상품코드를 입력해주세요")
+				productCode.focus()
+				return false;
+			}
+			if (!reg.test(productCode.val())) {
+				alert("상품코드는 숫자만 입력해주세요.")
+				return false;
+			}
+			if (codeChk.val() == "대기") {
+				alert("상품코드 중복체크를 해주세요.")
+				productCode.focus()
+				return false;
+			}
+			if (bagName.val() == "") {
+				alert("상품명을 입력해주세요");
+				bagName.focus();
+				return false;
+			}
+			if (!reg.test(bagPrice.val())) {
+				alert("가방 가격은 숫자만 입력해주세요.")
+				bagPrice.focus();
+				return false;
+			}
+			if (!reg.test(bagSizeW.val())) {
+				alert("가방 너비는 숫자만 입력해주세요.")
+				bagSizeW.focus();
+				return false;
+			}
+			if (!reg.test(bagSizeH.val())) {
+				alert("가방 높이는 숫자만 입력해주세요.")
+				bagSizeH.focus();
+				return false;
+			}
+			if (!reg.test(bagSizeD.val())) {
+				alert("가방 깊이는 숫자만 입력해주세요.")
+				bagSizeD.focus();
+				return false;
+			}
+			if (!reg.test(bagCapacity.val())) {
+				alert("가방 용량은 숫자만 입력해주세요.")
+				bagCapacity.focus();
+				return false;
+			}
+			if (!reg.test(bagWeight.val())) {
+				alert("가방 무게는 숫자만 입력해주세요.")
+				bagWeight.focus();
+				return false;
+			}
+			if (!regex.test(bagsProductionDayStr.val())) {
+				alert("년월일 형식에 맞게 입력해주세요.")
+				bagsProductionDayStr.focus();
+				return false;
+			}
+			if (bagsProductionDayStr) {
+				var year = date.getFullYear();
+				var month = date.getMonth() + 1;
+				var day = date.getDate();
+				if (month.toString().length < 2) {
+					month = "0" + month;
+				}
+				if (day.toString().length < 2) {
+					day = "0" + day;
+				}
+
+				var getToday = year + "-" + month + "-" + day;
+				if (bagsProductionDayStr.val() > getToday) {
+					alert("오늘 날짜를 넘길 수 없습니다!")
+					bagsProductionDayStr.focus();
+					return false;
+				}
+			}
+			form.submit()
+
+		}
+	</script>
 </body>
 
 </html>

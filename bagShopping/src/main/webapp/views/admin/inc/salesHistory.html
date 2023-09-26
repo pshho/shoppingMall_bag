@@ -4,116 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>판매 관리</title>
-	<style>
-		.parent {
-			width: 500px;
-			height: 250px;
-		}
-	</style>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
-
-	<script th:inline="javascript">
-		$(document).ready(function () {
-			getGraph();
-			getGraph2();
-		});
-
-		function getGraph() {
-			let timeList = [];
-			let posList = [];
-
-			$.ajax({
-				url: "/admin/getMonthData",
-				type: "get",
-				data: {},
-				dataType: "json",
-				success: function (data) {
-					// console.log(data[0].pos_count);
-					// 그래프로 나타낼 자료 리스트에 담기
-					console.log(data)
-					for (let i = 0; i < data.length; i++) {
-						timeList.push(data[i].mm);
-						posList.push(data[i].sales);
-					}
-					// console.log(timeList);
-					// console.log(posList);  	
-					// 그래프
-					new Chart(document.getElementById("line-chart"), {
-						type: 'line',
-						data: {
-							labels: timeList, // X축 
-							datasets: [{
-								data: posList, // 값
-								label: "매출액(단위: 원)",
-								borderColor: "#3e95cd",
-								fill: false
-							}
-							]
-						},
-						options: {
-							title: {
-								display: true,
-								text: ''
-							}
-						}
-					}); //그래프
-				},
-				error: function () {
-					alert("실패");
-				}
-
-			}) // ajax	  
-		} // getGraph
-
-		function getGraph2() {
-			let timeList = [];
-			let posList = [];
-
-			$.ajax({
-				url: "/admin/getYearData",
-				type: "get",
-				data: {},
-				dataType: "json",
-				success: function (data) {
-					// console.log(data[0].pos_count);
-					// 그래프로 나타낼 자료 리스트에 담기
-					console.log(data)
-					for (let i = 0; i < data.length; i++) {
-						timeList.push(data[i].yy);
-						posList.push(data[i].sales);
-					}
-					// console.log(timeList);
-					// console.log(posList);  	
-					// 그래프
-					new Chart(document.getElementById("line-chart2"), {
-						type: 'line',
-						data: {
-							labels: timeList, // X축 
-							datasets: [{
-								data: posList, // 값
-								label: "매출액(단위: 원)",
-								borderColor: "#3e95cd",
-								fill: false
-							}
-							]
-						},
-						options: {
-							title: {
-								display: true,
-								text: ''
-							}
-						}
-					}); //그래프
-				},
-				error: function () {
-					alert("실패");
-				}
-
-			}) // ajax	  
-		} // getGraph
-		
 	
-	</script>
 	<script>
 		function orderCancel(data) {
 			if (confirm("결제를 취소 하시겠습니까?")) {
@@ -141,84 +32,7 @@
 			}
 		}
 
-		function shipReady(data) {
-			if ($("#status").text() == "배송 준비") {
-				alert("이미 배송 준비 상태 입니다.")
-				return false;
-			}
-			if (confirm("배송상태를 변경 하시겠습니까?")) {
-				$.ajax({
-					url: "/admin/shipReady",
-					type: "post",
-					data: {data: data},
-					dataType: 'json',
-					success: function (result) {
-						if (result > 0) {
-							alert("배송정보 변경 완료")
-							location.href = "/admin/salesHistory/1"
-						}
-					},
-					error: function () {
-						alert("요청 실패");
-					}
-				})
-			} else {
-				alert("변경 취소 하셨습니다.");
-			}
-		}
-
-		function shipIng(data) {
-			if ($("#status").text() == "배송 중") {
-				alert("이미 배송 중 상태 입니다.")
-				return false;
-			}
-			if (confirm("배송상태를 변경 하시겠습니까?")) {
-				$.ajax({
-					url: "/admin/shipIng",
-					type: "post",
-					data: {data: data},
-					dataType: 'json',
-					success: function (result) {
-						if (result > 0) {
-							alert("배송정보 변경 완료")
-							location.href = "/admin/salesHistory/1"
-						}
-					},
-					error: function () {
-						alert("요청 실패");
-					}
-				})
-			} else {
-				alert("변경 취소 하셨습니다.");
-			}
-		}
-
-		function shipEnd(data) {
-			if ($("#status").text() == "배송 완료") {
-				alert("이미 배송 완료 상태 입니다.")
-				return false;
-			}
-			if (confirm("배송상태를 변경 하시겠습니까?")) {
-				$.ajax({
-					url: "/admin/shipEnd",
-					type: "post",
-					data: {data: data},
-					dataType: 'json',
-					success: function (result) {
-						if (result > 0) {
-							alert("배송정보 변경 완료")
-							location.href = "/admin/salesHistory/1"
-						}
-					},
-					error: function () {
-						alert("요청 실패");
-					}
-				})
-			} else {
-				alert("변경 취소 하셨습니다.");
-			}
-		}
-
+		
 		$(document).on('click', '#btnSearch', function (e) {
 			console.log("누름")
 			e.preventDefault();
@@ -232,66 +46,9 @@
 			location.href = url;
 		});
 		
-		$(document).on('click', '#btnPerDaySearch', function (e) {
-			console.log("누름")
-			e.preventDefault();			
-			
-			var dateStart = $('#dateStart').val();
-			var dateEnd = $('#dateEnd').val();
-			
-			let timeList = [];
-			let posList = [];
-
-			$.ajax({
-				url: "/admin/getPerDayData",
-				type: "get",
-				data: {dateStart: dateStart, dateEnd: dateEnd},
-				dataType: "json",
-				success: function (data) {
-					// console.log(data[0].pos_count);
-					// 그래프로 나타낼 자료 리스트에 담기
-					console.log(data)
-					var sum=0;
-					for (let i = 0; i < data.length; i++) {
-						timeList.push(data[i].dd);
-						posList.push(data[i].sales);
-						sum += parseInt(data[i].sales);
-					}
-					console.log(sum)
-					$('#sumSearch').text("총 "+sum+" 원");
-					// console.log(timeList);
-					// console.log(posList);  	
-					// 그래프
-					new Chart(document.getElementById("line-chart3"), {
-						type: 'line',
-						data: {
-							labels: timeList, // X축 
-							datasets: [{
-								data: posList, // 값
-								label: "매출액(단위: 원)",
-								borderColor: "#3e95cd",
-								fill: false
-							}
-							]
-						},
-						options: {
-							title: {
-								display: true,
-								text: ''
-							}
-						}
-					}); //그래프
-				},
-				error: function () {
-					alert("실패");
-				}
-
-			}) // ajax	  
-			
-		});
-
-		function shipChange(selected, uid) {
-			console.log(uid)
+		
+		function shipChange(selected, uid, pageType) {
+			console.log(pageType)
 			if (confirm(selected + "(으)로 상태를 변경 하시겠습니까?")) {
 				$.ajax({
 					url: "/admin/shipChange",
@@ -301,7 +58,19 @@
 					success: function (result) {
 						if (result > 0) {
 							alert("배송정보 변경 완료")
-							location.href = "/admin/salesHistory/" + [[${pd.page}]]
+							if(pageType == 'PC'){
+								location.href = "/admin/salesHistory/" + [[${pd.page}]]+"?searchType=S&keyword=결제%20완료&limit=15&pageType=PC"
+							}
+							if(pageType == 'SP'){
+								location.href = "/admin/salesHistory/" + [[${pd.page}]]+"?searchType=S&keyword=배송%20준비&limit=15&pageType=SP"
+							}
+							if(pageType == 'SI'){
+								location.href = "/admin/salesHistory/" + [[${pd.page}]]+"?searchType=S&keyword=배송%20중&limit=15&pageType=SI"
+							}
+							if(pageType == 'ALL'){
+								location.href = "/admin/salesHistory/" + [[${pd.page}]]+"?pageType=ALL"
+							}
+							
 						}
 					},
 					error: function () {
@@ -317,17 +86,6 @@
 </head>
 
 <body>
-	<h2>판매 관리</h2>
-	<a href="/admin/adminMain">뒤로</a>
-	<a href="/admin/salesHistory/1?searchType=S&keyword=결제%20완료&limit=15&pageType=PC">결제 완료 목록</a>
-	<a href="/admin/salesHistory/1?searchType=S&keyword=배송%20준비&limit=15&pageType=SP">배송 준비 목록</a>
-	<a href="/admin/salesHistory/1?searchType=S&keyword=배송%20중&limit=15&pageType=SI">배송 중 목록</a>
-
-	<a href="/admin/salesHistory/1?pageType=ALL">전체 목록</a>
-	<a href="/admin/salesHistory/1?pageType=PD">기간별 매출</a>
-	<a href="/admin/salesHistory/1?pageType=MS">월별 매출</a>
-	<a href="/admin/salesHistory/1?pageType=YS">년도별 매출</a>
-
 	<th:block th:if="${pd.pageType == 'PC'}">
 		<table border="">
 			<tr>
@@ -335,9 +93,7 @@
 				<td>주문번호</td>
 				
 				<td>구매자 ID</td>
-				<td>구매자명</td>
-				<td>주소</td>
-				<td>전화번호</td>
+				
 				<td>주문일자</td>
 				<td>결제 관리</td>
 				<td>배송 관리</td>
@@ -345,12 +101,10 @@
 			</tr>
 			<tr th:each="order : ${orderList}">
 				<td th:text="${order.orderStatus}" id="status" />
-				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
+				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}?searchType=${pd.searchType}&keyword=결제%20완료&limit=15&pageType=PC|">[[${order.merchantUid}]]</a></td>
 				
 				<td th:text="${order.memberId}" />
-				<td th:text="${order.buyerName}" />
-				<td th:text="${order.buyerAddr}" />
-				<td th:text="${order.buyerTel}" />
+				
 				<td th:text="${order.ordersRegDateStr}" />
 				<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
 						th:orderParam="${order.merchantUid}"
@@ -358,7 +112,7 @@
 				</td>
 				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
 				<td>
-					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]])">
+					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
 						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
 						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
 						<option th:selected="${order.orderStatus == '배송 중'}">배송 중</option>
@@ -430,9 +184,7 @@
 				<td>주문번호</td>
 				
 				<td>구매자 ID</td>
-				<td>구매자명</td>
-				<td>주소</td>
-				<td>전화번호</td>
+				
 				<td>주문일자</td>
 				<td>결제 관리</td>
 				<td>배송 관리</td>
@@ -440,12 +192,10 @@
 			</tr>
 			<tr th:each="order : ${orderList}">
 				<td th:text="${order.orderStatus}" id="status" />
-				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
+				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}?searchType=${pd.searchType}&keyword=배송%20준비&limit=15&pageType=SP|">[[${order.merchantUid}]]</a></td>
 			
 				<td th:text="${order.memberId}" />
-				<td th:text="${order.buyerName}" />
-				<td th:text="${order.buyerAddr}" />
-				<td th:text="${order.buyerTel}" />
+				
 				<td th:text="${order.ordersRegDateStr}" />
 				<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
 						th:orderParam="${order.merchantUid}"
@@ -453,7 +203,7 @@
 				</td>
 				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
 				<td>
-					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]])">
+					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
 						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
 						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
 						<option th:selected="${order.orderStatus == '배송 중'}">배송 중</option>
@@ -525,9 +275,7 @@
 				<td>주문번호</td>
 				
 				<td>구매자 ID</td>
-				<td>구매자명</td>
-				<td>주소</td>
-				<td>전화번호</td>
+				
 				<td>주문일자</td>
 				<td>결제 관리</td>
 				<td>배송 관리</td>
@@ -535,12 +283,10 @@
 			</tr>
 			<tr th:each="order : ${orderList}">
 				<td th:text="${order.orderStatus}" id="status" />
-				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
+				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}?searchType=${pd.searchType}&keyword=배송%20중&limit=15&pageType=SI|">[[${order.merchantUid}]]</a></td>
 				
 				<td th:text="${order.memberId}" />
-				<td th:text="${order.buyerName}" />
-				<td th:text="${order.buyerAddr}" />
-				<td th:text="${order.buyerTel}" />
+				
 				<td th:text="${order.ordersRegDateStr}" />
 				<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
 						th:orderParam="${order.merchantUid}"
@@ -548,7 +294,7 @@
 				</td>
 				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
 				<td>
-					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]])">
+					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
 						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
 						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
 						<option th:selected="${order.orderStatus == '배송 중'}">배송 중</option>
@@ -619,11 +365,7 @@
 			<tr>
 				<td>배송상태</td>
 				<td>주문번호</td>
-				
 				<td>구매자 ID</td>
-				<td>구매자명</td>
-				<td>주소</td>
-				<td>전화번호</td>
 				<td>주문일자</td>
 				<td>결제 관리</td>
 				<td>배송 관리</td>
@@ -631,12 +373,10 @@
 			</tr>
 			<tr th:each="order : ${orderList}">
 				<td th:text="${order.orderStatus}" id="status" />
-				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
+				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}?pageType=ALL|">[[${order.merchantUid}]]</a></td>
 				
 				<td th:text="${order.memberId}" />
-				<td th:text="${order.buyerName}" />
-				<td th:text="${order.buyerAddr}" />
-				<td th:text="${order.buyerTel}" />
+				
 				<td th:text="${order.ordersRegDateStr}" />
 				<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
 						th:orderParam="${order.merchantUid}"
@@ -644,7 +384,7 @@
 				</td>
 				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
 				<td>
-					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]])">
+					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
 						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
 						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
 						<option th:selected="${order.orderStatus == '배송 중'}">배송 중</option>
@@ -726,51 +466,12 @@
 					~
 					<input type="date" value="end" id="dateEnd">
 					<input type="submit" id="btnSearch" value="검색">
-					<a href="/admin/salesHistory/1">검색 초기화</a>
+					
 				</td>
 			</tr>
 		</table>
 	</th:block>
-	<th:block th:if="${pd.pageType=='PD'}">
-		<br/>
-		<hr/>
-			기간별 판매액
-			<input type="date" value="start" id="dateStart">
-			~
-			<input type="date" value="end" id="dateEnd">
-			<input type="submit" id="btnPerDaySearch" value="검색">
-			<br/>
-			<span id="sumSearch"></span>
-		<div class="parent">
-			<canvas id="line-chart3"></canvas>
-		</div>
-	</th:block>
-	<hr />
-	<th:block th:if="${pd.pageType=='MS'}">
-		<table>
-			월별 판매액
-			<tr th:each="month : ${monthSales}">
-				<td th:text="${month.MM}" />
-				<td th:text="${month.SALES}" />
-			</tr>
-		</table>
-		<div class="parent">
-			<canvas id="line-chart"></canvas>
-		</div>
-	</th:block>
-	<th:block th:if="${pd.pageType=='YS'}">
-		<table>
-			년도별 판매액
-			<tr th:each="year : ${yearSales}">
-				<td th:text="${year.YY}" />
-				<td th:text="${year.SALES}" />
-			</tr>
-
-		</table>
-		<div class="parent">
-			<canvas id="line-chart2"></canvas>
-		</div>
-	</th:block>
+	
 </body>
 
 </html>

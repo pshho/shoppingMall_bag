@@ -3,6 +3,10 @@
 PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="bag.service.BagsMapper">
+	<select id="codeChk">
+		select count(*) from bags where product_code = #{productCode}
+	</select>
+
 	<update id="deleteImg1">
 		update bags set bag_img1 = "" where product_code =
 		#{productCode}
