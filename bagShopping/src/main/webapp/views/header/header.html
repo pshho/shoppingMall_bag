@@ -79,19 +79,7 @@
 		</div>
 	</th:block>
 	
-	<th:block th:if="${session.userId != null and session.userId ne admin}">
-		<div>
-			<a href="/member/logOut">[[${session.userId}]]님 로그아웃</a>
-			<a href="/member/myPage">마이페이지</a>
-		</div>
-	</th:block>
-	<!--member-->
 	
-	<th:block th:if="${session.admin != null}">
-		<div>
-			<a href="/admin/adminMain">관리자페이지 돌아가기</a>
-		</div>
-	</th:block>
 
 </header>
 <header class="search" th:if="${url eq '/'}">
