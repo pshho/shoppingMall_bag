@@ -32,49 +32,50 @@
 					alert("비밀번호 찾기 실패")
 				}
 			})
-			
+
 		}
-		
-		function findPwBtn(){
+
+		function findPwBtn() {
 			var pw = $('memberPw').val()
 			var pw2 = $('memberPw2').val()
-			
-			if(pw != pw2){
+
+			if (pw != pw2) {
 				alert("비밀번호를 확인해주세요.")
 				return false;
-			}else{
+			} else {
 				newPw.submit()
 			}
-			
+
 		}
 
 	</script>
 </head>
 
 <body>
-	<h2>비밀번호 찾기</h2>
-	<div id="find" style="display:block">
-		아이디 : <input type="text" id="memberId" /> <br />
-		이름 : <input type="text" id="memberName" /> <br />
-		전화번호 :
-		<select id="phone1">
-			<option>010</option>
-			<option>011</option>
-			<option>016</option>
-			<option>017</option>
-			<option>019</option>
-		</select>
-		<input type="text" id="phone2" />-<input type="text" id="phone3" /><br>
-		<button onclick="findPw()">찾기</button>
+	<div>
+		<div id="find">
+			<b>본인 확인을 통해 비밀번호를 재설정 하실 수 있습니다.</b><br />
+			아이디 : <input type="text" id="memberId" /> <br />
+			이름 : <input type="text" id="memberName" /> <br />
+			전화번호 :
+			<select id="phone1">
+				<option>010</option>
+				<option>011</option>
+				<option>016</option>
+				<option>017</option>
+				<option>019</option>
+			</select>
+			<input type="text" id="phone2" />-<input type="text" id="phone3" /><br>
+			<button onclick="findPw()">찾기</button>
+		</div>
+
+		<form action="findPwReg" method="post" id="newPw" style="display: none;">
+			<input type="hidden" id="id" name="memberId" />
+			새 비밀번호 : <input type="text" id="memberPw" name="memberPw" /> <br />
+			비밀번호 확인 : <input type="text" id="memberPw2" />
+			<input type="button" value="찾기" onclick="findPwBtn()" />
+		</form>
 	</div>
-		
-	<form action="findPwReg" method="post" id="newPw" style="display: none;">
-		<input type="hidden" id="id" name="memberId"/>
-		새 비밀번호 : <input type="text" id="memberPw" name="memberPw"/> <br />
-		비밀번호 확인 : <input type="text" id="memberPw2" />
-		<input type="button" value="찾기" onclick="findPwBtn()"/>
-	</form>
-	<a href="/member/signIn">뒤로</a>
 </body>
 
 </html>

@@ -35,23 +35,26 @@
 </head>
 
 <body>
-	<h2>아이디 찾기</h2>
-	<div id="find" style="display:block">
-		이름 : <input type="text" id="memberName" /> <br />
-		전화번호 :
-		<select id="phone1">
-			<option>010</option>
-			<option>011</option>
-			<option>016</option>
-			<option>017</option>
-			<option>019</option>
-		</select>
-		<input type="text" id="phone2" />-<input type="text" id="phone3" /><br>
-		<button onclick="findId()">찾기</button>
+
+	<div class="body">
+		<div id="find">
+			이름 : <input type="text" class="text" id="memberName" /> <br />
+			전화번호 :
+			<select id="phone1">
+				<option>010</option>
+				<option>011</option>
+				<option>016</option>
+				<option>017</option>
+				<option>019</option>
+			</select>
+			<input type="text" id="phone2" class="text" />-<input type="text" id="phone3" /><br>
+			<button onclick="findId()" class="submit-btn">찾기</button>
+		</div>
+
+		<div id="findId">
+			<h2 id="result"></h2>
+		</div>
 	</div>
-		<h2 id="result"></h2>
-		<a href="/member/signIn">뒤로</a>
-		
 </body>
 
 </html>

@@ -1,0 +1,726 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:UMLLabProfile="http:///schemas/UMLLabProfile/NS/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http:///schemas/UMLLabProfile/NS/0 pathmap://UMLLAB_PROFILES/UMLLab.profile.uml#UMLLabProfile-Annotation_2-UMLLabProfile">
+  <uml:Model xmi:id="_l7S5oFt8Ee6kaOBtd8KUlw" name="comment">
+    <eAnnotations xmi:id="_mB2NkFt8Ee6kaOBtd8KUlw" source="http://ns.yatta.de/umllab">
+      <contents xmi:type="ecore:EAnnotation" xmi:id="_mB2NkVt8Ee6kaOBtd8KUlw" source="codegen">
+        <details xmi:id="_mB2Nklt8Ee6kaOBtd8KUlw" key="codegenDirectory" value="/bagShopping/src/main/java"/>
+        <details xmi:id="_maNDMFt8Ee6kaOBtd8KUlw" key="AssociatedSourceCode" value="/bagShopping/src/main/java/bag/controller/CommentsController.java;2791368756/1;/bagShopping/src/main/java/bag/model/CommentsDTO.java;2493158223/1;/bagShopping/src/main/java/bag/model/ProductsBoardDTO.java;1218507845/1;/bagShopping/src/main/java/bag/service/CommentsMapper.java;1395317807/1;/bagShopping/src/main/java/bag/service/ProductsBoardMapper.java;1920414675/1;"/>
+      </contents>
+    </eAnnotations>
+    <elementImport xmi:id="_mOrvsFt8Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+    </elementImport>
+    <elementImport xmi:id="_mOs90Ft8Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#byte"/>
+    </elementImport>
+    <elementImport xmi:id="_mOs90Vt8Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#char"/>
+    </elementImport>
+    <elementImport xmi:id="_mOs90lt8Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#double"/>
+    </elementImport>
+    <elementImport xmi:id="_mOs901t8Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#float"/>
+    </elementImport>
+    <elementImport xmi:id="_mOtk4Ft8Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+    </elementImport>
+    <elementImport xmi:id="_mOtk4Vt8Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
+    </elementImport>
+    <elementImport xmi:id="_mOtk4lt8Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#short"/>
+    </elementImport>
+    <elementImport xmi:id="_mOuL8Ft8Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </elementImport>
+    <packagedElement xmi:type="uml:Package" xmi:id="_mNW6AFt8Ee6kaOBtd8KUlw" name="bag">
+      <packagedElement xmi:type="uml:Package" xmi:id="_mNdAoFt8Ee6kaOBtd8KUlw" name="model">
+        <packagedElement xmi:type="uml:Class" xmi:id="_mPC8EFt8Ee6kaOBtd8KUlw" name="CommentsDTO">
+          <ownedAttribute xmi:id="_mSFB8Ft8Ee6kaOBtd8KUlw" name="commentsId" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSG3IFt8Ee6kaOBtd8KUlw" name="content" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSG3Ilt8Ee6kaOBtd8KUlw" name="comRegDate" visibility="package" type="_mRucoVt8Ee6kaOBtd8KUlw"/>
+          <ownedAttribute xmi:id="_mSHeMFt8Ee6kaOBtd8KUlw" name="sdf" visibility="package" type="_mRt1kFt8Ee6kaOBtd8KUlw" association="_mSlYQVt8Ee6kaOBtd8KUlw">
+            <defaultValue xmi:type="uml:LiteralString" xmi:id="_mSHeMVt8Ee6kaOBtd8KUlw" value="new SimpleDateFormat(&quot;yyyy-MM-dd (E) HH:mm&quot;)"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSWuwFt8Ee6kaOBtd8KUlw" name="seq" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSXV0Ft8Ee6kaOBtd8KUlw" name="lev" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSX84Ft8Ee6kaOBtd8KUlw" name="gid" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSX84lt8Ee6kaOBtd8KUlw" name="gpid" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSYj8Ft8Ee6kaOBtd8KUlw" name="comWriter" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_mSR2QFt8Ee6kaOBtd8KUlw" name="getComRegDate2" specification="_mPFYUFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mSR2QVt8Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>return sdf.format(comRegDate);&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedOperation xmi:id="_mPFYUFt8Ee6kaOBtd8KUlw" name="getComRegDate2" method="_mSR2QFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mPGmcFt8Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_mPKQ0Ft8Ee6kaOBtd8KUlw" name="ProductsBoardDTO">
+          <ownedAttribute xmi:id="_mSIFQFt8Ee6kaOBtd8KUlw" name="productsBoardId" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSJTYFt8Ee6kaOBtd8KUlw" name="intro" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSKhgFt8Ee6kaOBtd8KUlw" name="productsBoardRegDate" visibility="package" type="_mRucoVt8Ee6kaOBtd8KUlw"/>
+          <ownedAttribute xmi:id="_mSLIkFt8Ee6kaOBtd8KUlw" name="sdf" visibility="package" type="_mRt1kFt8Ee6kaOBtd8KUlw" association="_mSmmYVt8Ee6kaOBtd8KUlw">
+            <defaultValue xmi:type="uml:LiteralString" xmi:id="_mSLIkVt8Ee6kaOBtd8KUlw" value="new SimpleDateFormat(&quot;yyyy-MM-dd (E) HH:mm&quot;)"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSZyEFt8Ee6kaOBtd8KUlw" name="typeId" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSaZIFt8Ee6kaOBtd8KUlw" name="productCode" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSbAMFt8Ee6kaOBtd8KUlw" name="brandId" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSbAMlt8Ee6kaOBtd8KUlw" name="categoriesId" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSbnQVt8Ee6kaOBtd8KUlw" name="reviewCount" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSbnQ1t8Ee6kaOBtd8KUlw" name="sellsAmount" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mScOUVt8Ee6kaOBtd8KUlw" name="productsBoardStatus" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mScOU1t8Ee6kaOBtd8KUlw" name="defaultProductCode" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSc1YVt8Ee6kaOBtd8KUlw" name="contents" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSdccFt8Ee6kaOBtd8KUlw" name="addressInfo" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSdcclt8Ee6kaOBtd8KUlw" name="guide" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSeDgFt8Ee6kaOBtd8KUlw" name="memberId" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_mSeDglt8Ee6kaOBtd8KUlw" name="searchCont" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_mSSdUFt8Ee6kaOBtd8KUlw" name="getProductsBoardRegDate2" specification="_mPMGAFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mSSdUVt8Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>return sdf.format(productsBoardRegDate);&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedOperation xmi:id="_mPMGAFt8Ee6kaOBtd8KUlw" name="getProductsBoardRegDate2" method="_mSSdUFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mPMGAVt8Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_mSlYQVt8Ee6kaOBtd8KUlw" name="" memberEnd="_mSlYQlt8Ee6kaOBtd8KUlw _mSHeMFt8Ee6kaOBtd8KUlw">
+          <ownedEnd xmi:id="_mSlYQlt8Ee6kaOBtd8KUlw" name="" type="_mPC8EFt8Ee6kaOBtd8KUlw" association="_mSlYQVt8Ee6kaOBtd8KUlw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_mSmmYVt8Ee6kaOBtd8KUlw" name="" memberEnd="_mSmmYlt8Ee6kaOBtd8KUlw _mSLIkFt8Ee6kaOBtd8KUlw">
+          <ownedEnd xmi:id="_mSmmYlt8Ee6kaOBtd8KUlw" name="" type="_mPKQ0Ft8Ee6kaOBtd8KUlw" association="_mSmmYVt8Ee6kaOBtd8KUlw"/>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_mNdAoVt8Ee6kaOBtd8KUlw" name="service">
+        <packagedElement xmi:type="uml:Interface" xmi:id="_mPQ-gFt8Ee6kaOBtd8KUlw" name="CommentsMapper">
+          <ownedOperation xmi:id="_mPSzsFt8Ee6kaOBtd8KUlw" name="comList">
+            <ownedParameter xmi:id="_mPTawFt8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mPTawVt8Ee6kaOBtd8KUlw" type="_mPC8EFt8Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mPTawlt8Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPUo4Ft8Ee6kaOBtd8KUlw" name="maxCommentsId">
+            <ownedParameter xmi:id="_mSBXkVt8Ee6kaOBtd8KUlw" type="_mSAwgVt8Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPVP8Ft8Ee6kaOBtd8KUlw" name="comDetail">
+            <ownedParameter xmi:id="_mPVP8Vt8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mR1xY1t8Ee6kaOBtd8KUlw" type="_mPC8EFt8Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPV3AFt8Ee6kaOBtd8KUlw" name="deleteComments">
+            <ownedParameter xmi:id="_mPV3AVt8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mR1KUFt8Ee6kaOBtd8KUlw" name="insertComments">
+            <ownedParameter xmi:id="_mR1KUVt8Ee6kaOBtd8KUlw" name="comDTO" type="_mPC8EFt8Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mR1xYFt8Ee6kaOBtd8KUlw" name="updateComments">
+            <ownedParameter xmi:id="_mR1xYVt8Ee6kaOBtd8KUlw" name="comDTO" type="_mPC8EFt8Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mR1xZFt8Ee6kaOBtd8KUlw" name="insertReComments">
+            <ownedParameter xmi:id="_mR1xZVt8Ee6kaOBtd8KUlw" name="comDTO" type="_mPC8EFt8Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mR2YcVt8Ee6kaOBtd8KUlw" name="updateComSeq">
+            <ownedParameter xmi:id="_mR2Yclt8Ee6kaOBtd8KUlw" name="comDTO" type="_mPC8EFt8Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mR2YdFt8Ee6kaOBtd8KUlw" name="chkReview">
+            <ownedParameter xmi:id="_mR2_gFt8Ee6kaOBtd8KUlw" name="comDTO" type="_mPC8EFt8Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_mR2_gVt8Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Interface" xmi:id="_mPaIcFt8Ee6kaOBtd8KUlw" name="ProductsBoardMapper">
+          <ownedOperation xmi:id="_mPb9oFt8Ee6kaOBtd8KUlw" name="allPrbList" visibility="package">
+            <ownedParameter xmi:id="_mPb9oVt8Ee6kaOBtd8KUlw" type="_mPKQ0Ft8Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mPb9olt8Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPdLwFt8Ee6kaOBtd8KUlw" name="maxPrbId">
+            <ownedParameter xmi:id="_mPdLwVt8Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPdy0Vt8Ee6kaOBtd8KUlw" name="deleteProduct">
+            <ownedParameter xmi:id="_mPdy0lt8Ee6kaOBtd8KUlw" name="productsBoardId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPfA8Vt8Ee6kaOBtd8KUlw" name="updateReviewCount">
+            <ownedParameter xmi:id="_mPfA8lt8Ee6kaOBtd8KUlw" name="productsBoardId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPfoAVt8Ee6kaOBtd8KUlw" name="subReviewCount">
+            <ownedParameter xmi:id="_mPfoAlt8Ee6kaOBtd8KUlw" name="productsBoardId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPgPEVt8Ee6kaOBtd8KUlw" name="updateSells">
+            <ownedParameter xmi:id="_mPgPElt8Ee6kaOBtd8KUlw" name="sells">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mPgPE1t8Ee6kaOBtd8KUlw" name="productCode">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPg2IVt8Ee6kaOBtd8KUlw" name="getProducts">
+            <ownedParameter xmi:id="_mPg2Ilt8Ee6kaOBtd8KUlw" name="productCode">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mR6C0Vt8Ee6kaOBtd8KUlw" type="_mPKQ0Ft8Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPhdMVt8Ee6kaOBtd8KUlw" name="getProductWritten">
+            <ownedParameter xmi:id="_mPhdMlt8Ee6kaOBtd8KUlw" name="productCode">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mPiEQFt8Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPirUFt8Ee6kaOBtd8KUlw" name="prbIds" visibility="package">
+            <ownedParameter xmi:id="_mPirUVt8Ee6kaOBtd8KUlw" name="prdCodes">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mPj5cFt8Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mPirUlt8Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mPirU1t8Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPkggFt8Ee6kaOBtd8KUlw" name="cntProduct">
+            <ownedParameter xmi:id="_mPkggVt8Ee6kaOBtd8KUlw" name="productCode">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mPkgglt8Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPlHkVt8Ee6kaOBtd8KUlw" name="deleteBagProduct">
+            <ownedParameter xmi:id="_mPlHklt8Ee6kaOBtd8KUlw" name="productCode">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mPlHk1t8Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mPluoVt8Ee6kaOBtd8KUlw" name="chkPrbStatus">
+            <ownedParameter xmi:id="_mPluolt8Ee6kaOBtd8KUlw" name="productCode">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mR6p5Ft8Ee6kaOBtd8KUlw" type="_mPKQ0Ft8Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mR3mkFt8Ee6kaOBtd8KUlw" name="productsBoardList">
+            <ownedParameter xmi:id="_mR3mkVt8Ee6kaOBtd8KUlw" name="prbDTO" type="_mPKQ0Ft8Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_mR3mklt8Ee6kaOBtd8KUlw" type="_mPKQ0Ft8Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mR3mk1t8Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mR4NoVt8Ee6kaOBtd8KUlw" name="productsBoard">
+            <ownedParameter xmi:id="_mR4Nolt8Ee6kaOBtd8KUlw" name="prbDTO" type="_mPKQ0Ft8Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_mR4No1t8Ee6kaOBtd8KUlw" type="_mPKQ0Ft8Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mR40sVt8Ee6kaOBtd8KUlw" name="writeProduct">
+            <ownedParameter xmi:id="_mR40slt8Ee6kaOBtd8KUlw" name="prbDTO" type="_mPKQ0Ft8Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mR40tFt8Ee6kaOBtd8KUlw" name="updateProduct">
+            <ownedParameter xmi:id="_mR40tVt8Ee6kaOBtd8KUlw" name="prbDTO" type="_mPKQ0Ft8Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mR5bwVt8Ee6kaOBtd8KUlw" name="searchList">
+            <ownedParameter xmi:id="_mR5bwlt8Ee6kaOBtd8KUlw" name="prbDTO" type="_mPKQ0Ft8Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_mR5bw1t8Ee6kaOBtd8KUlw" type="_mPKQ0Ft8Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mR5bxFt8Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mR6C0lt8Ee6kaOBtd8KUlw" name="updateProductAndBag">
+            <ownedParameter xmi:id="_mR6C01t8Ee6kaOBtd8KUlw" name="prbDTO" type="_mPKQ0Ft8Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_mR6C1Ft8Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mR6p4Vt8Ee6kaOBtd8KUlw" name="chgPrbStatus">
+            <ownedParameter xmi:id="_mR6p4lt8Ee6kaOBtd8KUlw" name="prbDTO" type="_mPKQ0Ft8Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_mNtfUFt8Ee6kaOBtd8KUlw" name="controller">
+        <packagedElement xmi:type="uml:Class" xmi:id="_mOneQFt8Ee6kaOBtd8KUlw" name="CommentsController">
+          <ownedAttribute xmi:id="_mSDMwFt8Ee6kaOBtd8KUlw" name="comMapper" visibility="package" type="_mPQ-gFt8Ee6kaOBtd8KUlw" association="_mSjjEFt8Ee6kaOBtd8KUlw"/>
+          <ownedAttribute xmi:id="_mSDz0lt8Ee6kaOBtd8KUlw" name="prbMapper" visibility="package" type="_mPaIcFt8Ee6kaOBtd8KUlw" association="_mSkxMFt8Ee6kaOBtd8KUlw"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_mSOL4Ft8Ee6kaOBtd8KUlw" name="reList" specification="_mOvaEFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mSOy8Ft8Ee6kaOBtd8KUlw" name="prbId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mSOy8Vt8Ee6kaOBtd8KUlw" type="_mPC8EFt8Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mSOy8lt8Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>return comMapper.comList(prbId);&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_mSPaAFt8Ee6kaOBtd8KUlw" name="reAdd" specification="_mRjdgFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mSPaAVt8Ee6kaOBtd8KUlw" name="comDTO" type="_mPC8EFt8Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_mSPaAlt8Ee6kaOBtd8KUlw" type="_mRdW4Vt8Ee6kaOBtd8KUlw" direction="return"/>
+            <language>java</language>
+            <body>Object max = comMapper.maxCommentsId();&#xD;
+		if(max == null) {&#xD;
+			max = 0;&#xD;
+		}&#xD;
+		&#xD;
+		comDTO.setGid((int)max+1);&#xD;
+		comMapper.insertComments(comDTO);&#xD;
+		prbMapper.updateReviewCount(comDTO.getGpid());&#xD;
+		Map&lt;String, String> msg = new HashMap&lt;>();&#xD;
+		msg.put(&quot;msg&quot;, &quot;리뷰 작성&quot;);&#xD;
+		return msg;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_mSPaA1t8Ee6kaOBtd8KUlw" name="reDetail" specification="_mOzrgFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mSPaBFt8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mSPaBVt8Ee6kaOBtd8KUlw" type="_mPC8EFt8Ee6kaOBtd8KUlw" direction="return"/>
+            <language>java</language>
+            <body>return comMapper.comDetail(id);&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_mSQBEFt8Ee6kaOBtd8KUlw" name="reUpd" specification="_mRl5wVt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mSQBEVt8Ee6kaOBtd8KUlw" name="comDTO" type="_mPC8EFt8Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_mSQBElt8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mSQBE1t8Ee6kaOBtd8KUlw" type="_mRdW4Vt8Ee6kaOBtd8KUlw" direction="return"/>
+            <language>java</language>
+            <body>comDTO.setCommentsId(id);&#xD;
+		comMapper.updateComments(comDTO);&#xD;
+		Map&lt;String, String> msg = new HashMap&lt;>();&#xD;
+		msg.put(&quot;msg&quot;, &quot;리뷰 수정&quot;);&#xD;
+		return msg;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_mSQoIFt8Ee6kaOBtd8KUlw" name="reDel" specification="_mO1gsFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mSQoIVt8Ee6kaOBtd8KUlw" name="prbId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mSQoIlt8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mSQoI1t8Ee6kaOBtd8KUlw" type="_mRdW4Vt8Ee6kaOBtd8KUlw" direction="return"/>
+            <language>java</language>
+            <body>comMapper.deleteComments(id);&#xD;
+		prbMapper.subReviewCount(prbId);&#xD;
+		Map&lt;String, String> msg = new HashMap&lt;>();&#xD;
+		msg.put(&quot;msg&quot;, &quot;리뷰 삭제&quot;);&#xD;
+		return msg;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_mSQoJFt8Ee6kaOBtd8KUlw" name="reReply" specification="_mO5LEFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mSQoJVt8Ee6kaOBtd8KUlw" name="prbId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mSQoJlt8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mSQoJ1t8Ee6kaOBtd8KUlw" type="_mPC8EFt8Ee6kaOBtd8KUlw" direction="return"/>
+            <language>java</language>
+            <body>return comMapper.comDetail(id);&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_mSRPMFt8Ee6kaOBtd8KUlw" name="reReplyAdd" specification="_mRo9EVt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mSRPMVt8Ee6kaOBtd8KUlw" name="comDTO" type="_mPC8EFt8Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_mSRPMlt8Ee6kaOBtd8KUlw" name="prbId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mSRPM1t8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mSRPNFt8Ee6kaOBtd8KUlw" type="_mRdW4Vt8Ee6kaOBtd8KUlw" direction="return"/>
+            <language>java</language>
+            <body>comDTO.setGid(comMapper.comDetail(id).getGid());&#xD;
+		comMapper.updateComSeq(comDTO);&#xD;
+		comDTO.setSeq(comDTO.getSeq()+1);&#xD;
+		comMapper.insertReComments(comDTO);&#xD;
+		prbMapper.updateReviewCount(comDTO.getGpid());&#xD;
+		Map&lt;String, String> msg = new HashMap&lt;>();&#xD;
+		msg.put(&quot;msg&quot;, &quot;답글 등록&quot;);&#xD;
+		return msg;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedOperation xmi:id="_mOvaEFt8Ee6kaOBtd8KUlw" name="reList" method="_mSOL4Ft8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mOvaEVt8Ee6kaOBtd8KUlw" name="prbId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mOwBIFt8Ee6kaOBtd8KUlw" type="_mPC8EFt8Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_mOwoMFt8Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mOzrgFt8Ee6kaOBtd8KUlw" name="reDetail" method="_mSPaA1t8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mOzrgVt8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mRl5wFt8Ee6kaOBtd8KUlw" type="_mPC8EFt8Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mO1gsFt8Ee6kaOBtd8KUlw" name="reDel" method="_mSQoIFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mO2HwFt8Ee6kaOBtd8KUlw" name="prbId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mO2HwVt8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mR-UQFt8Ee6kaOBtd8KUlw" type="_mRdW4Vt8Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mO5LEFt8Ee6kaOBtd8KUlw" name="reReply" method="_mSQoJFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mO5LEVt8Ee6kaOBtd8KUlw" name="prbId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mO5LElt8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mRo9EFt8Ee6kaOBtd8KUlw" type="_mPC8EFt8Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mRjdgFt8Ee6kaOBtd8KUlw" name="reAdd" method="_mSPaAFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mRjdgVt8Ee6kaOBtd8KUlw" name="comDTO" type="_mPC8EFt8Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_mR9tMFt8Ee6kaOBtd8KUlw" type="_mRdW4Vt8Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mRl5wVt8Ee6kaOBtd8KUlw" name="reUpd" method="_mSQBEFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mRl5wlt8Ee6kaOBtd8KUlw" name="comDTO" type="_mPC8EFt8Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_mRmg0Ft8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mR9tMVt8Ee6kaOBtd8KUlw" type="_mRdW4Vt8Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_mRo9EVt8Ee6kaOBtd8KUlw" name="reReplyAdd" method="_mSRPMFt8Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_mRpkIFt8Ee6kaOBtd8KUlw" name="comDTO" type="_mPC8EFt8Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_mRpkIVt8Ee6kaOBtd8KUlw" name="prbId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mRpkIlt8Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_mR-UQVt8Ee6kaOBtd8KUlw" type="_mRdW4Vt8Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_mSjjEFt8Ee6kaOBtd8KUlw" name="" memberEnd="_mSjjEVt8Ee6kaOBtd8KUlw _mSDMwFt8Ee6kaOBtd8KUlw">
+          <ownedEnd xmi:id="_mSjjEVt8Ee6kaOBtd8KUlw" name="" type="_mOneQFt8Ee6kaOBtd8KUlw" association="_mSjjEFt8Ee6kaOBtd8KUlw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_mSkxMFt8Ee6kaOBtd8KUlw" name="" memberEnd="_mSkxMVt8Ee6kaOBtd8KUlw _mSDz0lt8Ee6kaOBtd8KUlw">
+          <ownedEnd xmi:id="_mSkxMVt8Ee6kaOBtd8KUlw" name="" type="_mOneQFt8Ee6kaOBtd8KUlw" association="_mSkxMFt8Ee6kaOBtd8KUlw"/>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_mNakYFt8Ee6kaOBtd8KUlw" name="java">
+      <packagedElement xmi:type="uml:Package" xmi:id="_mNbLcFt8Ee6kaOBtd8KUlw" name="util">
+        <packagedElement xmi:type="uml:Class" xmi:id="_mRa6oFt8Ee6kaOBtd8KUlw" name="HashMap"/>
+        <packagedElement xmi:type="uml:Interface" xmi:id="_mRcIwVt8Ee6kaOBtd8KUlw" name="List"/>
+        <packagedElement xmi:type="uml:Interface" xmi:id="_mRdW4Vt8Ee6kaOBtd8KUlw" name="Map"/>
+        <packagedElement xmi:type="uml:DataType" xmi:id="_mRucoVt8Ee6kaOBtd8KUlw" name="Date"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_mN1bIFt8Ee6kaOBtd8KUlw" name="text">
+        <packagedElement xmi:type="uml:Class" xmi:id="_mRt1kFt8Ee6kaOBtd8KUlw" name="SimpleDateFormat"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_mSAwgFt8Ee6kaOBtd8KUlw" name="lang">
+        <packagedElement xmi:type="uml:Class" xmi:id="_mSAwgVt8Ee6kaOBtd8KUlw" name="Object"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_mNbygFt8Ee6kaOBtd8KUlw" name="org">
+      <packagedElement xmi:type="uml:Package" xmi:id="_mNbygVt8Ee6kaOBtd8KUlw" name="springframework">
+        <packagedElement xmi:type="uml:Package" xmi:id="_mNbyglt8Ee6kaOBtd8KUlw" name="beans">
+          <packagedElement xmi:type="uml:Package" xmi:id="_mNbyg1t8Ee6kaOBtd8KUlw" name="factory">
+            <packagedElement xmi:type="uml:Package" xmi:id="_mNbyhFt8Ee6kaOBtd8KUlw" name="annotation">
+              <packagedElement xmi:type="uml:Interface" xmi:id="_mRelAFt8Ee6kaOBtd8KUlw" name="Autowired"/>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_mNcZkFt8Ee6kaOBtd8KUlw" name="web">
+          <packagedElement xmi:type="uml:Package" xmi:id="_mNcZkVt8Ee6kaOBtd8KUlw" name="bind">
+            <packagedElement xmi:type="uml:Package" xmi:id="_mNcZklt8Ee6kaOBtd8KUlw" name="annotation">
+              <packagedElement xmi:type="uml:Interface" xmi:id="_mRfMEFt8Ee6kaOBtd8KUlw" name="GetMapping"/>
+              <packagedElement xmi:type="uml:Interface" xmi:id="_mRgaMFt8Ee6kaOBtd8KUlw" name="PathVariable"/>
+              <packagedElement xmi:type="uml:Interface" xmi:id="_mRhBQVt8Ee6kaOBtd8KUlw" name="PostMapping"/>
+              <packagedElement xmi:type="uml:Interface" xmi:id="_mRhoUVt8Ee6kaOBtd8KUlw" name="RequestBody"/>
+              <packagedElement xmi:type="uml:Interface" xmi:id="_mRiPYVt8Ee6kaOBtd8KUlw" name="RestController"/>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_mN1bIVt8Ee6kaOBtd8KUlw" name="apache">
+        <packagedElement xmi:type="uml:Package" xmi:id="_mN1bIlt8Ee6kaOBtd8KUlw" name="ibatis">
+          <packagedElement xmi:type="uml:Package" xmi:id="_mN2CMFt8Ee6kaOBtd8KUlw" name="type">
+            <packagedElement xmi:type="uml:Interface" xmi:id="_mRvqwFt8Ee6kaOBtd8KUlw" name="Alias"/>
+          </packagedElement>
+          <packagedElement xmi:type="uml:Package" xmi:id="_mN-lEFt8Ee6kaOBtd8KUlw" name="annotations">
+            <packagedElement xmi:type="uml:Interface" xmi:id="_mRz8MFt8Ee6kaOBtd8KUlw" name="Mapper"/>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_mN2CMVt8Ee6kaOBtd8KUlw" name="lombok">
+      <packagedElement xmi:type="uml:Interface" xmi:id="_mRwR0Ft8Ee6kaOBtd8KUlw" name="Data"/>
+    </packagedElement>
+    <profileApplication xmi:id="_mB4CwFt8Ee6kaOBtd8KUlw">
+      <eAnnotations xmi:id="_mB9iUFt8Ee6kaOBtd8KUlw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UMLLAB_PROFILES/UMLLab.profile.uml#UMLLabProfile-Annotation_2-UMLLabProfile"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UMLLAB_PROFILES/UMLLab.profile.uml#UMLLabProfile"/>
+    </profileApplication>
+  </uml:Model>
+  <UMLLabProfile:TargetLanguage xmi:id="_mB_-kFt8Ee6kaOBtd8KUlw" base_Package="_l7S5oFt8Ee6kaOBtd8KUlw">
+    <languageName>java</languageName>
+  </UMLLabProfile:TargetLanguage>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_mOqhkFt8Ee6kaOBtd8KUlw" base_Element="_mOneQFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_mOx2UFt8Ee6kaOBtd8KUlw" base_Element="_mOvaEVt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mOx2UVt8Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mOzEcFt8Ee6kaOBtd8KUlw" base_Element="_mOvaEFt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mOzEcVt8Ee6kaOBtd8KUlw" name="GetMapping">
+      <annotationParameters xmi:id="_mOzEclt8Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_mSVgoFt8Ee6kaOBtd8KUlw" value="&quot;shopping/shoppingDetail/{prbId}/comments&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mO0SkFt8Ee6kaOBtd8KUlw" base_Element="_mOzrgVt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mO0SkVt8Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mO05oFt8Ee6kaOBtd8KUlw" base_Element="_mOzrgFt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mO05oVt8Ee6kaOBtd8KUlw" name="GetMapping">
+      <annotationParameters xmi:id="_mO05olt8Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_mSVgolt8Ee6kaOBtd8KUlw" value="&quot;shopping/shoppingDetail/{prbId}/comments/{id}&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Generics xmi:id="_mO3V4Ft8Ee6kaOBtd8KUlw" genericsValue="String, String" base_Element="_mO1gsFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_mO388Ft8Ee6kaOBtd8KUlw" base_Element="_mO2HwFt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mO388Vt8Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mO388lt8Ee6kaOBtd8KUlw" base_Element="_mO2HwVt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mO3881t8Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mO4kAFt8Ee6kaOBtd8KUlw" base_Element="_mO1gsFt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mO4kAVt8Ee6kaOBtd8KUlw" name="PostMapping">
+      <annotationParameters xmi:id="_mO4kAlt8Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_mSWHsVt8Ee6kaOBtd8KUlw" value="&quot;shopping/shoppingDetail/{prbId}/comments/delete/{id}&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mO7AQFt8Ee6kaOBtd8KUlw" base_Element="_mO5LEVt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mO7AQVt8Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mO7AQlt8Ee6kaOBtd8KUlw" base_Element="_mO5LElt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mO7AQ1t8Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mO7nUFt8Ee6kaOBtd8KUlw" base_Element="_mO5LEFt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mO7nUVt8Ee6kaOBtd8KUlw" name="GetMapping">
+      <annotationParameters xmi:id="_mO7nUlt8Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_mSWHslt8Ee6kaOBtd8KUlw" value="&quot;shopping/shoppingDetail/{prbId}/comments/reply/{id}&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mO81cFt8Ee6kaOBtd8KUlw" base_Element="_mOneQFt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mO9cgFt8Ee6kaOBtd8KUlw" name="RestController"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_mPEKMFt8Ee6kaOBtd8KUlw" base_Element="_mPC8EFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPGmcVt8Ee6kaOBtd8KUlw" base_Element="_mPFYUFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_mPHNgFt8Ee6kaOBtd8KUlw" base_Element="_mPC8EFt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mPHNgVt8Ee6kaOBtd8KUlw" name="Alias">
+      <annotationParameters xmi:id="_mPHNglt8Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_mSWHtFt8Ee6kaOBtd8KUlw" value="&quot;comDTO&quot;"/>
+      </annotationParameters>
+    </annotations>
+    <annotations xmi:id="_mPHNg1t8Ee6kaOBtd8KUlw" name="Data"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_mPK34Ft8Ee6kaOBtd8KUlw" base_Element="_mPKQ0Ft8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPMtEFt8Ee6kaOBtd8KUlw" base_Element="_mPMGAFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_mPMtEVt8Ee6kaOBtd8KUlw" base_Element="_mPKQ0Ft8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mPNUIFt8Ee6kaOBtd8KUlw" name="Alias">
+      <annotationParameters xmi:id="_mPNUIVt8Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_mSZLAFt8Ee6kaOBtd8KUlw" value="&quot;prbDTO&quot;"/>
+      </annotationParameters>
+    </annotations>
+    <annotations xmi:id="_mPNUIlt8Ee6kaOBtd8KUlw" name="Data"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_mPSMoFt8Ee6kaOBtd8KUlw" base_Element="_mPQ-gFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPUB0Ft8Ee6kaOBtd8KUlw" base_Element="_mPSzsFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPUo4Vt8Ee6kaOBtd8KUlw" base_Element="_mPUo4Ft8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPVP8lt8Ee6kaOBtd8KUlw" base_Element="_mPVP8Ft8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPWeEFt8Ee6kaOBtd8KUlw" base_Element="_mPV3AFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_mPWeEVt8Ee6kaOBtd8KUlw" base_Element="_mPQ-gFt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mPWeElt8Ee6kaOBtd8KUlw" name="Mapper"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_mPbWkFt8Ee6kaOBtd8KUlw" base_Element="_mPaIcFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPcksFt8Ee6kaOBtd8KUlw" base_Element="_mPb9oFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPdy0Ft8Ee6kaOBtd8KUlw" base_Element="_mPdLwFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPfA8Ft8Ee6kaOBtd8KUlw" base_Element="_mPdy0Vt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPfoAFt8Ee6kaOBtd8KUlw" base_Element="_mPfA8Vt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPgPEFt8Ee6kaOBtd8KUlw" base_Element="_mPfoAVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPg2IFt8Ee6kaOBtd8KUlw" base_Element="_mPgPEVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPhdMFt8Ee6kaOBtd8KUlw" base_Element="_mPg2IVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPiEQVt8Ee6kaOBtd8KUlw" base_Element="_mPhdMVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Array xmi:id="_mPj5cVt8Ee6kaOBtd8KUlw" dimensions="1" base_Element="_mPirUVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPlHkFt8Ee6kaOBtd8KUlw" base_Element="_mPkggFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPluoFt8Ee6kaOBtd8KUlw" base_Element="_mPlHkVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mPmVsFt8Ee6kaOBtd8KUlw" base_Element="_mPluoVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_mPm8wFt8Ee6kaOBtd8KUlw" base_Element="_mPaIcFt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mPm8wVt8Ee6kaOBtd8KUlw" name="Mapper"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Reference xmi:id="_mRcIwFt8Ee6kaOBtd8KUlw" base_Element="_mRa6oFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mRdW4Ft8Ee6kaOBtd8KUlw" base_Element="_mRcIwVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mRd98Ft8Ee6kaOBtd8KUlw" base_Element="_mRdW4Vt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mRelAVt8Ee6kaOBtd8KUlw" base_Element="_mRelAFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mRfMEVt8Ee6kaOBtd8KUlw" base_Element="_mRfMEFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mRhBQFt8Ee6kaOBtd8KUlw" base_Element="_mRgaMFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mRhoUFt8Ee6kaOBtd8KUlw" base_Element="_mRhBQVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mRiPYFt8Ee6kaOBtd8KUlw" base_Element="_mRhoUVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mRi2cFt8Ee6kaOBtd8KUlw" base_Element="_mRiPYVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Generics xmi:id="_mRkroFt8Ee6kaOBtd8KUlw" genericsValue="String, String" base_Element="_mRjdgFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_mRkroVt8Ee6kaOBtd8KUlw" base_Element="_mRjdgVt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mRkrolt8Ee6kaOBtd8KUlw" name="RequestBody"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mRlSsFt8Ee6kaOBtd8KUlw" base_Element="_mRjdgFt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mRlSsVt8Ee6kaOBtd8KUlw" name="PostMapping">
+      <annotationParameters xmi:id="_mRlSslt8Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_mSVgoVt8Ee6kaOBtd8KUlw" value="&quot;shopping/shoppingDetail/{prbId}/comments&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Generics xmi:id="_mRnH4Ft8Ee6kaOBtd8KUlw" genericsValue="String, String" base_Element="_mRl5wVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_mRnu8Ft8Ee6kaOBtd8KUlw" base_Element="_mRl5wlt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mRnu8Vt8Ee6kaOBtd8KUlw" name="RequestBody"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mRnu8lt8Ee6kaOBtd8KUlw" base_Element="_mRmg0Ft8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mRnu81t8Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mRoWAFt8Ee6kaOBtd8KUlw" base_Element="_mRl5wVt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mRoWAVt8Ee6kaOBtd8KUlw" name="PostMapping">
+      <annotationParameters xmi:id="_mRoWAlt8Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_mSWHsFt8Ee6kaOBtd8KUlw" value="&quot;shopping/shoppingDetail/{prbId}/comments/{id}&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Generics xmi:id="_mRqLMFt8Ee6kaOBtd8KUlw" genericsValue="String, String" base_Element="_mRo9EVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_mRqyQFt8Ee6kaOBtd8KUlw" base_Element="_mRpkIFt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mRqyQVt8Ee6kaOBtd8KUlw" name="RequestBody"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mRqyQlt8Ee6kaOBtd8KUlw" base_Element="_mRpkIVt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mRqyQ1t8Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mRrZUFt8Ee6kaOBtd8KUlw" base_Element="_mRpkIlt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mRrZUVt8Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mRrZUlt8Ee6kaOBtd8KUlw" base_Element="_mRo9EVt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mRrZU1t8Ee6kaOBtd8KUlw" name="PostMapping">
+      <annotationParameters xmi:id="_mRrZVFt8Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_mSWHs1t8Ee6kaOBtd8KUlw" value="&quot;shopping/shoppingDetail/{prbId}/comments/reply/{id}&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Reference xmi:id="_mRucoFt8Ee6kaOBtd8KUlw" base_Element="_mRt1kFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mRvDsFt8Ee6kaOBtd8KUlw" base_Element="_mRucoVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mRvqwVt8Ee6kaOBtd8KUlw" base_Element="_mRvqwFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mRwR0Vt8Ee6kaOBtd8KUlw" base_Element="_mRwR0Ft8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mR0jQFt8Ee6kaOBtd8KUlw" base_Element="_mRz8MFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mR1KUlt8Ee6kaOBtd8KUlw" base_Element="_mR1KUFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mR1xYlt8Ee6kaOBtd8KUlw" base_Element="_mR1xYFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mR2YcFt8Ee6kaOBtd8KUlw" base_Element="_mR1xZFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mR2Yc1t8Ee6kaOBtd8KUlw" base_Element="_mR2YcVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mR2_glt8Ee6kaOBtd8KUlw" base_Element="_mR2YdFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mR4NoFt8Ee6kaOBtd8KUlw" base_Element="_mR3mkFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mR40sFt8Ee6kaOBtd8KUlw" base_Element="_mR4NoVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mR40s1t8Ee6kaOBtd8KUlw" base_Element="_mR40sVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mR5bwFt8Ee6kaOBtd8KUlw" base_Element="_mR40tFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mR6C0Ft8Ee6kaOBtd8KUlw" base_Element="_mR5bwVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mR6p4Ft8Ee6kaOBtd8KUlw" base_Element="_mR6C0lt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_mR6p41t8Ee6kaOBtd8KUlw" base_Element="_mR6p4Vt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mSBXkFt8Ee6kaOBtd8KUlw" base_Element="_mSAwgVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_mSDz0Ft8Ee6kaOBtd8KUlw" base_Element="_mSDMwFt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mSDz0Vt8Ee6kaOBtd8KUlw" name="Autowired"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_mSEa4Ft8Ee6kaOBtd8KUlw" base_Element="_mSDz0lt8Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_mSEa4Vt8Ee6kaOBtd8KUlw" name="Autowired"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSGQEFt8Ee6kaOBtd8KUlw" base_Property="_mSFB8Ft8Ee6kaOBtd8KUlw" siblings="_mSWuwFt8Ee6kaOBtd8KUlw _mSXV0Ft8Ee6kaOBtd8KUlw _mSX84Ft8Ee6kaOBtd8KUlw _mSX84lt8Ee6kaOBtd8KUlw" root="true"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSG3IVt8Ee6kaOBtd8KUlw" base_Property="_mSG3IFt8Ee6kaOBtd8KUlw" siblings="_mSYj8Ft8Ee6kaOBtd8KUlw" root="true"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSIFQVt8Ee6kaOBtd8KUlw" base_Property="_mSIFQFt8Ee6kaOBtd8KUlw" siblings="_mSZyEFt8Ee6kaOBtd8KUlw _mSaZIFt8Ee6kaOBtd8KUlw _mSbAMFt8Ee6kaOBtd8KUlw _mSbAMlt8Ee6kaOBtd8KUlw _mSbnQVt8Ee6kaOBtd8KUlw _mSbnQ1t8Ee6kaOBtd8KUlw _mScOUVt8Ee6kaOBtd8KUlw _mScOU1t8Ee6kaOBtd8KUlw" root="true"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSJ6cFt8Ee6kaOBtd8KUlw" base_Property="_mSJTYFt8Ee6kaOBtd8KUlw" siblings="_mSc1YVt8Ee6kaOBtd8KUlw _mSdccFt8Ee6kaOBtd8KUlw _mSdcclt8Ee6kaOBtd8KUlw _mSeDgFt8Ee6kaOBtd8KUlw _mSeDglt8Ee6kaOBtd8KUlw" root="true"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSWuwVt8Ee6kaOBtd8KUlw" base_Property="_mSWuwFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSXV0Vt8Ee6kaOBtd8KUlw" base_Property="_mSXV0Ft8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSX84Vt8Ee6kaOBtd8KUlw" base_Property="_mSX84Ft8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSX841t8Ee6kaOBtd8KUlw" base_Property="_mSX84lt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSYj8Vt8Ee6kaOBtd8KUlw" base_Property="_mSYj8Ft8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSZyEVt8Ee6kaOBtd8KUlw" base_Property="_mSZyEFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSaZIVt8Ee6kaOBtd8KUlw" base_Property="_mSaZIFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSbAMVt8Ee6kaOBtd8KUlw" base_Property="_mSbAMFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSbnQFt8Ee6kaOBtd8KUlw" base_Property="_mSbAMlt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSbnQlt8Ee6kaOBtd8KUlw" base_Property="_mSbnQVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mScOUFt8Ee6kaOBtd8KUlw" base_Property="_mSbnQ1t8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mScOUlt8Ee6kaOBtd8KUlw" base_Property="_mScOUVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSc1YFt8Ee6kaOBtd8KUlw" base_Property="_mScOU1t8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSc1Ylt8Ee6kaOBtd8KUlw" base_Property="_mSc1YVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSdccVt8Ee6kaOBtd8KUlw" base_Property="_mSdccFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSdcc1t8Ee6kaOBtd8KUlw" base_Property="_mSdcclt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSeDgVt8Ee6kaOBtd8KUlw" base_Property="_mSeDgFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_mSeDg1t8Ee6kaOBtd8KUlw" base_Property="_mSeDglt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mSkKIFt8Ee6kaOBtd8KUlw" base_Element="_mSjjEFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mSlYQFt8Ee6kaOBtd8KUlw" base_Element="_mSkxMFt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mSmmYFt8Ee6kaOBtd8KUlw" base_Element="_mSlYQVt8Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_mSmmY1t8Ee6kaOBtd8KUlw" base_Element="_mSmmYVt8Ee6kaOBtd8KUlw"/>
+</xmi:XMI>

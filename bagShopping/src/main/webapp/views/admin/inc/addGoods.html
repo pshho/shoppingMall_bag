@@ -1,125 +1,253 @@
 <!DOCTYPE html>
 <html xmlns="http://thymeleaf.org">
+
 <head>
-<meta charset="UTF-8">
-<title>상품 추가</title>
+	<meta charset="UTF-8">
+	<title>상품 추가</title>
+
 </head>
+
 <body>
-<h2>상품 추가</h2>
-<form action="" method="post" enctype="multipart/form-data">
-	<table border="">
-		<tr>
-			<td>상품코드</td>
-			<td><input type="text" name="productCode" /></td>
-		</tr>
-		<tr>
-			<td>카테고리</td>
-			<td>
-				<select name="categoriesName">
-					<th:block th:each="category : ${categories}">
-					<option th:text="${category.categoriesName}"></option>
-					</th:block>
-				</select>
+	<form action="" method="post" enctype="multipart/form-data" name="addGoodsForm">
+		<table border="">
+			<tr>
+				<td>상품코드</td>
+				<td><input type="text" name="productCode" />
+					<button type="button" onclick="productCodeChkBtn()">상품코드 중복체크</button>
+					<input type="hidden" id="codeChk"/>
+				</td>
+
+			</tr>
+			<tr>
+				<td>카테고리</td>
+				<td>
+					<select name="categoriesName">
+						<th:block th:each="category : ${categories}">
+							<option th:text="${category.categoriesName}"></option>
+						</th:block>
+					</select>
+
+				</td>
+			</tr>
+			<tr>
+				<td>타입</td>
+				<td>
+					<select name="typeName">
+						<th:block th:each="type : ${types}">
+							<option th:text="${type.typeName}"></option>
+						</th:block>
+					</select>
+
+				</td>
+			</tr>
+			<tr>
+				<td>브랜드명</td>
+				<td>
+					<select name="brandName">
+						<th:block th:each="brand : ${brands}">
+							<option th:text="${brand.brandName}"></option>
+						</th:block>
+					</select>
+
+				</td>
+			</tr>
+			<tr>
+				<td>상품명</td>
+				<td><input type="text" name="bagName" /></td>
+			</tr>
+			<tr>
+				<td>가격</td>
+				<td><input type="text" name="bagPrice" /></td>
+			</tr>
+			<tr>
+				<td>너비</td>
+				<td><input type="text" name="bagSizeW" /></td>
+			</tr>
+			<tr>
+				<td>높이</td>
+				<td><input type="text" name="bagSizeH" /></td>
+			</tr>
+			<tr>
+				<td>깊이</td>
+				<td><input type="text" name="bagSizeD" /></td>
+			</tr>
+			<tr>
+				<td>용량</td>
+				<td><input type="text" name="bagCapacity" /></td>
+			</tr>
+			<tr>
+				<td>무게</td>
+				<td><input type="text" name="bagWeight" /></td>
+			</tr>
+			<tr>
+				<td>겉감</td>
+				<td><input type="text" name="bagOuterFabric" /></td>
+			</tr>
+			<tr>
+				<td>안감</td>
+				<td><input type="text" name="bagInnerFabric" /></td>
+			</tr>
+			<tr>
+				<td>지퍼</td>
+				<td><input type="text" name="bagZipper" /></td>
+			</tr>
+			<tr>
+				<td>버클</td>
+				<td><input type="text" name="bagBuckle" /></td>
+			</tr>
+			<tr>
+				<td>상품 설명</td>
+				<td><textarea name="bagComment" cols="30" rows="10"></textarea></td>
+			</tr>
+			<tr>
+				<td>이미지1</td>
+				<td><input type="file" name="Img1" /></td>
+			</tr>
+			<tr>
+				<td>이미지2</td>
+				<td><input type="file" name="Img2" /></td>
+			</tr>
+			<tr>
+				<td>이미지3</td>
+				<td><input type="file" name="Img3" /></td>
+			</tr>
+			<tr>
+				<td>이미지4</td>
+				<td><input type="file" name="Img4" /></td>
+			</tr>
+			<tr>
+				<td>상품제조월</td>
+				<td><input type="text" name="bagsProductionDayStr" placeholder="yyyy-mm-dd" /></td>
+			</tr>
+		</table>
+		<div id="addBtn">
+			<input type="button" onclick="addGoodsBtn()" value="등록" class="btn btn-block btn-success" />
+			<a th:href="|/admin/goodsManage/${pd.page}|" class="btn btn-block btn-danger">취소</a>
+		</div>
+	</form>
+	<script>
+		var productCode = $('input[name=productCode]')
+		var bagName = $('input[name=bagName]')
+		var bagPrice = $('input[name=bagPrice]')
+		var bagName = $('input[name=bagName]')
+		var bagSizeW = $('input[name=bagSizeW]')
+		var bagSizeH = $('input[name=bagSizeH]')
+		var bagSizeD = $('input[name=bagSizeD]')
+		var bagCapacity = $('input[name=bagCapacity]')
+		var bagWeight = $('input[name=bagWeight]')
+		var codeChk = $('#codeChk')
+
+		var bagsProductionDayStr = $('input[name=bagsProductionDayStr]')
+		var reg = /^[0-9]+$/;
+		var regex = RegExp(/^\d{4}-(0[1-9]|1[012])-(0[1-9]|[12][0-9]|3[01])$/);
+		var date = new Date();
+
+		var form = $('form[name=addGoodsForm]')
+
+		function productCodeChkBtn() {
+			
+			$.ajax({
+				url: "/admin/productCodeChk",
+				type: "post",
+				data: {productCode: productCode.val()},
+				dataType: 'json',
+				success: function (result) {
+					if (result > 0) {
+						alert("이미 존재하는 상품코드 입니다.")
+						codeChk.val('대기')
+					}else{
+						alert("사용 가능한 상품코드 입니다.")
+						codeChk.val('완료')
+					}
+					console.log(codeChk.val())
+				},
 				
-			</td>
-		</tr>
-		<tr>
-			<td>타입</td>
-			<td>
-				<select name="typeName">
-					<th:block th:each="type : ${types}">
-					<option th:text="${type.typeName}"></option>
-					</th:block>
-				</select>
-				
-			</td>
-		</tr>
-		<tr>
-			<td>브랜드명</td>
-			<td>
-				<select name="brandName">
-					<th:block th:each="brand : ${brands}">
-					<option th:text="${brand.brandName}"></option>
-					</th:block>
-				</select>
-				
-			</td>
-		</tr>
-		<tr>
-			<td>상품명</td>
-			<td><input type="text" name="bagName" /></td>
-		</tr>
-		<tr>
-			<td>가격</td>
-			<td><input type="text" name="bagPrice" /></td>
-		</tr>
-		<tr>
-			<td>너비</td>
-			<td><input type="text" name="bagSizeW" /></td>
-		</tr>
-		<tr>
-			<td>높이</td>
-			<td><input type="text" name="bagSizeH" /></td>
-		</tr>
-		<tr>
-			<td>깊이</td>
-			<td><input type="text" name="bagSizeD" /></td>
-		</tr>
-		<tr>
-			<td>용량</td>
-			<td><input type="text" name="bagCapacity" /></td>
-		</tr>
-		<tr>
-			<td>무게</td>
-			<td><input type="text" name="bagWeight" /></td>
-		</tr>
-		<tr>
-			<td>겉감</td>
-			<td><input type="text" name="bagOuterFabric" /></td>
-		</tr>
-		<tr>
-			<td>안감</td>
-			<td><input type="text" name="bagInnerFabric" /></td>
-		</tr>
-		<tr>
-			<td>지퍼</td>
-			<td><input type="text" name="bagZipper" /></td>
-		</tr>
-		<tr>
-			<td>버클</td>
-			<td><input type="text" name="bagBuckle" /></td>
-		</tr>
-		<tr>
-			<td>상품 설명</td>
-			<td><textarea name="bagComment" cols="30" rows="10"></textarea></td>
-		</tr>
-		<tr>
-			<td>이미지1</td>
-			<td><input type="file" name="Img1" /></td>
-		</tr>
-		<tr>
-			<td>이미지2</td>
-			<td><input type="file" name="Img2" /></td>
-		</tr>
-		<tr>
-			<td>이미지3</td>
-			<td><input type="file" name="Img3" /></td>
-		</tr>
-		<tr>
-			<td>이미지4</td>
-			<td><input type="file" name="Img4" /></td>
-		</tr>
-		<tr>
-			<td>상품제조월</td>
-			<td><input type="text" name="bagsProductionDayStr" /></td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<input type="submit" value="등록"/>
-				<a th:href="|/admin/goodsManage/${pd.page}|">뒤로</a>
-			</td>
-		</tr>
-	</table>
-</form>
+			})
+			
+		}
+
+		function addGoodsBtn() {
+			
+			if (productCode.val() == "") {
+				alert("상품코드를 입력해주세요")
+				productCode.focus()
+				return false;
+			}
+			if (!reg.test(productCode.val())) {
+				alert("상품코드는 숫자만 입력해주세요.")
+				return false;
+			}
+			if(codeChk.val() == "대기"){
+				alert("상품코드 중복체크를 해주세요.")
+				productCode.focus()
+				return false;
+			}
+			if (bagName.val() == "") {
+				alert("상품명을 입력해주세요");
+				bagName.focus();
+				return false;
+			}
+			if (!reg.test(bagPrice.val())) {
+				alert("가방 가격은 숫자만 입력해주세요.")
+				bagPrice.focus();
+				return false;
+			}
+			if (!reg.test(bagSizeW.val())) {
+				alert("가방 너비는 숫자만 입력해주세요.")
+				bagSizeW.focus();
+				return false;
+			}
+			if (!reg.test(bagSizeH.val())) {
+				alert("가방 높이는 숫자만 입력해주세요.")
+				bagSizeH.focus();
+				return false;
+			}
+			if (!reg.test(bagSizeD.val())) {
+				alert("가방 깊이는 숫자만 입력해주세요.")
+				bagSizeD.focus();
+				return false;
+			}
+			if (!reg.test(bagCapacity.val())) {
+				alert("가방 용량은 숫자만 입력해주세요.")
+				bagCapacity.focus();
+				return false;
+			}
+			if (!reg.test(bagWeight.val())) {
+				alert("가방 무게는 숫자만 입력해주세요.")
+				bagWeight.focus();
+				return false;
+			}
+			if (!regex.test(bagsProductionDayStr.val())) {
+				alert("년월일 형식에 맞게 입력해주세요.")
+				bagsProductionDayStr.focus();
+				return false;
+			}
+			if (bagsProductionDayStr) {
+				var year = date.getFullYear();
+				var month = date.getMonth() + 1;
+				var day = date.getDate();
+				if (month.toString().length < 2) {
+					month = "0" + month;
+				}
+				if (day.toString().length < 2) {
+					day = "0" + day;
+				}
+
+				var getToday = year + "-" + month + "-" + day;
+				if (bagsProductionDayStr.val() > getToday) {
+					alert("오늘 날짜를 넘길 수 없습니다!")
+					bagsProductionDayStr.focus();
+					return false;
+				}
+			}
+			form.submit()
+
+		}
+
+
+
+
+	</script>
 </body>
+
 </html>

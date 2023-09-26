@@ -41,42 +41,30 @@
 </head>
 
 <body>
-	<h2>상품 관리</h2>
-	<a href="/admin/adminMain">뒤로</a>
-
 	<table border="">
 		<tr>
 			<td>상품코드</td>
-			<td>카테고리</td>
-			<td>타입</td>
-			<td>브랜드</td>
 			<td>상품명</td>
 			<td>가격</td>
-			<td colspan="3" align="center">관리</td>
+			<td colspan="4" align="center">관리</td>
 		</tr>
 		<th:block th:if="${pd.pageEnd > 0}">
 			<tr th:each="bag : ${bags}">
 				<td th:text="${bag.productCode}" />
-				<th:block th:each="category : ${categories}" th:if="${category.categoriesId == bag.categoriesId}">
-					<td th:text="${category.categoriesName}" />
-				</th:block>
-				<th:block th:each="type : ${types}" th:if="${type.typeId == bag.typeId}">
-					<td th:text="${type.typeName}" />
-				</th:block>
-				<th:block th:each="brand : ${brands}" th:if="${brand.brandId == bag.brandId}">
-					<td th:text="${brand.brandName}" />
-				</th:block>
 				<td><a th:href="|/admin/goodsDetail/${bag.productCode}/${pd.page}|">[[${bag.bagName}]]</a></td>
 				<td th:text="${bag.bagPrice}" />
 
-				<td><a th:href="|/admin/modifyGoods/${bag.productCode}/${pd.page}|">수정</a></td>
+				<td><a th:href="|/admin/modifyGoods/${bag.productCode}/${pd.page}|" class="btn btn-block btn-outline-primary btn">수정</a></td>
 				<td><button id="deleteMember" th:goodsParam="${bag.productCode}"
-						th:onclick="deleteGoods(this.getAttribute('goodsParam'))" th:text="|삭제|" /></input></td>
+						th:onclick="deleteGoods(this.getAttribute('goodsParam'))" th:text="|삭제|" class="btn btn-block btn-outline-danger btn"/></input></td>
 				<td>
-					<input type="button" th:id="|chgPrb${bag.productCode}|" th:onclick="|chgPrb(${bag.productCode})|" />
+					<input type="button" th:id="|chgPrb${bag.productCode}|" th:onclick="|chgPrb(${bag.productCode})|" class="btn btn-block btn-outline-secondary btn"/>
+					
+				</td>
+				<td>
 					<button th:bagParam="${bag.productCode}" th:onclick="modifyBoardBtn(this.getAttribute('bagParam'))"
-						th:text="|게시글 수정|" />
-
+						th:text="|게시글 수정|" class="btn btn-block btn-outline-secondary btn"/>
+					
 				</td>
 			</tr>
 		</th:block>
@@ -130,12 +118,13 @@
 
 					<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
 						<th:block th:if="${pd.searchType != null} and ${pd.keyword != null}">
-							<a th:href="|${pd.pageEnd+1}?searchType=${pd.searchType}&keyword=${pd.keyword}|" th:text="[다음]" />
+							<a th:href="|${pd.pageEnd+1}?searchType=${pd.searchType}&keyword=${pd.keyword}|"
+								th:text="[다음]" />
 						</th:block>
 						<th:block th:unless="${pd.searchType != null} and ${pd.keyword != null}">
 							<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
 						</th:block>
-						
+
 					</th:block>
 			</td>
 		</tr>
@@ -153,8 +142,9 @@
 
 				<input type="text" id="keyword">
 				<input type="submit" id="btnSearch" value="검색">
-				<a href="/admin/goodsManage/1">검색 초기화</a>
-				<a th:href="|/admin/addGoods/${pd.page}|">상품 추가</a>
+
+				<a th:href="|/admin/addGoods/${pd.page}|" class="btn btn-block btn-success btn">상품 추가</a>
+
 			</td>
 		</tr>
 	</table>

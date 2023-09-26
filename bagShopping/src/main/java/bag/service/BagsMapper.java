@@ -42,4 +42,6 @@ public interface BagsMapper {
 	void updStock(BagsDTO bagDTO);
 	
 	void cancelOrder(OrderDTO ordDTO);
+	
+	int codeChk(int productCode);
 }

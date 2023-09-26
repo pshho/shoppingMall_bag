@@ -63,9 +63,13 @@ public class AdminController {
 
 	// 관리자 메인화면
 	@GetMapping("{adminService}")
-	String adminService(@PathVariable String adminService) {
+	String adminService(@PathVariable String adminService, PageData2 pd, Model mm) {
 
 		// System.out.println(adminService);
+		mm.addAttribute("pd", pd);
+		mm.addAttribute("pay", ordMapper.payCnt());
+		mm.addAttribute("ready",ordMapper.shipReadyCnt());
+		mm.addAttribute("ing",ordMapper.shipIngCnt());
 		return "admin/template";
 	}
 
@@ -131,12 +135,12 @@ public class AdminController {
 		mm.addAttribute("adminService", adminUrl);
 		return "admin/template";
 	}
-	
+
 	@GetMapping("goodsDetail/{productCode}/{page}")
 	String goodsDetail(Model mm, PageData2 pd, @PathVariable int productCode) {
 
 		String adminUrl = "goodsDetail";
-		
+
 		mm.addAttribute("bag", bagsMapper.detailBag(productCode));
 		mm.addAttribute("brands", brandMapper.brandList());
 		mm.addAttribute("categories", cateMapper.categoriesList());
@@ -160,6 +164,15 @@ public class AdminController {
 		return "admin/template";
 	}
 
+	@PostMapping("productCodeChk")
+	@ResponseBody
+	int productCodeChk(HttpServletRequest request) {
+
+		int productCode = Integer.parseInt(request.getParameter("productCode"));
+
+		return bagsMapper.codeChk(productCode);
+	}
+	
 	@PostMapping("addGoods/{page}")
 	String addGoodsReg(Model mm, BagsDTO bdto, PageData2 pd) throws Exception {
 		saveutil.img1Save(bdto);
@@ -214,10 +227,10 @@ public class AdminController {
 		saveutil.img2Save(bdto);
 		saveutil.img3Save(bdto);
 		saveutil.img4Save(bdto);
-
+		System.out.println(bdto);
 		int cnt = bagsMapper.modifyBag(bdto);
 		if (cnt > 0) {
-			if (prdMapper.cntProduct(productCode) > 0) {
+			if (prdMapper.cntProduct(productCode) != null && prdMapper.cntProduct(productCode) > 0) {
 				ProductsBoardDTO prd = prdMapper.getProducts(productCode);
 
 				prd.setProductCode(bdto.getProductCode());
@@ -228,34 +241,34 @@ public class AdminController {
 				prd.setProductsBoardStatus(1);
 				int updateCheck = prdMapper.updateProductAndBag(prd);
 
-				if(updateCheck > 0) {
+				if (updateCheck > 0) {
 					msg = "상품과 관련된 글이 있습니다. 수정 해 주세요.";
 					goUrl = "/admin/goodsManage/" + pd.page;
-				}else {
+				} else {
 					msg = "상품 수정 성공";
 					goUrl = "/admin/goodsManage/" + pd.page;
 				}
-
 			}
+			msg = "상품 수정 성공";
+			goUrl = "/admin/goodsManage/" + pd.page;
 		}
 		mm.addAttribute("goUrl", goUrl);
 		mm.addAttribute("msg", msg);
 		mm.addAttribute("pd", pd);
 		return "admin/inc/alert";
 	}
-	
+
 	@PostMapping("modifyBoard")
 	@ResponseBody
 	int modifyBoard(HttpServletRequest request) {
 
 		int productCode = Integer.parseInt(request.getParameter("productCode"));
 		prdMapper.getProducts(productCode);
-		if(prdMapper.getProducts(productCode).getProductsBoardId() > 0) {
+		if (prdMapper.getProducts(productCode).getProductsBoardId() > 0) {
 			return prdMapper.getProducts(productCode).getProductsBoardId();
 		}
 		return 0;
 	}
-	
 
 	@PostMapping("deleteGoods/{page}")
 	@ResponseBody
@@ -266,9 +279,9 @@ public class AdminController {
 
 		// 삭제될 상품 가져와서 남아있는 이미지 삭제
 		BagsDTO bDto = bagsMapper.detailBag(productCode);
-		//if (bDto.getBagImg1() != null) {
-		//	new File(path + "\\" + bDto.getBagImg1()).delete();
-		//}
+		// if (bDto.getBagImg1() != null) {
+		// new File(path + "\\" + bDto.getBagImg1()).delete();
+		// }
 		if (bDto.getBagImg2() != null) {
 			new File(path + "\\" + bDto.getBagImg2()).delete();
 		}
@@ -282,8 +295,8 @@ public class AdminController {
 		int deleteGoods = bagsMapper.deleteGoods(productCode);
 
 		if (deleteGoods > 0) {
-			int check = prdMapper.cntProduct(productCode);
-			if (check > 0) {
+			Integer check = prdMapper.cntProduct(productCode);
+			if (check != null && check > 0) {
 				prdMapper.deleteBagProduct(productCode);
 			}
 		}
@@ -351,9 +364,7 @@ public class AdminController {
 		String adminUrl = "salesHistory";
 
 		pd.calc(ordMapper.orderCnt(pd));
-		
-		mm.addAttribute("monthSales", ordMapper.monthSales());
-		mm.addAttribute("yearSales", ordMapper.yearSales());
+
 		mm.addAttribute("orderList", ordMapper.orderList(pd));
 		mm.addAttribute("adminService", adminUrl);
 		mm.addAttribute("pd", pd);
@@ -362,23 +373,22 @@ public class AdminController {
 
 	@RequestMapping("getMonthData")
 	public @ResponseBody List<TotalOrderDTO> getMonthData() throws Exception {
-		
+
 		return ordMapper.monthSales();
 	}
-	
+
 	@RequestMapping("getYearData")
 	public @ResponseBody List<TotalOrderDTO> getYearData() throws Exception {
-		
+
 		return ordMapper.yearSales();
 	}
-	
+
 	@RequestMapping("getPerDayData")
 	public @ResponseBody List<TotalOrderDTO> getPerDayData(HttpServletRequest request) throws Exception {
-	
-		return ordMapper.perDaySales(request.getParameter("dateStart"),request.getParameter("dateEnd"));
+		System.out.println();
+		return ordMapper.perDaySales(request.getParameter("dateStart"), request.getParameter("dateEnd"));
 	}
-	
-	
+
 	@RequestMapping("salesHistory/{page}/{merchantUid}")
 	String salesHistoryDetail(HttpSession session, Model mm, PageData2 pd, OrderDTO ordDTO) {
 		String templateUrl = "orderDetail";
@@ -459,8 +469,6 @@ public class AdminController {
 	int shipEnd(HttpServletRequest request, OrderDTO ordDTO) {
 		String status = request.getParameter("status");
 		String merchant_uid = request.getParameter("uid");
-		System.out.println(status);
-		System.out.println(merchant_uid);
 		ordDTO.setMerchant_uid(merchant_uid);
 		ordDTO.setOrderStatus(status);
 		int ordCheck = ordMapper.shipChange(ordDTO);

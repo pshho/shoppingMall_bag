@@ -1,0 +1,1165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="20131001" xmlns:xmi="http://www.omg.org/spec/XMI/20131001" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:UMLLabProfile="http:///schemas/UMLLabProfile/NS/0" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:uml="http://www.eclipse.org/uml2/5.0.0/UML" xsi:schemaLocation="http:///schemas/UMLLabProfile/NS/0 pathmap://UMLLAB_PROFILES/UMLLab.profile.uml#UMLLabProfile-Annotation_2-UMLLabProfile">
+  <uml:Model xmi:id="_S7BRMFt9Ee6kaOBtd8KUlw" name="inquiry">
+    <eAnnotations xmi:id="_TFD-AFt9Ee6kaOBtd8KUlw" source="http://ns.yatta.de/umllab">
+      <contents xmi:type="ecore:EAnnotation" xmi:id="_TFD-AVt9Ee6kaOBtd8KUlw" source="codegen">
+        <details xmi:id="_TFD-Alt9Ee6kaOBtd8KUlw" key="codegenDirectory" value="/bagShopping/src/main/java"/>
+        <details xmi:id="_TSlcoFt9Ee6kaOBtd8KUlw" key="AssociatedSourceCode" value="/bagShopping/src/main/java/bag/controller/InquiryController.java;4081172531/1;/bagShopping/src/main/java/bag/model/FileDTO.java;2824877700/1;/bagShopping/src/main/java/bag/model/FileUploadDownload.java;4046781829/1;/bagShopping/src/main/java/bag/model/InquiryDTO.java;702869554/1;/bagShopping/src/main/java/bag/model/PageData.java;1344490583/1;/bagShopping/src/main/java/bag/service/FileMapper.java;3863057867/1;/bagShopping/src/main/java/bag/service/InquiryMapper.java;797034656/1;"/>
+      </contents>
+    </eAnnotations>
+    <elementImport xmi:id="_TLJ-8Ft9Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+    </elementImport>
+    <elementImport xmi:id="_TLJ-8Vt9Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#byte"/>
+    </elementImport>
+    <elementImport xmi:id="_TLJ-8lt9Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#char"/>
+    </elementImport>
+    <elementImport xmi:id="_TLJ-81t9Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#double"/>
+    </elementImport>
+    <elementImport xmi:id="_TLJ-9Ft9Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#float"/>
+    </elementImport>
+    <elementImport xmi:id="_TLJ-9Vt9Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+    </elementImport>
+    <elementImport xmi:id="_TLJ-9lt9Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#long"/>
+    </elementImport>
+    <elementImport xmi:id="_TLJ-91t9Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#short"/>
+    </elementImport>
+    <elementImport xmi:id="_TLKmAFt9Ee6kaOBtd8KUlw">
+      <importedElement xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+    </elementImport>
+    <packagedElement xmi:type="uml:Package" xmi:id="_TKnzcFt9Ee6kaOBtd8KUlw" name="bag">
+      <packagedElement xmi:type="uml:Package" xmi:id="_TKpopVt9Ee6kaOBtd8KUlw" name="model">
+        <packagedElement xmi:type="uml:Class" xmi:id="_TLU-EFt9Ee6kaOBtd8KUlw" name="FileDTO">
+          <ownedAttribute xmi:id="_TOql8Ft9Ee6kaOBtd8KUlw" name="fileId" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TOrNAVt9Ee6kaOBtd8KUlw" name="files" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TOr0EFt9Ee6kaOBtd8KUlw" name="complete" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#boolean"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO5Pclt9Ee6kaOBtd8KUlw" name="productsBoardId" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO5PdFt9Ee6kaOBtd8KUlw" name="noticeId" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO52gVt9Ee6kaOBtd8KUlw" name="inquiryId" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO52g1t9Ee6kaOBtd8KUlw" name="productCode" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO52hVt9Ee6kaOBtd8KUlw" name="memberId" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_TLXaUFt9Ee6kaOBtd8KUlw" name="FileUploadDownload">
+          <ownedAttribute xmi:id="_TOr0EVt9Ee6kaOBtd8KUlw" name="path" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            <defaultValue xmi:type="uml:LiteralString" xmi:id="_TOr0Elt9Ee6kaOBtd8KUlw" value="&quot;D:\\shoppingMall_bag\\bagShopping\\src\\main\\webapp\\upFile&quot;"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TOsbIFt9Ee6kaOBtd8KUlw" name="fMapper" visibility="package" type="_TLjnkFt9Ee6kaOBtd8KUlw" association="_TPGDwFt9Ee6kaOBtd8KUlw"/>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO0-AFt9Ee6kaOBtd8KUlw" name="fileSave" specification="_TOgN4Ft9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO0-AVt9Ee6kaOBtd8KUlw" name="mf" type="_TOLdw1t9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TO0-Alt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>String ptn = &quot;.&quot;;&#xD;
+		String ptn2 = null;&#xD;
+		String ptn3 = &quot;.* \\(1\\)$&quot;;&#xD;
+		&#xD;
+		String fName = mf.getOriginalFilename();&#xD;
+		File ff = new File(path+&quot;\\&quot;+fName);&#xD;
+			&#xD;
+		try {&#xD;
+			String rename = null;&#xD;
+			String exe = null;&#xD;
+			&#xD;
+			int i = 1;&#xD;
+			while(ff.exists()) { // 중복 확인&#xD;
+				// 확장자 앞 파일 제목&#xD;
+				rename = fName.substring(0, fName.lastIndexOf(ptn));&#xD;
+				// 확장자&#xD;
+				exe = fName.substring(fName.lastIndexOf(ptn), fName.length());&#xD;
+				boolean checkFile = Pattern.matches(ptn3, rename);&#xD;
+				&#xD;
+				// 새로고침했을 때 반복된 파일업로드 고려(실제로 새로고침을 해도 파일이 올라가지 않게&#xD;
+				// 막을테니 큰 의미 없다고 생각)&#xD;
+				if(!checkFile &amp;&amp; i==1) {&#xD;
+					rename += &quot; (1)&quot;;&#xD;
+					fName = rename + exe;&#xD;
+					ff = new File(path+&quot;\\&quot;+fName);&#xD;
+					continue;&#xD;
+				}&#xD;
+				ptn2 = rename.substring(rename.length()-(3+(i+&quot;&quot;).length()));&#xD;
+				&#xD;
+				while(true) {&#xD;
+					if(ptn2.equals(&quot; (&quot; + i + &quot;)&quot;)) {&#xD;
+						i++;&#xD;
+					}else {&#xD;
+						if(i > 1) {&#xD;
+							rename = rename.replace(ptn2, (&quot; (&quot; + i + &quot;)&quot;));&#xD;
+							fName = rename + exe;&#xD;
+							break;&#xD;
+						}&#xD;
+					}&#xD;
+				}&#xD;
+				ff = new File(path+&quot;\\&quot;+fName);&#xD;
+			}&#xD;
+			FileOutputStream fos = new FileOutputStream(ff);&#xD;
+			fos.write(mf.getBytes());&#xD;
+			fos.close();&#xD;
+		} catch (Exception e) {&#xD;
+			e.printStackTrace();&#xD;
+		}&#xD;
+		&#xD;
+		return fName;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO0-A1t9Ee6kaOBtd8KUlw" name="download" specification="_TOg08Ft9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO0-BFt9Ee6kaOBtd8KUlw" name="fileName">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TO0-BVt9Ee6kaOBtd8KUlw" name="response" type="_TOMr4Vt9Ee6kaOBtd8KUlw"/>
+            <language>java</language>
+            <body>try {&#xD;
+			// 다운로드 할 파일 제목을 PathVariable로 받음&#xD;
+			FileInputStream fis = new FileInputStream(path+&quot;\\&quot;+fileName);&#xD;
+			String encName = URLEncoder.encode(fileName, &quot;utf-8&quot;);&#xD;
+			response.setHeader(&quot;Content-Disposition&quot;, &quot;attachment;filename=&quot;+encName);&#xD;
+			&#xD;
+			ServletOutputStream sos = response.getOutputStream();&#xD;
+			byte[] buf = new byte[1024];&#xD;
+			&#xD;
+			while(fis.available() > 0) {&#xD;
+				int len = fis.read(buf);&#xD;
+				sos.write(buf, 0, len);&#xD;
+			}&#xD;
+			sos.close();&#xD;
+			fis.close();&#xD;
+		} catch (Exception e) {&#xD;
+			e.printStackTrace();&#xD;
+		}&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO0-Blt9Ee6kaOBtd8KUlw" name="fileDelete" specification="_TLZPgFt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO0-B1t9Ee6kaOBtd8KUlw" name="fileNames">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>new File(path+&quot;\\&quot;+fileNames).delete();&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedOperation xmi:id="_TLZPgFt9Ee6kaOBtd8KUlw" name="fileDelete" method="_TO0-Blt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TLZPgVt9Ee6kaOBtd8KUlw" name="fileNames">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOgN4Ft9Ee6kaOBtd8KUlw" name="fileSave" method="_TO0-AFt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOgN4Vt9Ee6kaOBtd8KUlw" name="mf" type="_TOLdw1t9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOgN4lt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOg08Ft9Ee6kaOBtd8KUlw" name="download" method="_TO0-A1t9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOg08Vt9Ee6kaOBtd8KUlw" name="fileName">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOg08lt9Ee6kaOBtd8KUlw" name="response" type="_TOMr4Vt9Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_TLbEsFt9Ee6kaOBtd8KUlw" name="InquiryDTO">
+          <ownedAttribute xmi:id="_TOsbI1t9Ee6kaOBtd8KUlw" name="inquiryId" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TOtCMVt9Ee6kaOBtd8KUlw" name="inTitle" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TOu3YFt9Ee6kaOBtd8KUlw" name="inquiryRegDate" visibility="package" type="_TOPIIFt9Ee6kaOBtd8KUlw"/>
+          <ownedAttribute xmi:id="_TOu3YVt9Ee6kaOBtd8KUlw" name="sdf" visibility="package" type="_TOOhEFt9Ee6kaOBtd8KUlw" association="_TPGDw1t9Ee6kaOBtd8KUlw">
+            <defaultValue xmi:type="uml:LiteralString" xmi:id="_TOu3Ylt9Ee6kaOBtd8KUlw" value="new SimpleDateFormat(&quot;yyyy-MM-dd (E) HH:mm&quot;)"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO6dklt9Ee6kaOBtd8KUlw" name="seq" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO6dlFt9Ee6kaOBtd8KUlw" name="lev" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO7EoVt9Ee6kaOBtd8KUlw" name="gid" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO7Eo1t9Ee6kaOBtd8KUlw" name="publicStatus" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO7EpVt9Ee6kaOBtd8KUlw" name="inWriter" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO7rsVt9Ee6kaOBtd8KUlw" name="inContent" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO7rs1t9Ee6kaOBtd8KUlw" name="inquiryPw" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO8SwFt9Ee6kaOBtd8KUlw" name="reWriter" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO1lEFt9Ee6kaOBtd8KUlw" name="getInquiryRegDate2" specification="_TLc54Ft9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO1lEVt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>return sdf.format(inquiryRegDate);&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedOperation xmi:id="_TLc54Ft9Ee6kaOBtd8KUlw" name="getInquiryRegDate2" method="_TO1lEFt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TLc54Vt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_TLevEFt9Ee6kaOBtd8KUlw" name="PageData">
+          <ownedAttribute xmi:id="_TOvecFt9Ee6kaOBtd8KUlw" name="url" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TOwFgFt9Ee6kaOBtd8KUlw" name="pageStart" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TOwskFt9Ee6kaOBtd8KUlw" name="pageLJump" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TOwsklt9Ee6kaOBtd8KUlw" name="pageLimit" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TOwsk1t9Ee6kaOBtd8KUlw" name="pageIndex" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO8Swlt9Ee6kaOBtd8KUlw" name="msg" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO850Ft9Ee6kaOBtd8KUlw" name="pageEnd" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO850lt9Ee6kaOBtd8KUlw" name="totalPage" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO851Ft9Ee6kaOBtd8KUlw" name="endPage" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO9g4Vt9Ee6kaOBtd8KUlw" name="listStart" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO9g41t9Ee6kaOBtd8KUlw" name="listEnd" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedAttribute xmi:id="_TO-H8Ft9Ee6kaOBtd8KUlw" name="pageRJump" visibility="package">
+            <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO1lElt9Ee6kaOBtd8KUlw" name="getEndPage" specification="_TLf9MFt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO1lE1t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>if(getTotalPage() % getPageLimit() != 0) {&#xD;
+			endPage = getTotalPage()/getPageLimit() + 1;&#xD;
+		}else {&#xD;
+			if(getTotalPage()/getPageLimit() > 0) {&#xD;
+				endPage = getTotalPage()/getPageLimit();&#xD;
+			}else {&#xD;
+				endPage = 1;&#xD;
+			}&#xD;
+		}&#xD;
+		return endPage;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO2MIFt9Ee6kaOBtd8KUlw" name="getPageEnd" specification="_TLgkQlt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO2MIVt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>// 기본적으로 5개씩 보여줌&#xD;
+		pageEnd = pageStart + 4;&#xD;
+		&#xD;
+		// 마지막 페이지 번호를 넘어가면 마지막 페이지 번호로 할당&#xD;
+		if(pageEnd > getEndPage()) {&#xD;
+			pageEnd = getEndPage();&#xD;
+		}&#xD;
+		return pageEnd;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO2MIlt9Ee6kaOBtd8KUlw" name="getListStart" specification="_TLgkRVt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO2MI1t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>listStart = (pageStart - 1) * getPageLimit();&#xD;
+		return listStart;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO2MJFt9Ee6kaOBtd8KUlw" name="getListEnd" specification="_TLhLUlt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO2MJVt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>listEnd = listStart + getPageLimit() - 1;&#xD;
+		&#xD;
+		if(pageStart == getEndPage()) {&#xD;
+			listEnd = getTotalPage() - 1;&#xD;
+		}&#xD;
+		return listEnd;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO2MJlt9Ee6kaOBtd8KUlw" name="getPageLJump" specification="_TLhLVVt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO2MJ1t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>pageLJump = pageStart - 1;&#xD;
+		// 페이지 시작번호보다 작아지지 않게 함&#xD;
+		if(pageStart == 1) {&#xD;
+			pageLJump = 1;&#xD;
+		}&#xD;
+		return pageLJump;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO2MKFt9Ee6kaOBtd8KUlw" name="getPageRJump" specification="_TLhyYlt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO2MKVt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>pageRJump = pageStart + 1;&#xD;
+		// 마지막 페이지 번호를 넘지 않게 함&#xD;
+		if(pageStart == getPageEnd()) {&#xD;
+			pageRJump = getPageEnd();&#xD;
+		}&#xD;
+		return pageRJump;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO2MKlt9Ee6kaOBtd8KUlw" name="getPageIndex" specification="_TLhyZVt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO2MK1t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>pageIndex = getTotalPage() - ((pageStart-1)*getPageLimit());&#xD;
+		return pageIndex;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedOperation xmi:id="_TLf9MFt9Ee6kaOBtd8KUlw" name="getEndPage" method="_TO1lElt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TLgkQFt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLgkQlt9Ee6kaOBtd8KUlw" name="getPageEnd" method="_TO2MIFt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TLgkQ1t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLgkRVt9Ee6kaOBtd8KUlw" name="getListStart" method="_TO2MIlt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TLhLUFt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLhLUlt9Ee6kaOBtd8KUlw" name="getListEnd" method="_TO2MJFt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TLhLU1t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLhLVVt9Ee6kaOBtd8KUlw" name="getPageLJump" method="_TO2MJlt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TLhyYFt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLhyYlt9Ee6kaOBtd8KUlw" name="getPageRJump" method="_TO2MKFt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TLhyY1t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLhyZVt9Ee6kaOBtd8KUlw" name="getPageIndex" method="_TO2MKlt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TLiZcFt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_TN-CYVt9Ee6kaOBtd8KUlw" name="Refund"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="_TOUnsFt9Ee6kaOBtd8KUlw" name="QuitMemberDTO"/>
+        <packagedElement xmi:type="uml:Association" xmi:id="_TPGDwFt9Ee6kaOBtd8KUlw" name="" memberEnd="_TPGDwVt9Ee6kaOBtd8KUlw _TOsbIFt9Ee6kaOBtd8KUlw">
+          <ownedEnd xmi:id="_TPGDwVt9Ee6kaOBtd8KUlw" name="" type="_TLXaUFt9Ee6kaOBtd8KUlw" association="_TPGDwFt9Ee6kaOBtd8KUlw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_TPGDw1t9Ee6kaOBtd8KUlw" name="" memberEnd="_TPGDxFt9Ee6kaOBtd8KUlw _TOu3YVt9Ee6kaOBtd8KUlw">
+          <ownedEnd xmi:id="_TPGDxFt9Ee6kaOBtd8KUlw" name="" type="_TLbEsFt9Ee6kaOBtd8KUlw" association="_TPGDw1t9Ee6kaOBtd8KUlw"/>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_TKpoplt9Ee6kaOBtd8KUlw" name="service">
+        <packagedElement xmi:type="uml:Interface" xmi:id="_TLjnkFt9Ee6kaOBtd8KUlw" name="FileMapper">
+          <ownedOperation xmi:id="_TLk1sVt9Ee6kaOBtd8KUlw" name="searchfiles">
+            <ownedParameter xmi:id="_TLlcwFt9Ee6kaOBtd8KUlw" type="_TLU-EFt9Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TLlcwVt9Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TORkYVt9Ee6kaOBtd8KUlw" name="insertFile">
+            <ownedParameter xmi:id="_TORkYlt9Ee6kaOBtd8KUlw" name="fDTO" type="_TLU-EFt9Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOSLcVt9Ee6kaOBtd8KUlw" name="updateFile">
+            <ownedParameter xmi:id="_TOSLclt9Ee6kaOBtd8KUlw" name="fDTO" type="_TLU-EFt9Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOSLdFt9Ee6kaOBtd8KUlw" name="filesDelete">
+            <ownedParameter xmi:id="_TOSygFt9Ee6kaOBtd8KUlw" name="fDTO" type="_TLU-EFt9Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOSyglt9Ee6kaOBtd8KUlw" name="writingFileDelete">
+            <ownedParameter xmi:id="_TOSyg1t9Ee6kaOBtd8KUlw" name="fDTO" type="_TLU-EFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOSyhFt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOTZkFt9Ee6kaOBtd8KUlw" name="boardFileDelete">
+            <ownedParameter xmi:id="_TOTZkVt9Ee6kaOBtd8KUlw" name="fDTO" type="_TLU-EFt9Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOTZk1t9Ee6kaOBtd8KUlw" name="boardDelete" visibility="package">
+            <ownedParameter xmi:id="_TOTZlFt9Ee6kaOBtd8KUlw" name="fDTO" type="_TLU-EFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOUAoFt9Ee6kaOBtd8KUlw" type="_TLU-EFt9Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TOUAoVt9Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Interface" xmi:id="_TLogEFt9Ee6kaOBtd8KUlw" name="InquiryMapper">
+          <ownedOperation xmi:id="_TLpuMFt9Ee6kaOBtd8KUlw" name="inqList">
+            <ownedParameter xmi:id="_TLpuMVt9Ee6kaOBtd8KUlw" type="_TLbEsFt9Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TLpuMlt9Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLqVQFt9Ee6kaOBtd8KUlw" name="totalInquiry">
+            <ownedParameter xmi:id="_TLqVQVt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLqVQ1t9Ee6kaOBtd8KUlw" name="inqDetail">
+            <ownedParameter xmi:id="_TLqVRFt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOVOwVt9Ee6kaOBtd8KUlw" type="_TLbEsFt9Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLrjYFt9Ee6kaOBtd8KUlw" name="updateGid">
+            <ownedParameter xmi:id="_TLrjYVt9Ee6kaOBtd8KUlw" name="maxId">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TLrjYlt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLsKcFt9Ee6kaOBtd8KUlw" name="maxInquiryId">
+            <ownedParameter xmi:id="_TLsKcVt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLsKc1t9Ee6kaOBtd8KUlw" name="deleteInquiry">
+            <ownedParameter xmi:id="_TLsxgFt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLsxglt9Ee6kaOBtd8KUlw" name="searchList">
+            <ownedParameter xmi:id="_TLsxg1t9Ee6kaOBtd8KUlw" name="searchCate">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TLtYkFt9Ee6kaOBtd8KUlw" name="searchCont">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TLtYkVt9Ee6kaOBtd8KUlw" type="_TLbEsFt9Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TLtYklt9Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLt_oFt9Ee6kaOBtd8KUlw" name="myInqCnt">
+            <ownedParameter xmi:id="_TLt_oVt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TLt_olt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLt_pFt9Ee6kaOBtd8KUlw" name="replyDelete">
+            <ownedParameter xmi:id="_TLumsFt9Ee6kaOBtd8KUlw" name="gid">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TLumsVt9Ee6kaOBtd8KUlw" name="seq">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLums1t9Ee6kaOBtd8KUlw" name="levChk">
+            <ownedParameter xmi:id="_TLumtFt9Ee6kaOBtd8KUlw" name="gid">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TLumtVt9Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TLumtlt9Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOVOwlt9Ee6kaOBtd8KUlw" name="checkPw">
+            <ownedParameter xmi:id="_TOVOw1t9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOV10Ft9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOV10lt9Ee6kaOBtd8KUlw" name="inqWrite">
+            <ownedParameter xmi:id="_TOV101t9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOWc4Ft9Ee6kaOBtd8KUlw" name="inqReply">
+            <ownedParameter xmi:id="_TOWc4Vt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOWc41t9Ee6kaOBtd8KUlw" name="updateInquiry">
+            <ownedParameter xmi:id="_TOWc5Ft9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOXD8Vt9Ee6kaOBtd8KUlw" name="updateSeq">
+            <ownedParameter xmi:id="_TOXD8lt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOiDEFt9Ee6kaOBtd8KUlw" name="myInqList">
+            <ownedParameter xmi:id="_TOiDEVt9Ee6kaOBtd8KUlw" name="map" type="_TN5w8Ft9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOiqIFt9Ee6kaOBtd8KUlw" type="_TLbEsFt9Ee6kaOBtd8KUlw" isOrdered="true" direction="return">
+              <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TOiqIVt9Ee6kaOBtd8KUlw" value="*"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOlGYVt9Ee6kaOBtd8KUlw" name="quitDelete">
+            <ownedParameter xmi:id="_TOltcFt9Ee6kaOBtd8KUlw" name="qmDTO" type="_TOUnsFt9Ee6kaOBtd8KUlw"/>
+          </ownedOperation>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_TKuhIFt9Ee6kaOBtd8KUlw" name="controller">
+        <packagedElement xmi:type="uml:Class" xmi:id="_TLIJwFt9Ee6kaOBtd8KUlw" name="InquiryController">
+          <ownedAttribute xmi:id="_TOoJsFt9Ee6kaOBtd8KUlw" name="inqMapper" visibility="package" type="_TLogEFt9Ee6kaOBtd8KUlw" association="_TPDngFt9Ee6kaOBtd8KUlw"/>
+          <ownedAttribute xmi:id="_TOowwlt9Ee6kaOBtd8KUlw" name="fMapper" visibility="package" type="_TLjnkFt9Ee6kaOBtd8KUlw" association="_TPDng1t9Ee6kaOBtd8KUlw"/>
+          <ownedAttribute xmi:id="_TOpX0lt9Ee6kaOBtd8KUlw" name="fud" visibility="package" type="_TLXaUFt9Ee6kaOBtd8KUlw" association="_TPEOkVt9Ee6kaOBtd8KUlw"/>
+          <ownedAttribute xmi:id="_TOpX1Vt9Ee6kaOBtd8KUlw" name="pd" visibility="package" type="_TLevEFt9Ee6kaOBtd8KUlw" association="_TPE1oVt9Ee6kaOBtd8KUlw"/>
+          <ownedAttribute xmi:id="_TOp-4lt9Ee6kaOBtd8KUlw" name="inquiryList" visibility="package" type="_TLbEsFt9Ee6kaOBtd8KUlw" isOrdered="true" association="_TPFcsVt9Ee6kaOBtd8KUlw">
+            <upperValue xmi:type="uml:LiteralUnlimitedNatural" xmi:id="_TOp-41t9Ee6kaOBtd8KUlw" value="*"/>
+          </ownedAttribute>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TOyhwFt9Ee6kaOBtd8KUlw" name="pd" specification="_TLKmAVt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOyhwVt9Ee6kaOBtd8KUlw" type="_TObVYVt9Ee6kaOBtd8KUlw" direction="return"/>
+            <language>java</language>
+            <body>pd.setPageLimit(10);&#xD;
+		return pd;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TOyhwlt9Ee6kaOBtd8KUlw" name="noticeDetail" specification="_TLL0Ilt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOyhw1t9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOyhxFt9Ee6kaOBtd8KUlw" type="_TObVYVt9Ee6kaOBtd8KUlw" direction="return"/>
+            <language>java</language>
+            <body>return inqMapper.inqDetail(id);&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TOzI0Ft9Ee6kaOBtd8KUlw" name="goAlert" specification="_TN-pcFt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOzI0Vt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOzI0lt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOzI01t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>int res = inqMapper.checkPw(inDTO);&#xD;
+		if(res > 0) {&#xD;
+			pd.setMsg(&quot;확인되었습니다&quot;);&#xD;
+			pd.setUrl(&quot;/inquiry/inquiryDetail/&quot;+id);&#xD;
+		}else {&#xD;
+			pd.setMsg(&quot;비밀번호가 일치하지 않습니다&quot;);&#xD;
+			pd.setUrl(&quot;/inquiry/detailCheck/&quot;+id);&#xD;
+		}&#xD;
+		return &quot;inquiry/inc/alert&quot;;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TOzI1Ft9Ee6kaOBtd8KUlw" name="inquiryWrite" specification="_TN_3kFt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOzI1Vt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOzI1lt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOzI11t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>inqMapper.inqWrite(inDTO);&#xD;
+		inqMapper.updateGid(inqMapper.maxInquiryId());&#xD;
+		FileDTO fDTO = new FileDTO();&#xD;
+		fDTO.setInquiryId(inqMapper.maxInquiryId());&#xD;
+		fDTO.setComplete(true);&#xD;
+		fDTO.setMemberId(inDTO.getInWriter());&#xD;
+		fMapper.updateFile(fDTO);&#xD;
+		pd.setMsg(&quot;문의게시글 작성&quot;);&#xD;
+		pd.setUrl(&quot;/inquiry/inquiryDetail/&quot;+fDTO.getInquiryId());&#xD;
+		return &quot;inquiry/inc/alert&quot;;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TOzI2Ft9Ee6kaOBtd8KUlw" name="inquiryDelete" specification="_TLNCQFt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOzI2Vt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOzI2lt9Ee6kaOBtd8KUlw" type="_TN5w8Ft9Ee6kaOBtd8KUlw" direction="return"/>
+            <language>java</language>
+            <body>FileDTO fDTO = new FileDTO();&#xD;
+		fDTO.setInquiryId(id);&#xD;
+		InquiryDTO inq = inqMapper.inqDetail(id);&#xD;
+		inqMapper.deleteInquiry(id);&#xD;
+		for(FileDTO dto : fMapper.boardDelete(fDTO)) {&#xD;
+			fud.fileDelete(dto.getFiles());&#xD;
+		}&#xD;
+		fMapper.boardFileDelete(fDTO);&#xD;
+		inqMapper.replyDelete(inq.getGid(), inq.getSeq());&#xD;
+		Map&lt;String, String> msg = new HashMap&lt;>();&#xD;
+		msg.put(&quot;msg&quot;, &quot;문의게시글 삭제&quot;);&#xD;
+		msg.put(&quot;url&quot;, &quot;/inquiry/inquiryList/1&quot;);&#xD;
+		return msg;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TOzI21t9Ee6kaOBtd8KUlw" name="inquiryReply" specification="_TOAeo1t9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOzI3Ft9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOzI3Vt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOzI3lt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>inqMapper.updateSeq(inDTO);&#xD;
+		inDTO.setSeq(inDTO.getSeq()+1);&#xD;
+		inDTO.setLev(inDTO.getLev()+1);&#xD;
+		inqMapper.inqReply(inDTO);&#xD;
+		FileDTO fDTO = new FileDTO();&#xD;
+		fDTO.setInquiryId(inqMapper.maxInquiryId());&#xD;
+		fDTO.setComplete(true);&#xD;
+		fDTO.setMemberId(inDTO.getInWriter());&#xD;
+		fMapper.updateFile(fDTO);&#xD;
+		pd.setMsg(&quot;문의게시글 답글 작성&quot;);&#xD;
+		pd.setUrl(&quot;/inquiry/inquiryDetail/&quot;+fDTO.getInquiryId());&#xD;
+		return &quot;inquiry/inc/alert&quot;;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TOzI31t9Ee6kaOBtd8KUlw" name="inquiryModify" specification="_TOBFtlt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOzI4Ft9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOzI4Vt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOzI4lt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>inDTO.setInquiryId(id);&#xD;
+		inqMapper.updateInquiry(inDTO);&#xD;
+		FileDTO fDTO = new FileDTO();&#xD;
+		fDTO.setInquiryId(id);&#xD;
+		fDTO.setComplete(true);&#xD;
+		fDTO.setMemberId(inDTO.getInWriter());&#xD;
+		fMapper.updateFile(fDTO);&#xD;
+		pd.setMsg(&quot;문의게시글 수정&quot;);&#xD;
+		pd.setUrl(&quot;/inquiry/inquiryDetail/&quot;+id);&#xD;
+		return &quot;inquiry/inc/alert&quot;;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO0W8Ft9Ee6kaOBtd8KUlw" name="goInquiry" specification="_TOC64Vt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO0W8Vt9Ee6kaOBtd8KUlw" name="inquirySer">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TO0W8lt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TO0W81t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>return &quot;inquiry/templates&quot;;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedBehavior xmi:type="uml:OpaqueBehavior" xmi:id="_TO0W9Ft9Ee6kaOBtd8KUlw" name="goInquiry" specification="_TOdKkFt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TO0W9Vt9Ee6kaOBtd8KUlw" name="md" type="_TN6YA1t9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TO0W9lt9Ee6kaOBtd8KUlw" name="searchCate">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TO0W91t9Ee6kaOBtd8KUlw" name="searchCont">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TO0W-Ft9Ee6kaOBtd8KUlw" name="inquirySer">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TO0W-Vt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TO0W-lt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TO0W-1t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <language>java</language>
+            <body>if(searchCate == null) {&#xD;
+			inquiryList = inqMapper.inqList();&#xD;
+		}else {&#xD;
+			inquiryList = inqMapper.searchList(searchCate, searchCont);&#xD;
+		}&#xD;
+		pd.setTotalPage(inquiryList.size());&#xD;
+		pd.setPageStart(id);&#xD;
+		&#xD;
+		if(inqMapper.levChk(id).contains(1)) {&#xD;
+			md.addAttribute(&quot;posModi&quot;, 1);&#xD;
+		}&#xD;
+		&#xD;
+		md.addAttribute(&quot;rf&quot;, new Refund().getRefund());&#xD;
+		md.addAttribute(&quot;searC&quot;, searchCate);&#xD;
+		md.addAttribute(&quot;sear&quot;, searchCont);&#xD;
+		md.addAttribute(&quot;inquiryList&quot;, inquiryList);&#xD;
+		return &quot;inquiry/templates&quot;;&#xD;
+	</body>
+          </ownedBehavior>
+          <ownedOperation xmi:id="_TLKmAVt9Ee6kaOBtd8KUlw" name="pd" visibility="package" method="_TOyhwFt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOb8cVt9Ee6kaOBtd8KUlw" type="_TObVYVt9Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLL0Ilt9Ee6kaOBtd8KUlw" name="noticeDetail" visibility="package" method="_TOyhwlt9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TLL0I1t9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOb8clt9Ee6kaOBtd8KUlw" type="_TObVYVt9Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TLNCQFt9Ee6kaOBtd8KUlw" name="inquiryDelete" visibility="package" method="_TOzI2Ft9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TLNCQVt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOcjgFt9Ee6kaOBtd8KUlw" type="_TN5w8Ft9Ee6kaOBtd8KUlw" direction="return"/>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TN-pcFt9Ee6kaOBtd8KUlw" name="goAlert" visibility="package" method="_TOzI0Ft9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TN-pcVt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TN-pclt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TN_QgFt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TN_3kFt9Ee6kaOBtd8KUlw" name="inquiryWrite" visibility="package" method="_TOzI1Ft9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TN_3kVt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TN_3klt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TN_3k1t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOAeo1t9Ee6kaOBtd8KUlw" name="inquiryReply" visibility="package" method="_TOzI21t9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOAepFt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOAepVt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOBFsFt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOBFtlt9Ee6kaOBtd8KUlw" name="inquiryModify" visibility="package" method="_TOzI31t9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOBswFt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOBswVt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOBswlt9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOC64Vt9Ee6kaOBtd8KUlw" name="goInquiry" visibility="package" method="_TO0W8Ft9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOC64lt9Ee6kaOBtd8KUlw" name="inquirySer">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOC641t9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOC65Ft9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+          <ownedOperation xmi:id="_TOdKkFt9Ee6kaOBtd8KUlw" name="goInquiry" visibility="package" method="_TO0W9Ft9Ee6kaOBtd8KUlw">
+            <ownedParameter xmi:id="_TOdKkVt9Ee6kaOBtd8KUlw" name="md" type="_TN6YA1t9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOdKklt9Ee6kaOBtd8KUlw" name="searchCate">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOdKk1t9Ee6kaOBtd8KUlw" name="searchCont">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOdKlFt9Ee6kaOBtd8KUlw" name="inquirySer">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOdKlVt9Ee6kaOBtd8KUlw" name="id">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/JavaPrimitiveTypes.library.uml#int"/>
+            </ownedParameter>
+            <ownedParameter xmi:id="_TOdKllt9Ee6kaOBtd8KUlw" name="inDTO" type="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+            <ownedParameter xmi:id="_TOdKl1t9Ee6kaOBtd8KUlw" direction="return">
+              <type xmi:type="uml:PrimitiveType" href="pathmap://UML_LIBRARIES/UMLPrimitiveTypes.library.uml#String"/>
+            </ownedParameter>
+          </ownedOperation>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_TPDngFt9Ee6kaOBtd8KUlw" name="" memberEnd="_TPDngVt9Ee6kaOBtd8KUlw _TOoJsFt9Ee6kaOBtd8KUlw">
+          <ownedEnd xmi:id="_TPDngVt9Ee6kaOBtd8KUlw" name="" type="_TLIJwFt9Ee6kaOBtd8KUlw" association="_TPDngFt9Ee6kaOBtd8KUlw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_TPDng1t9Ee6kaOBtd8KUlw" name="" memberEnd="_TPDnhFt9Ee6kaOBtd8KUlw _TOowwlt9Ee6kaOBtd8KUlw">
+          <ownedEnd xmi:id="_TPDnhFt9Ee6kaOBtd8KUlw" name="" type="_TLIJwFt9Ee6kaOBtd8KUlw" association="_TPDng1t9Ee6kaOBtd8KUlw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_TPEOkVt9Ee6kaOBtd8KUlw" name="" memberEnd="_TPEOklt9Ee6kaOBtd8KUlw _TOpX0lt9Ee6kaOBtd8KUlw">
+          <ownedEnd xmi:id="_TPEOklt9Ee6kaOBtd8KUlw" name="" type="_TLIJwFt9Ee6kaOBtd8KUlw" association="_TPEOkVt9Ee6kaOBtd8KUlw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_TPE1oVt9Ee6kaOBtd8KUlw" name="" memberEnd="_TPE1olt9Ee6kaOBtd8KUlw _TOpX1Vt9Ee6kaOBtd8KUlw">
+          <ownedEnd xmi:id="_TPE1olt9Ee6kaOBtd8KUlw" name="" type="_TLIJwFt9Ee6kaOBtd8KUlw" association="_TPE1oVt9Ee6kaOBtd8KUlw"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Association" xmi:id="_TPFcsVt9Ee6kaOBtd8KUlw" name="" memberEnd="_TPFcslt9Ee6kaOBtd8KUlw _TOp-4lt9Ee6kaOBtd8KUlw">
+          <ownedEnd xmi:id="_TPFcslt9Ee6kaOBtd8KUlw" name="" type="_TLIJwFt9Ee6kaOBtd8KUlw" association="_TPFcsVt9Ee6kaOBtd8KUlw"/>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_TKoagFt9Ee6kaOBtd8KUlw" name="java">
+      <packagedElement xmi:type="uml:Package" xmi:id="_TKpBkFt9Ee6kaOBtd8KUlw" name="util">
+        <packagedElement xmi:type="uml:Package" xmi:id="_TK1O0lt9Ee6kaOBtd8KUlw" name="regex">
+          <packagedElement xmi:type="uml:Class" xmi:id="_TOK2sVt9Ee6kaOBtd8KUlw" name="Pattern"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_TN4i0Ft9Ee6kaOBtd8KUlw" name="HashMap"/>
+        <packagedElement xmi:type="uml:Interface" xmi:id="_TN5J4Vt9Ee6kaOBtd8KUlw" name="List"/>
+        <packagedElement xmi:type="uml:Interface" xmi:id="_TN5w8Ft9Ee6kaOBtd8KUlw" name="Map"/>
+        <packagedElement xmi:type="uml:DataType" xmi:id="_TOPIIFt9Ee6kaOBtd8KUlw" name="Date"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_TK1O0Ft9Ee6kaOBtd8KUlw" name="io">
+        <packagedElement xmi:type="uml:Class" xmi:id="_TOIacFt9Ee6kaOBtd8KUlw" name="File"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="_TOJBgVt9Ee6kaOBtd8KUlw" name="FileInputStream"/>
+        <packagedElement xmi:type="uml:Class" xmi:id="_TOJokVt9Ee6kaOBtd8KUlw" name="FileOutputStream"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_TK1O0Vt9Ee6kaOBtd8KUlw" name="net">
+        <packagedElement xmi:type="uml:Class" xmi:id="_TOKPoVt9Ee6kaOBtd8KUlw" name="URLEncoder"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_TK3rEFt9Ee6kaOBtd8KUlw" name="text">
+        <packagedElement xmi:type="uml:Class" xmi:id="_TOOhEFt9Ee6kaOBtd8KUlw" name="SimpleDateFormat"/>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_TObVYFt9Ee6kaOBtd8KUlw" name="lang">
+        <packagedElement xmi:type="uml:Class" xmi:id="_TObVYVt9Ee6kaOBtd8KUlw" name="Object"/>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_TKpBkVt9Ee6kaOBtd8KUlw" name="org">
+      <packagedElement xmi:type="uml:Package" xmi:id="_TKpBklt9Ee6kaOBtd8KUlw" name="springframework">
+        <packagedElement xmi:type="uml:Package" xmi:id="_TKpBk1t9Ee6kaOBtd8KUlw" name="beans">
+          <packagedElement xmi:type="uml:Package" xmi:id="_TKpBlFt9Ee6kaOBtd8KUlw" name="factory">
+            <packagedElement xmi:type="uml:Package" xmi:id="_TKpBlVt9Ee6kaOBtd8KUlw" name="annotation">
+              <packagedElement xmi:type="uml:Interface" xmi:id="_TN5w8lt9Ee6kaOBtd8KUlw" name="Autowired"/>
+            </packagedElement>
+          </packagedElement>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_TKpooFt9Ee6kaOBtd8KUlw" name="stereotype">
+          <packagedElement xmi:type="uml:Interface" xmi:id="_TN6YAVt9Ee6kaOBtd8KUlw" name="Controller"/>
+          <packagedElement xmi:type="uml:Interface" xmi:id="_TOLdwVt9Ee6kaOBtd8KUlw" name="Component"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_TKpooVt9Ee6kaOBtd8KUlw" name="ui">
+          <packagedElement xmi:type="uml:Interface" xmi:id="_TN6YA1t9Ee6kaOBtd8KUlw" name="Model"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Package" xmi:id="_TKpoolt9Ee6kaOBtd8KUlw" name="web">
+          <packagedElement xmi:type="uml:Package" xmi:id="_TKpoo1t9Ee6kaOBtd8KUlw" name="bind">
+            <packagedElement xmi:type="uml:Package" xmi:id="_TKpopFt9Ee6kaOBtd8KUlw" name="annotation">
+              <packagedElement xmi:type="uml:Interface" xmi:id="_TN6_EVt9Ee6kaOBtd8KUlw" name="ModelAttribute"/>
+              <packagedElement xmi:type="uml:Interface" xmi:id="_TN7mIVt9Ee6kaOBtd8KUlw" name="PathVariable"/>
+              <packagedElement xmi:type="uml:Interface" xmi:id="_TN8NMVt9Ee6kaOBtd8KUlw" name="PostMapping"/>
+              <packagedElement xmi:type="uml:Interface" xmi:id="_TN80QVt9Ee6kaOBtd8KUlw" name="RequestMapping"/>
+              <packagedElement xmi:type="uml:Interface" xmi:id="_TN80Q1t9Ee6kaOBtd8KUlw" name="RequestParam"/>
+              <packagedElement xmi:type="uml:Interface" xmi:id="_TN9bUVt9Ee6kaOBtd8KUlw" name="ResponseBody"/>
+            </packagedElement>
+          </packagedElement>
+          <packagedElement xmi:type="uml:Package" xmi:id="_TK1O01t9Ee6kaOBtd8KUlw" name="multipart">
+            <packagedElement xmi:type="uml:Interface" xmi:id="_TOLdw1t9Ee6kaOBtd8KUlw" name="MultipartFile"/>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+      <packagedElement xmi:type="uml:Package" xmi:id="_TKzZoFt9Ee6kaOBtd8KUlw" name="apache">
+        <packagedElement xmi:type="uml:Package" xmi:id="_TKzZoVt9Ee6kaOBtd8KUlw" name="ibatis">
+          <packagedElement xmi:type="uml:Package" xmi:id="_TKzZolt9Ee6kaOBtd8KUlw" name="type">
+            <packagedElement xmi:type="uml:Interface" xmi:id="_TOF-MFt9Ee6kaOBtd8KUlw" name="Alias"/>
+          </packagedElement>
+          <packagedElement xmi:type="uml:Package" xmi:id="_TK7VcFt9Ee6kaOBtd8KUlw" name="annotations">
+            <packagedElement xmi:type="uml:Interface" xmi:id="_TOQ9UFt9Ee6kaOBtd8KUlw" name="Mapper"/>
+          </packagedElement>
+        </packagedElement>
+      </packagedElement>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_TKzZo1t9Ee6kaOBtd8KUlw" name="lombok">
+      <packagedElement xmi:type="uml:Interface" xmi:id="_TOHMUVt9Ee6kaOBtd8KUlw" name="Data"/>
+    </packagedElement>
+    <packagedElement xmi:type="uml:Package" xmi:id="_TK114Ft9Ee6kaOBtd8KUlw" name="jakarta">
+      <packagedElement xmi:type="uml:Package" xmi:id="_TK114Vt9Ee6kaOBtd8KUlw" name="servlet">
+        <packagedElement xmi:type="uml:Package" xmi:id="_TK114lt9Ee6kaOBtd8KUlw" name="http">
+          <packagedElement xmi:type="uml:Interface" xmi:id="_TOMr4Vt9Ee6kaOBtd8KUlw" name="HttpServletResponse"/>
+        </packagedElement>
+        <packagedElement xmi:type="uml:Class" xmi:id="_TOME0Vt9Ee6kaOBtd8KUlw" name="ServletOutputStream"/>
+      </packagedElement>
+    </packagedElement>
+    <profileApplication xmi:id="_TFElEFt9Ee6kaOBtd8KUlw">
+      <eAnnotations xmi:id="_TFElEVt9Ee6kaOBtd8KUlw" source="http://www.eclipse.org/uml2/2.0.0/UML">
+        <references xmi:type="ecore:EPackage" href="pathmap://UMLLAB_PROFILES/UMLLab.profile.uml#UMLLabProfile-Annotation_2-UMLLabProfile"/>
+      </eAnnotations>
+      <appliedProfile href="pathmap://UMLLAB_PROFILES/UMLLab.profile.uml#UMLLabProfile"/>
+    </profileApplication>
+  </uml:Model>
+  <UMLLabProfile:TargetLanguage xmi:id="_TFElElt9Ee6kaOBtd8KUlw" base_Package="_S7BRMFt9Ee6kaOBtd8KUlw">
+    <languageName>java</languageName>
+  </UMLLabProfile:TargetLanguage>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_TLJX4Ft9Ee6kaOBtd8KUlw" base_Element="_TLIJwFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_TLLNEFt9Ee6kaOBtd8KUlw" base_Element="_TLKmAVt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TLL0IFt9Ee6kaOBtd8KUlw" name="ModelAttribute">
+      <annotationParameters xmi:id="_TLL0IVt9Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO4oYFt9Ee6kaOBtd8KUlw" value="&quot;pd&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TLMbMFt9Ee6kaOBtd8KUlw" base_Element="_TLL0I1t9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TLMbMVt9Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TLMbMlt9Ee6kaOBtd8KUlw" base_Element="_TLL0Ilt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TLMbM1t9Ee6kaOBtd8KUlw" name="ModelAttribute">
+      <annotationParameters xmi:id="_TLMbNFt9Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO4oYVt9Ee6kaOBtd8KUlw" value="&quot;inquiryDetail&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Generics xmi:id="_TLOQYFt9Ee6kaOBtd8KUlw" genericsValue="String, String" base_Element="_TLNCQFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_TLO3cFt9Ee6kaOBtd8KUlw" base_Element="_TLNCQVt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TLO3cVt9Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TLO3clt9Ee6kaOBtd8KUlw" base_Element="_TLNCQFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TLO3c1t9Ee6kaOBtd8KUlw" name="PostMapping">
+      <annotationParameters xmi:id="_TLO3dFt9Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO4oZFt9Ee6kaOBtd8KUlw" value="&quot;inquiryDelete/{id}&quot;"/>
+      </annotationParameters>
+    </annotations>
+    <annotations xmi:id="_TLO3dVt9Ee6kaOBtd8KUlw" name="ResponseBody"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TLQFkFt9Ee6kaOBtd8KUlw" base_Element="_TLIJwFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TLQFkVt9Ee6kaOBtd8KUlw" name="Controller"/>
+    <annotations xmi:id="_TLQsoFt9Ee6kaOBtd8KUlw" name="RequestMapping">
+      <annotationParameters xmi:id="_TLQsoVt9Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO4BUFt9Ee6kaOBtd8KUlw" value="&quot;inquiry&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_TLVlIFt9Ee6kaOBtd8KUlw" base_Element="_TLU-EFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_TLWMMFt9Ee6kaOBtd8KUlw" base_Element="_TLU-EFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TLWzQFt9Ee6kaOBtd8KUlw" name="Alias">
+      <annotationParameters xmi:id="_TLWzQVt9Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO5PcVt9Ee6kaOBtd8KUlw" value="&quot;fDTO&quot;"/>
+      </annotationParameters>
+    </annotations>
+    <annotations xmi:id="_TLWzQlt9Ee6kaOBtd8KUlw" name="Data"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_TLYBYFt9Ee6kaOBtd8KUlw" base_Element="_TLXaUFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLZ2kFt9Ee6kaOBtd8KUlw" base_Element="_TLZPgFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_TLZ2kVt9Ee6kaOBtd8KUlw" base_Element="_TLXaUFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TLZ2klt9Ee6kaOBtd8KUlw" name="Component"/>
+    <annotations xmi:id="_TLZ2k1t9Ee6kaOBtd8KUlw" name="Data"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_TLcS0Ft9Ee6kaOBtd8KUlw" base_Element="_TLbEsFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLdg8Ft9Ee6kaOBtd8KUlw" base_Element="_TLc54Ft9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_TLdg8Vt9Ee6kaOBtd8KUlw" base_Element="_TLbEsFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TLdg8lt9Ee6kaOBtd8KUlw" name="Alias">
+      <annotationParameters xmi:id="_TLeIAFt9Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO6dkVt9Ee6kaOBtd8KUlw" value="&quot;inDTO&quot;"/>
+      </annotationParameters>
+    </annotations>
+    <annotations xmi:id="_TLeIAVt9Ee6kaOBtd8KUlw" name="Data"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_TLfWIFt9Ee6kaOBtd8KUlw" base_Element="_TLevEFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLgkQVt9Ee6kaOBtd8KUlw" base_Element="_TLf9MFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLgkRFt9Ee6kaOBtd8KUlw" base_Element="_TLgkQlt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLhLUVt9Ee6kaOBtd8KUlw" base_Element="_TLgkRVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLhLVFt9Ee6kaOBtd8KUlw" base_Element="_TLhLUlt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLhyYVt9Ee6kaOBtd8KUlw" base_Element="_TLhLVVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLhyZFt9Ee6kaOBtd8KUlw" base_Element="_TLhyYlt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLiZcVt9Ee6kaOBtd8KUlw" base_Element="_TLhyZVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_TLiZclt9Ee6kaOBtd8KUlw" base_Element="_TLevEFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TLiZc1t9Ee6kaOBtd8KUlw" name="Component"/>
+    <annotations xmi:id="_TLjAgFt9Ee6kaOBtd8KUlw" name="Data"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_TLk1sFt9Ee6kaOBtd8KUlw" base_Element="_TLjnkFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLlcwlt9Ee6kaOBtd8KUlw" base_Element="_TLk1sVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_TLmD0Ft9Ee6kaOBtd8KUlw" base_Element="_TLjnkFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TLmD0Vt9Ee6kaOBtd8KUlw" name="Mapper"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:LegacyStyledElement xmi:id="_TLpHIFt9Ee6kaOBtd8KUlw" base_Element="_TLogEFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLpuM1t9Ee6kaOBtd8KUlw" base_Element="_TLpuMFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLqVQlt9Ee6kaOBtd8KUlw" base_Element="_TLqVQFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLqVRVt9Ee6kaOBtd8KUlw" base_Element="_TLqVQ1t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLrjY1t9Ee6kaOBtd8KUlw" base_Element="_TLrjYFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLsKclt9Ee6kaOBtd8KUlw" base_Element="_TLsKcFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLsxgVt9Ee6kaOBtd8KUlw" base_Element="_TLsKc1t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLtYk1t9Ee6kaOBtd8KUlw" base_Element="_TLsxglt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLt_o1t9Ee6kaOBtd8KUlw" base_Element="_TLt_oFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLumslt9Ee6kaOBtd8KUlw" base_Element="_TLt_pFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TLumt1t9Ee6kaOBtd8KUlw" base_Element="_TLums1t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_TLvNwFt9Ee6kaOBtd8KUlw" base_Element="_TLogEFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TLvNwVt9Ee6kaOBtd8KUlw" name="Mapper"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Reference xmi:id="_TN5J4Ft9Ee6kaOBtd8KUlw" base_Element="_TN4i0Ft9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TN5J4lt9Ee6kaOBtd8KUlw" base_Element="_TN5J4Vt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TN5w8Vt9Ee6kaOBtd8KUlw" base_Element="_TN5w8Ft9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TN6YAFt9Ee6kaOBtd8KUlw" base_Element="_TN5w8lt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TN6YAlt9Ee6kaOBtd8KUlw" base_Element="_TN6YAVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TN6_EFt9Ee6kaOBtd8KUlw" base_Element="_TN6YA1t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TN7mIFt9Ee6kaOBtd8KUlw" base_Element="_TN6_EVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TN8NMFt9Ee6kaOBtd8KUlw" base_Element="_TN7mIVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TN80QFt9Ee6kaOBtd8KUlw" base_Element="_TN8NMVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TN80Qlt9Ee6kaOBtd8KUlw" base_Element="_TN80QVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TN9bUFt9Ee6kaOBtd8KUlw" base_Element="_TN80Q1t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TN-CYFt9Ee6kaOBtd8KUlw" base_Element="_TN9bUVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TN-CYlt9Ee6kaOBtd8KUlw" base_Element="_TN-CYVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_TN_QgVt9Ee6kaOBtd8KUlw" base_Element="_TN-pcVt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TN_Qglt9Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TN_Qg1t9Ee6kaOBtd8KUlw" base_Element="_TN-pcFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TN_QhFt9Ee6kaOBtd8KUlw" name="PostMapping">
+      <annotationParameters xmi:id="_TN_QhVt9Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO4oYlt9Ee6kaOBtd8KUlw" value="&quot;check/{id}&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TN_3lFt9Ee6kaOBtd8KUlw" base_Element="_TN_3kVt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TN_3lVt9Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TOAeoFt9Ee6kaOBtd8KUlw" base_Element="_TN_3kFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOAeoVt9Ee6kaOBtd8KUlw" name="PostMapping">
+      <annotationParameters xmi:id="_TOAeolt9Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO4oY1t9Ee6kaOBtd8KUlw" value="&quot;inquiryWrite/{id}&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TOBFsVt9Ee6kaOBtd8KUlw" base_Element="_TOAepFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOBFslt9Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TOBFs1t9Ee6kaOBtd8KUlw" base_Element="_TOAeo1t9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOBFtFt9Ee6kaOBtd8KUlw" name="PostMapping">
+      <annotationParameters xmi:id="_TOBFtVt9Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO4oZVt9Ee6kaOBtd8KUlw" value="&quot;inquiryReply/{id}&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TOBsw1t9Ee6kaOBtd8KUlw" base_Element="_TOBswFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOBsxFt9Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TOBsxVt9Ee6kaOBtd8KUlw" base_Element="_TOBFtlt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOBsxlt9Ee6kaOBtd8KUlw" name="PostMapping">
+      <annotationParameters xmi:id="_TOC64Ft9Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO4oZlt9Ee6kaOBtd8KUlw" value="&quot;inquiryModify/{id}&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TODh8Ft9Ee6kaOBtd8KUlw" base_Element="_TOC64lt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TODh8Vt9Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TODh8lt9Ee6kaOBtd8KUlw" base_Element="_TOC64Vt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TODh81t9Ee6kaOBtd8KUlw" name="RequestMapping">
+      <annotationParameters xmi:id="_TODh9Ft9Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO4oZ1t9Ee6kaOBtd8KUlw" value="&quot;{inquirySer}&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Reference xmi:id="_TOHMUFt9Ee6kaOBtd8KUlw" base_Element="_TOF-MFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOHzYFt9Ee6kaOBtd8KUlw" base_Element="_TOHMUVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOJBgFt9Ee6kaOBtd8KUlw" base_Element="_TOIacFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOJokFt9Ee6kaOBtd8KUlw" base_Element="_TOJBgVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOKPoFt9Ee6kaOBtd8KUlw" base_Element="_TOJokVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOK2sFt9Ee6kaOBtd8KUlw" base_Element="_TOKPoVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOLdwFt9Ee6kaOBtd8KUlw" base_Element="_TOK2sVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOLdwlt9Ee6kaOBtd8KUlw" base_Element="_TOLdwVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOME0Ft9Ee6kaOBtd8KUlw" base_Element="_TOLdw1t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOMr4Ft9Ee6kaOBtd8KUlw" base_Element="_TOME0Vt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TONS8Ft9Ee6kaOBtd8KUlw" base_Element="_TOMr4Vt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOOhEVt9Ee6kaOBtd8KUlw" base_Element="_TOOhEFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOPIIVt9Ee6kaOBtd8KUlw" base_Element="_TOPIIFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TORkYFt9Ee6kaOBtd8KUlw" base_Element="_TOQ9UFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOSLcFt9Ee6kaOBtd8KUlw" base_Element="_TORkYVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOSLc1t9Ee6kaOBtd8KUlw" base_Element="_TOSLcVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOSygVt9Ee6kaOBtd8KUlw" base_Element="_TOSLdFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOSyhVt9Ee6kaOBtd8KUlw" base_Element="_TOSyglt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOTZklt9Ee6kaOBtd8KUlw" base_Element="_TOTZkFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOUAolt9Ee6kaOBtd8KUlw" base_Element="_TOTZk1t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOVOwFt9Ee6kaOBtd8KUlw" base_Element="_TOUnsFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOV10Vt9Ee6kaOBtd8KUlw" base_Element="_TOVOwlt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOV11Ft9Ee6kaOBtd8KUlw" base_Element="_TOV10lt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOWc4lt9Ee6kaOBtd8KUlw" base_Element="_TOWc4Ft9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOXD8Ft9Ee6kaOBtd8KUlw" base_Element="_TOWc41t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOXD81t9Ee6kaOBtd8KUlw" base_Element="_TOXD8Vt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TOb8cFt9Ee6kaOBtd8KUlw" base_Element="_TObVYVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_TOdxoFt9Ee6kaOBtd8KUlw" base_Element="_TOdKklt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOdxoVt9Ee6kaOBtd8KUlw" name="RequestParam">
+      <annotationParameters xmi:id="_TOdxolt9Ee6kaOBtd8KUlw" name="required" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO4oaVt9Ee6kaOBtd8KUlw" value="false"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TOeYsFt9Ee6kaOBtd8KUlw" base_Element="_TOdKk1t9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOeYsVt9Ee6kaOBtd8KUlw" name="RequestParam">
+      <annotationParameters xmi:id="_TOeYslt9Ee6kaOBtd8KUlw" name="required" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO5PcFt9Ee6kaOBtd8KUlw" value="false"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TOeYs1t9Ee6kaOBtd8KUlw" base_Element="_TOdKlFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOeYtFt9Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TOeYtVt9Ee6kaOBtd8KUlw" base_Element="_TOdKlVt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOeYtlt9Ee6kaOBtd8KUlw" name="PathVariable"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TOe_wFt9Ee6kaOBtd8KUlw" base_Element="_TOdKkFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOe_wVt9Ee6kaOBtd8KUlw" name="RequestMapping">
+      <annotationParameters xmi:id="_TOe_wlt9Ee6kaOBtd8KUlw" skipName="true" skipArray="true">
+        <valueSpecifications xmi:type="uml:LiteralString" xmi:id="_TO4oaFt9Ee6kaOBtd8KUlw" value="&quot;{inquirySer}/{id}&quot;"/>
+      </annotationParameters>
+    </annotations>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:StyledElement xmi:id="_TOgN41t9Ee6kaOBtd8KUlw" base_Element="_TOgN4Ft9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOg081t9Ee6kaOBtd8KUlw" base_Element="_TOg08Ft9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOj4QFt9Ee6kaOBtd8KUlw" base_Element="_TOiDEFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Generics xmi:id="_TOlGYFt9Ee6kaOBtd8KUlw" genericsValue="String, Object" base_Element="_TOiDEVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:StyledElement xmi:id="_TOltcVt9Ee6kaOBtd8KUlw" base_Element="_TOlGYVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Annotations xmi:id="_TOowwFt9Ee6kaOBtd8KUlw" base_Element="_TOoJsFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOowwVt9Ee6kaOBtd8KUlw" name="Autowired"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TOpX0Ft9Ee6kaOBtd8KUlw" base_Element="_TOowwlt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOpX0Vt9Ee6kaOBtd8KUlw" name="Autowired"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TOpX01t9Ee6kaOBtd8KUlw" base_Element="_TOpX0lt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOpX1Ft9Ee6kaOBtd8KUlw" name="Autowired"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:Annotations xmi:id="_TOp-4Ft9Ee6kaOBtd8KUlw" base_Element="_TOpX1Vt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOp-4Vt9Ee6kaOBtd8KUlw" name="Autowired"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TOrNAFt9Ee6kaOBtd8KUlw" base_Property="_TOql8Ft9Ee6kaOBtd8KUlw" siblings="_TO5Pclt9Ee6kaOBtd8KUlw _TO5PdFt9Ee6kaOBtd8KUlw _TO52gVt9Ee6kaOBtd8KUlw _TO52g1t9Ee6kaOBtd8KUlw" root="true"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TOrNAlt9Ee6kaOBtd8KUlw" base_Property="_TOrNAVt9Ee6kaOBtd8KUlw" siblings="_TO52hVt9Ee6kaOBtd8KUlw" root="true"/>
+  <UMLLabProfile:Annotations xmi:id="_TOsbIVt9Ee6kaOBtd8KUlw" base_Element="_TOsbIFt9Ee6kaOBtd8KUlw">
+    <annotations xmi:id="_TOsbIlt9Ee6kaOBtd8KUlw" name="Autowired"/>
+  </UMLLabProfile:Annotations>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TOtCMFt9Ee6kaOBtd8KUlw" base_Property="_TOsbI1t9Ee6kaOBtd8KUlw" siblings="_TO6dklt9Ee6kaOBtd8KUlw _TO6dlFt9Ee6kaOBtd8KUlw _TO7EoVt9Ee6kaOBtd8KUlw _TO7Eo1t9Ee6kaOBtd8KUlw" root="true"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TOuQUFt9Ee6kaOBtd8KUlw" base_Property="_TOtCMVt9Ee6kaOBtd8KUlw" siblings="_TO7EpVt9Ee6kaOBtd8KUlw _TO7rsVt9Ee6kaOBtd8KUlw _TO7rs1t9Ee6kaOBtd8KUlw _TO8SwFt9Ee6kaOBtd8KUlw" root="true"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TOvecVt9Ee6kaOBtd8KUlw" base_Property="_TOvecFt9Ee6kaOBtd8KUlw" siblings="_TO8Swlt9Ee6kaOBtd8KUlw" root="true"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TOwFgVt9Ee6kaOBtd8KUlw" base_Property="_TOwFgFt9Ee6kaOBtd8KUlw" siblings="_TO850Ft9Ee6kaOBtd8KUlw _TO850lt9Ee6kaOBtd8KUlw _TO851Ft9Ee6kaOBtd8KUlw _TO9g4Vt9Ee6kaOBtd8KUlw _TO9g41t9Ee6kaOBtd8KUlw" root="true"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TOwskVt9Ee6kaOBtd8KUlw" base_Property="_TOwskFt9Ee6kaOBtd8KUlw" siblings="_TO-H8Ft9Ee6kaOBtd8KUlw" root="true"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO5Pc1t9Ee6kaOBtd8KUlw" base_Property="_TO5Pclt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO52gFt9Ee6kaOBtd8KUlw" base_Property="_TO5PdFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO52glt9Ee6kaOBtd8KUlw" base_Property="_TO52gVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO52hFt9Ee6kaOBtd8KUlw" base_Property="_TO52g1t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO6dkFt9Ee6kaOBtd8KUlw" base_Property="_TO52hVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO6dk1t9Ee6kaOBtd8KUlw" base_Property="_TO6dklt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO7EoFt9Ee6kaOBtd8KUlw" base_Property="_TO6dlFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO7Eolt9Ee6kaOBtd8KUlw" base_Property="_TO7EoVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO7EpFt9Ee6kaOBtd8KUlw" base_Property="_TO7Eo1t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO7rsFt9Ee6kaOBtd8KUlw" base_Property="_TO7EpVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO7rslt9Ee6kaOBtd8KUlw" base_Property="_TO7rsVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO7rtFt9Ee6kaOBtd8KUlw" base_Property="_TO7rs1t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO8SwVt9Ee6kaOBtd8KUlw" base_Property="_TO8SwFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO8Sw1t9Ee6kaOBtd8KUlw" base_Property="_TO8Swlt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO850Vt9Ee6kaOBtd8KUlw" base_Property="_TO850Ft9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO8501t9Ee6kaOBtd8KUlw" base_Property="_TO850lt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO9g4Ft9Ee6kaOBtd8KUlw" base_Property="_TO851Ft9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO9g4lt9Ee6kaOBtd8KUlw" base_Property="_TO9g4Vt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO9g5Ft9Ee6kaOBtd8KUlw" base_Property="_TO9g41t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:MultiDeclaration xmi:id="_TO-H8Vt9Ee6kaOBtd8KUlw" base_Property="_TO-H8Ft9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TPDnglt9Ee6kaOBtd8KUlw" base_Element="_TPDngFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TPEOkFt9Ee6kaOBtd8KUlw" base_Element="_TPDng1t9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TPE1oFt9Ee6kaOBtd8KUlw" base_Element="_TPEOkVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TPFcsFt9Ee6kaOBtd8KUlw" base_Element="_TPE1oVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TPFcs1t9Ee6kaOBtd8KUlw" base_Element="_TPFcsVt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TPGDwlt9Ee6kaOBtd8KUlw" base_Element="_TPGDwFt9Ee6kaOBtd8KUlw"/>
+  <UMLLabProfile:Reference xmi:id="_TPGq0Ft9Ee6kaOBtd8KUlw" base_Element="_TPGDw1t9Ee6kaOBtd8KUlw"/>
+</xmi:XMI>

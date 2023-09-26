@@ -27,7 +27,7 @@ public interface ProductsBoardMapper {
 
 	List<Integer> prbIds(String... prdCodes);
 	
-	int cntProduct(int productCode);
+	Integer cntProduct(int productCode);
 	int deleteBagProduct(int productCode);
 	void chgPrbStatus(ProductsBoardDTO prbDTO);
 	ProductsBoardDTO chkPrbStatus(int productCode);

@@ -4,20 +4,278 @@
 <head>
 	<meta charset="UTF-8">
 	<title>관리자 패널</title>
+	<style>
+		.parent {
+			width: 500px;
+			height: 250px;
+		}
+	</style>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+
+	<script th:inline="javascript">
+		$(document).ready(function () {
+			getGraph();
+			getGraph2();
+		});
+
+		function getGraph() {
+			let timeList = [];
+			let posList = [];
+
+			$.ajax({
+				url: "/admin/getMonthData",
+				type: "get",
+				data: {},
+				dataType: "json",
+				success: function (data) {
+					// console.log(data[0].pos_count);
+					// 그래프로 나타낼 자료 리스트에 담기
+					console.log(data)
+					for (let i = 0; i < data.length; i++) {
+						timeList.push(data[i].mm);
+						posList.push(data[i].sales);
+					}
+					// console.log(timeList);
+					// console.log(posList);  	
+					// 그래프
+					new Chart(document.getElementById("line-chart"), {
+						type: 'line',
+						data: {
+							labels: timeList, // X축 
+							datasets: [{
+								data: posList, // 값
+								label: "매출액(단위: 원)",
+								borderColor: "#3e95cd",
+								fill: false
+							}
+							]
+						},
+						options: {
+							title: {
+								display: true,
+								text: ''
+							}
+						}
+					}); //그래프
+				},
+				error: function () {
+					alert("실패");
+				}
+
+			}) // ajax	  
+		} // getGraph
+
+		function getGraph2() {
+			let timeList = [];
+			let posList = [];
+
+			$.ajax({
+				url: "/admin/getYearData",
+				type: "get",
+				data: {},
+				dataType: "json",
+				success: function (data) {
+					// console.log(data[0].pos_count);
+					// 그래프로 나타낼 자료 리스트에 담기
+					console.log(data)
+					for (let i = 0; i < data.length; i++) {
+						timeList.push(data[i].yy);
+						posList.push(data[i].sales);
+					}
+					// console.log(timeList);
+					// console.log(posList);  	
+					// 그래프
+					new Chart(document.getElementById("line-chart2"), {
+						type: 'line',
+						data: {
+							labels: timeList, // X축 
+							datasets: [{
+								data: posList, // 값
+								label: "매출액(단위: 원)",
+								borderColor: "#3e95cd",
+								fill: false
+							}
+							]
+						},
+						options: {
+							title: {
+								display: true,
+								text: ''
+							}
+						}
+					}); //그래프
+				},
+				error: function () {
+					alert("실패");
+				}
+
+			}) // ajax	  
+		} // getGraph
+		$(document).on('click', '#btnPerDaySearch', function (e) {
+			console.log("누름")
+			e.preventDefault();
+
+			var dateStart = $('#dateStart').val();
+			var dateEnd = $('#dateEnd').val();
+
+			let timeList = [];
+			let posList = [];
+
+			$.ajax({
+				url: "/admin/getPerDayData",
+				type: "get",
+				data: {dateStart: dateStart, dateEnd: dateEnd},
+				dataType: "json",
+				success: function (data) {
+					// console.log(data[0].pos_count);
+					// 그래프로 나타낼 자료 리스트에 담기
+					console.log(data)
+					var sum = 0;
+					for (let i = 0; i < data.length; i++) {
+						timeList.push(data[i].dd);
+						posList.push(data[i].sales);
+						sum += parseInt(data[i].sales);
+					}
+					console.log(sum)
+					$('#sumSearch').text("총 " + sum + " 원");
+					// console.log(timeList);
+					// console.log(posList);  	
+					// 그래프
+					new Chart(document.getElementById("line-chart3"), {
+						type: 'line',
+						data: {
+							labels: timeList, // X축 
+							datasets: [{
+								data: posList, // 값
+								label: "매출액(단위: 원)",
+								borderColor: "#3e95cd",
+								fill: false
+							}
+							]
+						},
+						options: {
+							title: {
+								display: true,
+								text: ''
+							}
+						}
+					}); //그래프
+				},
+				error: function () {
+					alert("실패");
+				}
+
+			}) // ajax	  
+
+		});
+
+	</script>
 </head>
 
 <body>
-
-	<a th:href="|memberManage/1|">회원 관리</a>
-	<a th:href="|quitMemberManage/1|">탈퇴 회원 관리</a>
-	<a th:href="|goodsManage/1|">물품 관리</a>
-	<a th:href="|salesHistory/1|">판매 내역</a>
-
-	<a href="/notice/noticeList/1">공지사항</a>
-	<a href="/inquiry/inquiryList/1">문의게시판</a>
-	<a href="/shopping/shoppingList/0/0/0/1/newest">상품게시판</a>
-	
-	<a th:href="|/member/logOut|">로그아웃</a>
+	<section class="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-lg-3 col-6">
+					<div class="small-box bg-info">
+						<div class="inner">
+							<h3>[[${pay}]]</h3>
+							<p>결제 완료 상품</p>
+						</div>
+						<a href="/admin/salesHistory/1?searchType=S&keyword=결제%20완료&limit=15&pageType=PC"
+							class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+					</div>
+				</div>
+				<div class="col-lg-3 col-6">
+					<div class="small-box bg-warning">
+						<div class="inner">
+							<h3>[[${ready}]]</h3>
+							<p>배송 준비 상품</p>
+						</div>
+						<a href="/admin/salesHistory/1?searchType=S&keyword=배송%20준비&limit=15&pageType=SP"
+							class="small-box-footer">More
+							info <i class="fas fa-arrow-circle-right"></i></a>
+					</div>
+				</div>
+				<div class="col-lg-3 col-6">
+					<div class="small-box bg-success">
+						<div class="inner">
+							<h3>[[${ing}]]</h3>
+							<p>배송 중 상품</p>
+						</div>
+						<a href="/admin/salesHistory/1?searchType=S&keyword=배송%20준비&limit=15&pageType=SP"
+							class="small-box-footer">More
+							info <i class="fas fa-arrow-circle-right"></i></a>
+					</div>
+				</div>
+			</div>
+			<div id="graph">
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">기간별 판매량 조회</h3>
+						<div class="card-tools">
+							<!-- Buttons, labels, and many other things can be placed here! -->
+							<!-- Here is a label for example -->
+						</div>
+						<!-- /.card-tools -->
+					</div>
+					<!-- /.card-header -->
+					<div class="card-body">
+						<input type="date" value="start" id="dateStart">
+						~
+						<input type="date" value="end" id="dateEnd">
+						<input type="submit" id="btnPerDaySearch" value="검색">
+						
+						<div class="parent">
+							<canvas id="line-chart3"></canvas>
+						</div>
+					</div>
+					<!-- /.card-body -->
+					<div class="card-footer">
+						<span id="sumSearch"></span>
+					</div>
+				</div>
+				<!-- /.card -->
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">월별 판매량</h3>
+						<div class="card-tools">
+							<!-- Buttons, labels, and many other things can be placed here! -->
+							<!-- Here is a label for example -->
+						</div>
+						<!-- /.card-tools -->
+					</div>
+					<!-- /.card-header -->
+					<div class="card-body">
+						<div class="parent">
+							<canvas id="line-chart"></canvas>
+						</div>
+					</div>
+					<!-- /.card-body -->
+				</div>
+				<!-- /.card -->
+				<div class="card">
+					<div class="card-header">
+						<h3 class="card-title">년도별 판매량</h3>
+						<div class="card-tools">
+							<!-- Buttons, labels, and many other things can be placed here! -->
+							<!-- Here is a label for example -->
+						</div>
+						<!-- /.card-tools -->
+					</div>
+					<!-- /.card-header -->
+					<div class="card-body">
+						<div class="parent">
+							<canvas id="line-chart2"></canvas>
+						</div>
+					</div>
+					<!-- /.card-body -->
+				</div>
+				<!-- /.card -->
+			</div>
+		</div>
+		</div>
+	</section>
 </body>
 
 </html>
