@@ -86,6 +86,15 @@
 	height: 100%;
 	margin: 30px auto;
 }
+.header:not(:first-of-type) div:nth-of-type(3) ul li a{
+	padding-left: 325px;
+}
+.header:not(:first-of-type) div:nth-of-type(4) ul li a{
+	padding-left: 650px;
+}
+.header:not(:first-of-type) div:last-of-type ul li a{
+	padding-left: 1015px;
+}
 .search table {
 	width: 800px;
 	margin: 15px auto;
@@ -116,6 +125,7 @@
 	text-align: left;
 }
 #searchDrop div {
+	position: relative;
 	border-bottom: 1px solid #ccc;
 	font-size: 12px;
 	width: 570px;
@@ -124,7 +134,7 @@
 	margin-left: 50px;
 	background-color: #eee;
 	border-radius: 20px;
-	z-index: 20;
+	z-index: 99;
 	display: none;
 	cursor: pointer;
 }
