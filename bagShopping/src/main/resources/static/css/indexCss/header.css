@@ -42,6 +42,7 @@
 .header a {
 	text-decoration: none;
 	color: black;
+	font-size: 18px;
 }
 .header:first-of-type a {
 	display: inline-block;
@@ -52,6 +53,7 @@
 }
 .header div h4 {
 	font-weight: normal;
+	font-size: 18px;
 }
 .header:not(:first-of-type) div h4:hover{
 	text-decoration: underline;
@@ -65,7 +67,7 @@
 .header:not(:first-of-type) div:last-of-type ul {
 	width: 100%;
 	position: absolute;
-	top: 40px;
+	top: 50px;
 	left: 0;
 	z-index: 10;
 	background-color: white;
@@ -74,7 +76,7 @@
 .header:not(:first-of-type) div:nth-of-type(4) ul li,
 .header:not(:first-of-type) div:last-of-type ul li {
 	height: 35px;
-	font-size: 14px;
+	font-size: 15px;
 }
 .header:not(:first-of-type) div:nth-of-type(3) ul li a,
 .header:not(:first-of-type) div:nth-of-type(4) ul li a,
