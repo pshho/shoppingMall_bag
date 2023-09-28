@@ -9,11 +9,11 @@
 			var userPw = $("#pw").val()
 			var modifyPw = $("#modifyPw").val()
 			var modifyPw2 = $("#modifyPw2").val()
-			if(modifyPw != modifyPw2){
+			if (modifyPw != modifyPw2) {
 				alert("변경할 비밀번호를 확인해주세요.")
 				return false;
 			}
-			if(userPw == modifyPw || userPw == modifyPw2){
+			if (userPw == modifyPw || userPw == modifyPw2) {
 				alert("변경할 비밀번호가 현재 비밀번호와 같습니다!")
 				return false;
 			}
@@ -40,14 +40,72 @@
 </head>
 
 <body>
-	<h2>비밀번호 수정</h2>
-	<form action="" method="post" id="modiForm">
-		현재 비밀번호 : <input type="text" id="pw" name="memberPw" /><br />
-		변경할 비밀번호 : <input type="text" id="modifyPw" name="modifyPw" /><br />
-		변경할 비밀번호 확인 : <input type="text" id="modifyPw2" /> <br />
-		<input type="button" onclick="modifyPwBtn()" value="수정" />
-		<a href="/member/myProfile">뒤로</a>
-	</form>
+	<div class="body">
+		<div class="menu">
+			<ul>
+				<th:block th:if="${memberService == 'myProfile'}">
+					<li><a th:href="|/member/myProfile|" style="background-color: #333; color: #fff;">내 정보</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myProfile'}">
+					<li><a th:href="|/member/myProfile|">내 정보</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+					<li><a th:href="|/member/myOrder/1|" style="background-color: #333; color: #fff;">주문내역</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+					<li><a th:href="|/member/myOrder/1|">주문내역</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+					<li><a th:href="|/member/myInquiry/1|" style="background-color: #333; color: #fff;">문의내역</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+					<li><a th:href="|/member/myInquiry/1|">문의내역</a></li>
+				</th:block>
+
+				<th:block
+					th:if="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+					<li><a href="/member/addressManage" style="background-color: #333; color: #fff;">주소록 관리</a></li>
+				</th:block>
+				<th:block
+					th:unless="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+					<li><a href="/member/addressManage">주소록 관리</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'modifyPw'}">
+					<li><a th:href="|/member/modifyPw|" style="background-color: #333; color: #fff;">비밀번호 수정</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'modifyPw'}">
+					<li><a th:href="|/member/modifyPw|">비밀번호 수정</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'quitMember'}">
+					<li><a href="/member/quitMember" style="background-color: #333; color: #fff;">회원 탈퇴</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'quitMember'}">
+					<li><a href="/member/quitMember">회원 탈퇴</a></li>
+				</th:block>
+			</ul>
+		</div>
+
+		<div class="pwForm">
+			<h1>비밀번호 수정</h2>
+				<div class="pwBox">
+					<div class="field">
+						<form action="" method="post" id="modiForm">
+							<label for="pw">현재 비밀번호</label>
+							<input type="text" id="pw" name="memberPw" />
+							<label for="modifyPw">변경할 비밀번호</label>
+							<input type="text" id="modifyPw" name="modifyPw" />
+							<label for="modifyPw2">변경할 비밀번호 확인</label>
+							<input type="text" id="modifyPw2" /> <br />
+							<input type="button" onclick="modifyPwBtn()" value="수정" />
+						</form>
+					</div>
+				</div>
+		</div>
+	</div>
 </body>
 
 </html>

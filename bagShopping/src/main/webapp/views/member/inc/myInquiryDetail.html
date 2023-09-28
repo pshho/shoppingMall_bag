@@ -1,34 +1,88 @@
 <html xmlns="http://www.thymeleaf.org">
-<table border="">
-	<tbody>
-		<tr>
-			<td colspan="5">
-				<h1>문의게시판</h1>
-			</td>
-		</tr>
-		<tr>
-			<td>제목</td>
-			<td colspan="3" th:text="${inquiryDetail.inTitle}"></td>
-		</tr>
-		<tr>
-			<td>작성자</td>
-			<td th:text="${inquiryDetail.inWriter}"></td>
-			<td>작성일</td>
-			<td th:text="${inquiryDetail.inquiryRegDate2}"></td>
-		</tr>
-		<tr>
-			<td>내용</td>
-			<td colspan="3">
-				<div class="inqDet" th:utext="${inquiryDetail.inContent}"></div>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="4">
-				<a th:if="${session.admin ne null}" th:href="|/inquiry/inquiryReply/${inquiryDetail.inquiryId}|">답글</a>
-				<a th:href="|/inquiry/inquiryModify/${inquiryDetail.inquiryId}|">수정</a>
-				<a href="#" th:onclick="|confirmDelete(${inquiryDetail.inquiryId})|">삭제</a>
-				<a href="/member/myInquiry/1">뒤로</a>
-			</td>
-		</tr>
-	</tbody>
-</table>
+<div class="body">
+	<div class="menu">
+		<ul>
+			<th:block th:if="${memberService == 'myProfile'}">
+				<li><a th:href="|/member/myProfile|" style="background-color: #333; color: #fff;">내 정보</a></li>
+			</th:block>
+			<th:block th:unless="${memberService == 'myProfile'}">
+				<li><a th:href="|/member/myProfile|">내 정보</a></li>
+			</th:block>
+
+			<th:block th:if="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+				<li><a th:href="|/member/myOrder/1|" style="background-color: #333; color: #fff;">주문내역</a></li>
+			</th:block>
+			<th:block th:unless="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+				<li><a th:href="|/member/myOrder/1|">주문내역</a></li>
+			</th:block>
+
+			<th:block th:if="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+				<li><a th:href="|/member/myInquiry/1|" style="background-color: #333; color: #fff;">문의내역</a></li>
+			</th:block>
+			<th:block th:unless="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+				<li><a th:href="|/member/myInquiry/1|">문의내역</a></li>
+			</th:block>
+
+			<th:block
+				th:if="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+				<li><a href="/member/addressManage" style="background-color: #333; color: #fff;">주소록 관리</a></li>
+			</th:block>
+			<th:block
+				th:unless="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+				<li><a href="/member/addressManage">주소록 관리</a></li>
+			</th:block>
+
+			<th:block th:if="${memberService == 'modifyPw'}">
+				<li><a th:href="|/member/modifyPw|" style="background-color: #333; color: #fff;">비밀번호 수정</a></li>
+			</th:block>
+			<th:block th:unless="${memberService == 'modifyPw'}">
+				<li><a th:href="|/member/modifyPw|">비밀번호 수정</a></li>
+			</th:block>
+
+			<th:block th:if="${memberService == 'quitMember'}">
+				<li><a href="/member/quitMember" style="background-color: #333; color: #fff;">회원 탈퇴</a></li>
+			</th:block>
+			<th:block th:unless="${memberService == 'quitMember'}">
+				<li><a href="/member/quitMember">회원 탈퇴</a></li>
+			</th:block>
+		</ul>
+	</div>
+	<div>
+		<div class="contents">
+			<table class="inquiryDetail">
+				<tbody>
+					<tr>
+						<td colspan="5">
+							<h1>문의내역</h1>
+						</td>
+					</tr>
+					<tr>
+						<td>제목</td>
+						<td colspan="3" th:text="${inquiryDetail.inTitle}"></td>
+					</tr>
+					<tr>
+						<td>작성자</td>
+						<td th:text="${inquiryDetail.inWriter}"></td>
+						<td>작성일</td>
+						<td th:text="${inquiryDetail.inquiryRegDate2}"></td>
+					</tr>
+					<tr>
+						<td>내용</td>
+						<td colspan="3">
+							<div class="inqDet" th:utext="${inquiryDetail.inContent}"></div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<a th:if="${session.admin ne null}"
+								th:href="|/inquiry/inquiryReply/${inquiryDetail.inquiryId}|">답글</a>
+							<a th:href="|/inquiry/inquiryModify/${inquiryDetail.inquiryId}|">수정</a>
+							<a href="#" th:onclick="|confirmDelete(${inquiryDetail.inquiryId})|">삭제</a>
+							<a href="/member/myInquiry/1">뒤로</a>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>

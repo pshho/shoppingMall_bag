@@ -444,6 +444,9 @@ public class MemberController {
 		if (getUserAddr.size() > 1) {
 			addrMapper.deleteAddress(memberId, addressId);
 			getUserAddr = addrMapper.getUserAddress(memberId);
+			if(addrMapper.cntBasic(memberId) == 0) {
+				addrMapper.setBasicAddr1(getUserAddr.get(0).getMemberId(), getUserAddr.get(0).getAddressId());
+			}
 			if(getUserAddr.size() == 1) {
 				addrMapper.setAllBasicAddr1(memberId);
 			}
@@ -456,7 +459,7 @@ public class MemberController {
 	@PostMapping("/setBasicAddr")
 	int setBasicAddr(HttpServletRequest request, HttpSession session) {
 		String memberId = (String) session.getAttribute("userId");
-		String addressId = request.getParameter("addressId");
+		int addressId = Integer.parseInt(request.getParameter("addressId"));
 
 		addrMapper.setBasicAddr0(memberId);
 		int setCheck = addrMapper.setBasicAddr1(memberId, addressId);

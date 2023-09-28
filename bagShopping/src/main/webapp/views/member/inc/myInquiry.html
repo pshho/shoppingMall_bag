@@ -7,50 +7,95 @@
 </head>
 
 <body>
-	<a th:href="|/member/myProfile|">내 정보</a>
-	<a th:href="|/member/myOrder/1|">주문내역</a>
-	<a th:href="|/member/myInquiry/1|">문의내역</a>
-	<h2>문의내역입니다.</h2>
-	<table border="">
-		<tr>
-			<td>번호</td>
-			<td>제목</td>
-			<td>작성자</td>
-			<td>작성일</td>
-		</tr>
-		<tr th:each="inq, inqStat : ${myInq}">
-			<td th:text="${pd.total - pd.start - inqStat.count + 1}" />
-			<td>
-				<th:block th:if="${inq.lev>0}" th:each="no : ${#numbers.sequence(0,inq.lev)}">&nbsp;</th:block>
-				<th:block th:if="${inq.lev} > 0">└</th:block>
-				<a th:href="|/member/myInquiry/${pd.page}/${inq.inquiryId}|">[[${inq.inTitle}]]</a>
-			</td>
-			<td th:text="${inq.inWriter}" />
-			<td th:text="${inq.inquiryRegDate2}" />
-		</tr>
-		<tr>
-			<td colspan="9" align="center">
-				<th:block th:if="${pd.pageStart} > 1">
-					<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
+	<div class="body">
+		<div class="menu">
+			<ul>
+				<th:block th:if="${memberService == 'myProfile'}">
+					<li><a th:href="|/member/myProfile|" style="background-color: #333; color: #fff;">내 정보</a></li>
 				</th:block>
-				<th:block th:if="${pd.pageEnd > 0}">
-					<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
-						<b th:if="${num} == ${pd.page}">
-							<a th:href="|${num}|" th:text="${num}" />
-						</b>
-						<th:block th:unless="${num} == ${pd.page}">
-							<a th:href="|${num}|" th:text="${num}" />
-						</th:block>
-					</th:block>
+				<th:block th:unless="${memberService == 'myProfile'}">
+					<li><a th:href="|/member/myProfile|">내 정보</a></li>
 				</th:block>
-				<th:block th:if="${pd.pageEnd == 0}"><a th:href="1">1</a></th:block>
-				<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
-					<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
-				</th:block>
-			</td>
-		</tr>
 
-	</table>
+				<th:block th:if="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+					<li><a th:href="|/member/myOrder/1|" style="background-color: #333; color: #fff;">주문내역</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+					<li><a th:href="|/member/myOrder/1|">주문내역</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+					<li><a th:href="|/member/myInquiry/1|" style="background-color: #333; color: #fff;">문의내역</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+					<li><a th:href="|/member/myInquiry/1|">문의내역</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+					<li><a href="/member/addressManage" style="background-color: #333; color: #fff;">주소록 관리</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+					<li><a href="/member/addressManage">주소록 관리</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'modifyPw'}">
+					<li><a th:href="|/member/modifyPw|" style="background-color: #333; color: #fff;">비밀번호 수정</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'modifyPw'}">
+					<li><a th:href="|/member/modifyPw|">비밀번호 수정</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'quitMember'}">
+					<li><a href="/member/quitMember" style="background-color: #333; color: #fff;">회원 탈퇴</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'quitMember'}">
+					<li><a href="/member/quitMember" >회원 탈퇴</a></li>
+				</th:block>
+			</ul>
+		</div>
+		<div class="contents">
+			<h1>문의내역</h1>
+			<table id="myInqTable">
+				<tr>
+					<td>번호</td>
+					<td>제목</td>
+					<td>작성자</td>
+					<td>작성일</td>
+				</tr>
+				<tr th:each="inq, inqStat : ${myInq}">
+					<td th:text="${pd.total - pd.start - inqStat.count + 1}" />
+					<td>
+						<th:block th:if="${inq.lev>0}" th:each="no : ${#numbers.sequence(0,inq.lev)}">&nbsp;</th:block>
+						<th:block th:if="${inq.lev} > 0">└</th:block>
+						<a th:href="|/member/myInquiry/${pd.page}/${inq.inquiryId}|">[[${inq.inTitle}]]</a>
+					</td>
+					<td th:text="${inq.inWriter}" />
+					<td th:text="${inq.inquiryRegDate2}" />
+				</tr>
+				<tr>
+					<td colspan="9" align="center">
+						<th:block th:if="${pd.pageStart} > 1">
+							<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
+						</th:block>
+						<th:block th:if="${pd.pageEnd > 0}">
+							<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
+								<b th:if="${num} == ${pd.page}">
+									<a th:href="|${num}|" th:text="${num}" />
+								</b>
+								<th:block th:unless="${num} == ${pd.page}">
+									<a th:href="|${num}|" th:text="${num}" />
+								</th:block>
+							</th:block>
+						</th:block>
+						<th:block th:if="${pd.pageEnd == 0}"><a th:href="1">1</a></th:block>
+						<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
+							<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
+						</th:block>
+					</td>
+				</tr>
+			</table>
+		</div>
+	</div>
 </body>
 
 </html>

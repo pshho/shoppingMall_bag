@@ -18,14 +18,15 @@
 	height: 1000px;
 }
 
-.member h3{
+.member p {
+	font-size: 2em;
 	text-align: center;
 	margin: 20px 0px 30px 0px;
 }
 
 .member form {
 	margin-left: 180px;
-	
+
 }
 
 .member .field {
@@ -50,7 +51,7 @@
 
 .member #emailDomain {
 	font-size: 1em;
-	
+
 	border: 1px solid #222;
 	border-radius: 5px;
 	padding: 10px;
@@ -71,39 +72,38 @@
 	margin-bottom: 10px;
 	border: 1px solid #222;
 	border-radius: 5px;
-	height: 45px;
+	height: 40px;
 	width: 150px;
 }
 
-.member .field #zipCode, .member .field #address{
+.member .field #zipCode,
+.member .field #address {
 	margin-bottom: 5px;
 }
 
-.member input[type='button']{
+.member input[type='button'] {
 	border: 1px solid #222;
 	border-radius: 5px;
 	height: 45px;
 }
 
-.member .btnBox{
+.member .btnBox {
 	width: 400px;
 	display: flex;
 	flex-direction: row;
 	flex: 1;
 }
 
-.member .btnBox button{
+.member .btnBox button {
 	width: 170px;
-	height: 100%;
+	height: 30px;
 	margin-top: 30px;
 }
 
-.member .btnBox a{
-	width: 170px;
-	height: 100%;
-	margin-top: 30px;
+.member .btnBox button:nth-child(2) {
 	margin-left: 20px;
 }
+
 
 /*로그인*/
 .login-form {
@@ -121,7 +121,7 @@
 	border: none;
 	border-radius: 5px;
 	padding: 10px;
-	width: 100%;
+	width: 280px;
 }
 
 .submit-btn {
@@ -137,7 +137,13 @@
 
 .link {
 	text-align: center;
-	font-size: 12px;
+	font-size: 14px;
+
+}
+
+.link a {
+	text-decoration: none;
+	color: #222;
 }
 
 /*로그인 끝*/
@@ -162,7 +168,7 @@
 
 #find #memberName {
 	font-size: 1em;
-	width: 330px;
+	width: 355px;
 	margin-left: 32px;
 	margin-bottom: 30px;
 	margin-top: 30px;
@@ -173,7 +179,7 @@
 
 #find #memberId {
 	font-size: 1em;
-	width: 330px;
+	width: 355px;
 	margin-left: 15px;
 	margin-top: 30px;
 	border: none;
@@ -244,3 +250,340 @@
 }
 
 /*아이디 찾기 끝*/
+
+
+/*마이페이지 입장*/
+#myPageReg {
+	width: 400px;
+	padding: 20px 0px 40px 0px;
+	text-align: center;
+	margin: 150px auto 150px auto;
+	background-color: #eee;
+	border: 1px solid #222;
+}
+
+#myPageReg input[type='password'] {
+	height: 30px;
+	border: 1px solid #222;
+	border-radius: 5px;
+}
+
+#myPageReg input[type='submit'] {
+	height: 34px;
+	border: 1px solid #222;
+	border-radius: 5px;
+}
+
+/*마이페이지 메뉴*/
+.menu ul {
+	list-style-type: none;
+	padding: 0px;
+	width: 150px;
+	overflow: auto;
+	position: fixed;
+}
+
+.menu li a {
+	text-decoration: none;
+	padding: 10px;
+	display: block;
+	color: #000;
+	font-weight: bold;
+}
+
+.menu li a:hover {
+	background: #333;
+	color: #fff;
+}
+
+/*마이페이지 컨텐츠*/
+.contents {
+	margin: 100px auto;
+	margin-left: 150px;
+	text-align: center;
+	height: 500px;
+}
+
+.contents table {
+	width: 800px;
+	margin: 0 auto;
+	border-collapse: collapse;
+}
+
+/*마이페이지 내정보*/
+#profileTable tr td {
+	padding: 20px;
+	border: 1px solid darkgray;
+	border-left: 0px;
+	border-right: 0px;
+}
+
+#profileTable tr td:nth-child(1) {
+	background-color: lightgray;
+}
+
+/*마이페이지 주문내역*/
+#myOrdTable tr td {
+	padding: 10px;
+	border: 1px solid black;
+	border-right: 0px;
+	border-left: 0px;
+}
+
+#myOrdTable tr td a {
+	text-decoration: none;
+	color: black;
+}
+
+#myOrdTable tr td a:hover {
+	text-decoration: underline;
+	color: black;
+
+}
+
+#myOrdTable tr:nth-child(1) td {
+	font-weight: bold;
+}
+
+/*마이페이지 문의내역*/
+#myInqTable tr td {
+	padding: 5px 10px;
+	border: 1px solid black;
+	border-right: 0px;
+	border-left: 0px;
+}
+
+#myInqTable tr td a {
+	text-decoration: none;
+	color: black;
+}
+
+#myInqTable tr td a:hover {
+	text-decoration: underline;
+	color: black;
+
+}
+
+#myInqTable tr:nth-child(1) td {
+	font-weight: bold;
+}
+
+#myInqTable tr td:nth-child(2) {
+	width: 300px;
+	text-align: left;
+}
+
+/*배송지 관리*/
+#myAddrTable tr:first-child {
+	font-weight: bold;
+}
+
+#myAddrTable tr td {
+	padding: 10px;
+	border: 1px solid black;
+	border-right: 0px;
+	border-left: 0px;
+
+}
+
+#myAddrTable .addrModiBtn {
+	width: 42.67px;
+	height: 24px;
+	font-size: 13.33333px;
+	text-decoration: none;
+	text-rendering: auto;
+	color: buttontext;
+	letter-spacing: normal;
+	word-spacing: normal;
+	line-height: 18px;
+	text-transform: none;
+	text-indent: 0px;
+	text-shadow: none;
+	display: inline-block;
+	text-align: center;
+	align-items: flex-start;
+	cursor: default;
+	box-sizing: border-box;
+	background-color: buttonface;
+	padding-block: 1px;
+	padding-inline: 6px;
+	border-width: 1px;
+	border-radius: 3px;
+	border-style: outset;
+	border-color: buttonborder;
+	border-image: initial;
+}
+
+#myAddrTable a:hover {
+	background-color: lightgray;
+}
+
+#myAddrTable tr:last-child td {
+	border-bottom: 0px;
+}
+
+#myAddrTable .addrBtn {
+	text-decoration: none;
+	color: black;
+	width: 100px;
+	height: 30px;
+	font-size: 16px;
+	text-decoration: none;
+	text-rendering: auto;
+	color: buttontext;
+	letter-spacing: normal;
+	word-spacing: normal;
+	line-height: 26px;
+	text-transform: none;
+	text-indent: 0px;
+	text-shadow: none;
+	display: inline-block;
+	text-align: center;
+	align-items: flex-start;
+	cursor: default;
+	box-sizing: border-box;
+	background-color: buttonface;
+	padding-block: 1px;
+	padding-inline: 6px;
+	border-width: 1px;
+	border-radius: 3px;
+	border-style: outset;
+	border-color: buttonborder;
+	border-image: initial;
+}
+
+/*배송지 추가 수정*/
+.addrForm {
+	margin-top: 100px;
+	margin-left: 150px;
+	text-align: center;
+	margin-bottom: 100px;
+}
+
+.addrForm h1 {
+	text-align: center;
+}
+
+.addrForm .addrBox {
+	background-color: #eee;
+	margin-left: 260px;
+	text-align: left;
+	width: 500px;
+	height: 300px;
+	border: 1px solid #222;
+	font-size: 16px;
+}
+
+.addrForm .field {
+	margin: 30px auto 10px 110px;
+}
+
+.addrForm label {
+	display: block;
+	margin-bottom: 5px;
+}
+
+.addrForm .field #zipCode,
+.addrForm .field #address {
+	margin-bottom: 5px;
+}
+
+.addrForm #zipCode,
+#address,
+#detailAddress {
+	width: 200px;
+	height: 20px;
+}
+
+.addrForm #addressPhone {
+	width: 100px;
+	height: 20px;
+}
+
+.addrForm select {
+	height: 24px;
+}
+
+.addrForm input[type='submit'] {
+	font-size: 16px;
+	margin-top: 20px;
+	margin-left: 225px;
+}
+
+
+/*비밀번호 변경*/
+.pwForm {
+	margin-top: 100px;
+	margin-left: 150px;
+	text-align: center;
+	margin-bottom: 100px;
+}
+
+.pwForm h1 {
+	text-align: center;
+}
+
+.pwForm .pwBox {
+	background-color: #eee;
+	margin-left: 260px;
+	text-align: left;
+	width: 500px;
+	height: 300px;
+	border: 1px solid #222;
+	font-size: 16px;
+}
+
+.pwForm .field {
+	margin: 30px auto 10px 110px;
+}
+
+.pwForm label {
+	display: block;
+	margin-top: 20px;
+	margin-bottom: 5px;
+	margin-left: 50px;
+}
+
+.pwForm input[type='button'] {
+	font-size: 16px;
+	margin-top: 20px;
+	margin-left: 125px;
+}
+
+#modiForm input[type='text'] {
+	width: 200px;
+	height: 25px;
+	margin-left: 50px;
+}
+
+/*회원탈퇴*/
+
+.pwForm .quitBox {
+	background-color: #eee;
+	margin-left: 260px;
+	text-align: left;
+	width: 500px;
+	height: 250px;
+	border: 1px solid #222;
+	font-size: 16px;
+}
+
+#quitForm label {
+	margin-top: 20px;
+	display: block;
+	margin-bottom: 5px;
+	margin-left: 50px;
+}
+
+#quitForm input[type='text'],
+#quitForm input[type='password'] {
+	width: 200px;
+	height: 25px;
+	margin-left: 50px;
+}
+
+#quitForm input[type='submit'] {
+	font-size: 16px;
+	margin-top: 20px;
+	margin-left: 125px;
+}

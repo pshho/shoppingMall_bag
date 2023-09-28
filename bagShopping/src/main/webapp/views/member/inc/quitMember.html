@@ -7,12 +7,69 @@
 </head>
 
 <body>
-	<h2>회원 탈퇴</h2>
-	<form action="quitMemberReg" method="post">
-		아이디 : <input type="text" name="memberId" /> <br />
-		비밀번호 : <input type="password" name="memberPw" />
-		<input type="submit" value="탈퇴" />
-	</form>
+	<div class="body">
+		<div class="menu">
+			<ul>
+				<th:block th:if="${memberService == 'myProfile'}">
+					<li><a th:href="|/member/myProfile|" style="background-color: #333; color: #fff;">내 정보</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myProfile'}">
+					<li><a th:href="|/member/myProfile|">내 정보</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+					<li><a th:href="|/member/myOrder/1|" style="background-color: #333; color: #fff;">주문내역</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+					<li><a th:href="|/member/myOrder/1|">주문내역</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+					<li><a th:href="|/member/myInquiry/1|" style="background-color: #333; color: #fff;">문의내역</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+					<li><a th:href="|/member/myInquiry/1|">문의내역</a></li>
+				</th:block>
+
+				<th:block
+					th:if="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+					<li><a href="/member/addressManage" style="background-color: #333; color: #fff;">주소록 관리</a></li>
+				</th:block>
+				<th:block
+					th:unless="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+					<li><a href="/member/addressManage">주소록 관리</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'modifyPw'}">
+					<li><a th:href="|/member/modifyPw|" style="background-color: #333; color: #fff;">비밀번호 수정</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'modifyPw'}">
+					<li><a th:href="|/member/modifyPw|">비밀번호 수정</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'quitMember'}">
+					<li><a href="/member/quitMember" style="background-color: #333; color: #fff;">회원 탈퇴</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'quitMember'}">
+					<li><a href="/member/quitMember">회원 탈퇴</a></li>
+				</th:block>
+			</ul>
+		</div>
+		<div class="pwForm">
+			<h1>회원 탈퇴</h1>
+			<div class="quitBox">
+				<div class="field">
+					<form action="quitMemberReg" method="post" id="quitForm">
+						<label for="memberId">아이디</label>
+						<input type="text" id="memberId" name="memberId" /> <br />
+						<label for="memberPw">비밀번호</label>
+						<input type="password" id="memberPw" name="memberPw" />
+						<input type="submit" value="탈퇴" />
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 
 </html>
