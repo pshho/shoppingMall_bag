@@ -128,7 +128,7 @@ crossorigin="anonymous"></script>
 				let data = list.querySelectorAll('div');
 				
 				data.forEach(function(item){
-					if(item.innerText.includes($('#searchCont').val())){
+					if(item.innerText.toLowerCase().includes($('#searchCont').val().toLowerCase())){
 						item.style.display = "block";
 					}else {
 						item.style.display = "none";
