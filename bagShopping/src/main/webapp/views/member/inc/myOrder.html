@@ -36,64 +36,111 @@
 </head>
 
 <body>
-	<a th:href="|/member/myProfile|">내 정보</a>
-	<a th:href="|/member/myOrder/1|">주문내역</a>
-	<a th:href="|/member/myInquiry/1|">문의내역</a>
-	<h2>주문내역입니다.</h2>
-	<table border="">
-		<tr>
-			<td>배송상태</td>
-			<td>주문번호</td>
-			<td>상품코드</td>
-			<td>상품갯수</td>
-			<td>총가격</td>
-			<td>주문일자</td>
-			<td colspan="2">관리</td>
-		</tr>
-		<tr th:each="order : ${orderList}">
-			<td th:text="${order.orderStatus}" />
-			<td><a th:href="|/member/myOrder/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
-			<td th:text="${order.prodCode}" />
-			<td th:text="${order.prodCount}" />
-			<td th:text="${order.ordersTotalPrice}" />
-			<td th:text="${order.ordersRegDateStr}" />
-			<th:block th:if="${order.orderStatus == '배송 완료'}">
-				<!--<td><input type="button" value="구매 확정"
+	<div class="body">
+		<div class="menu">
+			<ul>
+				<th:block th:if="${memberService == 'myProfile'}">
+					<li><a th:href="|/member/myProfile|" style="background-color: #333; color: #fff;">내 정보</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myProfile'}">
+					<li><a th:href="|/member/myProfile|">내 정보</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+					<li><a th:href="|/member/myOrder/1|" style="background-color: #333; color: #fff;">주문내역</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+					<li><a th:href="|/member/myOrder/1|">주문내역</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+					<li><a th:href="|/member/myInquiry/1|" style="background-color: #333; color: #fff;">문의내역</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+					<li><a th:href="|/member/myInquiry/1|">문의내역</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+					<li><a href="/member/addressManage" style="background-color: #333; color: #fff;">주소록 관리</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+					<li><a href="/member/addressManage">주소록 관리</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'modifyPw'}">
+					<li><a th:href="|/member/modifyPw|" style="background-color: #333; color: #fff;">비밀번호 수정</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'modifyPw'}">
+					<li><a th:href="|/member/modifyPw|">비밀번호 수정</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'quitMember'}">
+					<li><a href="/member/quitMember" style="background-color: #333; color: #fff;">회원 탈퇴</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'quitMember'}">
+					<li><a href="/member/quitMember" >회원 탈퇴</a></li>
+				</th:block>
+			</ul>
+		</div>
+		<div class="contents">
+			<h1>주문내역</h1>
+			<table id="myOrdTable">
+				<tr>
+					<td>배송상태</td>
+					<td>주문번호</td>
+					
+					<td>상품갯수</td>
+					<td>총가격</td>
+					<td>주문일자</td>
+					<td colspan="2">결제관리</td>
+				</tr>
+				<tr th:each="order : ${orderList}">
+					<td th:text="${order.orderStatus}" />
+					<td><a th:href="|/member/myOrder/${pd.page}/${order.merchantUid}|">[[${order.merchantUid}]]</a></td>
+					
+					<td th:text="${order.prodCount}" />
+					<td th:text="${order.ordersTotalPrice}" />
+					<td th:text="${order.ordersRegDateStr}" />
+					<th:block th:if="${order.orderStatus == '배송 완료'}">
+						<!--<td><input type="button" value="구매 확정"
 					th:orderParam="${order.merchantUid}"
 					th:onclick="perchaseConfirm(this.getAttribute('orderParam'))"/></td>-->
-				<td th:text="|배송 완료|"></td>
-			</th:block>
-			<td th:if="${order.orderStatus == '배송 준비'}"></td>
-			<td th:if="${order.orderStatus == '배송 중'}"></td>
-			<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="구매 취소"
-					th:orderParam="${order.merchantUid}" th:onclick="orderCancel(this.getAttribute('orderParam'))" />
-			</td>
-			<td th:if="${order.orderStatus == '결제 취소'}" th:text="${order.cancelReason}"></td>
-
-		</tr>
-		<tr>
-			<td colspan="10" align="center">
-				<th:block th:if="${pd.pageStart} > 1">
-					<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
-				</th:block>
-				<th:block th:if="${pd.pageEnd > 0}">
-					<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
-						<b th:if="${num} == ${pd.page}">
-							<a th:href="|${num}|" th:text="${num}" />
-						</b>
-						<th:block th:unless="${num} == ${pd.page}">
-							<a th:href="|${num}|" th:text="${num}" />
-						</th:block>
+						<td th:text="|배송 완료|"></td>
 					</th:block>
-				</th:block>
-				<th:block th:if="${pd.pageEnd == 0}"><a th:href="1">1</a></th:block>
-				<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
-					<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
-				</th:block>
-			</td>
-		</tr>
+					<td th:if="${order.orderStatus == '배송 준비'}"></td>
+					<td th:if="${order.orderStatus == '배송 중'}"></td>
+					<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="구매 취소"
+							th:orderParam="${order.merchantUid}"
+							th:onclick="orderCancel(this.getAttribute('orderParam'))" />
+					</td>
+					<td th:if="${order.orderStatus == '결제 취소'}" th:text="${order.cancelReason}"></td>
 
-	</table>
+				</tr>
+				<tr>
+					<td colspan="10" align="center">
+						<th:block th:if="${pd.pageStart} > 1">
+							<a th:href="|${pd.pageStart-1}|" th:text="[이전]" />
+						</th:block>
+						<th:block th:if="${pd.pageEnd > 0}">
+							<th:block th:each="num : ${#numbers.sequence(pd.pageStart,pd.pageEnd)} ">
+								<b th:if="${num} == ${pd.page}">
+									<a th:href="|${num}|" th:text="${num}" />
+								</b>
+								<th:block th:unless="${num} == ${pd.page}">
+									<a th:href="|${num}|" th:text="${num}" />
+								</th:block>
+							</th:block>
+						</th:block>
+						<th:block th:if="${pd.pageEnd == 0}"><a th:href="1">1</a></th:block>
+						<th:block th:if="${pd.pageEnd} < ${pd.pageTotal}">
+							<a th:href="|${pd.pageEnd+1}|" th:text="[다음]" />
+						</th:block>
+					</td>
+				</tr>
+
+			</table>
+		</div>
+	</div>
 </body>
 
 </html>

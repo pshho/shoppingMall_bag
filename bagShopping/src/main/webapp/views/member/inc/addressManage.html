@@ -47,8 +47,8 @@
 			}
 		})
 	}
-	
-	function addAddress(){
+
+	function addAddress() {
 		$.ajax({
 			url: "/member/checkAddr",
 			type: "post",
@@ -56,8 +56,8 @@
 				if (result >= 5) {
 					window.alert("주소는 5개까지만 추가가 가능합니다!")
 					window.location.href = '/member/addressManage'
-				}else{
-					window.location.href='/member/addAddress'
+				} else {
+					window.location.href = '/member/addAddress'
 				}
 			},
 			error: function () {
@@ -65,41 +65,87 @@
 			}
 		})
 	}
-	
-</script>
-<div>
-	<a th:href="|/member/myProfile|">내 정보</a>
-	<a th:href="|/member/myOrder/1|">주문내역</a>
-	<a th:href="|/member/myInquiry/1|">문의내역</a>
-	<table border="">
-		<tr>
-			<td colspan="6">
-				<h3>배송지 정보</h3>
-			</td>
-		</tr>
-		<tr>
-			<td>상태</td>
-			<td>우편번호</td>
-			<td>주소</td>
-			<td>상세주소</td>
-			<td>연락처</td>
-			<td>관리</td>
-		</tr>
-		<tr th:each="addr : ${address}">
-			<td th:if="${addr.basicAddr == 1}" th:text="기본주소"/>
-			<td th:unless="${addr.basicAddr == 1}"/>
-			<td th:text="${addr.zipCode}" />
-			<td th:text="${addr.address}" />
-			<td th:text="${addr.detailAddress}" />
-			<td th:text="${addr.addressPhone}" />
-			<td><a th:href="|/member/modifyAddress/${addr.addressId}|">수정</a>
-				<button id="deleteAddr" th:addrParam="${addr.addressId}"
-					th:onclick="deleteAddrBtn(this.getAttribute('addrParam'))" th:text="|삭제|" />
-				<button id="setBasicAddr" th:if="${addr.basicAddr == 0}" th:addrParam="${addr.addressId}"
-					th:onclick="setBasicAddrBtn(this.getAttribute('addrParam'))" th:text="|기본 주소로 설정|" />
-			</td>
 
-		</tr>
-	</table>
-	<a href="/member/addAddress">배송지 추가</a>
+</script>
+<div class="body">
+
+	<div class="menu">
+		<ul>
+			<th:block th:if="${memberService == 'myProfile'}">
+				<li><a th:href="|/member/myProfile|" style="background-color: #333; color: #fff;">내 정보</a></li>
+			</th:block>
+			<th:block th:unless="${memberService == 'myProfile'}">
+				<li><a th:href="|/member/myProfile|">내 정보</a></li>
+			</th:block>
+
+			<th:block th:if="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+				<li><a th:href="|/member/myOrder/1|" style="background-color: #333; color: #fff;">주문내역</a></li>
+			</th:block>
+			<th:block th:unless="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+				<li><a th:href="|/member/myOrder/1|">주문내역</a></li>
+			</th:block>
+
+			<th:block th:if="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+				<li><a th:href="|/member/myInquiry/1|" style="background-color: #333; color: #fff;">문의내역</a></li>
+			</th:block>
+			<th:block th:unless="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+				<li><a th:href="|/member/myInquiry/1|">문의내역</a></li>
+			</th:block>
+
+			<th:block
+				th:if="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+				<li><a href="/member/addressManage" style="background-color: #333; color: #fff;">주소록 관리</a></li>
+			</th:block>
+			<th:block
+				th:unless="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+				<li><a href="/member/addressManage">주소록 관리</a></li>
+			</th:block>
+
+			<th:block th:if="${memberService == 'modifyPw'}">
+				<li><a th:href="|/member/modifyPw|" style="background-color: #333; color: #fff;">비밀번호 수정</a></li>
+			</th:block>
+			<th:block th:unless="${memberService == 'modifyPw'}">
+				<li><a th:href="|/member/modifyPw|">비밀번호 수정</a></li>
+			</th:block>
+
+			<th:block th:if="${memberService == 'quitMember'}">
+				<li><a href="/member/quitMember" style="background-color: #333; color: #fff;">회원 탈퇴</a></li>
+			</th:block>
+			<th:block th:unless="${memberService == 'quitMember'}">
+				<li><a href="/member/quitMember">회원 탈퇴</a></li>
+			</th:block>
+		</ul>
+	</div>
+	<div class="contents">
+		<h1>주소록 관리</h1>
+		<table id="myAddrTable">
+			<tr>
+				<td>상태</td>
+				<td>우편번호</td>
+				<td>주소</td>
+				<td>상세주소</td>
+				<td>연락처</td>
+				<td>수정</td>
+				<td>삭제</td>
+				<td>관리</td>
+			</tr>
+			<tr th:each="addr : ${address}">
+				<td th:if="${addr.basicAddr == 1}" th:text="기본주소" />
+				<td th:unless="${addr.basicAddr == 1}" />
+				<td th:text="${addr.zipCode}" />
+				<td th:text="${addr.address}" />
+				<td th:text="${addr.detailAddress}" />
+				<td th:text="${addr.addressPhone}" />
+				<td><a th:href="|/member/modifyAddress/${addr.addressId}|" class="addrModiBtn">수정</a></td>
+				<td><button id="deleteAddr" th:addrParam="${addr.addressId}"
+						th:onclick="deleteAddrBtn(this.getAttribute('addrParam'))" th:text="|삭제|" /></td>
+				<td><button id="setBasicAddr" th:if="${addr.basicAddr == 0}" th:addrParam="${addr.addressId}"
+						th:onclick="setBasicAddrBtn(this.getAttribute('addrParam'))" th:text="|기본 주소로 설정|" /></td>
+			</tr>
+			<tr>
+				<td colspan="8"><a href="/member/addAddress" class="addrBtn">배송지 추가</a></td>
+			</tr>
+		</table>
+
+	</div>
 </div>

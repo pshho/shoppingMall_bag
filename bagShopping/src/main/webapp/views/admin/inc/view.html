@@ -7,7 +7,9 @@
 </head>
 
 <body>
+	
 	<div class="body">
+		
 		<!-- Main Sidebar Container -->
 		<aside class="main-sidebar sidebar-dark-primary elevation-4">
 			<!-- Brand Logo -->
@@ -62,19 +64,15 @@
 							</p>
 							</a>
 						</li>
-						<th:block th:if="${adminService == 'salesHistory'}">
+						<th:block th:if="${adminService == 'salesHistory'} or ${adminService == 'orderDetail'}">
 							<li class="nav-item menu-open">
 								<a th:href="|/admin/salesHistory/1|" class="nav-link active">
 						</th:block>
-						<th:block th:unless="${adminService == 'salesHistory'}">
+						<th:block th:unless="${adminService == 'salesHistory'} or ${adminService == 'orderDetail'}">
 							<li class="nav-item menu-close">
 								<a th:href="|/admin/salesHistory/1|" class="nav-link">
 						</th:block>
-						<i class="nav-icon fas fa-tachometer-alt"></i>
-						<p>
-							주문 내역
-							<i class="right fas fa-angle-left"></i>
-						</p>
+						<p>주문 내역</p>
 						</a>
 						<ul class="nav nav-treeview">
 							<li class="nav-item">

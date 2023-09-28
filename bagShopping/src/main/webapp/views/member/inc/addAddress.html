@@ -1,31 +1,80 @@
 <html xmlns="http://www.thymeleaf.org">
 <form action="addAddressReg" method="post">
-	<input type="hidden" name="addrName" th:value="${user.memberName}"/>
-	<input type="hidden" name="memberId" th:value="${user.memberId}"/>
-	<input type="hidden" name="basicAddr" value="0"/>
-	<table border="">
-		<tr>
-			<td>
-				<h3>배송지 추가</h3>
-			</td>
-		</tr>
-		<tr>
-			<td>
-				<input type="text" id="zipCode" name="zipCode" placeholder="우편번호" />
-				<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" /><br>
-				<input type="text" id="address" name="address" placeholder="도로명주소" /><br>
-				<input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" /><br>
-				연락처 : <select name="phone1" >
-					<option>010</option>
-					<option>011</option>
-					<option>016</option>
-					<option>017</option>
-					<option>019</option>
-				</select>
-				<input type="text" id="addressPhone" name="phone2" />
-				<input type="text" id="addressPhone" name="phone3" />
+	<input type="hidden" name="addrName" th:value="${user.memberName}" />
+	<input type="hidden" name="memberId" th:value="${user.memberId}" />
+	<input type="hidden" name="basicAddr" value="0" />
+	<div class="body">
+		<div class="menu">
+			<ul>
+				<th:block th:if="${memberService == 'myProfile'}">
+					<li><a th:href="|/member/myProfile|" style="background-color: #333; color: #fff;">내 정보</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myProfile'}">
+					<li><a th:href="|/member/myProfile|">내 정보</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+					<li><a th:href="|/member/myOrder/1|" style="background-color: #333; color: #fff;">주문내역</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+					<li><a th:href="|/member/myOrder/1|">주문내역</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+					<li><a th:href="|/member/myInquiry/1|" style="background-color: #333; color: #fff;">문의내역</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+					<li><a th:href="|/member/myInquiry/1|">문의내역</a></li>
+				</th:block>
+
+				<th:block
+					th:if="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+					<li><a href="/member/addressManage" style="background-color: #333; color: #fff;">주소록 관리</a></li>
+				</th:block>
+				<th:block
+					th:unless="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+					<li><a href="/member/addressManage">주소록 관리</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'modifyPw'}">
+					<li><a th:href="|/member/modifyPw|" style="background-color: #333; color: #fff;">비밀번호 수정</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'modifyPw'}">
+					<li><a th:href="|/member/modifyPw|">비밀번호 수정</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'quitMember'}">
+					<li><a href="/member/quitMember" style="background-color: #333; color: #fff;">회원 탈퇴</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'quitMember'}">
+					<li><a href="/member/quitMember">회원 탈퇴</a></li>
+				</th:block>
+			</ul>
+		</div>
+		<div class="addrForm">
+			<h1>배송지 추가</h1>
+			<div class="addrBox">
+				<div class="field">
+					<label for="zipCode">주소</label>
+					<input type="text" id="zipCode" name="zipCode" placeholder="우편번호" />
+					<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" /><br>
+					<input type="text" id="address" name="address" placeholder="도로명주소" /><br>
+					<input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" />
+				</div>
+				<div class="field">
+					<label for="phone1">전화번호</label>
+					<select id="phone1" name="phone1">
+						<option>010</option>
+						<option>011</option>
+						<option>016</option>
+						<option>017</option>
+						<option>019</option>
+					</select>
+					<input type="text" id="addressPhone" name="phone2" />
+					<input type="text" id="addressPhone" name="phone3" />
+				</div>
 				<input type="submit" value="저장" />
-			</td>
-		</tr>
-	</table>
+			</div>
+		</div>
+	</div>
 </form>

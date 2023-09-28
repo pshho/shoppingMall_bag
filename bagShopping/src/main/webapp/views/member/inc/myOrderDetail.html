@@ -1,117 +1,169 @@
 <!DOCTYPE html>
 <html xmlns="http://www.thymeleaf.org">
 
-	<meta charset="UTF-8">
-	<title>마이페이지 - 내 주문내역</title>
-	<style>
-		
-		img{
-			width: 100px;
-			height: 100px;
-		}
-	</style>
-	<script>
-		function reviewBtn(data){
-			console.log(data)
-			if(confirm("리뷰를 작성 하시겠습니까?")){
-				$.ajax({
-					url: "/member/review",
-					type: "post",
-					data: {productCode: data},
-					dataType: 'json',
-					success: function (result) {
-						if (result > 0) {
-							location.href = "/shopping/shoppingDetail/0/0/0/"+result+"/newest"
-						}
-					},
-					error: function () {
-						alert("요청 실패");
+<meta charset="UTF-8">
+<title>마이페이지 - 내 주문내역</title>
+<style>
+	img {
+		width: 100px;
+		height: 100px;
+	}
+</style>
+<script>
+	function reviewBtn(data) {
+		console.log(data)
+		if (confirm("리뷰를 작성 하시겠습니까?")) {
+			$.ajax({
+				url: "/member/review",
+				type: "post",
+				data: {productCode: data},
+				dataType: 'json',
+				success: function (result) {
+					if (result > 0) {
+						location.href = "/shopping/shoppingDetail/0/0/0/" + result + "/newest"
 					}
-				})
-			}
+				},
+				error: function () {
+					alert("요청 실패");
+				}
+			})
 		}
-		
-	</script>
+	}
+
+</script>
 </head>
+
 <body>
-	<h2 th:each="info : ${orderInfo}" th:text="|${info.orderStatus} 상품 입니다.|"></h2>
-	<h3>상품 정보</h3>
-	<table border="">
-		<tr>
-			<td>이미지</td>
-			<td>상품코드</td>
-			<td>상품명</td>
-			<td>수량</td>
-			<td>주문번호</td>
-			<td th:each="info : ${orderInfo}" th:if="${info.orderStatus == '배송 완료'}">리뷰</td>
-		</tr>
-		<tr th:each="order : ${myOrd}">
-			<td><img th:src="|/upFile/${order.productCode}_img1.png|"></td>
-			<td th:text="${order.productCode}"/>
-			<td th:text="${order.bagName}"/>
-			<td th:text="${order.amount}"/>
-			<td th:text="${order.merchantUid}"/>
-			<td th:each="info : ${orderInfo}" th:if="${info.orderStatus == '배송 완료'}">
-				<button th:onclick="reviewBtn([[${order.productCode}]])">상품 리뷰 작성</button></td>
-		</tr>
-	</table>
-	<th:block th:each="info : ${orderInfo}">
-	<h3>배송지 정보</h3>
-	<table border="">
-		<tr>
-			<td>수령자</td>
-			<td th:text="${info.buyerName}"/>
-		</tr>
-		<tr>
-			<td>전화번호</td>
-			<td th:text="${info.buyerTel}"/>
-		</tr>
-		<tr>
-			<td>배송지</td>
-			<td th:text="${info.buyerAddr}"/>
-		</tr>
-		<tr>
-			<td>배송요청사항</td>
-			<td th:text="${info.addressMsg}"/>
-		</tr>
-	</table>
-	<h3>결제 정보</h3>
-	<table border="">
-		<tr>
-			<td>상품 금액</td>
-			<td th:text="${info.ordersTotalPrice}"/>
-		</tr>
-		<tr>
-			<td>배송비</td>
-			<td th:text="${info.deliveryFee}"/>
-		</tr>
-		<tr>
-			<td>결제 금액</td>
-			<td th:text="${info.ordersTotalPrice}"/>
-		</tr>
-		<tr>
-			<td>결제 방법</td>
-			<th:block th:if="|${info.payType == 'tosspay.tosstest'}|">
-			<td th:text="|토스페이|" />
+	<div class="body">
+		<div class="menu">
+			<ul>
+				<th:block th:if="${memberService == 'myProfile'}">
+					<li><a th:href="|/member/myProfile|" style="background-color: #333; color: #fff;">내 정보</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myProfile'}">
+					<li><a th:href="|/member/myProfile|">내 정보</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+					<li><a th:href="|/member/myOrder/1|" style="background-color: #333; color: #fff;">주문내역</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myOrder'} or ${memberService == 'myOrderDetail'}">
+					<li><a th:href="|/member/myOrder/1|">주문내역</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+					<li><a th:href="|/member/myInquiry/1|" style="background-color: #333; color: #fff;">문의내역</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'myInquiry'} or ${memberService == 'myInquiryDetail'}">
+					<li><a th:href="|/member/myInquiry/1|">문의내역</a></li>
+				</th:block>
+
+				<th:block
+					th:if="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+					<li><a href="/member/addressManage" style="background-color: #333; color: #fff;">주소록 관리</a></li>
+				</th:block>
+				<th:block
+					th:unless="${memberService == 'addressManage'} or ${memberService == 'addAddress'} or ${memberService == 'modifyAddress'}">
+					<li><a href="/member/addressManage">주소록 관리</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'modifyPw'}">
+					<li><a th:href="|/member/modifyPw|" style="background-color: #333; color: #fff;">비밀번호 수정</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'modifyPw'}">
+					<li><a th:href="|/member/modifyPw|">비밀번호 수정</a></li>
+				</th:block>
+
+				<th:block th:if="${memberService == 'quitMember'}">
+					<li><a href="/member/quitMember" style="background-color: #333; color: #fff;">회원 탈퇴</a></li>
+				</th:block>
+				<th:block th:unless="${memberService == 'quitMember'}">
+					<li><a href="/member/quitMember">회원 탈퇴</a></li>
+				</th:block>
+			</ul>
+		</div>
+		<div class="contents">
+			<h2 th:each="info : ${orderInfo}" th:text="|${info.orderStatus} 상품 입니다.|"></h2>
+			<h3>상품 정보</h3>
+			<table border="">
+				<tr>
+					<td>이미지</td>
+					<td>상품코드</td>
+					<td>상품명</td>
+					<td>수량</td>
+					<td>주문번호</td>
+					<td th:each="info : ${orderInfo}" th:if="${info.orderStatus == '배송 완료'}">리뷰</td>
+				</tr>
+				<tr th:each="order : ${myOrd}">
+					<td><img th:src="|/upFile/${order.productCode}_img1.png|"></td>
+					<td th:text="${order.productCode}" />
+					<td th:text="${order.bagName}" />
+					<td th:text="${order.amount}" />
+					<td th:text="${order.merchantUid}" />
+					<td th:each="info : ${orderInfo}" th:if="${info.orderStatus == '배송 완료'}">
+						<button th:onclick="reviewBtn([[${order.productCode}]])">상품 리뷰 작성</button>
+					</td>
+				</tr>
+			</table>
+			<th:block th:each="info : ${orderInfo}">
+				<h3>배송지 정보</h3>
+				<table border="">
+					<tr>
+						<td>수령자</td>
+						<td th:text="${info.buyerName}" />
+					</tr>
+					<tr>
+						<td>전화번호</td>
+						<td th:text="${info.buyerTel}" />
+					</tr>
+					<tr>
+						<td>배송지</td>
+						<td th:text="${info.buyerAddr}" />
+					</tr>
+					<tr>
+						<td>배송요청사항</td>
+						<td th:text="${info.addressMsg}" />
+					</tr>
+				</table>
+				<h3>결제 정보</h3>
+				<table border="">
+					<tr>
+						<td>상품 금액</td>
+						<td th:text="${info.ordersTotalPrice}" />
+					</tr>
+					<tr>
+						<td>배송비</td>
+						<td th:text="${info.deliveryFee}" />
+					</tr>
+					<tr>
+						<td>결제 금액</td>
+						<td th:text="${info.ordersTotalPrice}" />
+					</tr>
+					<tr>
+						<td>결제 방법</td>
+						<th:block th:if="|${info.payType == 'tosspay.tosstest'}|">
+							<td th:text="|토스페이|" />
+						</th:block>
+						<th:block th:if="|${info.payType == 'kakaopay.TC0ONETIME'}|">
+							<td th:text="|카카오페이|" />
+						</th:block>
+						<th:block th:if="|${info.payType == 'payco.AUTOPAY'}|">
+							<td th:text="|페이코|" />
+						</th:block>
+						<th:block th:if="|${info.payType == 'kcp.A52CY'}|">
+							<td th:text="|카드결제|" />
+						</th:block>
+					</tr>
+				</table>
 			</th:block>
-			<th:block th:if="|${info.payType == 'kakaopay.TC0ONETIME'}|">
-			<td th:text="|카카오페이|" />
+			<!--결제 취소 상품일시-->
+			<th:block>
+
 			</th:block>
-			<th:block th:if="|${info.payType == 'payco.AUTOPAY'}|">
-			<td th:text="|페이코|" />
-			</th:block>
-			<th:block th:if="|${info.payType == 'kcp.A52CY'}|">
-			<td th:text="|카드결제|" />
-			</th:block>
-		</tr>
-	</table>
-	</th:block>
-	<!--결제 취소 상품일시-->
-	<th:block>
-		
-	</th:block>
-	<br/>
-	<a th:href="|/member/myOrder/${pd.page}|">주문 리스트로</a>
+			<br />
+			<a th:href="|/member/myOrder/${pd.page}|">주문 리스트로</a>
+		</div>
+	</div>
 </body>
 
 </html>

@@ -23,7 +23,7 @@ public interface AddressMapper {
 	
 	int setBasicAddr0(String memberId);
 	void setAllBasicAddr1(String memberId);
-	int setBasicAddr1(String memberId, String addressId);
+	int setBasicAddr1(String memberId, int addressId);
 	
 	int cntBasic(String memberId);
 }
