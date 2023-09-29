@@ -21,11 +21,11 @@
 			</div>
 			<div class="field">
 				<label for="pw">비밀번호</label>
-				<input type="text" id="pw" name="memberPw" />
+				<input type="password" id="pw" name="memberPw" />
 			</div>
 			<div class="field">
 				<label for="pw2">비밀번호 확인</label>
-				<input type="text" id="pw2" name="memberPw2" />
+				<input type="password" id="pw2" name="memberPw2" />
 			</div>
 			<div class="field">
 				<label for="name">이름</label>
@@ -65,10 +65,10 @@
 			</div>
 			<div class="field">
 				<label for="zipCode">주소</label>
-				<input type="text" id="zipCode" name="zipCode" placeholder="우편번호" />
+				<input type="text" id="zipCode" name="zipCode" placeholder="우편번호" readonly/>
 				<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" />
-				<input type="text" id="address" name="address" placeholder="도로명주소" />
-				<input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소" />
+				<input type="text" id="address" name="address" placeholder="도로명주소" readonly/>
+				<input type="text" id="detailAddress" name="detailAddress" placeholder="상세주소"/>
 			</div>
 			<div class="btnBox">
 				<button type="button" onclick="signUp()" >가입</button>

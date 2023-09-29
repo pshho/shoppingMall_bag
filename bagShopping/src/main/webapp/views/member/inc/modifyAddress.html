@@ -48,7 +48,7 @@
 		</ul>
 	</div>
 	<div class="addrForm">
-		<form th:action="|/member/modifyAddressReg/${addr.addressId}|" method="post">
+		<form th:action="|/member/modifyAddressReg/${addr.addressId}|" method="post" id="addrModiForm">
 			<input type="hidden" name="addrName" th:value="${user.memberName}" />
 			<input type="hidden" name="memberId" th:value="${user.memberId}" />
 			<input type="hidden" name="basicAddr" value="0" />
@@ -56,9 +56,9 @@
 			<div class="addrBox">
 				<div class="field">
 					<label for="zipCode">주소</label>
-					<input type="text" id="zipCode" name="zipCode" th:value="${addr.zipCode}" />
+					<input type="text" id="zipCode" name="zipCode" th:value="${addr.zipCode}" readonly/>
 					<input type="button" onclick="execDaumPostcode()" value="우편번호 찾기" /><br>
-					<input type="text" id="address" name="address" th:value="${addr.address}" /><br>
+					<input type="text" id="address" name="address" th:value="${addr.address}" readonly/><br>
 					<input type="text" id="detailAddress" name="detailAddress" th:value="${addr.detailAddress}" />
 				</div>
 				<div class="field">
@@ -70,10 +70,10 @@
 						<option>017</option>
 						<option>019</option>
 					</select>
-					<input type="text" id="addressPhone" name="phone2" />
-					<input type="text" id="addressPhone" name="phone3" />
+					<input type="text" id="phone2" class="addressPhone" name="phone2" />
+					<input type="text" id="phone3" class="addressPhone" name="phone3" />
 				</div>
-				<input type="submit" value="수정" />
+				<button type="button" id="addAddrBtn" onclick="modiMyAddrBtn()" >수정</button>
 			</div>
 		</form>
 	</div>

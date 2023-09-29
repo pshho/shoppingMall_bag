@@ -49,6 +49,14 @@
 	border-radius: 5px;
 }
 
+.member .field input[type='password'] {
+	font-size: 1em;
+	width: 330px;
+	height: 45px;
+	border: 1px solid #222;
+	border-radius: 5px;
+}
+
 .member #emailDomain {
 	font-size: 1em;
 
@@ -275,12 +283,12 @@
 }
 
 /*마이페이지 메뉴*/
+
 .menu ul {
 	list-style-type: none;
 	padding: 0px;
 	width: 150px;
-	overflow: auto;
-	position: fixed;
+	position: absolute;
 }
 
 .menu li a {
@@ -301,7 +309,7 @@
 	margin: 100px auto;
 	margin-left: 150px;
 	text-align: center;
-	height: 500px;
+	height: 700px;
 }
 
 .contents table {
@@ -323,6 +331,10 @@
 }
 
 /*마이페이지 주문내역*/
+#myOrdTable{
+	width: 1000px;
+}
+
 #myOrdTable tr td {
 	padding: 10px;
 	border: 1px solid black;
@@ -346,6 +358,10 @@
 }
 
 /*마이페이지 문의내역*/
+#myInqTable{
+	width: 1000px;
+}
+
 #myInqTable tr td {
 	padding: 5px 10px;
 	border: 1px solid black;
@@ -374,6 +390,11 @@
 }
 
 /*배송지 관리*/
+
+#myAddrTable{
+	width: 1000px;
+	
+}
 #myAddrTable tr:first-child {
 	font-weight: bold;
 }
@@ -385,6 +406,7 @@
 	border-left: 0px;
 
 }
+
 
 #myAddrTable .addrModiBtn {
 	width: 42.67px;
@@ -495,7 +517,7 @@
 	height: 20px;
 }
 
-.addrForm #addressPhone {
+.addrForm .addressPhone {
 	width: 100px;
 	height: 20px;
 }
@@ -504,7 +526,7 @@
 	height: 24px;
 }
 
-.addrForm input[type='submit'] {
+.addrForm #addAddrBtn {
 	font-size: 16px;
 	margin-top: 20px;
 	margin-left: 225px;
