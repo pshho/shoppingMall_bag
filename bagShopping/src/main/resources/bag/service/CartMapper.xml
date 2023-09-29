@@ -13,6 +13,17 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<select id="cartList" resultType="cartDTO">
 		select * from cart <include refid="wh_memberId" />
 	</select>
+	<select id="cartSelectList" resultType="cartDTO">
+		select * from cart
+		<where>
+			<if test="memberId!=null">
+				member_id = #{memberId}
+			</if>
+			<if test="payStatus!=0">
+				and pay_status = #{payStatus}
+			</if>
+		</where>
+	</select>
 	<select id="payCartList" resultType="cartDTO">
 		select * from cart
 		<where>

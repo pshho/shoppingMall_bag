@@ -9,6 +9,7 @@ import bag.model.CartDTO;
 @Mapper
 public interface CartMapper {
 	List<CartDTO> cartList(String memberId);
+	List<CartDTO> cartSelectList(String memberId, int payStatus);
 	void addCart(CartDTO cart);
 	int updCart(CartDTO cart);
 	int cartCount(String memberId);

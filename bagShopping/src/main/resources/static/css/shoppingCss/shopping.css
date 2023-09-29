@@ -58,6 +58,12 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 .shoppingCart tr:nth-of-type(2) td:last-of-type{
 	width: 45px;
 }
+.shoppingCart tr:nth-of-type(2) td:first-of-type{
+	width: 120px;
+}
+.shoppingCart tr:nth-of-type(2) td:first-of-type input[type=checkbox]{
+	height: 15px;
+}
 .shoppingCart tr:nth-last-of-type(3) td:first-of-type {
 	text-align: left;
 }

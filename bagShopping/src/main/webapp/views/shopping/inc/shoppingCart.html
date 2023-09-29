@@ -7,7 +7,12 @@
 	</tr>
 	<th:block th:if="${cartList != null and #arrays.length(cartList) != 0}">
 		<tr>
-			<td>구매</td>
+			<td>
+				<label for="selectAll">
+					전체 선택
+					<input type="checkbox" id="selectAll" onchange="allCheck()" />
+				</label>
+			</td>
 			<td>상품이미지</td>
 			<td>상품명</td>
 			<td>수량</td>
@@ -269,7 +274,8 @@
 				dataType : 'json',
 				data : JSON.stringify(params),
 				success : function(res){
-					console.log(res);
+					$('#total').val(res.total.toLocaleString());
+					$('#delivery').val(res.delivery.toLocaleString());
 				},
 				error : function(error){
 					console.log(error);
@@ -289,12 +295,26 @@
 				dataType : 'json',
 				data : JSON.stringify(params),
 				success : function(res){
-					console.log(res);
+					$('#total').val(res.total.toLocaleString());
+					$('#delivery').val(res.delivery.toLocaleString());
 				},
 				error : function(error){
 					console.log(error);
 				}
 			})
 		}
+	}
+	
+	function allCheck(){
+		let chkBox = document.querySelectorAll('#chkPay');
+		let check = document.getElementById('selectAll');
+		
+		chkBox.forEach(function(item){
+			item.checked = check.checked;
+			
+			if (typeof item.onchange == 'function') {
+	            item.onchange();
+	        }
+		})
 	}
 </script>
