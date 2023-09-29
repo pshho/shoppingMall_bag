@@ -95,7 +95,8 @@ public class ShoppingController {
 		CartDTO cart = new CartDTO();
 		cartMapper.selectInit(memberId);
 		cartList = cartMapper.cartList(memberId);
-		cart.sumTotal(cartList);
+		List<CartDTO> totalPrice = cartMapper.cartSelectList(memberId, 1);
+		cart.sumTotal(totalPrice);
 		if(cart.getSumTotal() < 50000) {
 			cart.setDeliveryFee(3000);
 			cart.setSumTotal(cart.getSumTotal()+cart.getDeliveryFee());
@@ -416,9 +417,19 @@ public class ShoppingController {
 	
 	@PostMapping("orderSelect")
 	@ResponseBody
-	Object orderSelect(@RequestBody CartDTO cart) {
+	Object orderSelect(HttpSession session, @RequestBody CartDTO cart) {
+		String memberId = (String)session.getAttribute("userId");
 		cartMapper.orderSelect(cart);
-		return "선택";
+		List<CartDTO> totalPrice = cartMapper.cartSelectList(memberId, 1);
+		cart.sumTotal(totalPrice);
+		if(cart.getSumTotal() < 50000) {
+			cart.setDeliveryFee(3000);
+			cart.setSumTotal(cart.getSumTotal()+cart.getDeliveryFee());
+		}
+		Map<String, Integer> res = new HashMap<>();
+		res.put("total", cart.getSumTotal());
+		res.put("delivery", cart.getDeliveryFee());
+		return res;
 	}
 	
 	@GetMapping("shopList")
