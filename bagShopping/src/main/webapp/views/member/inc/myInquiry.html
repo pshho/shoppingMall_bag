@@ -62,6 +62,7 @@
 					<td>작성자</td>
 					<td>작성일</td>
 				</tr>
+				<th:block th:if="${#lists.size(myInq) > 0}">
 				<tr th:each="inq, inqStat : ${myInq}">
 					<td th:text="${pd.total - pd.start - inqStat.count + 1}" />
 					<td>
@@ -72,6 +73,12 @@
 					<td th:text="${inq.inWriter}" />
 					<td th:text="${inq.inquiryRegDate2}" />
 				</tr>
+				</th:block>
+				<th:block th:unless="${#lists.size(myInq) > 0}">
+					<tr>
+						<td colspan="6"><b>문의하신 내역이 없습니다.</b></td>
+					</tr>
+				</th:block>
 				<tr>
 					<td colspan="9" align="center">
 						<th:block th:if="${pd.pageStart} > 1">

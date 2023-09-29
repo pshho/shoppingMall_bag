@@ -145,7 +145,15 @@
 		var form = $('form[name=addGoodsForm]')
 
 		function productCodeChkBtn() {
-			
+			if (productCode.val() == "") {
+				alert("상품코드를 입력해주세요")
+				productCode.focus()
+				return false;
+			}
+			if (!reg.test(productCode.val())) {
+				alert("상품코드는 숫자만 입력해주세요.")
+				return false;
+			}
 			$.ajax({
 				url: "/admin/productCodeChk",
 				type: "post",

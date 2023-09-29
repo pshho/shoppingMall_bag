@@ -4,7 +4,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>판매 관리</title>
-	
+
 	<script>
 		function orderCancel(data) {
 			if (confirm("결제를 취소 하시겠습니까?")) {
@@ -21,7 +21,18 @@
 						success: function (result) {
 							if (result == 0) {
 								alert("결제 취소 완료")
-								location.href = "/admin/salesHistory/1"
+								if (pageType == 'PC') {
+									location.href = "/admin/salesHistory/" + [[${pd.page}]] + "?searchType=S&keyword=결제%20완료&limit=15&pageType=PC"
+								}
+								if (pageType == 'SP') {
+									location.href = "/admin/salesHistory/" + [[${pd.page}]] + "?searchType=S&keyword=배송%20준비&limit=15&pageType=SP"
+								}
+								if (pageType == 'SI') {
+									location.href = "/admin/salesHistory/" + [[${pd.page}]] + "?searchType=S&keyword=배송%20중&limit=15&pageType=SI"
+								}
+								if (pageType == 'ALL') {
+									location.href = "/admin/salesHistory/" + [[${pd.page}]] + "?pageType=ALL"
+								}
 							}
 						},
 						error: function () {
@@ -32,7 +43,7 @@
 			}
 		}
 
-		
+
 		$(document).on('click', '#btnSearch', function (e) {
 			console.log("누름")
 			e.preventDefault();
@@ -45,8 +56,8 @@
 			console.log(url);
 			location.href = url;
 		});
-		
-		
+
+
 		function shipChange(selected, uid, pageType) {
 			console.log(pageType)
 			if (confirm(selected + "(으)로 상태를 변경 하시겠습니까?")) {
@@ -58,19 +69,19 @@
 					success: function (result) {
 						if (result > 0) {
 							alert("배송정보 변경 완료")
-							if(pageType == 'PC'){
-								location.href = "/admin/salesHistory/" + [[${pd.page}]]+"?searchType=S&keyword=결제%20완료&limit=15&pageType=PC"
+							if (pageType == 'PC') {
+								location.href = "/admin/salesHistory/" + [[${pd.page}]] + "?searchType=S&keyword=결제%20완료&limit=15&pageType=PC"
 							}
-							if(pageType == 'SP'){
-								location.href = "/admin/salesHistory/" + [[${pd.page}]]+"?searchType=S&keyword=배송%20준비&limit=15&pageType=SP"
+							if (pageType == 'SP') {
+								location.href = "/admin/salesHistory/" + [[${pd.page}]] + "?searchType=S&keyword=배송%20준비&limit=15&pageType=SP"
 							}
-							if(pageType == 'SI'){
-								location.href = "/admin/salesHistory/" + [[${pd.page}]]+"?searchType=S&keyword=배송%20중&limit=15&pageType=SI"
+							if (pageType == 'SI') {
+								location.href = "/admin/salesHistory/" + [[${pd.page}]] + "?searchType=S&keyword=배송%20중&limit=15&pageType=SI"
 							}
-							if(pageType == 'ALL'){
-								location.href = "/admin/salesHistory/" + [[${pd.page}]]+"?pageType=ALL"
+							if (pageType == 'ALL') {
+								location.href = "/admin/salesHistory/" + [[${pd.page}]] + "?pageType=ALL"
 							}
-							
+
 						}
 					},
 					error: function () {
@@ -91,9 +102,9 @@
 			<tr>
 				<td>배송상태</td>
 				<td>주문번호</td>
-				
+
 				<td>구매자 ID</td>
-				
+
 				<td>주문일자</td>
 				<td>결제 관리</td>
 				<td>배송 관리</td>
@@ -101,10 +112,12 @@
 			</tr>
 			<tr th:each="order : ${orderList}">
 				<td th:text="${order.orderStatus}" id="status" />
-				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}?searchType=${pd.searchType}&keyword=결제%20완료&limit=15&pageType=PC|">[[${order.merchantUid}]]</a></td>
-				
+				<td><a
+						th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}?searchType=${pd.searchType}&keyword=결제%20완료&limit=15&pageType=PC|">[[${order.merchantUid}]]</a>
+				</td>
+
 				<td th:text="${order.memberId}" />
-				
+
 				<td th:text="${order.ordersRegDateStr}" />
 				<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
 						th:orderParam="${order.merchantUid}"
@@ -112,7 +125,8 @@
 				</td>
 				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
 				<td>
-					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
+					<select
+						th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
 						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
 						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
 						<option th:selected="${order.orderStatus == '배송 중'}">배송 중</option>
@@ -182,9 +196,9 @@
 			<tr>
 				<td>배송상태</td>
 				<td>주문번호</td>
-				
+
 				<td>구매자 ID</td>
-				
+
 				<td>주문일자</td>
 				<td>결제 관리</td>
 				<td>배송 관리</td>
@@ -192,10 +206,12 @@
 			</tr>
 			<tr th:each="order : ${orderList}">
 				<td th:text="${order.orderStatus}" id="status" />
-				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}?searchType=${pd.searchType}&keyword=배송%20준비&limit=15&pageType=SP|">[[${order.merchantUid}]]</a></td>
-			
+				<td><a
+						th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}?searchType=${pd.searchType}&keyword=배송%20준비&limit=15&pageType=SP|">[[${order.merchantUid}]]</a>
+				</td>
+
 				<td th:text="${order.memberId}" />
-				
+
 				<td th:text="${order.ordersRegDateStr}" />
 				<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
 						th:orderParam="${order.merchantUid}"
@@ -203,7 +219,8 @@
 				</td>
 				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
 				<td>
-					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
+					<select
+						th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
 						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
 						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
 						<option th:selected="${order.orderStatus == '배송 중'}">배송 중</option>
@@ -273,9 +290,9 @@
 			<tr>
 				<td>배송상태</td>
 				<td>주문번호</td>
-				
+
 				<td>구매자 ID</td>
-				
+
 				<td>주문일자</td>
 				<td>결제 관리</td>
 				<td>배송 관리</td>
@@ -283,10 +300,12 @@
 			</tr>
 			<tr th:each="order : ${orderList}">
 				<td th:text="${order.orderStatus}" id="status" />
-				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}?searchType=${pd.searchType}&keyword=배송%20중&limit=15&pageType=SI|">[[${order.merchantUid}]]</a></td>
-				
+				<td><a
+						th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}?searchType=${pd.searchType}&keyword=배송%20중&limit=15&pageType=SI|">[[${order.merchantUid}]]</a>
+				</td>
+
 				<td th:text="${order.memberId}" />
-				
+
 				<td th:text="${order.ordersRegDateStr}" />
 				<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
 						th:orderParam="${order.merchantUid}"
@@ -294,7 +313,8 @@
 				</td>
 				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
 				<td>
-					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
+					<select
+						th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
 						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
 						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
 						<option th:selected="${order.orderStatus == '배송 중'}">배송 중</option>
@@ -373,10 +393,12 @@
 			</tr>
 			<tr th:each="order : ${orderList}">
 				<td th:text="${order.orderStatus}" id="status" />
-				<td><a th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}?pageType=ALL|">[[${order.merchantUid}]]</a></td>
-				
+				<td><a
+						th:href="|/admin/salesHistory/${pd.page}/${order.merchantUid}?pageType=ALL|">[[${order.merchantUid}]]</a>
+				</td>
+
 				<td th:text="${order.memberId}" />
-				
+
 				<td th:text="${order.ordersRegDateStr}" />
 				<td th:if="${order.orderStatus == '결제 완료'}"><input type="button" value="결제 취소"
 						th:orderParam="${order.merchantUid}"
@@ -384,7 +406,8 @@
 				</td>
 				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
 				<td>
-					<select th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
+					<select
+						th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
 						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
 						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
 						<option th:selected="${order.orderStatus == '배송 중'}">배송 중</option>
@@ -466,12 +489,12 @@
 					~
 					<input type="date" value="end" id="dateEnd">
 					<input type="submit" id="btnSearch" value="검색">
-					
+
 				</td>
 			</tr>
 		</table>
 	</th:block>
-	
+
 </body>
 
 </html>

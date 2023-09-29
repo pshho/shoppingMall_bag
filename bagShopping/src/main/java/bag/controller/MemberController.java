@@ -496,6 +496,9 @@ public class MemberController {
 	String inquiryDetail(@PathVariable int id, PageData2 pd, Model mm) {
 
 		String templateUrl = "myInquiryDetail";
+		if(inqMapper.levChk(id).contains(1)) {
+			mm.addAttribute("posModi", 1);
+		}
 		mm.addAttribute("pd", pd);
 		mm.addAttribute("memberService", templateUrl);
 		mm.addAttribute("inquiryDetail", inqMapper.inqDetail(id));

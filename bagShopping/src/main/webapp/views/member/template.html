@@ -80,7 +80,18 @@
 		$(function () {
 			$("#idCheck").on("click", function () {
 				var userId = $('#id').val();
+				var idReg = /^[A-Za-z]{1}[A-Za-z0-9]{6,10}$/;
 
+				if (userId == '') {
+					alert('아이디를 입력해 주세요.')
+					$('#id').focus
+					return false;
+				}
+				if (!idReg.test(userId)) {
+					alert('아이디는 영문 숫자 조합 6~10 글자로 입력해주세요.')
+					$('#id').focus
+					return false;
+				}
 				$.ajax({
 					url: "idCheck",
 					type: "post",
@@ -111,7 +122,19 @@
 				var phone1 = $("#phone1 option:selected").val();
 				var phone2 = $("#phone2").val();
 				var phone3 = $("#phone3").val();
+				var phoneReg = /^[0-9]{3,4}$/;
+				var phoneReg2 = /^[0-9]{4,4}$/;
 				var phone = phone1 + "-" + phone2 + "-" + phone3;
+				if (phone2 == '' || phone3 == '') {
+					alert("전화번호를 입력해 주세요.")
+					$('#phone2').focus
+					return false;
+				}
+				if (!phoneReg.test(phone2) || !phoneReg2.test(phone3)) {
+					alert("전화번호를 확인해 주세요.")
+					$('#phone2').focus
+					return false;
+				}
 				console.log(phone);
 				$.ajax({
 					type: "POST",
@@ -154,16 +177,17 @@
 			var phone3 = $('#phone3').val();
 			var zipCode = $('#zipCode').val();
 
-			var idReg = /^[a-zA-Z0-9]+$/;
+			var idReg = /^[A-Za-z]{1}[A-Za-z0-9]{6,10}$/;
 			var nameReg = /^[가-힣]+$/;
-			var phoneReg = /^[0-9]+$/;
+			var phoneReg = /^[0-9]{3,4}$/;
+			var phoneReg2 = /^[0-9]{4,4}$/;
 			if (id == '') {
 				alert('아이디를 입력해 주세요.')
 				$('#memberId').focus
 				return false;
 			}
 			if (!idReg.test(id)) {
-				alert('아이디는 영문 숫자 조합으로 입력해주세요.')
+				alert('아이디는 영문 숫자 조합 6~10 글자로 입력해주세요.')
 				$('#id').focus
 				return false;
 			}
@@ -199,14 +223,14 @@
 				$('#email').focus
 				return false;
 			}
-			
+
 			if (phone2 == '' || phone3 == '') {
 				alert("전화번호를 입력해 주세요.")
 				$('#phone2').focus
 				return false;
 			}
-			if (!phoneReg.test(phone2) || !phoneReg.test(phone3)) {
-				alert("전화번호는 숫자만 입력해 주세요.")
+			if (!phoneReg.test(phone2) || !phoneReg2.test(phone3)) {
+				alert("전화번호를 확인해 주세요.")
 				$('#phone2').focus
 				return false;
 			}
@@ -251,7 +275,62 @@
 			}
 		}
 
+		function addMyAddrBtn() {
+			var phone1 = $('#phone1').val();
+			var phone2 = $('#phone2').val();
+			var phone3 = $('#phone3').val();
+			var zipCode = $('#zipCode').val();
+			var addAddrForm = $('#addAddrForm');
+			var phoneReg = /^[0-9]{3,4}$/;
+			var phoneReg2 = /^[0-9]{4,4}$/;
 
+			if (phone2 == '' || phone3 == '') {
+				alert("전화번호를 입력해 주세요.")
+				$('#phone2').focus
+				return false;
+			}
+			if (!phoneReg.test(phone2) || !phoneReg2.test(phone3)) {
+				alert("전화번호는 숫자만 입력해 주세요.")
+				$('#phone2').focus
+				return false;
+			}
+			if (zipCode == '') {
+				alert("주소를 입력해 주세요.")
+				$('#zipCode').focus
+				return false;
+			}
+
+			addAddrForm.submit();
+		}
+
+		function modiMyAddrBtn() {
+			var phone1 = $('#phone1').val();
+			var phone2 = $('#phone2').val();
+			var phone3 = $('#phone3').val();
+			var zipCode = $('#zipCode').val();
+			var addrModiForm = $('#addrModiForm');
+			
+			var phoneReg = /^[0-9]{3,4}$/;
+			var phoneReg2 = /^[0-9]{4,4}$/;
+			if (zipCode == '') {
+				alert("주소를 입력해 주세요.")
+				$('#zipCode').focus
+				return false;
+			}
+			if (phone2 == '' || phone3 == '') {
+				alert("전화번호를 입력해 주세요.")
+				$('#phone2').focus
+				return false;
+			}
+			if (!phoneReg.test(phone2) || !phoneReg2.test(phone3)) {
+				alert("전화번호를 확인해 주세요.")
+				$('#phone2').focus
+				return false;
+			}
+
+
+			addrModiForm.submit();
+		}
 	</script>
 </head>
 
