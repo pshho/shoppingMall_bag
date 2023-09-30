@@ -32,10 +32,10 @@
 						th:href="|/inquiry/inquiryModify/${inquiryDetail.inquiryId}|">수정</a>
 					</th:block>
 				</th:block>
-				<th:block th:unless="${session.admin eq null}">
+				<!-- <th:block th:unless="${session.admin eq null}">
 					<a th:if="${inquiryDetail.inWriter eq 'admin'}" 
 					th:href="|/inquiry/inquiryModify/${inquiryDetail.inquiryId}|">수정</a>
-				</th:block>
+				</th:block> -->
 				<a th:if="${session.userId eq inquiryDetail.inWriter or session.admin eq inquiryDetail.inWriter}"
 				href="#" th:onclick="|confirmDelete(${inquiryDetail.inquiryId})|">삭제</a>
 				<a href="/inquiry/inquiryList/1">뒤로</a>
