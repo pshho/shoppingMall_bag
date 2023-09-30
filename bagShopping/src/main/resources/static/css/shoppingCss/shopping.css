@@ -68,9 +68,9 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 	text-align: left;
 }
 .shoppingCart tr:not(:last-of-type) td:last-of-type button[type=button]{
-	width: 40px;
-	height: 30px;
-	font-size: 12px;
+	width: 50px;
+	height: 40px;
+	font-size: 16px;
 	border: 0;
 	border-radius: 10px;
 	cursor: pointer;
@@ -84,6 +84,7 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 .shoppingCart tr td:not(:nth-of-type(4)) input[type=text],
 .shoppingDetail2 tr:nth-last-of-type(3) td input[type=text]{
 	border: 0;
+	font-size: 18px;
 }
 .shoppingCart tr td:nth-of-type(4) input[type=text],
 .shoppingDetail2 tr:nth-last-of-type(4) td:first-of-type input[type=text]{
@@ -114,7 +115,7 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 	padding-left: 5px;
 }
 .shoppingList tr:nth-of-type(2) td input[type=submit] {
-	font-size: 10px;
+	font-size: 16px;
 	width: 50px;
 	height: 34px;
 	padding: 5px 10px;
@@ -137,7 +138,7 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 .shoppingList ul li {
 	list-style: none;
 	margin: 10px auto;
-	font-size: 12px;
+	font-size: 18px;
 }
 .shoppingList ul li:first-of-type{
 	text-align: center;
@@ -146,15 +147,15 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 	padding-left: 15px;
 }
 .shoppingList ul li:nth-of-type(2){
-	font-size: 14px;
+	font-size: 20px;
 	font-weight: bold;
 }
 .shoppingList ul li:nth-last-of-type(2){
-	font-size: 15px;
+	font-size: 19px;
 	font-weight: bold;
 }
 .shoppingList ul li:last-of-type{
-	font-size: 11px;
+	font-size: 17px;
 }
 .shoppingList a, .shoppingDetail2 a{
 	text-decoration: none;
@@ -198,7 +199,7 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 	-webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 .shoppingDetail1 tr:not(:nth-of-type(3)):not(:last-of-type) td {
-	font-size: 13px;
+	font-size: 18px;
 }
 .shoppingDetail1 tr:nth-last-of-type(3) td:first-of-type {
 	width: 100px;
@@ -210,16 +211,17 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 .shoppingDetail2 tr:first-of-type td,
 .shoppingDetail2 tr:nth-of-type(3) td {
 	font-weight: bold;
+	font-size: 18px;
 }
 .shoppingDetail2 tr:nth-of-type(2) td {
-	font-size: 14px;
+	font-size: 18px;
 	padding-left: 5px;
 }
 .shoppingDetail2 tr:nth-of-type(3) td {
 	padding: 10px 0;
 }
 .shoppingDetail2 tr:nth-of-type(4) td {
-	font-size: 12px;
+	font-size: 16px;
 }
 .shoppingDetail2 tr:nth-of-type(5) td,
 .shoppingDetail2 tr:nth-of-type(6) td,
@@ -227,7 +229,7 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 .shoppingDetail2 tr:nth-of-type(8) td,
 .shoppingDetail2 tr:nth-of-type(9) td,
 .shoppingDetail2 tr:nth-of-type(10) td {
-	font-size: 13px;
+	font-size: 16px;
 }
 .shoppingDetail2 tr:nth-of-type(8) td:first-of-type{
 	width: 90px;
@@ -239,6 +241,7 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 	width: 100px;
 	margin-left: 20px;
 	border: 0;
+	font-size: 18px;
 }
 .shoppingDetail2 tr:nth-last-of-type(2) td button[type=button]{
 	width: 80px;
@@ -287,7 +290,7 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 	list-style: none;
 }
 .comments ul li span {
-	font-size: 13px;
+	font-size: 16px;
 }
 .comments ul li span:last-of-type {
 	float: right;
@@ -318,7 +321,7 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 }
 .comments ul li p {
 	padding-left: 10px;
-	font-size: 14px;
+	font-size: 16px;
 }
 .comments ul li p i {
 	display: block;
@@ -341,6 +344,8 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 }
 .shoppingDetail2 tr td textarea,
 .shoppingDetail1 tr:not(#reviewArea) td textarea:not(#updateComments){
+	width: 350px;
+	font-size: 16px;
 	border: 0;
 	resize: none;
 }
@@ -399,7 +404,7 @@ tr:not(:first-of-type):not(:nth-of-type(2)):not(:nth-of-type(3)) td,
 .shoppingWrite tr:last-of-type td input[type=button],
 .shoppingModify tr:last-of-type td input[type=submit],
 .shoppingModify tr:last-of-type td input[type=button]{
-	font-size: 10px;
+	font-size: 16px;
 	padding: 5px 10px;
 	background-color: rgb(158, 192, 226);
 	color: white;

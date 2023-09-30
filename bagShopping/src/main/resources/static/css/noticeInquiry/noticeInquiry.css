@@ -7,7 +7,7 @@
 .noticeList, .inquiryList, .noticeDetail, .inquiryDetail,
 .noticeWrite, .inquiryWrite, .noticeModify, .inquiryModify,
 .inquiryReply, .detailCheck {
-	width: 800px;
+	width: 1000px;
 	margin: 0 auto;
 	border-collapse: collapse;
 }
@@ -40,14 +40,14 @@
 }
 .noticeList tr td:nth-of-type(2),
 .inquiryList tr td:nth-of-type(2){
-	font-size: 14px;
+	font-size: 18px;
 }
 .noticeList tr:nth-last-of-type(2) td select,
 .inquiryList tr:nth-last-of-type(2) td select,
 .inquiryList tr:last-of-type td select {
 	border-radius: 5px;
 	padding: 2px 7px;
-	font-size: 13px;
+	font-size: 17px;
 }
 .noticeList tr:nth-last-of-type(2) td input[type=text],
 .inquiryList tr:nth-last-of-type(2) td input[type=text],
@@ -61,7 +61,7 @@
 .noticeList tr:nth-last-of-type(2) td input[type=submit],
 .inquiryList tr:nth-last-of-type(2) td input[type=submit],
 .inquiryList tr:last-of-type td input[type=submit] {
-	font-size: 10px;
+	font-size: 14px;
 	padding: 5px 10px;
 	background-color: rgb(158, 192, 226);
 	color: white;
@@ -149,4 +149,11 @@
 }
 #cont {
 	display: none;
+}
+#searchCont {
+	height: 22px;
+}
+.noticeDetail tr td,
+.inquiryDetail tr td {
+	font-size: 18px;
 }

@@ -134,6 +134,12 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 		select * from products_board where product_code = #{productCode}
 	</select>
 	<select id="newPrb" resultType="prbDTO">
-		select * from products_board order by products_board_reg_date desc
+		select * from products_board 
+		<where>
+			<if test="productsBoardStatus!=0">
+				products_board_status = #{productsBoardStatus}
+			</if>
+		</where>
+		order by products_board_reg_date desc
 	</select>
 </mapper>

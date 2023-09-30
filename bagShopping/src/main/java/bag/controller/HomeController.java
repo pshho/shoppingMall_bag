@@ -27,7 +27,7 @@ public class HomeController {
 	
 	@GetMapping
 	String goHome(Model md) {
-		List<ProductsBoardDTO> prbListNew = prbMapper.newPrb();
+		List<ProductsBoardDTO> prbListNew = prbMapper.newPrb(2);
 		TreeSet<ProductsBoardDTO> prbTree = new TreeSet<>(new SellsDistinct());
 		List<BagsDTO> bagList = new ArrayList<>();
 		List<BagsDTO> bagListNew = new ArrayList<>();

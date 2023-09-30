@@ -22,7 +22,7 @@
 }
 .orderPay tr:nth-of-type(2) td {
 	text-align: center;
-	font-size: 15px;
+	font-size: 18px;
 }
 .orderPay tr:last-of-type td,
 .orderPay tr:nth-last-of-type(2) td {
@@ -43,6 +43,7 @@
 .orderPay tr:nth-last-of-type(2) td:last-of-type {
 	width: 130px;
 	font-weight: bold;
+	font-size: 18px;
 }
 .orders tr td, .orderBuyerInfo tr td,
 .orderAddressInfo tr td, #orderFrame tr td {
@@ -54,6 +55,7 @@
 }
 .orders tr:not(:first-of-type):not(:last-of-type) td {
 	text-align: center;
+	font-size: 18px;
 }
 .orders img {
 	width: 150px;
@@ -67,14 +69,14 @@
 .orderBuyerInfo {
 	width: 230px;
 	border-collapse: collapse;
-	font-size: 14px;
+	font-size: 16px;
 }
 .orderAddressInfo {
 	width: 700px;
 	border-collapse: collapse;
 }
 .orderAddressInfo tr:not(:first-of-type){
-	font-size: 14px;
+	font-size: 16px;
 }
 .orderAddressInfo tr:nth-of-type(2) td:first-of-type {
 	width: 90px;
@@ -146,7 +148,12 @@
 	margin-bottom: 5px;
 }
 #addrAddr td:last-of-type {
-	font-size: 12px;
+	font-size: 16px;
+	display: flex;
+	flex-direction: column;
+}
+#addrAddr td:last-of-type label {
+	height: 50px;
 }
 #addrAddr td:last-of-type label:first-of-type {
 	margin-right: 7px;
