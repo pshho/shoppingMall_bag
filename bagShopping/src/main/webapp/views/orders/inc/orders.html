@@ -22,7 +22,9 @@
 		</tr>
 		<tr>
 			<td>배송비</td>
-			<td colspan="3" th:text="${#numbers.formatInteger(delivery, 0, 'COMMA')}"></td>
+			<td colspan="3" th:if="${delivery ne 0}"
+			th:text="${#numbers.formatInteger(delivery, 0, 'COMMA')}"></td>
+			<td colspan="3" th:unless="${delivery ne 0}">무료 배송</td>
 		</tr>
 	</table>
 </div>

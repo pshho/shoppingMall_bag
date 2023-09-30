@@ -47,8 +47,11 @@
 		</tr>
 		<tr>
 			<td>배송비</td>
-			<td colspan="5">
+			<td colspan="5" th:if="${delivery ne 0}">
 				<input type="text" th:value="${#numbers.formatInteger(delivery, 0, 'COMMA')}" id="delivery" readonly />
+			</td>
+			<td th:unless="${delivery ne 0}">
+				<input type="text" value="무료 배송" id="delivery" readonly />
 			</td>
 		</tr>
 		<tr>
@@ -275,7 +278,11 @@
 				data : JSON.stringify(params),
 				success : function(res){
 					$('#total').val(res.total.toLocaleString());
-					$('#delivery').val(res.delivery.toLocaleString());
+					if(res.delivery == 0){
+						$('#delivery').val('무료 배송');
+					}else{
+						$('#delivery').val(res.delivery.toLocaleString());
+					}
 				},
 				error : function(error){
 					console.log(error);
@@ -296,7 +303,11 @@
 				data : JSON.stringify(params),
 				success : function(res){
 					$('#total').val(res.total.toLocaleString());
-					$('#delivery').val(res.delivery.toLocaleString());
+					if(res.delivery == 0){
+						$('#delivery').val('무료 배송');
+					}else{
+						$('#delivery').val(res.delivery.toLocaleString());
+					}
 				},
 				error : function(error){
 					console.log(error);
