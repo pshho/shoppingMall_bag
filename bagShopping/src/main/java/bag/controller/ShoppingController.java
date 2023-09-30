@@ -99,7 +99,9 @@ public class ShoppingController {
 		cart.sumTotal(totalPrice);
 		if(cart.getSumTotal() < 50000) {
 			cart.setDeliveryFee(3000);
-			cart.setSumTotal(cart.getSumTotal()+cart.getDeliveryFee());
+			if(cart.getSumTotal() != 0) {
+				cart.setSumTotal(cart.getSumTotal()+cart.getDeliveryFee());
+			}
 		}
 		
 		List<BagsDTO> bagsList = new ArrayList<>();
@@ -424,7 +426,10 @@ public class ShoppingController {
 		cart.sumTotal(totalPrice);
 		if(cart.getSumTotal() < 50000) {
 			cart.setDeliveryFee(3000);
-			cart.setSumTotal(cart.getSumTotal()+cart.getDeliveryFee());
+			
+			if(cart.getSumTotal() != 0) {
+				cart.setSumTotal(cart.getSumTotal()+cart.getDeliveryFee());
+			}
 		}
 		Map<String, Integer> res = new HashMap<>();
 		res.put("total", cart.getSumTotal());
