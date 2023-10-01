@@ -173,6 +173,17 @@ public class AdminController {
 		return bagsMapper.codeChk(productCode);
 	}
 	
+	
+	@PostMapping("bagNameChk")
+	@ResponseBody
+	int bagNameChk(HttpServletRequest request) {
+
+		String bagName = request.getParameter("bagName");
+		
+		return bagsMapper.nameChk(bagName);
+	}
+	
+	
 	@PostMapping("addGoods/{page}")
 	String addGoodsReg(Model mm, BagsDTO bdto, PageData2 pd) throws Exception {
 		saveutil.img1Save(bdto);
@@ -385,7 +396,6 @@ public class AdminController {
 
 	@RequestMapping("getPerDayData")
 	public @ResponseBody List<TotalOrderDTO> getPerDayData(HttpServletRequest request) throws Exception {
-		System.out.println();
 		return ordMapper.perDaySales(request.getParameter("dateStart"), request.getParameter("dateEnd"));
 	}
 

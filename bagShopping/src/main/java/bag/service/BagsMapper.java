@@ -43,5 +43,6 @@ public interface BagsMapper {
 	
 	void cancelOrder(OrderDTO ordDTO);
 	
+	int nameChk(String bagName);
 	int codeChk(int productCode);
 }

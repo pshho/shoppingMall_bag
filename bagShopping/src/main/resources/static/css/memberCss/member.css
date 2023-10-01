@@ -357,6 +357,38 @@
 	font-weight: bold;
 }
 
+.contents #myOrdBtn{
+	width: 100px;
+	height: 24px;
+	font-size: 13.33333px;
+	text-decoration: none;
+	text-rendering: auto;
+	color: buttontext;
+	letter-spacing: normal;
+	word-spacing: normal;
+	line-height: 18px;
+	text-transform: none;
+	text-indent: 0px;
+	text-shadow: none;
+	display: inline-block;
+	text-align: center;
+	align-items: flex-start;
+	cursor: default;
+	box-sizing: border-box;
+	background-color: buttonface;
+	padding-block: 1px;
+	padding-inline: 6px;
+	border-width: 1px;
+	border-radius: 3px;
+	border-style: outset;
+	border-color: buttonborder;
+	border-image: initial;
+}
+
+.contents #myOrdBtn:hover{
+	background-color: darkgray;
+}
+
 /*마이페이지 문의내역*/
 #myInqTable{
 	width: 1000px;

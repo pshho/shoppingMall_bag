@@ -41,6 +41,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		.excludePathPatterns("/member/idCheck")
 		.excludePathPatterns("/member/pwCheck")
 		.excludePathPatterns("/member/sendSMS")
+		.excludePathPatterns("/member/phoneCheck")
 		.excludePathPatterns("/member/logOut");
 		
 		registry.addInterceptor(commonInterceptor);
