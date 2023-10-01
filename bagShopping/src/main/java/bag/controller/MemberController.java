@@ -160,6 +160,18 @@ public class MemberController {
 		return numStr;
 	}
 
+	@ResponseBody
+	@PostMapping("/phoneCheck")
+	public int phoneCheck(HttpServletRequest request) {
+
+		// 휴대폰번호 중복체크
+		int phoneCheck = memMapper.phoneCheck(request.getParameter("phone"));
+
+		System.out.println(request.getParameter("phone"));
+		System.out.println("pchk:" + phoneCheck);
+		return phoneCheck;
+	}
+
 	// 로그인
 	@PostMapping("/signIn")
 	String signInReg(MemberDTO mdto, Model mm, HttpSession session) {
@@ -342,7 +354,7 @@ public class MemberController {
 		String templateUrl = "addressManage";
 		MemberDTO getUserProfile = memMapper.getUser(userId);
 		List<AddressDTO> getUserAddr = addrMapper.getUserAddress(userId);
-		if(addrMapper.cntBasic(userId) == 0) {
+		if (addrMapper.cntBasic(userId) == 0) {
 			getUserAddr.get(0).setBasicAddr(1);
 		}
 		mm.addAttribute("user", getUserProfile);
@@ -380,7 +392,7 @@ public class MemberController {
 		addrDTO.setAddressPhone(addrDTO.getPhone1() + "-" + addrDTO.getPhone2() + "-" + addrDTO.getPhone3());
 
 		List<AddressDTO> getUserAddr = addrMapper.getUserAddress(userId);
-		
+
 		if (getUserAddr.isEmpty()) {
 			addrDTO.setBasicAddr(1);
 		}
@@ -444,10 +456,10 @@ public class MemberController {
 		if (getUserAddr.size() > 1) {
 			addrMapper.deleteAddress(memberId, addressId);
 			getUserAddr = addrMapper.getUserAddress(memberId);
-			if(addrMapper.cntBasic(memberId) == 0) {
+			if (addrMapper.cntBasic(memberId) == 0) {
 				addrMapper.setBasicAddr1(getUserAddr.get(0).getMemberId(), getUserAddr.get(0).getAddressId());
 			}
-			if(getUserAddr.size() == 1) {
+			if (getUserAddr.size() == 1) {
 				addrMapper.setAllBasicAddr1(memberId);
 			}
 			return true;
@@ -472,9 +484,9 @@ public class MemberController {
 	int review(HttpServletRequest request) {
 		int prodCode = Integer.parseInt(request.getParameter("productCode"));
 
-		return prdMapper.getProductWritten(prodCode)	;
+		return prdMapper.getProductWritten(prodCode);
 	}
-	
+
 	// 내 문의내역
 	@RequestMapping("myInquiry/{page}")
 	String myInquiry(HttpSession session, Model mm, PageData2 pd) {
@@ -496,7 +508,7 @@ public class MemberController {
 	String inquiryDetail(@PathVariable int id, PageData2 pd, Model mm) {
 
 		String templateUrl = "myInquiryDetail";
-		if(inqMapper.levChk(id).contains(1)) {
+		if (inqMapper.levChk(id).contains(1)) {
 			mm.addAttribute("posModi", 1);
 		}
 		mm.addAttribute("pd", pd);

@@ -158,6 +158,8 @@
 				if ($("#phoneChkInput").val() != null && $("#phoneChkInput").val() == code) {
 					$("#phoneChkInput").attr("readonly", "readonly")
 					$("#phoneChk2").val("인증 완료")
+					$("#phone2").attr("readonly", "readonly")
+					$("#phone3").attr("readonly", "readonly")
 					alert('인증 성공')
 				} else {
 					alert('인증 실패')
@@ -172,15 +174,19 @@
 			var pw2 = $('#pw2').val();
 			var name = $('#name').val();
 			var email = $('#email').val();
-			var phone1 = $('#phone1').val();
+			var phone1 = $("#phone1 option:selected").val();
 			var phone2 = $('#phone2').val();
 			var phone3 = $('#phone3').val();
 			var zipCode = $('#zipCode').val();
+			var phone = phone1 + "-" + phone2 + "-" + phone3;
 
 			var idReg = /^[A-Za-z]{1}[A-Za-z0-9]{6,10}$/;
 			var nameReg = /^[가-힣]+$/;
 			var phoneReg = /^[0-9]{3,4}$/;
 			var phoneReg2 = /^[0-9]{4,4}$/;
+
+			var check = 0;
+
 			if (id == '') {
 				alert('아이디를 입력해 주세요.')
 				$('#memberId').focus
@@ -239,6 +245,7 @@
 				$('#zipCode').focus
 				return false;
 			}
+
 			if ($("#idCheckBox").html() == "중복된 아이디 입니다.") {
 				alert('아이디 중복 확인을 해 주세요.')
 				return false;
@@ -248,7 +255,74 @@
 				return false;
 			}
 
+			if (idcheck() === false) {
+				alert("중복된 아이디입니다.")
+				return false;
+			}
+			if (phonecheck() === false) {
+				alert("이미 가입된 핸드폰 번호입니다.")
+				return false;
+			}
 			$("#signUpForm").submit()
+
+		}
+
+		function idcheck() {
+			var id = $('#id').val();
+			var chk = true;
+			$.ajax({
+				url: "/member/idCheck",
+				type: "post",
+				async: false,
+				data: {userId: id},
+				dataType: 'json',
+				success: function (result) {
+
+					if (result == 0) {
+						$("#idCheckBox").html("사용 가능한 아이디 입니다.")
+						$("#idCheckBox").attr('color', 'green');
+						chk = true;
+					} else {
+						$("#idCheckBox").html("중복된 아이디 입니다.")
+						$("#idCheckBox").attr('color', 'red');
+						chk = false;
+					}
+				},
+				error: function () {
+					alert("요청 실패");
+				}
+			})
+			console.log(chk)
+			return chk;
+		}
+
+		function phonecheck() {
+			var phone1 = $("#phone1 option:selected").val();
+			var phone2 = $("#phone2").val();
+			var phone3 = $("#phone3").val();
+			var phoneReg = /^[0-9]{3,4}$/;
+			var phoneReg2 = /^[0-9]{4,4}$/;
+			var phone = phone1 + "-" + phone2 + "-" + phone3;
+			var chk = true;
+
+			$.ajax({
+				type: "POST",
+				url: "/member/phoneCheck",
+				async: false,
+				data: {phone: phone},
+				success: function (data) {
+
+					if (data > 0) {
+						chk = false;
+					} else {
+						chk = true;
+					}
+				}
+
+			});
+			console.log(chk)
+			return chk;
+
 		}
 
 		function inquiryDelete(inquiryId) {
@@ -309,7 +383,7 @@
 			var phone3 = $('#phone3').val();
 			var zipCode = $('#zipCode').val();
 			var addrModiForm = $('#addrModiForm');
-			
+
 			var phoneReg = /^[0-9]{3,4}$/;
 			var phoneReg2 = /^[0-9]{4,4}$/;
 			if (zipCode == '') {

@@ -14,7 +14,7 @@
 				<td>상품코드</td>
 				<td><input type="text" name="productCode" />
 					<button type="button" onclick="productCodeChkBtn()">상품코드 중복체크</button>
-					<input type="hidden" id="codeChk"/>
+					<input type="hidden" id="codeChk" />
 				</td>
 
 			</tr>
@@ -53,7 +53,10 @@
 			</tr>
 			<tr>
 				<td>상품명</td>
-				<td><input type="text" name="bagName" /></td>
+				<td><input type="text" name="bagName" />
+					<button type="button" onclick="bagNameChkBtn()">상품명 중복체크</button>
+					<input type="hidden" id="nameChk" />
+				</td>
 			</tr>
 			<tr>
 				<td>가격</td>
@@ -101,19 +104,19 @@
 			</tr>
 			<tr>
 				<td>이미지1</td>
-				<td><input type="file" name="Img1" /></td>
+				<td><input type="file" name="Img1" id="Img1" accept="image/png" onchange="fileCheck1(this)" /></td>
 			</tr>
 			<tr>
 				<td>이미지2</td>
-				<td><input type="file" name="Img2" /></td>
+				<td><input type="file" name="Img2" id="Img2" accept="image/png" onchange="fileCheck2(this)" /></td>
 			</tr>
 			<tr>
 				<td>이미지3</td>
-				<td><input type="file" name="Img3" /></td>
+				<td><input type="file" name="Img3" id="Img3" accept="image/png" onchange="fileCheck3(this)" /></td>
 			</tr>
 			<tr>
 				<td>이미지4</td>
-				<td><input type="file" name="Img4" /></td>
+				<td><input type="file" name="Img4" id="Img4" accept="image/png" onchange="fileCheck4(this)" /></td>
 			</tr>
 			<tr>
 				<td>상품제조월</td>
@@ -125,7 +128,7 @@
 			<a th:href="|/admin/goodsManage/${pd.page}|" class="btn btn-block btn-danger">취소</a>
 		</div>
 	</form>
-	<script>
+	<script type="text/javascript">
 		var productCode = $('input[name=productCode]')
 		var bagName = $('input[name=bagName]')
 		var bagPrice = $('input[name=bagPrice]')
@@ -135,7 +138,13 @@
 		var bagSizeD = $('input[name=bagSizeD]')
 		var bagCapacity = $('input[name=bagCapacity]')
 		var bagWeight = $('input[name=bagWeight]')
+		var Img1 = $('input[name=Img1]')
+		var Img2 = $('input[name=Img2]')
+		var Img3 = $('input[name=Img3]')
+		var Img4 = $('input[name=Img4]')
+
 		var codeChk = $('#codeChk')
+		var nameChk = $('#nameChk')
 
 		var bagsProductionDayStr = $('input[name=bagsProductionDayStr]')
 		var reg = /^[0-9]+$/;
@@ -144,6 +153,83 @@
 
 		var form = $('form[name=addGoodsForm]')
 
+		function fileCheck1(obj) {
+			pathpoint = obj.value.lastIndexOf('.');
+			filepoint = obj.value.substring(pathpoint + 1, obj.length);
+			filetype = filepoint.toLowerCase();
+			if (filetype == 'png') {
+
+			} else {
+				alert('이미지 파일만 선택할 수 있습니다.');
+				var parent_Obj = obj.parentNode
+				var node = parent_Obj.replaceChild(obj.cloneNode(true), obj);
+				document.getElementById("Img1").value = "";    //초기화를 위한 추가 코드
+
+				document.getElementById("Img1").select();        //초기화를 위한 추가 코드
+
+				document.selection.clear();
+				return false;
+			}
+
+		}
+		function fileCheck2(obj) {
+			pathpoint = obj.value.lastIndexOf('.');
+			filepoint = obj.value.substring(pathpoint + 1, obj.length);
+			filetype = filepoint.toLowerCase();
+			if (filetype == 'png') {
+
+			} else {
+				alert('이미지 파일만 선택할 수 있습니다.');
+				var parent_Obj = obj.parentNode
+				var node = parent_Obj.replaceChild(obj.cloneNode(true), obj);
+				document.getElementById("Img2").value = "";    //초기화를 위한 추가 코드
+
+				document.getElementById("Img2").select();        //초기화를 위한 추가 코드
+
+				document.selection.clear();
+				return false;
+			}
+
+		}
+		function fileCheck3(obj) {
+			pathpoint = obj.value.lastIndexOf('.');
+			filepoint = obj.value.substring(pathpoint + 1, obj.length);
+			filetype = filepoint.toLowerCase();
+			if (filetype == 'png') {
+
+			} else {
+				alert('이미지 파일만 선택할 수 있습니다.');
+				var parent_Obj = obj.parentNode
+				var node = parent_Obj.replaceChild(obj.cloneNode(true), obj);
+				document.getElementById("Img3").value = "";    //초기화를 위한 추가 코드
+
+				document.getElementById("Img3").select();        //초기화를 위한 추가 코드
+
+				document.selection.clear();
+				return false;
+			}
+
+		}
+
+		function fileCheck4(obj) {
+			pathpoint = obj.value.lastIndexOf('.');
+			filepoint = obj.value.substring(pathpoint + 1, obj.length);
+			filetype = filepoint.toLowerCase();
+			if (filetype == 'png') {
+
+			} else {
+				alert('이미지 파일만 선택할 수 있습니다.');
+				var parent_Obj = obj.parentNode
+				var node = parent_Obj.replaceChild(obj.cloneNode(true), obj);
+				document.getElementById("Img4").value = "";    //초기화를 위한 추가 코드
+
+				document.getElementById("Img4").select();        //초기화를 위한 추가 코드
+
+				document.selection.clear();
+				return false;
+			}
+
+		}
 		function productCodeChkBtn() {
 			if (productCode.val() == "") {
 				alert("상품코드를 입력해주세요")
@@ -163,19 +249,19 @@
 					if (result > 0) {
 						alert("이미 존재하는 상품코드 입니다.")
 						codeChk.val('대기')
-					}else{
+					} else {
 						alert("사용 가능한 상품코드 입니다.")
 						codeChk.val('완료')
 					}
 					console.log(codeChk.val())
 				},
-				
+
 			})
-			
+
 		}
 
-		function addGoodsBtn() {
-			
+		function productCodeChk2() {
+			var chk = true;
 			if (productCode.val() == "") {
 				alert("상품코드를 입력해주세요")
 				productCode.focus()
@@ -185,7 +271,94 @@
 				alert("상품코드는 숫자만 입력해주세요.")
 				return false;
 			}
-			if(codeChk.val() == "대기"){
+			$.ajax({
+				url: "/admin/productCodeChk",
+				type: "post",
+				async: false,
+				data: {productCode: productCode.val()},
+				dataType: 'json',
+				success: function (result) {
+					if (result > 0) {
+						codeChk.val('대기')
+						chk = false;
+					} else {
+						codeChk.val('완료')
+						chk = true;
+					}
+
+				},
+
+			})
+			console.log(chk)
+			return chk;
+		}
+
+		function bagNameChkBtn() {
+			if (bagName.val() == "") {
+				alert("상품명을 입력해주세요")
+				bagName.focus()
+				return false;
+			}
+			$.ajax({
+				url: "/admin/bagNameChk",
+				type: "post",
+				data: {bagName: bagName.val()},
+				dataType: 'json',
+				success: function (result) {
+					if (result > 0) {
+						alert("이미 존재하는 상품명 입니다.")
+						nameChk.val('대기')
+					} else {
+						alert("사용 가능한 상품명 입니다.")
+						nameChk.val('완료')
+					}
+					console.log(codeChk.val())
+				},
+
+			})
+
+		}
+		
+		function bagNameChk2() {
+			var chk = true;
+			if (bagName.val() == "") {
+				alert("상품명을 입력해주세요")
+				bagName.focus()
+				return false;
+			}
+			$.ajax({
+				url: "/admin/bagNameChk",
+				type: "post",
+				async: false,
+				data: {bagName: bagName.val()},
+				dataType: 'json',
+				success: function (result) {
+					if (result > 0) {
+						nameChk.val('대기')
+						chk = false;
+					} else {
+						nameChk.val('완료')
+						chk = true;
+					}
+					
+				},
+
+			})
+			return chk;
+		}
+
+		function addGoodsBtn() {
+
+			if (productCode.val() == "") {
+				alert("상품코드를 입력해주세요")
+				productCode.focus()
+				return false;
+			}
+			if (!reg.test(productCode.val())) {
+				alert("상품코드는 숫자만 입력해주세요.")
+				return false;
+			}
+			if (codeChk.val() == "대기") {
 				alert("상품코드 중복체크를 해주세요.")
 				productCode.focus()
 				return false;
@@ -248,6 +421,17 @@
 					return false;
 				}
 			}
+
+			if (productCodeChk2() === false) {
+				alert("이미 존재하는 상품코드 입니다.")
+				return false;
+			}
+			
+			if (bagNameChk2() === false) {
+				alert("이미 존재하는 상품명 입니다.")
+				return false;
+			}
+
 			form.submit()
 
 		}

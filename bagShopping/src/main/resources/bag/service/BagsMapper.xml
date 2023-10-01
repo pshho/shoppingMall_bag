@@ -6,6 +6,10 @@ PUBLIC ".//mybatis.org/DTD Mapper3.0//EN"
 	<select id="codeChk">
 		select count(*) from bags where product_code = #{productCode}
 	</select>
+	
+	<select id="nameChk">
+		select count(*) from bags where bag_name = #{bagName}
+	</select>
 
 	<update id="deleteImg1">
 		update bags set bag_img1 = "" where product_code =

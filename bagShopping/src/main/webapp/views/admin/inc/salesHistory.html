@@ -125,7 +125,7 @@
 				</td>
 				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
 				<td>
-					<select
+					<select th:if="${order.orderStatus != '결제 취소'}"
 						th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
 						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
 						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
@@ -219,7 +219,7 @@
 				</td>
 				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
 				<td>
-					<select
+					<select th:if="${order.orderStatus != '결제 취소'}"
 						th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
 						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
 						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
@@ -313,7 +313,7 @@
 				</td>
 				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
 				<td>
-					<select
+					<select th:if="${order.orderStatus != '결제 취소'}"
 						th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
 						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
 						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
@@ -406,7 +406,7 @@
 				</td>
 				<td th:unless="${order.orderStatus == '결제 완료'}"></td>
 				<td>
-					<select
+					<select th:if="${order.orderStatus != '결제 취소'}"
 						th:onchange="shipChange(this.options[this.selectedIndex].text, [[${order.merchantUid}]], [[${pd.pageType}]])">
 						<option th:selected="${order.orderStatus == '결제 완료'}">결제 완료</option>
 						<option th:selected="${order.orderStatus == '배송 준비'}">배송 준비</option>
