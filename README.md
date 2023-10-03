@@ -1,4 +1,4 @@
-# Python Django 프로젝트
+# Spring Boot 프로젝트
 - Server Repository: <a href="https://github.com/pshho/shoppingMall_bag">서버 Git 주소</a>
 - Web Page 주소: <a href="">IWILLBAG 홈페이지</a>
 
@@ -91,6 +91,6 @@
 <details>
   <summary>멤버별 역할</summary>
   <p>
-    <img src="![image](https://github.com/pshho/shoppingMall_bag/assets/128444203/ddbd898e-2663-42ab-ab19-df4a849b5746)" alt="Member">
+    <img src="https://github.com/pshho/shoppingMall_bag/assets/128444203/ddbd898e-2663-42ab-ab19-df4a849b5746" alt="Member">
   </p>
 </details>
