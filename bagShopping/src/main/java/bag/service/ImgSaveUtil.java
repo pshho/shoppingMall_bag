@@ -10,7 +10,7 @@ import bag.model.BagsDTO;
 @Service
 public class ImgSaveUtil {
 	
-	String path = "C:\\SPRING_JH\\shoppingMall_bag\\bagShopping\\src\\main\\webapp\\upFile";
+	String path = "/app/src/main/webapp/upFile";
 
 	public void img1Save(BagsDTO dto) {
 		// 파일 업로드 유무 확인
@@ -27,11 +27,11 @@ public class ImgSaveUtil {
 		String ext = dto.getImg1().getOriginalFilename().substring(dot);
 
 		dto.setBagImg1(fDomain + ext);
-		File ff = new File(path + "\\" + dto.getBagImg1());
+		File ff = new File(path + "/" + dto.getBagImg1());
 		int cnt = 1;
 		while (ff.exists()) {
 			dto.setBagImg1(fDomain + "_" + cnt + ext);
-			ff = new File(path + "\\" + dto.getBagImg1());
+			ff = new File(path + "/" + dto.getBagImg1());
 			cnt++;
 		}
 		try {
@@ -58,11 +58,11 @@ public class ImgSaveUtil {
 		String ext = dto.getImg2().getOriginalFilename().substring(dot);
 
 		dto.setBagImg2(fDomain + ext);
-		File ff = new File(path + "\\" + dto.getBagImg2());
+		File ff = new File(path + "/" + dto.getBagImg2());
 		int cnt = 1;
 		while (ff.exists()) {
 			dto.setBagImg2(fDomain + "_" + cnt + ext);
-			ff = new File(path + "\\" + dto.getBagImg2());
+			ff = new File(path + "/" + dto.getBagImg2());
 			cnt++;
 		}
 		try {
@@ -89,11 +89,11 @@ public class ImgSaveUtil {
 		String ext = dto.getImg3().getOriginalFilename().substring(dot);
 
 		dto.setBagImg3(fDomain + ext);
-		File ff = new File(path + "\\" + dto.getBagImg3());
+		File ff = new File(path + "/" + dto.getBagImg3());
 		int cnt = 1;
 		while (ff.exists()) {
 			dto.setBagImg3(fDomain + "_" + cnt + ext);
-			ff = new File(path + "\\" + dto.getBagImg3());
+			ff = new File(path + "/" + dto.getBagImg3());
 			cnt++;
 		}
 		try {
@@ -121,11 +121,11 @@ public class ImgSaveUtil {
 		String ext = dto.getImg4().getOriginalFilename().substring(dot);
 
 		dto.setBagImg4(fDomain + ext);
-		File ff = new File(path + "\\" + dto.getBagImg4());
+		File ff = new File(path + "/" + dto.getBagImg4());
 		int cnt = 1;
 		while (ff.exists()) {
 			dto.setBagImg4(fDomain + "_" + cnt + ext);
-			ff = new File(path + "\\" + dto.getBagImg4());
+			ff = new File(path + "/" + dto.getBagImg4());
 			cnt++;
 		}
 		try {
