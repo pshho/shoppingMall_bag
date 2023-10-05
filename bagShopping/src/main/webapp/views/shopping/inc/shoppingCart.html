@@ -106,7 +106,7 @@
 			data : JSON.stringify(params),
 			success : function(res){
 				$('#cartTotal'+cartId).val(res.sumPrice.toLocaleString());
-				$('#total').val(res.total.toLocaleString());
+				// $('#total').val(res.total.toLocaleString());
 				$('#delivery').val(res.delivery.toLocaleString());
 			},
 			error : function(error){
@@ -142,7 +142,7 @@
 			data : JSON.stringify(params),
 			success : function(res){
 				$('#cartTotal'+cartId).val(res.sumPrice.toLocaleString());
-				$('#total').val(res.total.toLocaleString());
+				// $('#total').val(res.total.toLocaleString());
 				$('#delivery').val(res.delivery.toLocaleString());
 			},
 			error : function(error){
@@ -196,7 +196,7 @@
 						data : JSON.stringify(params),
 						success : function(res){
 							$('#cartTotal'+cartId).val(res.sumPrice.toLocaleString());
-							$('#total').val(res.total.toLocaleString());
+							// $('#total').val(res.total.toLocaleString());
 							$('#delivery').val(res.delivery.toLocaleString());
 						},
 						error : function(error){

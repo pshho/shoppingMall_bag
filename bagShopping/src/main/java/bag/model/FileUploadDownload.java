@@ -18,7 +18,7 @@ import lombok.Data;
 @Component
 @Data
 public class FileUploadDownload {
-	String path = "D:\\shoppingMall_bag\\bagShopping\\src\\main\\webapp\\upFile";
+	String path = "/app/src/main/webapp/upFile";
 	
 	@Autowired
 	FileMapper fMapper;
@@ -30,7 +30,7 @@ public class FileUploadDownload {
 		String ptn3 = ".* \\(1\\)$";
 		
 		String fName = mf.getOriginalFilename();
-		File ff = new File(path+"\\"+fName);
+		File ff = new File(path+"/"+fName);
 			
 		try {
 			String rename = null;
@@ -49,7 +49,7 @@ public class FileUploadDownload {
 				if(!checkFile && i==1) {
 					rename += " (1)";
 					fName = rename + exe;
-					ff = new File(path+"\\"+fName);
+					ff = new File(path+"/"+fName);
 					continue;
 				}
 				ptn2 = rename.substring(rename.length()-(3+(i+"").length()));
@@ -65,7 +65,7 @@ public class FileUploadDownload {
 						}
 					}
 				}
-				ff = new File(path+"\\"+fName);
+				ff = new File(path+"/"+fName);
 			}
 			FileOutputStream fos = new FileOutputStream(ff);
 			fos.write(mf.getBytes());
@@ -80,7 +80,7 @@ public class FileUploadDownload {
 	public void download(String fileName, HttpServletResponse response) {
 		try {
 			// 다운로드 할 파일 제목을 PathVariable로 받음
-			FileInputStream fis = new FileInputStream(path+"\\"+fileName);
+			FileInputStream fis = new FileInputStream(path+"/"+fileName);
 			String encName = URLEncoder.encode(fileName, "utf-8");
 			response.setHeader("Content-Disposition", "attachment;filename="+encName);
 			
@@ -99,6 +99,6 @@ public class FileUploadDownload {
 	}
 	
 	public void fileDelete(String fileNames) {
-		new File(path+"\\"+fileNames).delete();
+		new File(path+"/"+fileNames).delete();
 	}
 }
