@@ -1,7 +1,6 @@
 # Spring Boot 프로젝트
 - Server Repository: <a href="https://github.com/pshho/shoppingMall_bag">서버 Git 주소</a>
 - Web Page 주소: <a href="">IWILLBAG 홈페이지</a>
-<br>**PPT**: [아이윌백 쇼핑몰.pptx](https://github.com/pshho/shoppingMall_bag/files/12904951/_1003.pptx)
 
 ## IWILLBAG 프로젝트 소개
 * 프로젝트 명: IWILLBAG
@@ -9,6 +8,7 @@
 * 기획 의도
   > 일상 생활만이 아닌 여행 등 다양한 용도와 그에 따른 다양한 스타일과 크기, 높은 시장 수요
   > 현대 사회에서 중요해지는 온라인 쇼핑, 특히 최근 COVID-19로 인한 높아진 선호도
+  > <br>**PPT**: [아이윌백 쇼핑몰.pptx](https://github.com/pshho/shoppingMall_bag/files/12904951/_1003.pptx)
 
 ### :mantelpiece_clock: 개발 기간
 - 2023.08.31 - 2023.10.04
