@@ -1,6 +1,7 @@
 # Spring Boot 프로젝트
 - Server Repository: <a href="https://github.com/pshho/shoppingMall_bag">서버 Git 주소</a>
 - Web Page 주소: <a href="">IWILLBAG 홈페이지</a>
+- <br>**PPT**: [아이윌백 쇼핑몰.pptx](https://github.com/pshho/shoppingMall_bag/files/12904951/_1003.pptx)
 
 ## IWILLBAG 프로젝트 소개
 * 프로젝트 명: IWILLBAG
