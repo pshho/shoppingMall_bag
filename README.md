@@ -18,7 +18,7 @@
 - `Java 17`
 - `HTML5 | CSS3 | JavaScript`
 - **OS**: Windows11
-- **Framework**: Spring(3.1.2), Mybatis(3.0.2)
+- **Framework**: SpringBoot(3.1.2), Mybatis(3.0.2)
 - **Database**: MySQL(8.0.33)
 - **Template**: Tymeleaf(3.0.0)
 - **API**: coolSMS, PortOne
