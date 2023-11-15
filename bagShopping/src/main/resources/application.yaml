@@ -7,9 +7,9 @@ spring :
     cache : false
   datasource :
     driver-class-name : com.mysql.cj.jdbc.Driver
-    url : jdbc:mysql://localhost:3306/green_db322
-    username : greenUsr322
-    password : pseongho235@
+    url : jdbc:mysql://db:3306/iwillbag?useUnicode=true&characterEncoding=UTF-8
+    username : root
+    password : iwb123
 mybatis :
   type-aliases-package: bag.model
   configuration :
