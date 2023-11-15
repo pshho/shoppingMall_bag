@@ -1,7 +1,9 @@
 version: "3.3"
 services:
   db:
-    image: mysql
+    image: mysql:8.0.33
+    networks:
+      - iwillbag-network
     container_name: mysqldocker
     environment:
       MYSQL_DATABASE: iwillbag
@@ -21,6 +23,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    networks:
+      - iwillbag-network
     container_name: ibag
     depends_on:
       - db
@@ -33,5 +37,4 @@ services:
     restart: always
     
 networks:
-  springboot-mysql-net:
-    driver: bridge
+  iwillbag-network:

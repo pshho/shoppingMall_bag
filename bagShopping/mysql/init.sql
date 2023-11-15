@@ -1,8 +1,14 @@
-use iwillbag;
+CREATE DATABASE iwillbag DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+-- 클라이언트 캐릭터셋 설정
+SET character_set_client = 'utf8mb4';
 
-ALTER DATABASE iwillbag
-CHARACTER SET utf8mb4
-COLLATE utf8mb4_unicode_ci;
+-- 연결 캐릭터셋 설정
+SET character_set_connection = 'utf8mb4';
+
+-- 결과 캐릭터셋 설정
+SET character_set_results = 'utf8mb4';
+
+use iwillbag;
 
 create table notice(
 	notice_id int auto_increment primary key,
